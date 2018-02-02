@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Modal from 'react-modal';
+import  {CustomerList}  from './customers/views/customer';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <p>this is a main view</p>
-        
+        <CustomerList/>
       </div>
     );
   }

@@ -2,10 +2,9 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 
 import {reducer as loginReducer} from './login';
  
-import Perf from 'react-addons-perf'
+ 
 
-const win = window;
-win.Perf = Perf
+ 
 
 const reducer = combineReducers({
   login: loginReducer,
@@ -13,14 +12,14 @@ const reducer = combineReducers({
 });
 
 
-// const middlewares = [];
+const middlewares = [];
 // if (process.env.NODE_ENV !== 'production') {
 //   middlewares.push(require('redux-immutable-state-invariant')());
 // }
 
-// const storeEnhancers = compose(
-//   applyMiddleware(...middlewares),
-//   (win && win.devToolsExtension) ? win.devToolsExtension() : (f) => f,
-// );
+const storeEnhancers = compose(
+  applyMiddleware(...middlewares),
+  
+);
 
 export default createStore(reducer, {}, storeEnhancers);
