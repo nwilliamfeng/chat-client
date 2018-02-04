@@ -1,25 +1,20 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 
-import {reducer as loginReducer} from './login';
- 
+import {auth} from './login/reducers/auth';
+import thunkMiddleware from 'redux-thunk';
  
 
- 
 
 const reducer = combineReducers({
-  login: loginReducer,
+  login: auth,
   //todo 添加其他的reducer
 });
 
 
-const middlewares = [];
-// if (process.env.NODE_ENV !== 'production') {
-//   middlewares.push(require('redux-immutable-state-invariant')());
-// }
+ 
 
-const storeEnhancers = compose(
-  applyMiddleware(...middlewares),
-  
-);
 
-export default createStore(reducer, {}, storeEnhancers);
+
+export default createStore(reducer,  applyMiddleware(
+  thunkMiddleware,  
+));

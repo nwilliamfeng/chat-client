@@ -1,16 +1,28 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {executeLogin} from '../actions';
+import {authActions} from '../actions';
 
 
 
-export class Login extends Component{
+ class Login extends Component{
 
     constructor(props){
         super(props);
         this.state ={userName:'',userPassword:''};
-        this.onSubmit =this.onSubmit.bind(this);
-        this.onInputChange =this.onInputChange.bind(this);
+        this.onClick =this.onClick.bind(this);
+       // this.onSubmit =this.onSubmit.bind(this);
+       // this.onInputChange =this.onInputChange.bind(this);
+    }
+
+    onClick() {
+       
+        console.log(this.props);
+        this.setState({ userName: 'tom', userPassword:'234' });
+        const { userName, userPassword } = this.state;
+        const { dispatch } = this.props;
+        console.log("sdfsf"+dispatch);
+            dispatch(authActions.login(userName, userPassword));
+        
     }
 
     onSubmit(event){
@@ -35,23 +47,25 @@ export class Login extends Component{
     render(){
         return (
            <div>
-               <form onSubmit={this.onSubmit} onChange={this.onInputChange}>
+               <button onClick={this.onClick}>login</button>
+               {/* <form onSubmit={this.onSubmit} onChange={this.onInputChange}>
                     <input onchange={this.onUserNameChanged} value={this.state.userName}/>            
                     <button  type="submit">登录</button>
              
-                </form>
+                </form> */}
            </div> 
         );
     }
 }
 
 
-const mapDispatchToProps = (dispatch) => {
+function mapStateToProps(state) {
+     
     return {
-      onLogin: (text) => {
-        dispatch(addTodo(text));
-      }
-    }
-  };
+        
+    };
+}
 
-export default connect()(Login);
+//export default connect(mapStateToProps,null)(Login);
+const connectedLoginPage = connect(mapStateToProps)(Login);
+export { connectedLoginPage as Login}; 
