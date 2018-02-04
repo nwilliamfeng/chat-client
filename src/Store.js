@@ -1,17 +1,14 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 
-import {auth} from './login/reducers/auth';
-import thunkMiddleware from 'redux-thunk';
+import {authReducer} from './login/reducers';
+import thunkMiddleware from 'redux-thunk'; 
  
 
 
 const reducer = combineReducers({
-  login: auth,
+  auth: authReducer, //注意此处的reducer命名
   //todo 添加其他的reducer
 });
-
-
- 
 
 
 

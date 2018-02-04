@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Modal from 'react-modal';
 import  {CustomerList}  from './customers/views/customer';
-import {Login} from './login/components/Login';
+import {Login} from './login/components';
 
 class App extends Component {
   render() {
