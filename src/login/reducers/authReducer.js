@@ -2,7 +2,7 @@ import { authTypes } from '../constants';
 
 
 //let user = JSON.parse(localStorage.getItem('user'));
-const initState = {};
+const initState = {loggingIn:false,user:null};
 
 export const authReducer = (state = initState, action) => {
   switch (action.type) {
@@ -14,7 +14,7 @@ export const authReducer = (state = initState, action) => {
 
     
     default:
-      return state
+      return state;
   }
 
 }

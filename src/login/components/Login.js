@@ -31,6 +31,7 @@ class Login extends Component {
         const { dispatch } = this.props;
 
         dispatch(authActions.login(userName, userPassword));
+      
     }
 
     handleInputChange(event) {
@@ -41,8 +42,8 @@ class Login extends Component {
 
 
     render() {
-        const { loggingIn } = this.props;
-        const { userName, userPassword, submitted } = this.state;
+        const { loggingIn } = this.props; //传入的状态值
+        const { userName, userPassword, submitted } = this.state;//自己持有的状态值
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Login</h2>

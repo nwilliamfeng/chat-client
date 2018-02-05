@@ -1,5 +1,6 @@
 import {authTypes} from '../constants';
 import {authService} from '../api';
+import { Login } from '../components/index';
 
  
  export const  authActions={
@@ -35,10 +36,24 @@ const createDispatchContent =(type,user)=>{
 // }
  
 
+//   function login(userName,userPassword){
+     
+//     return  dispatch =>{
+//         let json =authService.login(userName,userPassword);
+//         if(json.result==1){
+//             dispatch(createDispatchContent(authTypes.LOGIN_SUCCESS, json.data));
+//         }
+//         else{
+//             dispatch(createDispatchContent(authTypes.LOGIN_FAIL)); 
+//         }
+        
+//     }
+//  }
+
   function login(userName,userPassword){
      
-    return  dispatch =>{
-        let json =authService.login(userName,userPassword);
+    return async dispatch =>{
+        let json =await authService.login(userName,userPassword);
         if(json.result==1){
             dispatch(createDispatchContent(authTypes.LOGIN_SUCCESS, json.data));
         }
@@ -48,3 +63,7 @@ const createDispatchContent =(type,user)=>{
         
     }
  }
+
+  
+
+ 

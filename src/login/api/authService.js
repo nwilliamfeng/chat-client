@@ -5,7 +5,12 @@
 
  class AuthService{
 
-    login(userName,userPassword){
+    // login(userName,userPassword){
+    //     console.log("execute loginService...");
+    //     return {result:1, data:{staffId:'3001',staffName:userName,logintime:new Date(),staffState:1}};
+    // }
+
+   async login(userName,userPassword){
         console.log("execute loginService...");
         return {result:1, data:{staffId:'3001',staffName:userName,logintime:new Date(),staffState:1}};
     }
