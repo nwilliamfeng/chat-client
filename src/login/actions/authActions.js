@@ -1,7 +1,6 @@
 import {authTypes} from '../constants';
 import {authService} from '../api';
-import { Login } from '../components/index';
-
+import {history} from '../../util';
  
  export const  authActions={
     login,
@@ -50,17 +49,16 @@ const createDispatchContent =(type,user)=>{
 //     }
 //  }
 
-  function login(userName,userPassword){
-     
+  function login(userName,userPassword){     
     return async dispatch =>{
         let json =await authService.login(userName,userPassword);
         if(json.result==1){
             dispatch(createDispatchContent(authTypes.LOGIN_SUCCESS, json.data));
+            history.push('/');//导航到主页
         }
         else{
             dispatch(createDispatchContent(authTypes.LOGIN_FAIL)); 
-        }
-        
+        }      
     }
  }
 

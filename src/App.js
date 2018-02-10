@@ -1,22 +1,42 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Modal from 'react-modal';
-import  {CustomerList}  from './customers/views/customer';
-import {Login} from './login/components';
+import {Router,Route, BrowserRouter} from 'react-router-dom';
+import {history} from './util';
+import {Login,LoginRoute} from './login/components';
+import { Home } from './home';
+import Staff from './login/Staff';
+ 
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    let staff={name:'fw',password:'1111'};
+
+    let nw =new  Staff(...staff);
+     
+    console.log(nw);
+  }
+
   render() {
     return (
       <div className="App">
-        <p>this is a main view</p>
-        <Login></Login>
+        {/* <p>this is a main view</p>
+        <Login></Login> */}
+        <Router history={history} >
+          <div>
+            <LoginRoute exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+        
+          </div>
+        </Router>
       </div>
     );
   }
 }
 
- 
+
 
 // class App extends Component {
 //   constructor() {
@@ -36,7 +56,7 @@ class App extends Component {
 //   }
 
 //   afterOpenModal() {
-    
+
 //     this.subtitle.style.color = '#f00';
 //   }
 
