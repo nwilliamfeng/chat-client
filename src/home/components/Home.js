@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
- 
+
 
 
 
@@ -8,21 +8,30 @@ export class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.clearUserInfo=this.clearUserInfo.bind(this);
+        this.clearUserInfo = this.clearUserInfo.bind(this);
     }
 
-    clearUserInfo(){
+    clearUserInfo() {
         localStorage.removeItem("user");
     }
 
-     
+
 
     render() {
-        
+
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Home</h2>
-                 <button onClick={this.clearUserInfo}>clear</button>
+            <div className="container-fluid">
+                <nav className="navbar navbar-default navbar-fixed-top" >
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <a className="navbar-brand" href="#">IM在线客服</a>
+                        </div>
+                        <ul className="nav navbar-nav navbar-right">
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         );
     }
