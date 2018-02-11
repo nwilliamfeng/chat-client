@@ -3,9 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import {Router,Route, BrowserRouter} from 'react-router-dom';
 import {history} from './util';
-import {Login,LoginRoute} from './login/components';
+import {Login,LoginRoute} from './auth/components';
 import { Home } from './home';
-import Staff from './login/Staff';
+import Staff from './auth/Staff';
  
 
 class App extends Component {

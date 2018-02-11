@@ -1,6 +1,6 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 
-import {authReducer} from './login/reducers';
+import {authReducer} from './auth/reducers';
 import thunkMiddleware from 'redux-thunk'; 
  
 
