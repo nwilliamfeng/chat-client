@@ -2,14 +2,19 @@ import {alertTypes} from '../constants';
 
  
  export const  alertActions={
-    loginSuccess,
+    success,
+    error,
 
  }
 
+ const success =(message)=>({
+    type:alertTypes.SUCCESS,message:message
+ });
 
- export const loginSuccess=(message)=>({
-    type:alertTypes.loginSuccess,
+ const error =(message)=>({
+    type:alertTypes.ERROR,message:message
+ });
 
-    message:message,
 
- })
+
+  

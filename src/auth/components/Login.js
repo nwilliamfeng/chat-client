@@ -41,6 +41,9 @@ class Login extends Component {
         const { userName, userPassword, submitted } = this.state;//自己持有的状态值
         return (
             <div className="col-md-6 col-md-offset-3">
+               {error &&
+                  <div className={`alert ${'ALERT_ERROR'}`}>{error}</div>
+                }
                 <h2>欢迎使用在线客服系统，请登录</h2>
                 <p></p>
                 <form name="form" onSubmit={this.handleSubmit}>
@@ -66,10 +69,7 @@ class Login extends Component {
 
                     </div>
                 </form>
-                <p />
-
-                <div className="help-block" >{error}</div>
-
+             
             </div>
         );
     }
