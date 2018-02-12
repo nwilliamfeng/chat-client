@@ -1,17 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { authActions } from '../actions';
+import Modal from 'react-modal';
 
-
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { userName: '', userPassword: '', submitted: false }; //初始化登录状态
+        this.state = { userName: '', userPassword: '', submitted: false, isError: false }; //初始化登录状态
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.clearError =this.clearError.bind(this);
     }
 
 
@@ -33,17 +44,42 @@ class Login extends Component {
         this.setState({ [name]: value });
     }
 
+    clearError() {
+        this.setState({ isError: false });
+    }
+
+    showError() {
+        if (!this.state.isError) {
+            this.setState({ isError: true });
+        }
+    }
+
+    componentDidMount(){
+        console.log("sdf");
+    }
 
 
     render() {
         const { loggingIn, error } = this.props; //传入的状态值
          
-        const { userName, userPassword, submitted } = this.state;//自己持有的状态值
+        const { userName, userPassword, submitted, isError } = this.state;//自己持有的状态值
+        if(error!=null && isError==false){
+            this.setState({ isError: true });
+        }
+        
         return (
             <div className="col-md-6 col-md-offset-3">
-               {error &&
-                  <div className={`alert ${'ALERT_ERROR'}`}>{error}</div>
-                }
+                <Modal
+                    isOpen={isError}
+
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
+                    <button onClick={this.clearError}>close</button>
+                   
+                </Modal>
                 <h2>欢迎使用在线客服系统，请登录</h2>
                 <p></p>
                 <form name="form" onSubmit={this.handleSubmit}>
@@ -69,7 +105,7 @@ class Login extends Component {
 
                     </div>
                 </form>
-             
+
             </div>
         );
     }
@@ -78,7 +114,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
 
-   return state.auth;
+    return state.auth;
     // const { loggingIn, user, error } = state.auth;
     // return {
     //     loggingIn: loggingIn,
