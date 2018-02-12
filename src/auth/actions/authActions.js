@@ -1,67 +1,49 @@
-import {authTypes} from '../constants';
-import {authService} from '../api';
-import {history} from '../../util';
- 
- export const  authActions={
-    login,
-    
- }
+import { authStates } from '../constants';
+import { authService } from '../api';
+import { history } from '../../util';
 
-const createDispatchContent =(type,user)=>{
-  return {type:type,user:user};
+/**
+ * 授权Action工厂实例
+ */
+export const authActions = {
+    login, //loginAction实例
+    logout, //logoutAction实例
 }
 
 
-//  function login(username, password) {
-//     return dispatch => {
-//         dispatch(request({ username }));
-
-//         userService.login(username, password)
-//             .then(
-//                 user => { 
-//                     dispatch(success(user));
-//                     history.push('/');
-//                 },
-//                 error => {
-//                     dispatch(failure(error));
-//                     dispatch(alertActions.error(error));
-//                 }
-//             );
-//     };
-
-//     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-//     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
-//     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
-// }
- 
-
-//   function login(userName,userPassword){
-     
-//     return  dispatch =>{
-//         let json =authService.login(userName,userPassword);
-//         if(json.result==1){
-//             dispatch(createDispatchContent(authTypes.LOGIN_SUCCESS, json.data));
-//         }
-//         else{
-//             dispatch(createDispatchContent(authTypes.LOGIN_FAIL)); 
-//         }
-        
-//     }
-//  }
-
-  function login(userName,userPassword){     
-    return async dispatch =>{
-        let json =await authService.login(userName,userPassword);
-        if(json.result==1){
-            dispatch(createDispatchContent(authTypes.LOGIN_SUCCESS, json.data));
+/**
+ * 登录action
+ * @param {*} userName 
+ * @param {*} userPassword 
+ */
+function login(userName, userPassword) {
+    return async dispatch => {
+        dispatch({type:authStates.LOGIN_REQUEST}); //发布正在登录
+        let json = await authService.login(userName, userPassword);
+        const {result,data,msg} =json;
+        if (result == 1) {
+            dispatch({type: authStates.LOGIN_SUCCESS,user: data});//如果登录成功发布用户信息
             history.push('/');//导航到主页
         }
-        else{
-            dispatch(createDispatchContent(authTypes.LOGIN_FAIL)); 
-        }      
+        else {
+            dispatch({type:authStates.LOGIN_FAIL,error:msg}); //否则如果失败则发布错误信息
+        }
     }
- }
+}
 
-  
+/**
+ * 退出action
+ */
+function logout() {
+    return async dispatch => {
+        let json = await authService.logout();
+        if(json.result==1){
+            history.push('/login');
+        }
+        dispatch({ type: authStates.LOGOUT });
+    }
+}
 
- 
+
+
+
