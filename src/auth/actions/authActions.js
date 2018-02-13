@@ -6,9 +6,12 @@ import { history } from '../../util';
  * 授权Action工厂实例
  */
 export const authActions = {
+    fetchState,
     login, //loginAction实例
     logout, //logoutAction实例
+    clearError, //clearError实例
 }
+
 
 
 /**
@@ -44,6 +47,23 @@ function logout() {
     }
 }
 
+/**
+ * 清空登录错误信息action
+ */
+function clearError(){
+    return {type:authStates.LOGIN_CLEAR_ERROR,error:''};
+}
 
+
+
+function fetchState(){
+    return async dispatch => {
+        const user =JSON.parse( localStorage.getItem('user'));
+        
+        const result = await authService.isOnline(user);
+       
+        dispatch({ type: authStates.LOGIN_FETCH_STATE,user:user,isOnline:result });
+    }
+}
 
 

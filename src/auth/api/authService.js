@@ -7,18 +7,36 @@ import { promiseUtil as util } from '../../util';
  */
 class AuthService {
 
+    /**
+     * 获取登录状态
+     */
+    async isOnline(staff){
+        await util.sleep(1000);
+        if(staff==null){
+            return false;
+        }
+        else{
+            const {loginTime} =staff;
+            
+            
+            return loginTime? (new Date().getTime()-new Date(loginTime).getTime())/1000 <=8:false;
+              
+        }
+    }
 
     async login(userName, userPassword) {
-        await util.sleep(3000);
+        await util.sleep(1000);
         if (userName != 'fw' || userPassword != '1111') {
             return { result: 0, msg: '错误的用户名或密码' };
         }
         else {
+            let staff =null;
             if (localStorage.getItem('user') == null) {
-                let staff = new Staff(userName, userPassword);
+                staff = { userName, userPassword,staffId:'3001',loginTime:new Date()};
                 localStorage.setItem('user', JSON.stringify(staff));
             }
-            return { result: 1, data: { staffId: '3001', staffName: userName, logintime: new Date(), staffState: 1 } };
+            staff =JSON.parse( localStorage.getItem('user'));
+            return { result: 1, data: staff };
         }
     }
 

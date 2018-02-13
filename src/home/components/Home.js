@@ -1,70 +1,77 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { authActions } from '../../auth/actions';
+import {Navbar} from './Navbar';
 
-
+ 
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.handleLogout = this.handleLogout.bind(this);
+        // this.handleLogout = this.handleLogout.bind(this);
+        // this.updateDimensions=this.updateDimensions.bind(this);
+
     }
 
+    // updateDimensions() {
+    //     this.setState({width: window.innerWidth/3});
+    // } 
+    // componentWillMount() {
+    //     this.updateDimensions();
+    // } 
+    // componentDidMount() {
+    //     window.addEventListener("resize", this.updateDimensions);
+    //     const { dispatch } = this.props;
+    //     dispatch(authActions.fetchState());
+    // } 
+    // componentWillUnmount() {
+    //     window.removeEventListener("resize", this.updateDimensions);
+    // }
 
 
-    handleLogout() {   
-        const { dispatch } = this.props;
-        dispatch(authActions.logout());
-    }
+
+    // componentDidUpdate() {
+    //     const { isOnline, dispatch } = this.props;
+    //     if (isOnline == false) {
+    //         dispatch(authActions.logout());
+    //     }
+    // }
+
+    // handleLogout() {
+    //     const { dispatch } = this.props;
+    //     dispatch(authActions.logout());
+    // }
 
 
 
     render() {
+        // if (this.props.user == null) {
+        //     return (<div></div>);
+        // }
+        // else {
+        //     const { userName, staffId } = this.props.user;
+
+        //     const {width} =this.state;
+
+
 
         return (
-            <div className="container-fluid">
-                <nav className="navbar navbar-default navbar-fixed-top" >
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <a className="navbar-brand" href="#">IM在线客服</a>
-                        </div>
-
-                        <ul className="nav navbar-nav navbar-right">
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                    Java <b className="caret"></b>
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a href="#">jmeter</a></li>
-                                    <li><a href="#">EJB</a></li>
-                                    <li><a href="#">Jasper Report</a></li>
-                                    <li className="divider"></li>
-                                    <li><a href="#">分离的链接</a></li>
-                                    <li className="divider"></li>
-                                    <li><a href="#">另一个分离的链接</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#" ><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-                            <li><a href="#" onClick={this.handleLogout}><span class="glyphicon glyphicon-log-in"></span> 退出</a></li>
-                        </ul>
-                    </div>
-                </nav>
+            <div>
+                <Navbar />
+                <div>this is main view</div>
             </div>
         );
+
     }
 }
 
 
 function mapStateToProps(state) {
 
-    // const {loggingIn,user} =state.auth;
-    // return {
-    //   loggingIn :loggingIn,
-    //   user:user,
-
-    // };
     return {};
+
+
 }
 
 
