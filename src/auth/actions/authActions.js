@@ -16,8 +16,8 @@ export const authActions = {
 
 /**
  * 登录action
- * @param {*} userName 
- * @param {*} userPassword 
+ * @param {string} userName 
+ * @param {string} userPassword 
  */
 function login(userName, userPassword) {
     return async dispatch => {
@@ -55,15 +55,16 @@ function clearError(){
 }
 
 
-
+/**
+ * 获取登录状态
+ */
 function fetchState(){
     return async dispatch => {
-        const user =JSON.parse( localStorage.getItem('user'));
-        
-        const result = await authService.isOnline(user);
-       
+        const user =JSON.parse( localStorage.getItem('user'));      
+        const result = await authService.isOnline(user);     
         dispatch({ type: authStates.LOGIN_FETCH_STATE,user:user,isOnline:result });
     }
 }
+
 
 

@@ -5,7 +5,7 @@ import {Navbar} from './Navbar';
 
  
 
-class Home extends Component {
+class HomePage extends Component {
 
     constructor(props) {
         super(props);
@@ -75,5 +75,5 @@ function mapStateToProps(state) {
 }
 
 
-const homePage = connect(mapStateToProps)(Home);
-export { homePage as Home }; 
+const page = connect(mapStateToProps)(HomePage);
+export { page as HomePage }; 

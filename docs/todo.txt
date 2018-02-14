@@ -1,0 +1,27 @@
+1. 客服状态变更ui修改，将2级菜单改成1级；
+2. nginx.config
+ 
+var testServiceUrl = '/immessage_test/';
+
+location /immessage_test/ {
+			 proxy_redirect             off; 
+             proxy_pass   http://61.129.129.193:9090/imlivebackend/; 
+			 proxy_set_header           Host $host; 
+			 proxy_set_header           X-Real-IP $remote_addr; 
+			 proxy_set_header           X-Forwarded-For $proxy_add_x_forwarded_for; 
+			 client_max_body_size    1000m; 
+			 proxy_connect_timeout      1800;
+             proxy_send_timeout         1800;
+        }
+
+
+location /webimservice_test/ {
+			 proxy_redirect             off; 
+             proxy_pass   http://imapitest.eastmoney.com:2021/; 
+			 proxy_set_header           Host $host; 
+			 proxy_set_header           X-Real-IP $remote_addr; 
+			 proxy_set_header           X-Forwarded-For $proxy_add_x_forwarded_for; 
+			 client_max_body_size    1000m; 
+			 proxy_connect_timeout      1800;
+             proxy_send_timeout         1800;
+        }

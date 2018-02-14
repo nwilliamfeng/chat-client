@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 
  
 
-class Login extends Component {
+class LoginPage extends Component {
 
     constructor(props) {
         super(props);
@@ -119,8 +119,8 @@ function mapStateToProps(state) {
 }
 
 
-const connectedLoginPage = connect(mapStateToProps,null)(Login);
+const page = connect(mapStateToProps,null)(LoginPage);
 /**
- * Login实例
+ * LoginPage实例
  */
-export { connectedLoginPage as Login }; 
+export { page as LoginPage }; 
