@@ -2,6 +2,14 @@
   "name": "chat-client",
   "version": "0.1.0",
   "private": true,
+   
+  "proxy": {
+    
+    "/staff": {
+      "target": "http://imapitest.eastmoney.com:2021/",
+      "ws": true
+    }
+  },
   "dependencies": {
     "history": "^4.7.2",
     "react": "^16.2.0",
@@ -12,7 +20,8 @@
     "react-scripts": "1.1.0",
     "redux": "^3.7.2",
     "redux-form": "^7.2.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -20,4 +29,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
+  
 }

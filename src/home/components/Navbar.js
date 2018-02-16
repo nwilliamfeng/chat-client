@@ -8,7 +8,7 @@ class Navbar extends Component {
 
     constructor(props) {
         super(props);
-        this.handleLogout = this.handleLogout.bind(this);
+      
         this.updateDimensions = this.updateDimensions.bind(this);
 
     }
@@ -32,15 +32,12 @@ class Navbar extends Component {
 
     componentDidUpdate() {
         const { isOnline, dispatch } = this.props;
-        if (isOnline == false) {
-            dispatch(authActions.logout());
+       ??? if (isOnline == false) {
+           // dispatch(authActions.logout());
         }
     }
 
-    handleLogout() {
-        const { dispatch } = this.props;
-        dispatch(authActions.logout());
-    }
+    
 
     /*
      https://fontawesome.com/v4.7.0/icon/refresh/
@@ -112,7 +109,7 @@ class Navbar extends Component {
 
                             <ul className="nav navbar-nav navbar-right" >
                                 <li><a href="#" ><i className="fa fa-refresh" aria-hidden="true"></i> 注册</a></li>
-                                <li><a href="#" onClick={this.handleLogout} style={{ marginRight: width }}><i className="fa fa-calendar" aria-hidden="true"></i> 历史</a></li>
+                                <li><a href="#"   style={{ marginRight: width }}><i className="fa fa-calendar" aria-hidden="true"></i> 历史</a></li>
                                 <StaffMenu/>
 
                             </ul>

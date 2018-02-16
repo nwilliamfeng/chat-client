@@ -1,6 +1,0 @@
-class LocalSettings{
-    constructor(){
-        
-    }
-
-}

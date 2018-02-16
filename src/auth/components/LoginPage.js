@@ -2,14 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { authActions } from '../actions';
 import Modal from 'react-modal';
-
+import {appSettings} from '../../util';
  
 
 class LoginPage extends Component {
 
     constructor(props) {
-        super(props);
-        this.state = { userName: '', userPassword: '', submitted: false }; //初始化登录状态
+        super(props);    
+        const appKey =appSettings.appKey;
+        this.state = { userName: '', userPassword: '', submitted: false,appKey ,oldAppKey:appKey }; //初始化登录状态
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.clearError = this.clearError.bind(this);  
@@ -19,12 +20,12 @@ class LoginPage extends Component {
     handleSubmit(event) {
         event.preventDefault();//禁止网页跳转
         this.setState({ submitted: true });//设置已经执行提交操作
-        const { userName, userPassword } = this.state;
+        const { userName, userPassword,appKey } = this.state;
         const { dispatch } = this.props;
 
         //在用户名和密码输入后执行
-        if (userName && userPassword) {
-            dispatch(authActions.login(userName, userPassword));
+        if (userName && userPassword ) {
+            dispatch(authActions.login(userName, userPassword,appKey));
         }
 
     }
@@ -53,7 +54,7 @@ class LoginPage extends Component {
 
     render() {
         const { loggingIn, error } = this.props; //传入的状态值
-        const { userName, userPassword, submitted } = this.state;//自己持有的状态值
+        const { userName, userPassword,appKey,oldAppKey, submitted } = this.state;//自己持有的状态值
 
         return (
             <div>
@@ -89,6 +90,14 @@ class LoginPage extends Component {
                                 <div className="help-block">请输入密码</div>
                             }
                         </div>
+                        {!oldAppKey && <div className={'form-group' + (submitted && !appKey ? ' has-error' : '')}>
+                            <label htmlFor="appKey">AppKey</label>
+                            <input type="text" className="form-control" name="appKey" value={appKey} onChange={this.handleInputChange} />
+                            {submitted && !appKey &&
+                                <div className="help-block">请输入AppKey</div>
+                            }
+                        </div>
+                        }
                         <div className="form-group">
                             <button className="btn btn-primary">登录</button>
                             {loggingIn &&

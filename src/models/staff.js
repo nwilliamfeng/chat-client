@@ -1,4 +1,4 @@
-  class Staff{
+  export default class Staff{
       constructor(){
         this.IsPrivateMessage=false;
         this.Token='';
@@ -9,12 +9,13 @@
        
        this.StaffImUserId ='';
 
-        this.AppKeys=[];
+        this.AppKeys='';
  
         this.IsOfflineMessage =false;
-      //  public string StaffTips { get; set; }//客服端提示 格式{"OfflineMessageTip":"您确认要关闭聊天窗口"}
-       // public List<IMUserEntity> IMUserEntity { get; set; }
+        this.StaffTips =''; //客服端提示 格式{"OfflineMessageTip":"您确认要关闭聊天窗口"}
+        this. IMUserEntity=[];
       }
   }
 
-  export const currentStaff=new Staff();
+ 
+   

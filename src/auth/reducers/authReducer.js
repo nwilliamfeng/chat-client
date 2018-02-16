@@ -1,7 +1,6 @@
 import { authStates } from '../constants';
 
 
-//let user = JSON.parse(localStorage.getItem('user'));
 const initState = { loggingIn: false, user: null, error: null };
 
 export const authReducer = (state = initState, action) => {
@@ -10,7 +9,7 @@ export const authReducer = (state = initState, action) => {
     case authStates.LOGIN_SUCCESS:
       return {
         loggedIn: true,
-        user: action.user,
+        user: action.staff,
       };
 
     case authStates.LOGIN_REQUEST:
