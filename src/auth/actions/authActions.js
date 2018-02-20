@@ -1,5 +1,5 @@
 import { authStates } from '../constants';
-import { authService } from '../api';
+import { authService,heartWatchService } from '../api';
 import { history,util,appSettings,appContext } from '../../util';
 import Staff from '../../models/staff';
 
@@ -7,11 +7,11 @@ import Staff from '../../models/staff';
  * 授权Action工厂实例
  */
 export const authActions = {
-    fetchState,
+   
     login, //loginAction实例
     logout, //logoutAction实例
     clearError, //clearError实例
-    watchHeart,
+  
 }
 
  
@@ -32,8 +32,12 @@ function login(userName, userPassword,appKey) {
         if (RetCode == 1) {
             let staff =new Staff();
             Object.assign(staff,Data);
-            console.log(staff);
             appContext.currentStaff= staff;
+            appSettings.appKey=appKey;
+            appSettings.save();
+            heartWatchService.start(staff.StaffId,staff.Token,ip,appKey,(reconnectCount)=>{
+                dispatch( {type:authStates.LOGIN_LOST_HEART,reconnectCount,staff});
+            });
             dispatch({type: authStates.LOGIN_SUCCESS,staff});//如果登录成功发布用户信息
             history.push('/');//导航到主页
         }
@@ -48,11 +52,16 @@ function login(userName, userPassword,appKey) {
  */
 function logout() {
     return async dispatch => {
-        let json = await authService.logout();
-        if(json.result==1){
+        const staff =appContext.currentStaff;
+        const ip= util.getIpAddress();
+        const {RetCode} = await authService.logout(staff.StaffId,staff.Token,ip,appContext.appKeys[0]);
+        if(RetCode==1){
+            appContext.clear();//清除缓存
+            heartWatchService.stop();
             history.push('/login');
+            dispatch({ type: authStates.LOGOUT });
         }
-        dispatch({ type: authStates.LOGOUT });
+       
     }
 }
 
@@ -64,26 +73,19 @@ function clearError(){
 }
 
  
-
-function watchHeart(){
-    console.log(this.count);
-    this.count=0;
-    console.log(this.count);
-    this.count+=1;
-    
-}
+ 
 
 
 /**
  * 获取登录状态
  */
-function fetchState(){
-    return async dispatch => {
-        const user =JSON.parse( localStorage.getItem('user'));      
-        const result = await authService.isOnline(user);     
-        dispatch({ type: authStates.LOGIN_FETCH_STATE,user:user,isOnline:result });
-    }
-}
+// function fetchState(){
+//     return async dispatch => {
+//         const user =JSON.parse( localStorage.getItem('user'));      
+//         const result = await authService.isOnline(user);     
+//         dispatch({ type: authStates.LOGIN_FETCH_STATE,user:user,isOnline:result });
+//     }
+// }
 
 
 

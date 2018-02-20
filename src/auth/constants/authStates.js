@@ -4,7 +4,7 @@
  */
 export const authStates={
 
-    LOGIN_FETCH_STATE:'LOGIN_FETCH_STATE', //登录状态查询，刷新主页面时候获取登录状态
+    //LOGIN_FETCH_STATE:'LOGIN_FETCH_STATE', //登录状态查询，刷新主页面时候获取登录状态
     
     LOGIN_SUCCESS:"LOGIN_SUCCESS", //登录成功
 
@@ -15,6 +15,8 @@ export const authStates={
     LOGIN_REQUEST:'LOGIN_REQUEST', //正在登录，登录请求？
 
     LOGIN_CLEAR_ERROR:'LOGIN_CLEAR_ERROR', //清空登录错误信息
+
+    LOGIN_LOST_HEART:'LOGIN_LOST_HEART', //心跳丢失
 
     
 }

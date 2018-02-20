@@ -1,7 +1,9 @@
-import {getIpAddress} from './net'
+import {netUtil} from './net';
+import {promiseUtil} from './promise';
+ 
 
 export * from './history';
-export * from './promise';
+//export * from './promise';
 //export * from './net';
 export * from './appSettings';
 export * from './appContext';
@@ -9,5 +11,8 @@ export * from './appContext';
 
 
 export const util={
-    getIpAddress,
+  
+    fetchWithPost:promiseUtil.fetchWithPost,
+    sleep:promiseUtil.sleep,
+    getIpAddress :netUtil.getIpAddress,
 }

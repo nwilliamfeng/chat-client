@@ -1,65 +1,76 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { authActions } from '../../auth/actions';
-import {Navbar} from './Navbar';
 
- 
+import { Navbar } from './Navbar';
+import { Statusbar } from './Statusbar';
+
+const containerStyle = {
+    width: '100%',
+    top: 0,
+    left: 0,
+    background: '#Fcc',
+    position: 'absolute',
+    height: '100%',
+}
+
+const leftStyle = {
+    width: 400,
+    paddingLeft: 10,
+    paddingTop: 60,
+    background: '#cdd',
+    position: 'absolute',
+    height: '100%',
+};
+
+const mainStyle = {
+    width:'100%',
+    paddingLeft: 410,
+    paddingTop: 60,
+    
+    position: 'absolute',
+    height: '100%',
+
+}
+
+
 
 class HomePage extends Component {
 
     constructor(props) {
         super(props);
-        
-        authActions.watchHeart();
-        authActions.watchHeart();
+
     }
 
-    // updateDimensions() {
-    //     this.setState({width: window.innerWidth/3});
-    // } 
-    // componentWillMount() {
-    //     this.updateDimensions();
-    // } 
-    // componentDidMount() {
-    //     window.addEventListener("resize", this.updateDimensions);
-    //     const { dispatch } = this.props;
-    //     dispatch(authActions.fetchState());
-    // } 
-    // componentWillUnmount() {
-    //     window.removeEventListener("resize", this.updateDimensions);
-    // }
 
-
-
-    // componentDidUpdate() {
-    //     const { isOnline, dispatch } = this.props;
-    //     if (isOnline == false) {
-    //         dispatch(authActions.logout());
-    //     }
-    // }
-
-    // handleLogout() {
-    //     const { dispatch } = this.props;
-    //     dispatch(authActions.logout());
-    // }
 
 
 
     render() {
-        // if (this.props.user == null) {
-        //     return (<div></div>);
-        // }
-        // else {
-        //     const { userName, staffId } = this.props.user;
-
-        //     const {width} =this.state;
 
 
 
         return (
             <div>
                 <Navbar />
-                <div>this is main view</div>
+                <div style={containerStyle}>
+
+                <div   style={mainStyle}>bbbb</div>
+                    <div style={leftStyle}>
+
+                        sdfsdfsd
+                    </div>
+                    
+
+                </div>
+                <Statusbar/>
+                {/* <nav className="navbar-nav-xs navbar-default navbar-fixed-bottom"  >
+
+                    <ul className="nav navbar-nav" >
+                        <li><a href="#" ><i className="fa fa-refresh" aria-hidden="true"></i> adsf</a></li>
+                        <li><a href="#"   ><i className="fa fa-calendar" aria-hidden="true"></i> gh</a></li>
+
+                    </ul>
+                </nav> */}
             </div>
         );
 

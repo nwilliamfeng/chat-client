@@ -24,7 +24,7 @@ export const serviceUrls={
 
 
      getFullUrl:function(url){
-       //   return 'http://imapitest.eastmoney.com:2021/'+url;
+       
        return url;
       //  return  '/webimservice/'+url;
      }

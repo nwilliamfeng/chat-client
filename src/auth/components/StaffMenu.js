@@ -15,12 +15,7 @@ class StaffMenu extends Component {
     }
 
 
-    componentDidUpdate() {
-        const { isOnline, dispatch } = this.props;
-        if (isOnline == false) {
-            dispatch(authActions.logout());
-        }
-    }
+    
 
     handleLogout() {
         const { dispatch } = this.props;
@@ -36,12 +31,12 @@ class StaffMenu extends Component {
             return (<li className="dropdown"></li>);
         }
         else {
-            const { userName, staffId } = this.props.user;
+            const { StaffName } = this.props.user;
            
             return (
                 <li className="dropdown" >
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="glyphicon glyphicon-user"></span>  {userName}({staffId})<b className="caret"></b>
+                        <span className="glyphicon glyphicon-user"></span>  {StaffName}<b className="caret"></b>
                     </a>
                     <ul className="dropdown-menu" >
 
@@ -67,11 +62,7 @@ class StaffMenu extends Component {
 
 
 function mapStateToProps(state) {
-
-    console.log(state);
     return state.auth;
-
-
 }
 
 

@@ -1,6 +1,7 @@
 //import _staffs from './staffs.json';
 
-import { promiseUtil as util } from '../../util';
+//import { promiseUtil as util } from '../../util';
+import {util } from '../../util';
 import {staffStates} from '../constants';
 import {serviceUrls} from './serviceUrls';
 import 'whatwg-fetch'; 
@@ -19,17 +20,17 @@ class AuthService {
     /**
      * 获取登录状态，刷新页面时调用，获取是否有效状态
      */
-    async isOnline(staff){
+    // async isOnline(staff){
        
        
-        if(staff==null){
-            return false;
-        }
-        else{
-            const {loginTime} =staff;                        
-            return loginTime? (new Date().getTime()-new Date(loginTime).getTime())/1000 <=8:false;             
-        }
-    }
+    //     if(staff==null){
+    //         return false;
+    //     }
+    //     else{
+    //         const {loginTime} =staff;                        
+    //         return loginTime? (new Date().getTime()-new Date(loginTime).getTime())/1000 <=8:false;             
+    //     }
+    // }
 
     /**
      * 登录
@@ -42,12 +43,6 @@ class AuthService {
      */
     async login(userName, password, ip,appKey,staffstate=1 ) {       
          const url =serviceUrls.getFullUrl(serviceUrls.URL_LOGIN);
-        // const response = await fetch(url, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json'},
-        //     body: JSON.stringify({userName,password,ip,appKey,staffstate }),
-        //   });
-        // return await response.json();
         return await util.fetchWithPost(url,{userName,password,ip,appKey,staffstate });
     }
 
@@ -60,13 +55,7 @@ class AuthService {
      */
     async logout(staffId, token, ip, appKey) {  
         const url =serviceUrls.getFullUrl(serviceUrls.URL_LOGOUT);
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({staffId,token,ip,appKey }),
-          });
-        return await response.json();
-       
+        return await util.fetchWithPost(url,{staffId,token,ip,appKey });   
     }
 
     /**
@@ -91,15 +80,8 @@ class AuthService {
      * @param {string} appKey 
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
-    async sendStaffHeart(staffId,token,ip,appKey){
-        
-        const url =serviceUrls.getFullUrl(serviceUrls.URL_HEART);
-        // const response = await  fetch(url, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json'},
-        //     body: JSON.stringify({userName,password,ip,appKey,staffstate }),
-        //   });      
-        // return await response.json();
+    async sendStaffHeart(staffId,token,ip,appKey){     
+        const url =serviceUrls.getFullUrl(serviceUrls.URL_HEART);        
         return await util.fetchWithPost(url,{staffId,token,ip,appKey })
     }
  

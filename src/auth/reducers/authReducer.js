@@ -32,11 +32,17 @@ export const authReducer = (state = initState, action) => {
         error: null,
       }
 
-    case authStates.LOGIN_FETCH_STATE:
+    case authStates.LOGIN_LOST_HEART:
       return {
-        isOnline: action.isOnline,
-        user: action.user,
+        reconnectCount: action.reconnectCount,
+        user:action.staff,
       }
+
+    // case authStates.LOGIN_FETCH_STATE:
+    //   return {
+    //     isOnline: action.isOnline,
+    //     user: action.user,
+    //   }
 
 
 
