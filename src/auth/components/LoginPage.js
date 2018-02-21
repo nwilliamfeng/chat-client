@@ -115,16 +115,10 @@ class LoginPage extends Component {
                 </div>
 
                 <div className="row text-center">
-                    <p>
-                        <a href="#">在线客服</a>
-                    </p>
-                    <p>
-                        <a href="#">company.com</a>
-                    </p>
+                    <p> <a href="#">在线客服</a></p>
+                    <p> <a href="#">company.com</a></p>
                 </div>
             </div>
-
-
         );
     }
 }

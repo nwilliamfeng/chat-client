@@ -6,23 +6,17 @@ import Staff from '../../models/staff';
 /**
  * 授权Action工厂实例
  */
-export const authActions = {
+export const customerActions = {
 
     login, //loginAction实例
-    logout, //logoutAction实例
-    clearError, //clearError实例
+   
 
 }
 
 
 
-/**
- * 登录action
- * @param {string} userName 
- * @param {string} userPassword 
- * @param {string} appKey 
- */
-function login(userName, userPassword, appKey) {
+ 
+function getCustomerList(userName, userPassword, appKey) {
     return async dispatch => {
         dispatch({ type: authStates.LOGIN_REQUEST }); //发布正在登录
         const ip = util.getIpAddress();
@@ -47,47 +41,4 @@ function login(userName, userPassword, appKey) {
     }
 }
 
-/**
- * 退出action
- */
-function logout() {
-    return async dispatch => {
-        const staff = appContext.currentStaff;
-        const ip = util.getIpAddress();
-        const { RetCode, Message } = await authService.logout(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
-        if (RetCode != 1) {
-            alert(Message);
-        }
-        appContext.clear();//清除缓存
-        heartWatchService.stop();
-        history.push('/login');
-        dispatch({ type: authStates.LOGOUT });
-
-
-    }
-}
-
-/**
- * 清空登录错误信息action
- */
-function clearError() {
-    return { type: authStates.LOGIN_CLEAR_ERROR, error: '' };
-}
-
-
-
-
-
-/**
- * 获取登录状态
- */
-// function fetchState(){
-//     return async dispatch => {
-//         const user =JSON.parse( localStorage.getItem('user'));      
-//         const result = await authService.isOnline(user);     
-//         dispatch({ type: authStates.LOGIN_FETCH_STATE,user:user,isOnline:result });
-//     }
-// }
-
-
-
+ 

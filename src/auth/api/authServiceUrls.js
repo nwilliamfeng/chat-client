@@ -1,7 +1,7 @@
 /**
  * 服务地址
  */
-export const serviceUrls={
+export const authServiceUrls={
      /**
       * 登录接口
       */

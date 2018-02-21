@@ -1,9 +1,7 @@
-//import _staffs from './staffs.json';
 
-//import { promiseUtil as util } from '../../util';
 import {util } from '../../util';
 import {staffStates} from '../constants';
-import {serviceUrls} from './serviceUrls';
+import {authServiceUrls as serviceUrls} from './authServiceUrls';
 import 'whatwg-fetch'; 
 
 

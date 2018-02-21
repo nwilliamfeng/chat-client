@@ -3,30 +3,33 @@ import { connect } from 'react-redux';
 
 import { Navbar } from './Navbar';
 import { Statusbar } from './Statusbar';
+import { CustomerList } from '../../customers/components';
 
 const containerStyle = {
     width: '100%',
     top: 0,
     left: 0,
-    background: '#Fcc',
+
     position: 'absolute',
     height: '100%',
 }
 
 const leftStyle = {
-    width: 400,
-    paddingLeft: 10,
+    width: 500,
+    background: '#f8f8f8',
+    paddingLeft: 5,
+    paddingRight: 5,
     paddingTop: 60,
-    background: '#cdd',
+    fontSize: 11,
     position: 'absolute',
     height: '100%',
 };
 
 const mainStyle = {
-    width:'100%',
-    paddingLeft: 410,
+    width: '100%',
+    paddingLeft: 510,
     paddingTop: 60,
-    
+
     position: 'absolute',
     height: '100%',
 
@@ -54,15 +57,16 @@ class HomePage extends Component {
                 <Navbar />
                 <div style={containerStyle}>
 
-                <div   style={mainStyle}>bbbb</div>
+                    <div style={mainStyle}>bbbb</div>
                     <div style={leftStyle}>
+                        <p>客户列表</p>
+                        <CustomerList />
 
-                        sdfsdfsd
                     </div>
-                    
+
 
                 </div>
-                <Statusbar/>
+                <Statusbar />
                 {/* <nav className="navbar-nav-xs navbar-default navbar-fixed-bottom"  >
 
                     <ul className="nav navbar-nav" >
