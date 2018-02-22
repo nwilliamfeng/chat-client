@@ -36,9 +36,6 @@ class Navbar extends Component {
          
     }
 
-    
-
-    
 
     render() {
          
@@ -51,9 +48,6 @@ class Navbar extends Component {
                             <div className="navbar-header">
                                 <a className="navbar-brand" href="#">IM在线客服</a>
                             </div>
-
- 
-                           
                             <ul className="nav navbar-nav navbar-right" >
                                 
                                 <li><a href="#" ><i className="fa fa-refresh" aria-hidden="true"></i> 刷新</a></li>

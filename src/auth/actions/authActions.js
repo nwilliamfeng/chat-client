@@ -8,13 +8,21 @@ import Staff from '../../models/staff';
  */
 export const authActions = {
 
-    login, //loginAction实例
-    logout, //logoutAction实例
-    clearError, //clearError实例
+    /**
+     * 登录Action
+     */
+    login,  
 
+    /**
+     * 退出Action
+     */
+    logout,  
+
+    /**
+     * 清空错误信息Action
+     */
+    clearError,  
 }
-
-
 
 /**
  * 登录action
@@ -36,7 +44,7 @@ function login(userName, userPassword, appKey) {
             appSettings.appKey = appKey;
             appSettings.save();
             heartWatchService.start(staff.StaffId, staff.Token, ip, appKey, (reconnectCount) => {
-                dispatch({ type: authStates.LOGIN_LOST_HEART, reconnectCount, staff });
+                dispatch({ type: authStates.LOGIN_LOST_HEART, reconnectCount });
             });
             dispatch({ type: authStates.LOGIN_SUCCESS, staff });//如果登录成功发布用户信息
             history.push('/');//导航到主页

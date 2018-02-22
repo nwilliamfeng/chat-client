@@ -11,36 +11,27 @@ class StaffMenu extends Component {
     constructor(props) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
-
+      
     }
-
-
-    
 
     handleLogout() {
         const { dispatch } = this.props;
         dispatch(authActions.logout());
     }
 
-    /*
-     https://fontawesome.com/v4.7.0/icon/refresh/
-    */
+    shouldComponentUpdate(){
+        const {user} =this.props; //如果返回的user为空则不做渲染
+        return user!=null;
+    }
 
-    render() {
-        if (this.props.user == null) {
-            return (<li className="dropdown"></li>);
-        }
-        else {
-            const { StaffName } = this.props.user;
-           
+    render() {       
+            const staffName = this.props.user?this.props.user.StaffName :'';          
             return (
                 <li className="dropdown" >
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="glyphicon glyphicon-user"></span>  {StaffName}<b className="caret"></b>
+                        <span className="glyphicon glyphicon-user"></span>  {staffName}<b className="caret"></b>
                     </a>
-                    <ul className="dropdown-menu" >
-
-
+                    <ul className="dropdown-menu">
                         <li className="menu-item dropdown dropdown-submenu left-submenu">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">更改状态</a>
                             <ul className="dropdown-menu">
@@ -55,8 +46,7 @@ class StaffMenu extends Component {
                         <li><a href="#" onClick={this.handleLogout}><span className="glyphicon glyphicon-log-in"></span> 退出</a></li>
                     </ul>
                 </li>
-            );
-        }
+            );       
     }
 }
 

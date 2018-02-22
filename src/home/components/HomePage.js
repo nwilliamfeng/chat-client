@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
 import { Navbar } from './Navbar';
 import { Statusbar } from './Statusbar';
 import { CustomerList } from '../../customers/components';
@@ -41,16 +40,9 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props);
-
     }
 
-
-
-
-
     render() {
-
-
 
         return (
             <div>
@@ -67,14 +59,7 @@ class HomePage extends Component {
 
                 </div>
                 <Statusbar />
-                {/* <nav className="navbar-nav-xs navbar-default navbar-fixed-bottom"  >
-
-                    <ul className="nav navbar-nav" >
-                        <li><a href="#" ><i className="fa fa-refresh" aria-hidden="true"></i> adsf</a></li>
-                        <li><a href="#"   ><i className="fa fa-calendar" aria-hidden="true"></i> gh</a></li>
-
-                    </ul>
-                </nav> */}
+            
             </div>
         );
 

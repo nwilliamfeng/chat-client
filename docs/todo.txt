@@ -1,8 +1,6 @@
 1. 客服状态变更ui修改，将2级菜单改成1级；
-2. nginx.config
- 
-
-location /webimservice_test/ {
+2. nginx.config 配置？
+ location /webimservice_test/ {
 			 proxy_redirect             off; 
              proxy_pass   http://imapitest.eastmoney.com:2021/; 
 			 proxy_set_header           Host $host; 
@@ -13,4 +11,6 @@ location /webimservice_test/ {
              proxy_send_timeout         1800;
         }
 
-3. 刷新页面？heartwatchservice启用
+3. 刷新页面？heartwatchservice启用 
+4. 获取客户列表传参selfchatting 通过appsetting配置获取
+5. 获取本机IP方法实现
