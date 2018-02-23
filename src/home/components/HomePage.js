@@ -15,7 +15,7 @@ const containerStyle = {
 
 const leftStyle = {
     width: 500,
-    background: '#f8f8f8',
+   // background: '#f8f8f8',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 60,
@@ -28,10 +28,12 @@ const mainStyle = {
     width: '100%',
     paddingLeft: 510,
     paddingTop: 60,
-
     position: 'absolute',
     height: '100%',
+}
 
+const leftTitleStyle = {
+    fontWeight: 'Bold',
 }
 
 
@@ -48,19 +50,23 @@ class HomePage extends Component {
             <div>
                 <Navbar />
                 <div style={containerStyle}>
-
-                    <div style={mainStyle}>bbbb</div>
+                    <div style={mainStyle}>this is main view</div>
                     <div style={leftStyle}>
-                        <p>客户列表</p>
-                        <CustomerList />
+                        <div style={{ height: '60%' }}>
 
+                            <p style={leftTitleStyle}>客户列表</p>
+                            <CustomerList  style={{ height: '100%' }}/>
+                        </div>
+                        <div style={{ height: '40%' }}>
+
+                            <p style={leftTitleStyle}>adf</p>
+                            
+                        </div>
                     </div>
-
-
                 </div>
                 <Statusbar />
-            
-            </div>
+
+            </div >
         );
 
     }
@@ -68,10 +74,7 @@ class HomePage extends Component {
 
 
 function mapStateToProps(state) {
-
     return {};
-
-
 }
 
 

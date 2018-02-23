@@ -1,0 +1,1 @@
+1. 调用actions.someAction：如 dispatch(customerActions.fetchCustomerList())，action名称后一定要带上括号;

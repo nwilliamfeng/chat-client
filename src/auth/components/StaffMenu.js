@@ -11,7 +11,7 @@ class StaffMenu extends Component {
     constructor(props) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
-      
+        
     }
 
     handleLogout() {
@@ -19,9 +19,10 @@ class StaffMenu extends Component {
         dispatch(authActions.logout());
     }
 
-    shouldComponentUpdate(){
-        const {user} =this.props; //如果返回的user为空则不做渲染
-        return user!=null;
+    shouldComponentUpdate(nextProps, nextState, nextContext){
+        const {user} =nextProps; //如果返回的user为空则不做渲染
+        const result =user!=null;
+        return result;
     }
 
     render() {       

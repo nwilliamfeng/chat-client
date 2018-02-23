@@ -35,7 +35,6 @@ export const authReducer = (state = initState, action) => {
     case authStates.LOGIN_LOST_HEART:
       return {
         reconnectCount: action.reconnectCount,
-        user:action.staff,
       }
 
     // case authStates.LOGIN_FETCH_STATE:
@@ -44,7 +43,7 @@ export const authReducer = (state = initState, action) => {
     //     user: action.user,
     //   }
 
-
+    
 
     default:
       return state;

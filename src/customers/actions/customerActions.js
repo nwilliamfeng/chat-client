@@ -16,17 +16,13 @@ export const customerActions = {
    
 
 }
-
-
-
+ 
  
 function fetchCustomerList() {
-    return async dispatch => {
-        await util.sleep(1000);
+    return async dispatch => { 
         const ip = util.getIpAddress();
         const staff =appContext.currentStaff;
-        const { RetCode, Message, Data } = await customerService.getAllCustomers(staff.StaffId,staff.Token,ip,appContext.appKeys[0]);
-        
+        const { RetCode, Message, Data } = await customerService.getAllCustomers(staff.StaffId,staff.Token,ip,appContext.appKeys[0]);       
         if (RetCode == 1) {           
             dispatch({ type: customerStates.Get_CUSTOMER_LIST_SUCCESS, customers:Data });
         }

@@ -26,7 +26,7 @@ class CustomerService {
         const customers =[];
         for(let i=0;i<3;i++){
            let customer= { Device:'Android'+i, CustomerState:0, ProductName:'product'+i, StaffName:'staff'+i, CustomerId:'customer'+i
-                , Uid:'uid'+i, CustomerName:'customerName'+i, CustomerIp:'customerip'+i, CustomerIpMappingAddress:'local'+i, EnterTime:new Date() };
+                , Uid:'uid'+i, CustomerName:'customerName'+i, CustomerIp:'customerip'+i, CustomerIpMappingAddress:'local'+i, EnterTime:new Date(),ChannelId:'ChannelId'+i };
             customers.push(customer);
         }
         return {RetCode:1,Message:'',Data:customers};

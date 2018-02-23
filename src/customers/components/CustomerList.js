@@ -1,35 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {appContext} from '../../util';
+import { appContext } from '../../util';
 import { customerActions } from '../actions';
-import {CustomerListItem} from './CustomerListItem';
+import { CustomerListItem } from './CustomerListItem';
+
+
+//添加横向滚动条
+const divStyle = {
+    // style="overflow-x:scroll;width:200px;white-space:nowrap;"
+    overflowX: 'scroll',
+    whiteSpace: 'nowrap',
+}
 
 class CustomerList extends Component {
 
-    constructor(props) {    
+    constructor(props) {
         super(props);
-   
-       
     }
 
-    componentWillMount(){
-        if(appContext.currentStaff!=null){
-            const {dispatch} =this.props;
-            dispatch(customerActions.fetchCustomerList);
+    componentDidMount() {
+        if (appContext.currentStaff != null) {
+            const { dispatch } = this.props;
+            dispatch(customerActions.fetchCustomerList());
         }
     }
 
-    // shouldComponentUpdate(nextProps, nextState,nextContext) {
-       
-    //     return false;
-    // }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const { customers } = nextProps;
+        return customers != null;
+    }
+
+    onOpenChat(userId){
+        alert(userId);
+    }
 
 
     render() {
-        const {customers} = this.props;
-       
+        const { customers } = this.props;
         return (
-            <div  >
+            <div style={divStyle} >
                 <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -46,15 +55,15 @@ class CustomerList extends Component {
                     </thead>
                     <tbody >
                         {
-                              customers.map((item) => (
+                            customers.map((item) => (
                                 <CustomerListItem
-                                  key={item.UserID}
-                                  customer={item}
-                            
+                                    key={item.CustomerId}
+                                    customer={item}
+                                    onOpenChat={()=>this.onOpenChat(item.ChannelId)}
                                 //   onToggle={() => onToggleTodo(item.id)}
                                 //   onRemove={() => onRemoveTodo(item.id)}
                                 />
-                                ))
+                            ))
                         }
                     </tbody>
 
@@ -66,7 +75,7 @@ class CustomerList extends Component {
 
 
 function mapStateToProps(state) {
-   
+
     return state.customer;
 }
 
