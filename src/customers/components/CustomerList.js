@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { customerActions } from '../actions';
 import { CustomerListItem } from './CustomerListItem';
+import { ContextMenu, MenuItem } from "react-contextmenu";
+require('../../assets/styles/react-contextmenu.css');
 
 
+export const CUSTOMER_CONTEXTMENU_ID='CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
 const divStyle = {
     // style="overflow-x:scroll;width:200px;white-space:nowrap;"
@@ -16,6 +19,7 @@ class CustomerList extends Component {
 
     constructor(props) {
         super(props);
+        this.handleClick =this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -30,10 +34,18 @@ class CustomerList extends Component {
         return customers != null;
     }
 
-    onOpenChat(userId){
+    onOpenChat(userId) {
         alert(userId);
     }
 
+    handleClick(e,data,target){
+        const customerId = target.getAttribute('customerId');
+        const {customers}= this.props;
+        const customer =customers.find((x)=>{
+           return x.CustomerId== customerId;
+        });
+        alert(customer.CustomerName);
+    }
 
     render() {
         const { customers } = this.props;
@@ -59,15 +71,20 @@ class CustomerList extends Component {
                                 <CustomerListItem
                                     key={item.CustomerId}
                                     customer={item}
-                                    onOpenChat={()=>this.onOpenChat(item.ChannelId)}
-                                //   onToggle={() => onToggleTodo(item.id)}
-                                //   onRemove={() => onRemoveTodo(item.id)}
+                                    onOpenChat={() => this.onOpenChat(item.ChannelId)}
+                                    onBeforeContextMenu={()=>this.onBeforeContextMenu(item.CustomerId)}
                                 />
                             ))
                         }
                     </tbody>
-
                 </table>
+ 
+                <ContextMenu id={CUSTOMER_CONTEXTMENU_ID}>
+                    <MenuItem  onClick={this.handleClick}>转接</MenuItem>
+                    <MenuItem divider />
+                    <MenuItem  onClick={this.handleClick}>复制</MenuItem>
+                    <MenuItem  onClick={this.handleClick}>复制单元格 </MenuItem>
+                </ContextMenu>
             </div>
         );
     }

@@ -1,19 +1,71 @@
 import React, { PropTypes } from 'react';
-import {util} from '../../util';
-import CustomerHelper from  '../customerHelper'
+import { util } from '../../util';
+import CustomerHelper from '../customerHelper'
+import { ContextMenuTrigger } from "react-contextmenu";
+import {CUSTOMER_CONTEXTMENU_ID} from './CustomerList';
 
-export const CustomerListItem = ({customer,onOpenChat}) => {
+export const CustomerListItem = ({ customer, onOpenChat }) => {
+    const tdStyle = {
+        height: 24,
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingTop: 3,
+        paddingBottom: 0,
+    }
+
+    const attributes = {
+        customerId: customer.CustomerId,
+        className: 'react-contextmenu-customers',
+    }
+
     return (
         <tr onDoubleClick={onOpenChat}>
-            <td>{customer.Device}</td>
-            <td>{CustomerHelper.getStateInfo( customer.CustomerState)}</td>
-            <td>{customer.ProductName}</td>
-            <td>{customer.StaffName}</td>
-            <td>{customer.CustomerId}</td>
-            <td>{customer.Uid}</td>
-            <td>{customer.CustomerName}</td>
-            <td>{customer.CustomerIp}({customer.CustomerIpMappingAddress})</td>
-            <td>{util.dateFormat( customer.EnterTime,'hh:mm:ss')}</td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.Device}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {CustomerHelper.getStateInfo(customer.CustomerState)}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.ProductName}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.StaffName}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.CustomerId}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.Uid}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.CustomerName}
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {customer.CustomerIp}({customer.CustomerIpMappingAddress})
+                </ContextMenuTrigger>
+            </td>
+            <td style={tdStyle}>
+                <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>
+                    {util.dateFormat(customer.EnterTime, 'hh:mm:ss')}
+                </ContextMenuTrigger>
+            </td>
+
         </tr>
     )
 }

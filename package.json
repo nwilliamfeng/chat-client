@@ -2,9 +2,7 @@
   "name": "chat-client",
   "version": "0.1.0",
   "private": true,
-   
   "proxy": {
-    
     "/staff": {
       "target": "http://imapitest.eastmoney.com:2021/",
       "ws": true
@@ -13,6 +11,7 @@
   "dependencies": {
     "history": "^4.7.2",
     "react": "^16.2.0",
+    "react-contextmenu": "^2.9.2",
     "react-dom": "^16.2.0",
     "react-modal": "^3.1.13",
     "react-redux": "^5.0.6",
@@ -29,5 +28,4 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
-  
 }
