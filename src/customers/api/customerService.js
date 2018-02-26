@@ -36,8 +36,6 @@ class CustomerService {
         // return await util.fetchWithPost(url,{staffId,token,ip,appKey,selfChat });
     }
 
-
-
 }
 
 /**

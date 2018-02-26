@@ -70,7 +70,17 @@ function logout() {
         heartWatchService.stop();
         history.push('/login');
         dispatch({ type: authStates.LOGOUT });
+    }
+}
 
+/**
+ * 更改客服状态
+ * @param {number} staffState 
+ */
+function changeStaffState(staffState){
+    return async dispatch=>{
+      const staff =appContext.currentStaff;
+      const { RetCode, Message } = await authService.updateStaffSate()
 
     }
 }
@@ -82,10 +92,7 @@ function clearError() {
     return { type: authStates.LOGIN_CLEAR_ERROR, error: '' };
 }
 
-
-
-
-
+  
 /**
  * 获取登录状态
  */
