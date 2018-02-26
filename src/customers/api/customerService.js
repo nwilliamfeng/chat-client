@@ -42,4 +42,3 @@ class CustomerService {
  * 客户服务实例
  */
 export const customerService = new CustomerService();
-
