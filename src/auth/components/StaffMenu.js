@@ -10,13 +10,19 @@ class StaffMenu extends Component {
 
     constructor(props) {
         super(props);
-        this.handleLogout = this.handleLogout.bind(this);
+        this.handleLogout = this.handleLogout.bind(this); //
+        this.changeStaffState =this.handleLogout.bind(this); //添加客服状态
         
     }
 
     handleLogout() {
         const { dispatch } = this.props;
         dispatch(authActions.logout());
+    }
+
+    changeStaffState(state){
+        const { dispatch } = this.props;
+        dispatch(authActions.changeStaffState(state));
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext){

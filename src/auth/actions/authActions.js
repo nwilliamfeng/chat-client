@@ -22,6 +22,11 @@ export const authActions = {
      * 清空错误信息Action
      */
     clearError,  
+
+    /**
+     * 更改客服状态Action
+     */
+    changeStaffState,
 }
 
 /**
@@ -80,8 +85,8 @@ function logout() {
 function changeStaffState(staffState){
     return async dispatch=>{
       const staff =appContext.currentStaff;
-      const { RetCode, Message } = await authService.updateStaffSate()
-
+      const ip = util.getIpAddress();
+      const { RetCode, Message } = await authService.changeStaffState(staffState,staff.StaffId,staff.Token,ip,appContext.appKeys[0]);
     }
 }
 
@@ -91,6 +96,7 @@ function changeStaffState(staffState){
 function clearError() {
     return { type: authStates.LOGIN_CLEAR_ERROR, error: '' };
 }
+
 
   
 /**

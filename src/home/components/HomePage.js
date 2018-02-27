@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Navbar } from './Navbar';
 import { Statusbar } from './Statusbar';
-import { CustomerList } from '../../customers/components';
+import { CustomerList,StaffList } from '../../customers/components';
 
 const containerStyle = {
     width: '100%',
@@ -19,7 +19,7 @@ const leftStyle = {
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 60,
-    fontSize: 11,
+    fontSize: 13,
     position: 'absolute',
     height: '100%',
 };
@@ -53,14 +53,12 @@ class HomePage extends Component {
                     <div style={mainStyle}>this is main view</div>
                     <div style={leftStyle}>
                         <div style={{ height: '60%' }}>
-
                             <p style={leftTitleStyle}>客户列表</p>
-                            <CustomerList  style={{ height: '100%' }}/>
+                            <CustomerList  style={{ height: '100%'}}/>                           
                         </div>
-                        <div style={{ height: '40%' }}>
-
-                            <p style={leftTitleStyle}>adf</p>
-                            
+                        <div style={{ height: '40%',paddingTop:50 }}>
+                            <p style={leftTitleStyle}>????</p> 
+                            <StaffList style={{ height: '100%'}}/>                         
                         </div>
                     </div>
                 </div>

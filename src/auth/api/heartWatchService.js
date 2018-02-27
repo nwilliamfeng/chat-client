@@ -1,5 +1,8 @@
 import { authService } from './authService';
 
+/** 
+ * 心跳监测服务
+ */
 class HeartWatchService {
 
     constructor() {
@@ -24,10 +27,8 @@ class HeartWatchService {
             this.isStart = true;
             this.intervalHandle = setInterval(async () => {
                 const result = await this.authService.sendStaffHeart(staffId, token, ip, appKey);
-                if (result.RetCode != 0) {
-
+                if (result.RetCode != 1) {
                     this.errorCount += 1;
-
                     if (errorCallback != null) {
                         errorCallback(this.errorCount);
                     }
@@ -40,8 +41,6 @@ class HeartWatchService {
                 }
             }, 10 * 1000);
         }
-
-
     }
 
     stop() {

@@ -14,3 +14,4 @@
 3. 刷新页面？heartwatchservice启用 
 4. 获取客户列表传参selfchatting 通过appsetting配置获取
 5. 获取本机IP方法实现
+6. 客户、客服列表方法 onBeforeContextMenu={()=>this.onBeforeContextMenu(item.CustomerId)} ，需要优化，参考书中的性能优化

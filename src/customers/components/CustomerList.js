@@ -7,19 +7,22 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 require('../../assets/styles/react-contextmenu.css');
 
 
-export const CUSTOMER_CONTEXTMENU_ID='CUSTOMER_CONTEXTMENU_ID';
+export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
 const divStyle = {
     // style="overflow-x:scroll;width:200px;white-space:nowrap;"
     overflowX: 'scroll',
     whiteSpace: 'nowrap',
+    height: '100%',
 }
+
+
 
 class CustomerList extends Component {
 
     constructor(props) {
         super(props);
-        this.handleClick =this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -29,22 +32,23 @@ class CustomerList extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const { customers } = nextProps;
-        return customers != null;
-    }
+    
 
     onOpenChat(userId) {
         alert(userId);
     }
 
-    handleClick(e,data,target){
+    handleClick(e, data, target) {
         const customerId = target.getAttribute('customerId');
-        const {customers}= this.props;
-        const customer =customers.find((x)=>{
-           return x.CustomerId== customerId;
+        const { customers } = this.props;
+        const customer = customers.find((x) => {
+            return x.CustomerId == customerId;
         });
         alert(customer.CustomerName);
+    }
+
+    shouldComponentUpdate(nextProps,nextState,nextContext){
+        return nextProps.customers!=null ;       
     }
 
     render() {
@@ -65,25 +69,27 @@ class CustomerList extends Component {
                             <th >进入时刻</th>
                         </tr>
                     </thead>
-                    <tbody >
-                        {
-                            customers.map((item) => (
-                                <CustomerListItem
-                                    key={item.CustomerId}
-                                    customer={item}
-                                    onOpenChat={() => this.onOpenChat(item.ChannelId)}
-                                    onBeforeContextMenu={()=>this.onBeforeContextMenu(item.CustomerId)}
-                                />
-                            ))
-                        }
-                    </tbody>
+                    {customers &&
+                        <tbody >
+                            {
+                                customers.map((item) => (
+                                    <CustomerListItem
+                                        key={item.CustomerId}
+                                        customer={item}
+                                        onOpenChat={() => this.onOpenChat(item.ChannelId)}
+                                        onBeforeContextMenu={() => this.onBeforeContextMenu(item.CustomerId)}
+                                    />
+                                ))
+                            }
+                        </tbody>
+                    }
                 </table>
- 
+
                 <ContextMenu id={CUSTOMER_CONTEXTMENU_ID}>
-                    <MenuItem  onClick={this.handleClick}>转接</MenuItem>
+                    <MenuItem onClick={this.handleClick}>转接</MenuItem>
                     <MenuItem divider />
-                    <MenuItem  onClick={this.handleClick}>复制</MenuItem>
-                    <MenuItem  onClick={this.handleClick}>复制单元格 </MenuItem>
+                    <MenuItem onClick={this.handleClick}>复制</MenuItem>
+                    <MenuItem onClick={this.handleClick}>复制单元格 </MenuItem>
                 </ContextMenu>
             </div>
         );
