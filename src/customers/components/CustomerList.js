@@ -6,7 +6,6 @@ import { CustomerListItem } from './CustomerListItem';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 require('../../assets/styles/react-contextmenu.css');
 
-
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
 const divStyle = {
@@ -39,11 +38,8 @@ class CustomerList extends Component {
     }
 
     handleClick(e, data, target) {
-        const customerId = target.getAttribute('customerId');
-        const { customers } = this.props;
-        const customer = customers.find((x) => {
-            return x.CustomerId == customerId;
-        });
+        const customer =JSON.parse( target.getAttribute('customer'));
+     
         alert(customer.CustomerName);
     }
 
@@ -76,8 +72,7 @@ class CustomerList extends Component {
                                     <CustomerListItem
                                         key={item.CustomerId}
                                         customer={item}
-                                        onOpenChat={() => this.onOpenChat(item.ChannelId)}
-                                        onBeforeContextMenu={() => this.onBeforeContextMenu(item.CustomerId)}
+                                      
                                     />
                                 ))
                             }

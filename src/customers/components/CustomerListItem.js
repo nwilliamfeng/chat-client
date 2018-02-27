@@ -14,7 +14,7 @@ export const CustomerListItem = ({ customer, onOpenChat }) => {
     }
 
     const attributes = {
-        customerId: customer.CustomerId,
+        customer:JSON.stringify(customer), //注意此处key必须是string
         className: 'react-contextmenu-customers',
     }
 

@@ -6,7 +6,7 @@ import { customerActions } from '../actions';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 
 require('../../assets/styles/react-contextmenu.css');
-
+require('../../assets/styles/span.css');
 
 export const STAFF_CONTEXTMENU_ID = 'STAFF_CONTEXTMENU_ID';
 //添加横向滚动条
@@ -21,7 +21,7 @@ const staffAvatarStyle = {
     marginLeft: 3,
     marginRight: 5,
     fontSize: 15,
-    minWidth:50,
+    
     color:'green',
 }
 
@@ -65,6 +65,7 @@ class StaffList extends Component {
     getStaffNameStyle(staff) {
         return {
             color: this.isSelf(staff)? 'orange':'black',
+            width:75,
         }
        
       }
@@ -90,7 +91,7 @@ class StaffList extends Component {
         let capacity = 5;
         for (let i = 0; i < capacity; i++) {
             const cn = (i < count) ? "fa fa-star" : "fa fa-star-o";
-            rows.push(<i class={cn} style={starStyle} aria-hidden="true" />);
+            rows.push(<i key={i} className={cn} style={starStyle} aria-hidden="true" />);
         }
         return rows;
     }
@@ -105,13 +106,16 @@ class StaffList extends Component {
 
                             <li key={item.StaffId}>
                                 <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i> 
-                                <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
-                                {
+                                <span>
+                                    <span >
+                                    <div style={this.getStaffNameStyle(item)}>{item.StaffName}</div>
+                                    {
                                     this.fillCustomerCount(item.AssignedCustomerNumber)
-                                    // user.deleting ? <em> - Deleting...</em>
-                                    // : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                    // : <span> - <a onClick={this.handleDeleteUser(user.id)}>Delete</a></span>
+                                 
                                 }
+                                    </span>
+                                    </span>
+                                
                             </li>
                         ))
                         }

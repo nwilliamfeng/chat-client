@@ -1,0 +1,14 @@
+span{
+
+}
+span span{
+    width:100%;
+    
+    display:inline-block;    
+
+}
+ 
+
+span div{
+    float:left;
+}

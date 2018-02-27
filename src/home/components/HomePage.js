@@ -57,7 +57,7 @@ class HomePage extends Component {
                             <CustomerList  style={{ height: '100%'}}/>                           
                         </div>
                         <div style={{ height: '40%',paddingTop:50 }}>
-                            <p style={leftTitleStyle}>????</p> 
+                            <p style={leftTitleStyle}>客服列表</p> 
                             <StaffList style={{ height: '100%'}}/>                         
                         </div>
                     </div>
