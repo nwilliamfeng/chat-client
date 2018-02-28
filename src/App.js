@@ -5,8 +5,8 @@ import { Router, Route, BrowserRouter } from 'react-router-dom';
 import { history } from './util';
 import { LoginPage, LoginRoute } from './auth/components';
 import { HomePage } from './home';
+require('./assets/styles/react-contextmenu.css');
  
-
 
 class App extends Component {
 

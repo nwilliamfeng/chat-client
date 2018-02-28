@@ -1,5 +1,3 @@
-import Staff from '../models/staff';
-
 class AppContext {
     
     constructor() {

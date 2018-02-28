@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { customerActions } from '../actions';
-import {authActions} from '../../auth/actions';
-import {staffStateValues} from '../../auth/constants';
-import { ContextMenu, MenuItem,SubMenu ,ContextMenuTrigger} from "react-contextmenu";
-require('../../assets/styles/react-contextmenu.css');
+import { authActions } from '../../auth/actions';
+import { staffStateValues } from '../../auth/constants';
+import { ContextMenu, MenuItem, SubMenu, ContextMenuTrigger } from "react-contextmenu";
 export const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 export const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 
- 
+
 const staffAvatarStyle = {
     marginLeft: 3,
     marginRight: 5,
@@ -23,6 +22,13 @@ const starStyle = {
     color: 'blue',
 }
 
+const liStyle = {
+    height: 36,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 7,
+    paddingBottom: 5,
+}
 
 
 class StaffList extends Component {
@@ -61,8 +67,8 @@ class StaffList extends Component {
 
 
     handleContextMenuClick(e, data, target) {
-         const staff = JSON.parse( target.getAttribute('currentStaff'));  
-         alert(staff.StaffName);
+        const staff = JSON.parse(target.getAttribute('currentStaff'));
+        alert(staff.StaffName);
     }
 
 
@@ -71,19 +77,19 @@ class StaffList extends Component {
      * @param {*} e 
      * @param {*} data 
      */
-    sendAutoReplyMessage(e,data){
+    sendAutoReplyMessage(e, data) {
         console.log(data.autoReplyMessage);
-        alert(data.autoReplyMessage); 
+        alert(data.autoReplyMessage);
     }
 
     /**
      * 通知更改客服状态
      * @param {number} staffState 
      */
-    notifyToChangeState(staffState){
-        const {dispatch}= this.props;
+    notifyToChangeState(staffState) {
+        const { dispatch } = this.props;
         alert(staffState);
-      //  dispatch(authActions.changeStaffState(staffState));
+        //  dispatch(authActions.changeStaffState(staffState));
     }
 
     /**
@@ -101,36 +107,41 @@ class StaffList extends Component {
         return rows;
     }
 
-    getAttributes(staff){
-        return {currentStaff:JSON.stringify(staff)};
+    getAttributes(staff) {
+        return { currentStaff: JSON.stringify(staff) };
     }
 
     render() {
         const { staffs } = this.props;
-       
+
         return (
             <div >
                 {staffs &&
                     <ul className="list-group">
                         {staffs.map((item) => (
-                            <li key={item.StaffId} style={{height:36} }className='list-group-item'>
-                            <ContextMenuTrigger id={this.isSelf(item)? SELF_STAFF_CONTEXTMENU_ID:OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
-                                <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
-                                <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
-                                <span>{this.fillCustomerCount(item.AssignedCustomerNumber)}</span>
-                            </ContextMenuTrigger>
+
+                            <li key={item.StaffId} style={{ padding: 0, }} className='list-group-item'>
+
+                                <ContextMenuTrigger id={this.isSelf(item) ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
+                                    <div style={liStyle}>
+                                        <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
+                                        <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
+                                        <span>{this.fillCustomerCount(item.AssignedCustomerNumber)}</span>
+                                    </div>
+                                </ContextMenuTrigger>
                             </li>
+
                         ))
                         }
                     </ul>
                 }
 
                 <ContextMenu id={SELF_STAFF_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.ONLINE }}>{<i style={{marginLeft:-10}} class="fa fa-circle" aria-hidden="true"><span>在线</span></i>}</MenuItem>
+                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.ONLINE }}>{<i style={{ marginLeft: -10 }} className="fa fa-circle" aria-hidden="true"><span>在线</span></i>}</MenuItem>
                     <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.LEAVE }}>离开</MenuItem>
-                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.TRANSFER }}>转接</MenuItem>                  
+                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.TRANSFER }}>转接</MenuItem>
                     <SubMenu title='自动回复'>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '马上回来' }}>马上回来</MenuItem>                       
+                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '马上回来' }}>马上回来</MenuItem>
                         <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '现在忙' }}>现在忙</MenuItem>
                         <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '正在会议中' }}>正在会议中</MenuItem>
                     </SubMenu>
@@ -139,9 +150,9 @@ class StaffList extends Component {
                     <MenuItem onClick={this.handleContextMenuClick}>退出 </MenuItem>
                 </ContextMenu>
                 <ContextMenu id={OTHER_STAFF_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleContextMenuClick}>客服聊天</MenuItem>            
+                    <MenuItem onClick={this.handleContextMenuClick}>客服聊天</MenuItem>
                     <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
-                 
+
                 </ContextMenu>
 
             </div>

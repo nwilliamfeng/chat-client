@@ -4,7 +4,7 @@ import { appContext } from '../../util';
 import { customerActions } from '../actions';
 import { CustomerListItem } from './CustomerListItem';
 import { ContextMenu, MenuItem } from "react-contextmenu";
-require('../../assets/styles/react-contextmenu.css');
+//require('../../assets/styles/react-contextmenu.css');
 
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
@@ -38,8 +38,7 @@ class CustomerList extends Component {
     }
 
     handleClick(e, data, target) {
-        const customer =JSON.parse( target.getAttribute('customer'));
-     
+        const customer =JSON.parse( target.getAttribute('customer'));    
         alert(customer.CustomerName);
     }
 

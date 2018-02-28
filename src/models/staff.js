@@ -13,7 +13,7 @@
  
         this.IsOfflineMessage =false;
         this.StaffTips =''; //客服端提示 格式{"OfflineMessageTip":"您确认要关闭聊天窗口"}
-        this. IMUserEntity=[];
+        this.IMUserEntity=[];
       }
   }
 
