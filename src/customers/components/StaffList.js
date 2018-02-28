@@ -2,27 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { customerActions } from '../actions';
-
-import { ContextMenu, MenuItem } from "react-contextmenu";
-
+import {authActions} from '../../auth/actions';
+import {staffStateValues} from '../../auth/constants';
+import { ContextMenu, MenuItem,SubMenu ,ContextMenuTrigger} from "react-contextmenu";
 require('../../assets/styles/react-contextmenu.css');
-require('../../assets/styles/span.css');
+export const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
+export const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 
-export const STAFF_CONTEXTMENU_ID = 'STAFF_CONTEXTMENU_ID';
-//添加横向滚动条
-const divStyle = {
-    // style="overflow-x:scroll;width:200px;white-space:nowrap;"
-    overflowX: 'scroll',
-    whiteSpace: 'nowrap',  
-    height: '100%',
-}
-
+ 
 const staffAvatarStyle = {
     marginLeft: 3,
     marginRight: 5,
     fontSize: 15,
-    
-    color:'green',
+    color: 'green',
 }
 
 const starStyle = {
@@ -37,7 +29,6 @@ class StaffList extends Component {
 
     constructor(props) {
         super(props);
-        // this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -53,7 +44,6 @@ class StaffList extends Component {
         return nextProps.staffs != null;
     }
 
-
     onOpenChat(userId) {
         alert(userId);
     }
@@ -64,22 +54,37 @@ class StaffList extends Component {
 
     getStaffNameStyle(staff) {
         return {
-            color: this.isSelf(staff)? 'orange':'black',
-            width:75,
+            color: this.isSelf(staff) ? 'orange' : 'black',
+            width: 75,
         }
-       
-      }
-    
-
-    handleClick(e, data, target) {
-        // const customerId = target.getAttribute('customerId');
-        // const { customers } = this.props;
-        // const customer = customers.find((x) => {
-        //     return x.CustomerId == customerId;
-        // });
-        // alert(customer.CustomerName);
     }
 
+
+    handleContextMenuClick(e, data, target) {
+         const staff = JSON.parse( target.getAttribute('currentStaff'));  
+         alert(staff.StaffName);
+    }
+
+
+    /**
+     * 发送自动回复信息
+     * @param {*} e 
+     * @param {*} data 
+     */
+    sendAutoReplyMessage(e,data){
+        console.log(data.autoReplyMessage);
+        alert(data.autoReplyMessage); 
+    }
+
+    /**
+     * 通知更改客服状态
+     * @param {number} staffState 
+     */
+    notifyToChangeState(staffState){
+        const {dispatch}= this.props;
+        alert(staffState);
+      //  dispatch(authActions.changeStaffState(staffState));
+    }
 
     /**
      * 填充客户数量
@@ -96,38 +101,49 @@ class StaffList extends Component {
         return rows;
     }
 
+    getAttributes(staff){
+        return {currentStaff:JSON.stringify(staff)};
+    }
+
     render() {
         const { staffs } = this.props;
+       
         return (
-            <div style={divStyle} >
+            <div >
                 {staffs &&
-                    <ul className="list-unstyled">
+                    <ul className="list-group">
                         {staffs.map((item) => (
-
-                            <li key={item.StaffId}>
-                                <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i> 
-                                <span>
-                                    <span >
-                                    <div style={this.getStaffNameStyle(item)}>{item.StaffName}</div>
-                                    {
-                                    this.fillCustomerCount(item.AssignedCustomerNumber)
-                                 
-                                }
-                                    </span>
-                                    </span>
-                                
+                            <li key={item.StaffId} style={{height:36} }className='list-group-item'>
+                            <ContextMenuTrigger id={this.isSelf(item)? SELF_STAFF_CONTEXTMENU_ID:OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
+                                <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
+                                <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
+                                <span>{this.fillCustomerCount(item.AssignedCustomerNumber)}</span>
+                            </ContextMenuTrigger>
                             </li>
                         ))
                         }
                     </ul>
                 }
 
-                {/* <ContextMenu id={STAFF_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleClick}>转接</MenuItem>
+                <ContextMenu id={SELF_STAFF_CONTEXTMENU_ID}>
+                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.ONLINE }}>{<i style={{marginLeft:-10}} class="fa fa-circle" aria-hidden="true"><span>在线</span></i>}</MenuItem>
+                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.LEAVE }}>离开</MenuItem>
+                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.TRANSFER }}>转接</MenuItem>                  
+                    <SubMenu title='自动回复'>
+                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '马上回来' }}>马上回来</MenuItem>                       
+                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '现在忙' }}>现在忙</MenuItem>
+                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '正在会议中' }}>正在会议中</MenuItem>
+                    </SubMenu>
                     <MenuItem divider />
-                    <MenuItem onClick={this.handleClick}>复制</MenuItem>
-                    <MenuItem onClick={this.handleClick}>复制单元格 </MenuItem>
-                </ContextMenu> */}
+                    <MenuItem onClick={this.handleContextMenuClick}>注销</MenuItem>
+                    <MenuItem onClick={this.handleContextMenuClick}>退出 </MenuItem>
+                </ContextMenu>
+                <ContextMenu id={OTHER_STAFF_CONTEXTMENU_ID}>
+                    <MenuItem onClick={this.handleContextMenuClick}>客服聊天</MenuItem>            
+                    <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
+                 
+                </ContextMenu>
+
             </div>
         );
     }
@@ -142,6 +158,6 @@ function mapStateToProps(state) {
 const page = connect(mapStateToProps, null)(StaffList);
 
 /**
- * CustomerList实例
+ * StaffList实例
  */
 export { page as StaffList }; 

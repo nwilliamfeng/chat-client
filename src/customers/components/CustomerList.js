@@ -33,8 +33,8 @@ class CustomerList extends Component {
 
     
 
-    onOpenChat(userId) {
-        alert(userId);
+    onOpenChat( ) {
+        alert('sdf');
     }
 
     handleClick(e, data, target) {
@@ -72,7 +72,7 @@ class CustomerList extends Component {
                                     <CustomerListItem
                                         key={item.CustomerId}
                                         customer={item}
-                                      
+                                        onOpenChat={this.onOpenChat}
                                     />
                                 ))
                             }

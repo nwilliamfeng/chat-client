@@ -9,6 +9,17 @@ export const staffStates={
 
     STAFF_TRANSFER:'STAFF_TRANSFER', //转接
 
-    
-    
+}
+
+/** 
+ * 客服状态对应的整型值
+ */
+export const staffStateValues={
+
+    ONLINE:1,
+
+    LEAVE: 3,
+
+    TRANSFER:4,
+
 }
