@@ -121,7 +121,6 @@ class StaffList extends Component {
                         {staffs.map((item) => (
 
                             <li key={item.StaffId} style={{ padding: 0, }} className='list-group-item'>
-
                                 <ContextMenuTrigger id={this.isSelf(item) ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
                                     <div style={liStyle}>
                                         <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
@@ -130,7 +129,6 @@ class StaffList extends Component {
                                     </div>
                                 </ContextMenuTrigger>
                             </li>
-
                         ))
                         }
                     </ul>
