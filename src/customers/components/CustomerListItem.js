@@ -22,31 +22,31 @@ const appendTds=(customer)=>{
         customer:JSON.stringify(customer), //注意此处value不能传json类型，否则从attributes无法获取？2018-2-27
         className: 'react-contextmenu-customers',
     }
-    const rows =[];
+    const cols =[];
     const add= (name)=>{
-        rows.push(<td style={tdStyle}><ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>{name}</ContextMenuTrigger></td>);
+        cols.push(<td style={tdStyle}><ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={attributes}>{name}</ContextMenuTrigger></td>);
     }     
-    rows.push(add(customer.Device));
-    rows.push(add(CustomerHelper.getStateInfo(customer.CustomerState)));
-    rows.push(add(customer.ProductName));
-    rows.push(add(customer.StaffName));
-    rows.push(add(customer.CustomerId));
-    rows.push(add(customer.Uid));
-    rows.push(add(customer.CustomerName));
-    rows.push(add(customer.CustomerIp+'('+customer.CustomerIpMappingAddress+')'));
-    rows.push(add(util.dateFormat(customer.EnterTime, 'hh:mm:ss')));
-    return rows;
+    cols.push(add(customer.Device));
+    cols.push(add(CustomerHelper.getStateInfo(customer.CustomerState)));
+    cols.push(add(customer.ProductName));
+    cols.push(add(customer.StaffName));
+    cols.push(add(customer.CustomerId));
+    cols.push(add(customer.Uid));
+    cols.push(add(customer.CustomerName));
+    cols.push(add(customer.CustomerIp+'('+customer.CustomerIpMappingAddress+')'));
+    cols.push(add(util.dateFormat(customer.EnterTime, 'hh:mm:ss')));
+    return cols;
 }
 
 
 
-export const CustomerListItem = ({ customer,onOpenChat }) => {   
+export const CustomerListItem = ({ customer }) => {   
       
     const onDoubleClick=(customer)=>{
         alert(customer.Device);
     }
     return (
-        <tr onDoubleClick={onOpenChat}>
+        <tr key={customer.CustomerId} onDoubleClick={onDoubleClick}>
            { appendTds(customer)}        
         </tr>
     )

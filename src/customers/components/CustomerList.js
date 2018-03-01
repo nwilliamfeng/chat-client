@@ -9,10 +9,8 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
 const divStyle = {
-    // style="overflow-x:scroll;width:200px;white-space:nowrap;"
-    overflowX: 'scroll',
+   // overflowX: 'scroll',
     whiteSpace: 'nowrap',
-    height: '100%',
 }
 
 
@@ -71,7 +69,7 @@ class CustomerList extends Component {
                                     <CustomerListItem
                                         key={item.CustomerId}
                                         customer={item}
-                                        onOpenChat={this.onOpenChat}
+                                      
                                     />
                                 ))
                             }
