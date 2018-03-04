@@ -1,5 +1,5 @@
 import { util } from '../../util';
-import { customerStates } from '../constants';
+import { constants } from '../constants';
 import { customerServiceUrls as serviceUrls } from './customerServiceUrls';
 
 

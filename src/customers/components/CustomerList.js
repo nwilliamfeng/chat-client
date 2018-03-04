@@ -4,13 +4,24 @@ import { appContext } from '../../util';
 import { customerActions } from '../actions';
 import { CustomerListItem } from './CustomerListItem';
 import { ContextMenu, MenuItem } from "react-contextmenu";
-//require('../../assets/styles/react-contextmenu.css');
+import { CustomerColumnHeader } from './CustomerColumnHeader';
 
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
 const divStyle = {
-   // overflowX: 'scroll',
+    // overflowX: 'scroll',
     whiteSpace: 'nowrap',
+}
+
+const thStyle = {
+    fontWeight: 'normal',
+    color: 'gray',
+    cursor: 'pointer',
+}
+
+const sortStyle = {
+    marginLeft: 5,
+    color: 'grey',
 }
 
 
@@ -20,6 +31,8 @@ class CustomerList extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
+        this.handleColumnHeaderClick = this.handleColumnHeaderClick.bind(this);
+        this.getSort = this.getSort.bind(this);
     }
 
     componentDidMount() {
@@ -29,48 +42,62 @@ class CustomerList extends Component {
         }
     }
 
-    
 
-    onOpenChat( ) {
+
+    onOpenChat() {
         alert('sdf');
     }
 
     handleClick(e, data, target) {
-        const customer =JSON.parse( target.getAttribute('customer'));    
+        const customer = JSON.parse(target.getAttribute('customer'));
         alert(customer.CustomerName);
     }
 
-    shouldComponentUpdate(nextProps,nextState,nextContext){
-        return nextProps.customers!=null ;       
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if(this.props.sortOrder!=nextProps.sortOrder || this.props.sortColumn!=nextProps.sortColumn){
+            return true;
+        }
+        
+        const current=this.props.customers;
+        const {customers} =nextProps;
+        var result = current!=customers;
+        return result;
+    }
+
+    handleColumnHeaderClick(column, sortOrder) {
+        const { dispatch } = this.props;
+        dispatch(customerActions.sortCustomerList(column, sortOrder));
+    }
+
+    getSort(column) {
+        const {sortColumn,sortOrder} =this.props;
+        return column==sortColumn?  sortOrder!=null ?sortOrder:0 :0;
     }
 
     render() {
-        const { customers } = this.props;
+        const { customers} = this.props;
         return (
             <div style={divStyle} >
                 <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th >来源</th>
-                            <th >状态</th>
-                            <th >业务来源</th>
-                            <th >客服姓名</th>
-                            <th >客户ID</th>
-                            <th >三方ID</th>
-                            <th >姓名</th>
-                            <th >IP地址(位置)</th>
-                            <th >进入时刻</th>
+                            <CustomerColumnHeader title='来源' getSort={this.getSort} name='Device' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='状态' getSort={this.getSort} name='CustomerState' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='业务来源' getSort={this.getSort} name='ProductName' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='客服姓名' getSort={this.getSort} name='StaffName' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='客户ID' getSort={this.getSort} name='CustomerId' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='三方ID' getSort={this.getSort} name='Uid' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='姓名' getSort={this.getSort} name='CustomerName' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='IP地址' getSort={this.getSort} name='CustomerIp' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='地理位置' getSort={this.getSort} name='CustomerIpMappingAddress' onHeaderSort={this.handleColumnHeaderClick} />
+                            <CustomerColumnHeader title='进入时刻' getSort={this.getSort} name='EnterTime' onHeaderSort={this.handleColumnHeaderClick} />
                         </tr>
                     </thead>
                     {customers &&
                         <tbody >
                             {
                                 customers.map((item) => (
-                                    <CustomerListItem
-                                        key={item.CustomerId}
-                                        customer={item}
-                                      
-                                    />
+                                    <CustomerListItem props={this.props} key={item.CustomerId} customer={item} />
                                 ))
                             }
                         </tbody>
@@ -91,7 +118,9 @@ class CustomerList extends Component {
 
 function mapStateToProps(state) {
 
-    return state.customer;
+    const {customers,sortDescriptor}= state.customer;
+    const {order,column} =sortDescriptor;
+    return{customers,sortOrder:order,sortColumn:column};
 }
 
 

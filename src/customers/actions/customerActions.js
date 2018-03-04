@@ -1,4 +1,4 @@
-import { customerStates } from '../constants';
+import { constants } from '../constants';
 import { customerService } from '../api';
 import { history, util, appSettings, appContext } from '../../util';
 import Customer from '../../models/customer';
@@ -19,6 +19,8 @@ export const customerActions = {
      */
     fetchStaffList,
 
+    sortCustomerList,
+
 }
 
 /**
@@ -30,7 +32,7 @@ function fetchCustomerList() {
         const staff = appContext.currentStaff;
         const { RetCode, Message, Data } = await customerService.getCustomerList(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
         if (RetCode == 1) {
-            dispatch({ type: customerStates.Get_CUSTOMER_LIST_SUCCESS, customers: Data });
+            dispatch({ type: constants.Get_CUSTOMER_LIST_SUCCESS, customers: Data });
         }
     }
 }
@@ -44,9 +46,13 @@ function fetchStaffList() {
         const staff = appContext.currentStaff;
         const { RetCode, Message, Data } = await customerService.getStaffList(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
         if (RetCode == 1) {
-            dispatch({ type: customerStates.Get_STAFF_LIST_SUCCESS, staffs: Data });
+            dispatch({ type: constants.Get_STAFF_LIST_SUCCESS, staffs: Data });
         }
     }
+}
+
+function sortCustomerList(sortColumn,sortOrder=1 ){
+    return {type:constants.SORT_CUSTOMERS, sortDescriptor:{ column :sortColumn,order:sortOrder}};
 }
 
 

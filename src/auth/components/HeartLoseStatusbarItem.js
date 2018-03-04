@@ -11,7 +11,8 @@ const HeartLoseStatusbarItem = ({ reconnectCount }) => {
 }
 
 function mapStateToProps(state) {
-    return state.auth;
+    const {reconnectCount} = state.auth;
+    return {reconnectCount};
  
 } 
 

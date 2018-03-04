@@ -45,7 +45,6 @@ class StaffList extends Component {
         }
     }
 
-
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return nextProps.staffs != null;
     }
@@ -65,9 +64,8 @@ class StaffList extends Component {
         }
     }
 
-
     handleContextMenuClick(e, data, target) {
-        const staff = JSON.parse(target.getAttribute('currentStaff'));
+        const staff = JSON.parse(target.getAttribute('staffdata'));
         alert(staff.StaffName);
     }
 
@@ -108,7 +106,7 @@ class StaffList extends Component {
     }
 
     getAttributes(staff) {
-        return { currentStaff: JSON.stringify(staff) };
+        return { staffdata: JSON.stringify(staff) };
     }
 
     render() {
@@ -121,7 +119,7 @@ class StaffList extends Component {
                         {staffs.map((item) => (
 
                             <li key={item.StaffId} style={{ padding: 0, }} className='list-group-item'>
-                                <ContextMenuTrigger id={this.isSelf(item) ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
+                                <ContextMenuTrigger  id={this.isSelf(item) ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
                                     <div style={liStyle}>
                                         <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
                                         <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
@@ -129,13 +127,12 @@ class StaffList extends Component {
                                     </div>
                                 </ContextMenuTrigger>
                             </li>
-                        ))
-                        }
+                        )) }
                     </ul>
                 }
 
                 <ContextMenu id={SELF_STAFF_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.ONLINE }}>{<i style={{ marginLeft: -10 }} className="fa fa-circle" aria-hidden="true"><span>在线</span></i>}</MenuItem>
+                    <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.ONLINE }}>在线</MenuItem>
                     <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.LEAVE }}>离开</MenuItem>
                     <MenuItem onClick={this.handleContextMenuClick} data={{ newStaffSate: staffStateValues.TRANSFER }}>转接</MenuItem>
                     <SubMenu title='自动回复'>
@@ -160,7 +157,8 @@ class StaffList extends Component {
 
 
 function mapStateToProps(state) {
-    return state.customer;
+    const {staffs} = state.customer;
+    return {staffs};
 }
 
 

@@ -2,7 +2,7 @@
 /**
  * 客户状态
  */
-export const customerStates={
+export const constants={
 
     /**
      * 获取客户列表成功
@@ -14,7 +14,7 @@ export const customerStates={
      */
     Get_STAFF_LIST_SUCCESS:'Get_STAFF_LIST_SUCCESS',
 
-   
+    SORT_CUSTOMERS:'SORT_CUSTOMERS',
 
     
 }

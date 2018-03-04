@@ -50,7 +50,7 @@ class StaffMenu extends Component {
                         <li className="divider"></li>
                         <li><a href="#">设置</a></li>
                         <li className="divider"></li>
-                        <li><a href="#" onClick={this.handleLogout}><span className="glyphicon glyphicon-log-in"></span> 退出</a></li>
+                        <li><a href="#" onClick={this.handleLogout}> 退出</a></li>
                     </ul>
                 </li>
             );       
@@ -59,7 +59,11 @@ class StaffMenu extends Component {
 
 
 function mapStateToProps(state) {
-    return state.auth;
+    const { user } = state.auth;
+    return {
+        user
+    };
+    //return state.auth;
 }
 
 

@@ -126,14 +126,13 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
 
-    return state.auth; //这里仅获取跟auth有关的数据，也就是authReducer
-    // const { loggingIn, user, error } = state.auth;
-    // return {
-    //     loggingIn: loggingIn,
-    //     user: user,
-    //     error: error,
+   // return state.auth; //这里仅获取跟auth有关的数据，也就是authReducer
+    const { loggingIn,   error } = state.auth;
+    return {
+        loggingIn: loggingIn,
+        error: error,
 
-    // };
+    };
 }
 
 
