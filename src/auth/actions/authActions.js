@@ -1,4 +1,4 @@
-import { authStates } from '../constants';
+import { constants } from '../constants';
 import { authService, heartWatchService } from '../api';
 import { history, util, appSettings, appContext } from '../../util';
 import Staff from '../../models/staff';
@@ -38,7 +38,7 @@ export const authActions = {
  */
 function login(userName, userPassword, appKey) {
     return async dispatch => {
-        dispatch({ type: authStates.LOGIN_REQUEST }); //发布正在登录
+        dispatch({ type: constants.LOGIN_REQUEST }); //发布正在登录
         const ip = util.getIpAddress();
         const { RetCode, Message, Data } = await authService.login(userName, userPassword, ip, appKey, 1);
         console.log(RetCode);
@@ -51,13 +51,13 @@ function login(userName, userPassword, appKey) {
             appSettings.appKey = appKey;
             appSettings.save();
             heartWatchService.start(staff.StaffId, staff.Token, ip, appKey, (reconnectCount) => {
-                dispatch({ type: authStates.CLIENT_LOST_HEART, reconnectCount });
+                dispatch({ type: constants.CLIENT_LOST_HEART, reconnectCount });
             });
-            dispatch({ type: authStates.LOGIN_SUCCESS, staff });//如果登录成功发布用户信息
+            dispatch({ type: constants.LOGIN_SUCCESS, staff });//如果登录成功发布用户信息
             history.push('/');//导航到主页
         }
         else {
-            dispatch({ type: authStates.LOGIN_FAIL, error: Message }); //否则如果失败则发布错误信息
+            dispatch({ type: constants.LOGIN_FAIL, error: Message }); //否则如果失败则发布错误信息
         }
     }
 }
@@ -72,12 +72,12 @@ function logout() {
         const { RetCode, Message } = await authService.logout(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
         if (RetCode != 1) {
             alert(Message);
-            return;
+        
         }
         appContext.clear();//清除缓存
         heartWatchService.stop();
         history.push('/login');
-        dispatch({ type: authStates.LOGOUT });
+        dispatch({ type: constants.LOGOUT });
     }
 }
 
@@ -94,7 +94,8 @@ function changeStaffState(staffState){
           alert(Message);
       }
       else{
-         dispatch({type:authStates.});
+          staff.StaffState= staffState;
+         dispatch({type:constants.LOGIN_CHANGE_STATE,staff});
       }
     }
 }
@@ -103,7 +104,7 @@ function changeStaffState(staffState){
  * 清空登录错误信息action
  */
 function clearError() {
-    return { type: authStates.LOGIN_CLEAR_ERROR, error: '' };
+    return { type: constants.LOGIN_CLEAR_ERROR, error: '' };
 }
 
 

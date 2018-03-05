@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Rx from 'rx';
 import { appContext } from '../../util';
 import { customerActions } from '../actions';
 import { authActions } from '../../auth/actions';
 import { staffStateValues } from '../../auth/constants';
+
 import { ContextMenu, MenuItem, SubMenu, ContextMenuTrigger } from "react-contextmenu";
 export const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 export const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
@@ -35,19 +37,43 @@ class StaffList extends Component {
 
     constructor(props) {
         super(props);
-        this.handleChangeStaffStateClick=this.handleChangeStaffStateClick.bind(this);
+        this.handleChangeStaffStateClick = this.handleChangeStaffStateClick.bind(this);
     }
 
     componentDidMount() {
         console.log("StaffList componetDidMount");
-        if (appContext.currentStaff != null) {
-            const { dispatch } = this.props;
-            dispatch(customerActions.fetchStaffList());
-        }
+        // if (appContext.currentStaff != null) {
+        //     const { dispatch } = this.props;
+        //     dispatch(customerActions.fetchStaffList());
+        // }
+        this.subscribeStaffList();
+    }
+
+    subscribeStaffList() {
+        const source = Rx.Observable
+            .interval(3000 /* ms */)
+            .timeInterval() ;
+
+        const subscription = source.subscribe(
+            ()=>{
+                if (appContext.currentStaff != null) {
+                    const { dispatch } = this.props;
+                    dispatch(customerActions.fetchStaffList());
+                }
+                else {
+                    subscription.dispose();
+                }
+            },
+             (err)=> {
+                console.log('Error: ' + err);
+            },
+           ()=> {
+                console.log('Completed');
+            });
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return nextProps.staffs != null;
+        return this.props.staffs!=  nextProps.staffs  ;
     }
 
     onOpenChat(userId) {
@@ -66,7 +92,6 @@ class StaffList extends Component {
     }
 
     getStaffStateStyle(staffState) {
-
         return { fontWeight: appContext.currentStaff.StaffState == staffState ? 'bold' : 'normal' };
 
     }
@@ -77,7 +102,7 @@ class StaffList extends Component {
     }
 
     handleChangeStaffStateClick(e, data, target) {
-        const {dispatch} =this.props;
+        const { dispatch } = this.props;
         dispatch(authActions.changeStaffState(data.newStaffSate));
     }
 

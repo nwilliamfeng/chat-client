@@ -2,7 +2,7 @@
 /**
  * 授权状态
  */
-export const authStates={
+export const constants={
 
     //LOGIN_FETCH_STATE:'LOGIN_FETCH_STATE', //登录状态查询，刷新主页面时候获取登录状态
     
@@ -16,8 +16,9 @@ export const authStates={
 
     LOGIN_CLEAR_ERROR:'LOGIN_CLEAR_ERROR', //清空登录错误信息
 
-    CLIENT_LOST_HEART:'LOGIN_LOST_HEART', //心跳丢失
+    CLIENT_LOST_HEART:'CLIENT_LOST_HEART', //心跳丢失
 
+    LOGIN_CHANGE_STATE:'LOGIN_CHANGE_STATE',
 
     
 

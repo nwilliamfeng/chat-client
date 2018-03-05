@@ -1,9 +1,10 @@
-import {staffStateValues} from '../auth/constants'
+import { staffStateValues } from '../auth/constants'
 
 class AppContext {
-    
-    constructor() {
 
+    constructor() {
+        const stData = localStorage.getItem(AppContext.name);
+        this._staff = stData ? JSON.parse(stData).staff : null;
     }
 
     /**
@@ -11,36 +12,38 @@ class AppContext {
      */
     static get name() {
         return 'AppContext';
-      }
-
-    get currentStaff() {
-        const item = localStorage.getItem(AppContext.name);
-        return item ? JSON.parse(item).staff : null;
     }
-    
-    get appKeys(){
-        const staff =this.currentStaff;
-        if(staff==null){
+
+    get appKeys() {
+        const staff = this.currentStaff;
+        if (staff == null) {
             return [];
         }
-        else{
+        else {
             console.log(staff);
             return staff.AppKeys.split(',');
         }
     }
 
+    get currentStaff() {
+         return this._staff;
+    }
+
+
+
     set currentStaff(staff) {
+        this._staff=staff;
         const item = localStorage.getItem(AppContext.name);
 
         const data = item ? JSON.parse(item) : {};
-        
+
         data.staff = staff;
-    
+
         localStorage.setItem(AppContext.name, JSON.stringify(data));
     }
 
 
-    clear(){
+    clear() {
         localStorage.removeItem(AppContext.name);
     }
 }

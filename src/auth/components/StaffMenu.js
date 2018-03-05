@@ -33,7 +33,8 @@ class StaffMenu extends Component {
 
     render() {       
             const staffName = this.props.user?this.props.user.StaffName :'';    
-            const state =this.props.user? '('+AuthHelper.getStaffStateString(this.props.user.StaffState)+')':'';      
+            const state =this.props.user? '('+AuthHelper.getStaffStateString(this.props.user.StaffState)+')':'';  
+           
             return (
                 <li className="dropdown" >
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">

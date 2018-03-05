@@ -1,4 +1,4 @@
-import { authStates } from '../constants';
+import { constants } from '../constants';
 
 
 const initState = { loggingIn: false, user: null, error: null };
@@ -6,36 +6,43 @@ const initState = { loggingIn: false, user: null, error: null };
 export const authReducer = (state = initState, action) => {
   switch (action.type) {
 
-    case authStates.LOGIN_SUCCESS:
+    case constants.LOGIN_SUCCESS:
       return {
         loggedIn: true,
         user: action.staff,
       };
 
-    case authStates.LOGIN_REQUEST:
+    case constants.LOGIN_REQUEST:
       return {
         loggingIn: true,
       }
 
 
-    case authStates.LOGOUT: //如果是退出，则传空状态
+    case constants.LOGOUT: //如果是退出，则传空状态
       return {}
 
-    case authStates.LOGIN_FAIL: //如果登录失败，返回消息
+    case constants.LOGIN_FAIL: //如果登录失败，返回消息
       return {
         loggingIn: false,
         error: action.error,
       }
 
-    case authStates.LOGIN_CLEAR_ERROR:
+    case constants.LOGIN_CLEAR_ERROR:
       return {
         error: null,
       }
 
-    case authStates.CLIENT_LOST_HEART:
+    case constants.CLIENT_LOST_HEART:
       return {
+        ...state,
         reconnectCount: action.reconnectCount,
       }
+
+    case constants.LOGIN_CHANGE_STATE:
+      return {
+        ...state,
+        user:Object.assign({}, action.staff),
+      };
 
     // case authStates.LOGIN_FETCH_STATE:
     //   return {
@@ -43,7 +50,7 @@ export const authReducer = (state = initState, action) => {
     //     user: action.user,
     //   }
 
-    
+
 
     default:
       return state;
