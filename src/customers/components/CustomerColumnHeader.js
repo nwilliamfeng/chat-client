@@ -13,16 +13,18 @@ const sortStyle = {
     color: 'grey',
 }
 
+/**
+ * 获取排序按钮区域
+ * @param {number} sort 
+ */
 const getSortRegion = (sort) => {
    
     if(sort ==1){
-        return <i class="fa fa-caret-up"></i>;
+        return <i className="fa fa-caret-up"></i>;
     }
     else  if(sort ==2){
-        return <i class="fa fa-caret-down"></i>;
+        return <i className="fa fa-caret-down"></i>;
     }
-    
-    
 }
 
 export const CustomerColumnHeader = ({ name, title, getSort , onHeaderSort}) => {

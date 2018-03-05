@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authActions } from '../actions';
-
+import AuthHelper from '../authHelper';
 
 /**
  * 客服菜单项
@@ -32,11 +32,12 @@ class StaffMenu extends Component {
     }
 
     render() {       
-            const staffName = this.props.user?this.props.user.StaffName :'';          
+            const staffName = this.props.user?this.props.user.StaffName :'';    
+            const state =this.props.user? '('+AuthHelper.getStaffStateString(this.props.user.StaffState)+')':'';      
             return (
                 <li className="dropdown" >
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="glyphicon glyphicon-user"></span>  {staffName}<b className="caret"></b>
+                        <span className="glyphicon glyphicon-user"></span>  {staffName}{state}<b className="caret"></b>
                     </a>
                     <ul className="dropdown-menu">
                         <li className="menu-item dropdown dropdown-submenu left-submenu">

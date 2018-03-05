@@ -1,3 +1,5 @@
+import {staffStateValues} from '../auth/constants'
+
 class AppContext {
     
     constructor() {
@@ -31,9 +33,12 @@ class AppContext {
         const item = localStorage.getItem(AppContext.name);
 
         const data = item ? JSON.parse(item) : {};
+        
         data.staff = staff;
+    
         localStorage.setItem(AppContext.name, JSON.stringify(data));
     }
+
 
     clear(){
         localStorage.removeItem(AppContext.name);

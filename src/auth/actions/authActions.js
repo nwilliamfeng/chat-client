@@ -2,6 +2,7 @@ import { authStates } from '../constants';
 import { authService, heartWatchService } from '../api';
 import { history, util, appSettings, appContext } from '../../util';
 import Staff from '../../models/staff';
+import AuthHelper from '../authHelper'
 
 /**
  * 授权Action工厂实例
@@ -44,12 +45,13 @@ function login(userName, userPassword, appKey) {
         console.log(Data);
         if (RetCode == 1) {
             let staff = new Staff();
+            Data.StaffState=AuthHelper.getStaffState(Data.StaffState);
             Object.assign(staff, Data);
             appContext.currentStaff = staff;
             appSettings.appKey = appKey;
             appSettings.save();
             heartWatchService.start(staff.StaffId, staff.Token, ip, appKey, (reconnectCount) => {
-                dispatch({ type: authStates.LOGIN_LOST_HEART, reconnectCount });
+                dispatch({ type: authStates.CLIENT_LOST_HEART, reconnectCount });
             });
             dispatch({ type: authStates.LOGIN_SUCCESS, staff });//如果登录成功发布用户信息
             history.push('/');//导航到主页
@@ -70,6 +72,7 @@ function logout() {
         const { RetCode, Message } = await authService.logout(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
         if (RetCode != 1) {
             alert(Message);
+            return;
         }
         appContext.clear();//清除缓存
         heartWatchService.stop();
@@ -87,6 +90,12 @@ function changeStaffState(staffState){
       const staff =appContext.currentStaff;
       const ip = util.getIpAddress();
       const { RetCode, Message } = await authService.changeStaffState(staffState,staff.StaffId,staff.Token,ip,appContext.appKeys[0]);
+      if(RetCode!=1){
+          alert(Message);
+      }
+      else{
+         dispatch({type:authStates.});
+      }
     }
 }
 

@@ -32,7 +32,7 @@ export const authReducer = (state = initState, action) => {
         error: null,
       }
 
-    case authStates.LOGIN_LOST_HEART:
+    case authStates.CLIENT_LOST_HEART:
       return {
         reconnectCount: action.reconnectCount,
       }

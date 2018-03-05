@@ -16,7 +16,10 @@ export const authStates={
 
     LOGIN_CLEAR_ERROR:'LOGIN_CLEAR_ERROR', //清空登录错误信息
 
-    LOGIN_LOST_HEART:'LOGIN_LOST_HEART', //心跳丢失
+    CLIENT_LOST_HEART:'LOGIN_LOST_HEART', //心跳丢失
+
+
+    
 
     
 }
