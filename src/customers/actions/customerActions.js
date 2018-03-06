@@ -42,14 +42,15 @@ function fetchCustomerList() {
  */
 function fetchStaffList() {
     return async dispatch => {
-        const ip = util.getIpAddress();
-        const staff = appContext.currentStaff;
-        const { RetCode, Message, Data } = await customerService.getStaffList(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
+       const {staffId,token,ip,appKey} =appContext.getStaffParams();
+       const { RetCode, Message, Data } = await customerService.getStaffList(staffId, token, ip, appKey);
         if (RetCode == 1) {
             dispatch({ type: constants.Get_STAFF_LIST_SUCCESS, staffs: Data });
         }
     }
 }
+
+
 
 function sortCustomerList(sortColumn,sortOrder=1 ){
     return {type:constants.SORT_CUSTOMERS, sortDescriptor:{ column :sortColumn,order:sortOrder}};

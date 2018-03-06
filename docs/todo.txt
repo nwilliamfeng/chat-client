@@ -1,4 +1,4 @@
-1. 客服状态变更ui修改，将2级菜单改成1级；
+1. 客服状态变更ui修改，将2级菜单改成1级；--处理
 2. nginx.config 配置？
  location /webimservice_test/ {
 			 proxy_redirect             off; 
@@ -13,7 +13,8 @@
 
 3. 刷新页面？heartwatchservice启用 
 4. 获取客户列表传参selfchatting 通过appsetting配置获取
-5. 获取本机IP方法实现
+5. 获取本机IP方法实现 
 6. 客户、客服列表方法 onBeforeContextMenu={()=>this.onBeforeContextMenu(item.CustomerId)} ，需要优化，参考书中的性能优化 --处理
-7. customerlist 的contextmenu 重构，参考： https://github.com/vkbansal/react-contextmenu/blob/master/examples/Customization.js
-8. stafflist 的 li的contextmenu 在外侧点无法打开，参考customer table的td div？
+7. customerlist 的contextmenu 重构，参考： https://github.com/vkbansal/react-contextmenu/blob/master/examples/Customization.js --放弃，不支持双击
+8. stafflist 的 li的contextmenu 在外侧点无法打开，参考customer table的td div  --处理
+9. stafflist和customerlist 每次从服务器获取数据后都要执行render，在shouldComponentUpdate方法中需要优化，比较集合

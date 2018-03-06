@@ -1,4 +1,5 @@
-import { staffStateValues } from '../auth/constants'
+import { staffStateValues } from '../auth/constants';
+import {netUtil as util} from './net';
 
 class AppContext {
 
@@ -20,13 +21,24 @@ class AppContext {
             return [];
         }
         else {
-            console.log(staff);
             return staff.AppKeys.split(',');
         }
     }
 
     get currentStaff() {
          return this._staff;
+    }
+
+    /** 
+     * 返回客服的服务传递参数
+    */
+    getStaffParams(){
+        return {   
+            staffId: this.currentStaff.StaffId,
+            token :this.currentStaff.Token,
+            ip : util.getIpAddress(),
+            appKey:this.appKeys[0],    
+      }
     }
 
 

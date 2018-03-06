@@ -12,17 +12,17 @@ export const authActions = {
     /**
      * 登录Action
      */
-    login,  
+    login,
 
     /**
      * 退出Action
      */
-    logout,  
+    logout,
 
     /**
      * 清空错误信息Action
      */
-    clearError,  
+    clearError,
 
     /**
      * 更改客服状态Action
@@ -41,11 +41,9 @@ function login(userName, userPassword, appKey) {
         dispatch({ type: constants.LOGIN_REQUEST }); //发布正在登录
         const ip = util.getIpAddress();
         const { RetCode, Message, Data } = await authService.login(userName, userPassword, ip, appKey, 1);
-        console.log(RetCode);
-        console.log(Data);
         if (RetCode == 1) {
             let staff = new Staff();
-            Data.StaffState=AuthHelper.getStaffState(Data.StaffState);
+            Data.StaffState = AuthHelper.getStaffState(Data.StaffState);
             Object.assign(staff, Data);
             appContext.currentStaff = staff;
             appSettings.appKey = appKey;
@@ -67,12 +65,11 @@ function login(userName, userPassword, appKey) {
  */
 function logout() {
     return async dispatch => {
-        const staff = appContext.currentStaff;
-        const ip = util.getIpAddress();
-        const { RetCode, Message } = await authService.logout(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
+        const { staffId, token, ip, appKey } = appContext.getStaffParams();
+        const { RetCode, Message } = await authService.logout(staffId, token, ip, appKey);
         if (RetCode != 1) {
             alert(Message);
-        
+
         }
         appContext.clear();//清除缓存
         heartWatchService.stop();
@@ -85,18 +82,17 @@ function logout() {
  * 更改客服状态
  * @param {number} staffState 
  */
-function changeStaffState(staffState){
-    return async dispatch=>{
-      const staff =appContext.currentStaff;
-      const ip = util.getIpAddress();
-      const { RetCode, Message } = await authService.changeStaffState(staffState,staff.StaffId,staff.Token,ip,appContext.appKeys[0]);
-      if(RetCode!=1){
-          alert(Message);
-      }
-      else{
-          staff.StaffState= staffState;
-         dispatch({type:constants.LOGIN_CHANGE_STATE,staff});
-      }
+function changeStaffState(staffState) {
+    return async dispatch => {
+        const { staffId, token, ip, appKey } = appContext.getStaffParams();
+        const { RetCode, Message } = await authService.changeStaffState(staffState, staffId, token, ip, appKey);
+        if (RetCode != 1) {
+            alert(Message);
+        }
+        else {
+            appContext.currentStaff.StaffState = staffState;
+            dispatch({ type: constants.LOGIN_CHANGE_STATE, staff: appContext.currentStaff });
+        }
     }
 }
 
@@ -108,7 +104,7 @@ function clearError() {
 }
 
 
-  
+
 /**
  * 获取登录状态
  */
