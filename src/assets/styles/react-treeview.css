@@ -17,13 +17,16 @@
   }
   
   .tree-view_arrow {
-    cursor: pointer;
+    cursor: default;
     margin-right: 6px;
     display: inline-block;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    font-size:20px;
+    /* margin-top: 15px;   这个可以调整节点的间隔 */
+    padding-top: 3px;
   }
   
   .tree-view_arrow:after {
@@ -35,5 +38,16 @@
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
+    transform: rotate(-90deg);  
+    padding-bottom: 8px;  
+  }
+
+  .node{
+      cursor: default;
+      
+  }
+
+  .info{
+    cursor: default;
+    margin-left: 8px;
   }

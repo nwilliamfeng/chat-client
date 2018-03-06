@@ -5,31 +5,52 @@ import { configurationActions as actions } from '../actions';
 import TreeView from 'react-treeview';
 require('../../assets/styles/react-treeview.css');
 
+ 
+
 const dataSource = [
-    ['Apple', 'Orange'],
-    ['Facebook', 'Google'],
-    ['Celery', 'Cheeseburger'],
-];
+    {
+      type: 'Employees',
+      collapsed: false,
+      people: [
+        {name: 'Paul Gordon', age: 29, sex: 'male', role: 'coder', collapsed: false},
+        {name: 'Sarah Lee', age: 27, sex: 'female', role: 'ocamler', collapsed: false},
+      ],
+    },
+    {
+      type: 'CEO',
+      collapsed: true,
+      people: [
+        {name: 'Drew Anderson', age: 39, sex: 'male', role: 'boss', collapsed: false},
+      ],
+    },
+     
+    {
+      type: 'CEO2',
+      collapsed: false,
+      people: [
+        {name: 'Drew Anderson2', age: 23, sex: 'male', role: 'boss2', collapsed: false},
+      ],
+    },
+  ];
 
 
 class CommonPhraseTreeView extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state = {
+            collapsedBookkeeping: dataSource.map(() => false)
+        };
+        
+        
     }
 
     componentDidMount() {
         console.log("CommonPhraseTreeView componetDidMount");
 
         const { dispatch } = this.props;
-        dispatch(actions.fetchCommonPhrase());
-        this.state = {
-            collapsedBookkeeping: dataSource.map(() => false)
-        };
-        this.handleClick = this.handleClick.bind(this);
-        this.collapseAll = this.collapseAll.bind(this);
-
+       // dispatch(actions.fetchCommonPhrase());
+       
     }
 
 
@@ -38,12 +59,7 @@ class CommonPhraseTreeView extends Component {
     //     return this.props.staffs!=  nextProps.staffs  ;
     // }
 
-    handleClick(i) {
-        let [...collapsedBookkeeping] = this.state.collapsedBookkeeping;
-        collapsedBookkeeping[i] = !collapsedBookkeeping[i];
-        this.setState({ collapsedBookkeeping: collapsedBookkeeping });
-    }
-
+    
     collapseAll() {
         this.setState({
             collapsedBookkeeping: this.state.collapsedBookkeeping.map(() => true),
@@ -53,31 +69,31 @@ class CommonPhraseTreeView extends Component {
 
 
     render() {
-        const { staffs } = this.props;
-
-        return (
-            <div>
-                <button onClick={this.collapseAll}>Collapse all</button>
+        
+            return (
+              <div>
                 {dataSource.map((node, i) => {
-                    // Let's make it so that the tree also toggles when we click the
-                    // label. Controlled components make this effortless.
-                    const label =
-                        <span className="node" onClick={this.handleClick.bind(null, i)}>
-                            Type {i}
-                        </span>;
-                    return (
-                        <TreeView
-                            key={i}
-                            nodeLabel={label}
-                            collapsed={collapsedBookkeeping[i]}
-                            onClick={this.handleClick.bind(null, i)}>
-                            {node.map(entry => <div className="info" key={entry}>{entry}</div>)}
-                        </TreeView>
-                    );
+                  const type = node.type;
+                  const label = <span className="node">{type}</span>;
+                  return (
+                    <TreeView key={type + '|' + i} nodeLabel={label} defaultCollapsed={node.collapsed}>
+                      {node.people.map(person => {
+                        const label2 = <span className="node">{person.name}</span>;
+                        return (
+                          <TreeView nodeLabel={label2} key={person.name} defaultCollapsed={person.collapsed}>
+                            <div className="info">age: {person.age}</div>
+                            <div className="info">sex: {person.sex}</div>
+                            <div className="info">role: {person.role}</div>
+                          </TreeView>
+                        );
+                      })}
+                    </TreeView>
+                  );
                 })}
-            </div>
-        );
-    }
+              </div>
+            );
+          }
+    
 }
 
 
