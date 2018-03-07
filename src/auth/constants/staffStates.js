@@ -9,12 +9,18 @@ export const staffStates={
 
     STAFF_TRANSFER:'STAFF_TRANSFER', //转接
 
+    STAFF_OFFLINE:'STAFF_OFFLINE', //离线
 }
 
 /** 
  * 客服状态对应的整型值
  */
 export const staffStateValues={
+
+    /**
+     * 离线状态
+     */
+    OFFLINE:0, 
 
     ONLINE:1,
 

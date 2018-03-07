@@ -1,34 +1,38 @@
-import { constants } from '../constants';
+import { constants,loginStates } from '../constants';
+ 
 
 
-const initState = { loggingIn: false, user: null, error: null };
+const initState = { loginState:loginStates.NONE, user: null, error: null };
 
 export const authReducer = (state = initState, action) => {
   switch (action.type) {
 
     case constants.LOGIN_SUCCESS:
       return {
-        loggedIn: true,
+        loginState:loginStates.LOGGED_IN,
         user: action.staff,
       };
 
     case constants.LOGIN_REQUEST:
       return {
-        loggingIn: true,
+        loginState:loginStates.LOGGING_IN,
       }
 
 
     case constants.LOGOUT: //如果是退出，则传空状态
-      return {}
+      return {
+        loginState:loginStates.LOGGED_OUT
+      }
 
     case constants.LOGIN_FAIL: //如果登录失败，返回消息
       return {
-        loggingIn: false,
+        loginState: loginStates.NONE,
         error: action.error,
       }
 
     case constants.LOGIN_CLEAR_ERROR:
       return {
+        loginState: loginStates.NONE,
         error: null,
       }
 

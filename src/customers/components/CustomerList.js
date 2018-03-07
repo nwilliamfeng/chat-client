@@ -33,6 +33,7 @@ class CustomerList extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleColumnHeaderClick = this.handleColumnHeaderClick.bind(this);
         this.getSort = this.getSort.bind(this);
+         
     }
 
     componentDidMount() {
@@ -40,6 +41,10 @@ class CustomerList extends Component {
             const { dispatch } = this.props;
             dispatch(customerActions.fetchCustomerList());
         }
+    }
+
+    componentWillUnmount(){
+        //todo close query customerlist
     }
 
 

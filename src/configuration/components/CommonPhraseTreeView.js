@@ -6,6 +6,7 @@ import TreeView from 'react-treeview';
 require('../../assets/styles/react-treeview.css');
 
  
+ //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
 
 const dataSource = [
     {
@@ -38,13 +39,11 @@ class CommonPhraseTreeView extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            collapsedBookkeeping: dataSource.map(() => false)
-        };
         
         
     }
 
+     
     componentDidMount() {
         console.log("CommonPhraseTreeView componetDidMount");
 
@@ -69,7 +68,7 @@ class CommonPhraseTreeView extends Component {
 
 
     render() {
-        
+         //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
             return (
               <div>
                 {dataSource.map((node, i) => {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { authActions } from '../actions';
 import Modal from 'react-modal';
 import { appSettings } from '../../util';
+import { loginStates } from '../constants';
 
 
 class LoginPage extends Component {
@@ -41,19 +42,10 @@ class LoginPage extends Component {
         dispatch(authActions.clearError());
     }
 
-
-    componentDidUpdate() {
-        // const {error} =this.props;
-        // const {userPassword} =this.state;
-        // if(error!=null && error!='' && userPassword!=''){
-        //     this.setState({userPassword:''});
-        // }
-
-    }
-
-
     render() {
         const { loggingIn, error } = this.props; //传入的状态值
+       
+        const isErrorAppkey =error!=null && error.includes('appKey')???
         const { userName, userPassword, appKey, oldAppKey, submitted } = this.state;//自己持有的状态值
 
         return (
@@ -126,10 +118,9 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
 
-   // return state.auth; //这里仅获取跟auth有关的数据，也就是authReducer
-    const { loggingIn,   error } = state.auth;
+    const { loginState,error } = state.auth;
     return {
-        loggingIn: loggingIn,
+        loggingIn:   loginState==loginStates.LOGGING_IN,
         error: error,
 
     };
