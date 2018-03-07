@@ -8,7 +8,7 @@ import { constants } from '../constants';
 export const configurationReducer = (state = {}, action) => {
   switch (action.type) {
 
-    case constants.Get_CUSTOMER_LIST_SUCCESS:
+    case constants.GET_COMMON_PHRASE_SUCCESS:
       return {
         ...state,
         commonPhrase: action.commonPhrase,

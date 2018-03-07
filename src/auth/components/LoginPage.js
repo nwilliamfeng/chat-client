@@ -45,9 +45,8 @@ class LoginPage extends Component {
     render() {
         const { loggingIn, error } = this.props; //传入的状态值
        
-        const isErrorAppkey =error!=null && error.includes('appKey')???
+        const isErrorAppkey =error? error.includes('appKey'):false;
         const { userName, userPassword, appKey, oldAppKey, submitted } = this.state;//自己持有的状态值
-
         return (
             <div >
                 <div className='jumbotron row'>
@@ -84,12 +83,13 @@ class LoginPage extends Component {
                                         <div className="help-block">请输入密码</div>
                                     }
                                 </div>
-                                {!oldAppKey && <div className={'form-group' + (submitted && !appKey ? ' has-error' : '')}>
+                                {(isErrorAppkey||!oldAppKey) && <div className={'form-group' + (submitted && !appKey ? ' has-error' : '')}>
                                     <label htmlFor="appKey">AppKey</label>
                                     <input type="text" className="form-control" name="appKey" value={appKey} onChange={this.handleInputChange} />
-                                    {submitted && !appKey &&
+                                    {submitted && !appKey  &&
                                         <div className="help-block">请输入AppKey</div>
                                     }
+                               
                                 </div>
                                 }
                                 <div className="form-group">
