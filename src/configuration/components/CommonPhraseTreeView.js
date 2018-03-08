@@ -3,175 +3,162 @@ import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { configurationActions as actions } from '../actions';
 import TreeView from 'react-treeview';
+import ReactTooltip from 'react-tooltip';
 require('../../assets/styles/react-treeview.css');
 
+const unSelectNodeStyle={
+    color:'black',
+    backGround:'trasnparent',
+}
 
-const dataSource2 = [
-  {
-    type: 'Employees',
-    collapsed: false,
-    people: [
-      { name: 'Paul Gordon', age: 29, sex: 'male', role: 'coder', collapsed: false },
-      { name: 'Sarah Lee', age: 27, sex: 'female', role: 'ocamler', collapsed: false },
-    ],
-  },
-  {
-    type: 'CEO',
-    collapsed: true,
-    people: [
-      { name: 'Drew Anderson', age: 39, sex: 'male', role: 'boss', collapsed: false },
-    ],
-  },
+const selectNodeStyle={
+    color:'white',
+    background:'#398dee',
+}
 
-  {
-    type: 'CEO2',
-    collapsed: false,
-    people: [
-      { name: 'Drew Anderson2', age: 23, sex: 'male', role: 'boss2', collapsed: false },
-    ],
-  },
-];
-
-
+/** 
+ * 常用语组件 
+ */
 class CommonPhraseTreeView extends Component {
 
-  constructor(props) {
-    super(props);
-
-
-  }
-
-  //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
-
-  convertToNode(commonPhrase) {
-    let result = [];
-    if (commonPhrase == null) {
-      return result;
+    constructor(props) {
+        super(props);
+        this.onNodeClick=this.onNodeClick.bind(this);
     }
-    let categoryNames = [];
-    commonPhrase.forEach(x => {
-      if (!categoryNames.includes(x.Category)) {
-        categoryNames.push(x.Category);
-      }
-    });
 
-
-    categoryNames.forEach(x => {
-      const category = {
-        type: x,
-        collapsed: false,
-        smallCategories: [],
-      }
-      commonPhrase.forEach(y => {
-        if (y.Category == x) {
-          let exist = category.smallCategories.find(item => item.smallCategoryId == y.SmallCategoryId);
-          if (exist == null) {
-            category.smallCategories.push(
-              {
-                smallCategoryId: y.SmallCategoryId,
-                smallCategoryName: y.SmallCategoryName,
-                nodes: [{ title: y.Title, content: y.Content }],
-              }
-            );
-          }
-          else {
-            exist.nodes.push({ title: y.Title, content: y.Content });
-          }
+    getNodeStyle(node){
+        const {selectedCommonPhraseNode} =this.props;
+        if(selectedCommonPhraseNode==null){
+            return unSelectNodeStyle;
         }
-      });
-      result.push(category);
-    })
-    return result;
-  }
+        if(node.key==selectedCommonPhraseNode.key && node.type== selectedCommonPhraseNode.type){
+            return selectNodeStyle;
+        }
+        return unSelectNodeStyle;
+
+    }
+
+    convertToNode(commonPhrase) {
+        let result = [];
+        if (commonPhrase == null) {
+            return result;
+        }
+        let categoryNames = [];
+        commonPhrase.forEach(x => {
+            if (!categoryNames.includes(x.Category)) {
+                categoryNames.push(x.Category);
+            }
+        });
 
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(actions.fetchCommonPhrase());
-
-  }
-
-
-
-  // shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //     return this.props.staffs!=  nextProps.staffs  ;
-  // }
-
-
-  collapseAll() {
-    this.setState({
-      collapsedBookkeeping: this.state.collapsedBookkeeping.map(() => true),
-    });
-  }
-
-
-
-  // render() {
-  //   //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
-  //   const { commonPhrase } = this.props;
-  //   return (
-  //     <div>
-  //       {dataSource.map((node, i) => {
-  //         const type = node.type;
-  //         const label = <span className="node">{type}</span>;
-  //         return (
-  //           <TreeView key={type + '|' + i} nodeLabel={label} defaultCollapsed={node.collapsed}>
-  //             {node.people.map(person => {
-  //               const label2 = <span className="node">{person.name}</span>;
-  //               return (
-  //                 <TreeView nodeLabel={label2} key={person.name} defaultCollapsed={person.collapsed}>
-  //                   <div className="info">age: {person.age}</div>
-  //                   <div className="info">sex: {person.sex}</div>
-  //                   <div className="info">role: {person.role}</div>
-  //                 </TreeView>
-  //               );
-  //             })}
-  //           </TreeView>
-  //         );
-  //       })}
-  //     </div>
-  //   );
-  // }
-
-  render() {
-    //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
-    const { commonPhrase } = this.props;
-    const dataSource = this.convertToNode(commonPhrase);
-    return (
-      <div>
-        {dataSource.map((node, i) => {
-          const type = node.type;
-          const label = <span className="node">{type}</span>;
-          return (
-            <TreeView key={type + '|' + i} nodeLabel={label} defaultCollapsed={node.collapsed}>
-              {node.smallCategories.map(sc => {
-                const label2 = <span className="node">{sc.smallCategoryName}</span>;
-                return (
-                  <TreeView nodeLabel={label2} key={sc.smallCategoryName} defaultCollapsed={sc.collapsed}>
-                    {
-                      
-                      sc.nodes.map(x => (
-                        <div className="info" key={x.content}>{x.title}</div>
-                      ))
+        categoryNames.forEach(x => {
+            const category = {
+                type: x,
+                collapsed: false,
+                smallCategories: [],
+            }
+            commonPhrase.forEach(y => {
+                if (y.Category == x) {
+                    let exist = category.smallCategories.find(item => item.smallCategoryId == y.SmallCategoryId);
+                    if (exist == null) {
+                        category.smallCategories.push(
+                            {
+                                smallCategoryId: y.SmallCategoryId,
+                                smallCategoryName: y.SmallCategoryName,
+                                nodes: [{ title: y.Title, content: y.Content }],
+                            }
+                        );
                     }
+                    else {
+                        exist.nodes.push({ title: y.Title, content: y.Content });
+                    }
+                }
+            });
+            result.push(category);
+        })
+        return result;
+    }
 
 
-                  </TreeView>
-                );
-              })}
-            </TreeView>
-          );
-        })}
-      </div>
-    );
-  }
+    componentDidMount() {
+        const { dispatch } = this.props;
+        dispatch(actions.fetchCommonPhrase());
+
+    }
+
+
+
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     return this.props.staffs!=  nextProps.staffs  ;
+    // }
+
+
+    collapseAll() {
+        this.setState({
+            collapsedBookkeeping: this.state.collapsedBookkeeping.map(() => true),
+        });
+    }
+
+    onNodeClick(e){
+        const {key,type}=e._targetInst ; 
+        console.log(key+type);
+        const { dispatch } = this.props;
+        dispatch(actions.selectCommonPhraseNode({key,type}));
+
+    }
+
+    onSendCommonPhrase(e ) {
+       const cp=e._targetInst.key ; 
+       //to do-- 
+
+    }
+
+    
+
+    render() {
+        //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
+        const { commonPhrase } = this.props;
+        const dataSource = this.convertToNode(commonPhrase);
+        return (
+            <div>
+                {dataSource.map((node, i) => {
+                    const type = node.type;
+                    const label = <span className="node" key={type} onClick={this.onNodeClick} style={this.getNodeStyle({key:type,type:'span'})}><i className="fa fa-folder-o"></i>{type}</span>;
+                    return (
+                        <TreeView key={type} nodeLabel={label} defaultCollapsed={node.collapsed}>
+                            {node.smallCategories.map(sc => {
+                                const label2 = 
+                                <span className="node"  key={sc.smallCategoryName} onClick={this.onNodeClick} style={this.getNodeStyle({key:sc.smallCategoryName,type:'span'})} >
+                                {sc.smallCategoryName}
+                                </span>;
+                                return (
+                                    <TreeView nodeLabel={label2} key={sc.smallCategoryName} defaultCollapsed={sc.collapsed}>
+                                        {
+                                            sc.nodes.map(x => (
+                                                <div className="info" key={x.content} data-tip={x.content} data-place='right'
+                                                 style={this.getNodeStyle({key:x.content,type:'div'})}
+                                                 onClick={this.onNodeClick} onDoubleClick={this.onSendCommonPhrase} >
+                                                    {x.title}
+                                                    <ReactTooltip/>
+                                                </div>
+                                            ))
+                                        }
+                                    </TreeView>
+                                );
+                            })}
+                        </TreeView>
+                    );
+                })}
+            </div>
+        );
+    }
 
 }
 
 
 function mapStateToProps(state) {
-  const { commonPhrase } = state.configuration;
-  return { commonPhrase };
+    const { commonPhrase ,selectedCommonPhraseNode} = state.configuration;
+    return { commonPhrase,selectedCommonPhraseNode };
 }
 
 
