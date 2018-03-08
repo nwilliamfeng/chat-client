@@ -36,12 +36,12 @@ function fetchCommonPhrase() {
 
 /**
  * 选中节点
- * @param {*} node 
+ * @param {string} key 
  */
-function selectCommonPhraseNode(node){
+function selectCommonPhraseNode(key){
     return {
         type:constants.SELECT_COMMON_PHRASE_NODE,
-        selectedCommonPhraseNode:node,
+        selectedCommonPhraseNodeKey:key,
     };
 }
 

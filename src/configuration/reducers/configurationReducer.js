@@ -17,7 +17,7 @@ export const configurationReducer = (state = {}, action) => {
     case constants.SELECT_COMMON_PHRASE_NODE:
     return {
       ...state,
-      selectedCommonPhraseNode:action.selectedCommonPhraseNode,
+      selectedCommonPhraseNodeKey:action.selectedCommonPhraseNodeKey,
     }
 
     default:
