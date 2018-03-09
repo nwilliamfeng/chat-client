@@ -4,24 +4,17 @@ import { appContext } from '../../util';
 import { configurationActions as actions } from '../actions';
 import TreeView from 'react-treeview';
 import ReactTooltip from 'react-tooltip';
+import { CategoryNode, LeafNode } from './TreeViewNode.js'
 require('../../assets/styles/react-treeview.css');
 
-const unSelectNodeStyle = {
+export const unSelectNodeStyle = {
     color: 'black',
     backGround: 'trasnparent',
 }
 
-const selectNodeStyle = {
+export const selectNodeStyle = {
     color: 'white',
     background: '#398dee',
-}
-
-const iconStyle = {
-    marginRight: 3,
-}
-const iconStyle2 = {
-    marginRight: 3,
-    marginLeft: 7,
 }
 
 
@@ -32,21 +25,20 @@ class CommonPhraseTreeView extends Component {
 
     constructor(props) {
         super(props);
-        this.state={selectNodeKey:null,collapsed:true};
+        this.state = { selectNodeKey: null, folderNodeDoubleClick: null };
         this.onNodeClick = this.onNodeClick.bind(this);
-        this.onNodeDoubleClick =this.onNodeDoubleClick.bind(this);
+        this.getNodeStyle = this.getNodeStyle.bind(this);
     }
 
     getNodeStyle(key) {
-        const { selectedCommonPhraseNodeKey } = this.props;
-        if (selectedCommonPhraseNodeKey == null) {
+        const { selectNodeKey } = this.state;
+        if (selectNodeKey == null) {
             return unSelectNodeStyle;
         }
-        if (key == selectedCommonPhraseNodeKey) {
+        if (key == selectNodeKey) {
             return selectNodeStyle;
         }
         return unSelectNodeStyle;
-
     }
 
     convertToNode(commonPhrase) {
@@ -94,11 +86,6 @@ class CommonPhraseTreeView extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(actions.fetchCommonPhrase());
-
-    }
-
-    getContentKey(key) {
-        return 'content_' + key;
     }
 
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -106,81 +93,50 @@ class CommonPhraseTreeView extends Component {
     // }
 
 
-    collapseAll() {
-        this.setState({
-            collapsedBookkeeping: this.state.collapsedBookkeeping.map(() => true),
-        });
+    /**
+     * 节点选中
+     */
+    onNodeClick(key) {
+        this.setState({ selectNodeKey: key });
+        this.forceUpdate(); //强制render
     }
 
-    onNodeClick(e) {
-        const { key } = e._targetInst;
-        console.log(key);
-        const { dispatch } = this.props;
-        dispatch(actions.selectCommonPhraseNode(key));
-
+    /**
+     * 发送常用语
+     * @param {*} content 
+     */
+    onSendCommonPhrase(content) {
+        alert(content);
     }
 
-    onNodeDoubleClick(e) {
-          const { key } = e._targetInst;
-   ???
-        const {collapsed} =this.state;
-        this.setState({})
- this.forceUpdate();
-    }
-
-    onSendCommonPhrase(e) {
-        const cp = e._targetInst.key;
-        //to do-- 
-        alert(cp);
-
-    }
 
     render() {
-        //":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
+        //样例： ":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
         const { commonPhrase } = this.props;
-        const{selectNodeKey,collapsed} =this.state;
         const dataSource = this.convertToNode(commonPhrase);
+        const { collapsed } = this.state;
         return (
             <div>
                 {dataSource.map((node, i) => {
                     const type = node.type;
                     const categoryKey = 'category_' + type;
-                    const label =
-                        <span>
-                            <i className="fa fa-folder-o" style={iconStyle}></i>
-                            <span className="node" key={categoryKey} onClick={this.onNodeClick} style={this.getNodeStyle(categoryKey)}>
-                                {type}
-                            </span>
-                        </span>;
+                    const label = <CategoryNode nodeKey={categoryKey} title={type} onClick={this.onNodeClick} getStyle={this.getNodeStyle} />
                     return (
-                        <TreeView key={type} nodeLabel={label} defaultCollapsed={node.collapsed}>
+                        <TreeView key={type} nodeLabel={label} defaultCollapsed={false}>
                             {node.smallCategories.map(sc => {
                                 const smallcategoryKey = 'smallcategory_' + sc.smallCategoryName;
                                 const label2 =
-                                    <span>
-                                        <i className="fa fa-folder-o" style={iconStyle}></i>
-                                        <span className="node" key={smallcategoryKey} 
-                                        onDoubleClick={this.onNodeDoubleClick}
-                                        onClick={this.onNodeClick} 
-                                        style={this.getNodeStyle(smallcategoryKey)}>
-                                            {sc.smallCategoryName}
-                                        </span>
-                                    </span>;
+                                    <CategoryNode nodeKey={smallcategoryKey} title={sc.smallCategoryName} onClick={this.onNodeClick} getStyle={this.getNodeStyle} />
                                 return (
-                                    <TreeView nodeLabel={label2} key={sc.smallCategoryName} defaultCollapsed={sc.collapsed}>
+                                    <TreeView nodeLabel={label2} key={sc.smallCategoryName} defaultCollapsed={false}>
                                         {
                                             sc.nodes.map(x => (
-                                                <div key={this.getContentKey(x.content)} data-tip={x.content} data-place='right'>
-                                                    <span>
-                                                        <i className="fa fa-file-text-o" style={iconStyle2}></i>
-                                                        <span className="node" key={this.getContentKey(x.content)}
-                                                            onClick={this.onNodeClick}
-                                                            onDoubleClick={this.onSendCommonPhrase}
-                                                            style={this.getNodeStyle(this.getContentKey(x.content))}>
-                                                            {x.title}
-                                                        </span>
-                                                    </span>
-                                                </div>
+                                                <LeafNode key={x.content}
+                                                    nodeKey={x.content} title={x.title}
+                                                    content={x.content}
+                                                    onClick={this.onNodeClick}
+                                                    onDoubleClick={this.onSendCommonPhrase}
+                                                    getStyle={this.getNodeStyle} />
                                             ))
                                         }
                                     </TreeView>

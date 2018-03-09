@@ -18,3 +18,4 @@
 7. customerlist 的contextmenu 重构，参考： https://github.com/vkbansal/react-contextmenu/blob/master/examples/Customization.js --放弃，不支持双击
 8. stafflist 的 li的contextmenu 在外侧点无法打开，参考customer table的td div  --处理
 9. stafflist和customerlist 每次从服务器获取数据后都要执行render，在shouldComponentUpdate方法中需要优化，比较集合
+10. 常用语树形结构双击文件夹图标不能收缩或展开

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authActions } from '../actions';
+import {staffStateValues} from '../constants/staffStates'
 import AuthHelper from '../authHelper';
 
 /**
@@ -11,7 +12,7 @@ class StaffMenu extends Component {
     constructor(props) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this); //
-        this.changeStaffState =this.handleLogout.bind(this); //添加客服状态
+        this.changeStaffState =this.changeStaffState.bind(this); //添加客服状态
         
     }
 
@@ -20,9 +21,10 @@ class StaffMenu extends Component {
         dispatch(authActions.logout());
     }
 
-    changeStaffState(state){
+    changeStaffState(e){
+        const {key} = e._targetInst;
         const { dispatch } = this.props;
-        dispatch(authActions.changeStaffState(state));
+        dispatch(authActions.changeStaffState(parseInt( key)));
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext){
@@ -31,22 +33,34 @@ class StaffMenu extends Component {
         return result;
     }
 
+    getChangeStateStyle(key){
+        const state =this.props.user?this.props.user.StaffState:0;
+        if(key==state){
+            return {
+                fontWeight:'bold',
+            }
+        }
+        return {
+            fontWeight:'normal',
+        }
+    }
+
     render() {       
             const staffName = this.props.user?this.props.user.StaffName :'';    
-            const state =this.props.user? '('+AuthHelper.getStaffStateString(this.props.user.StaffState)+')':'';  
-           
+            const stateStr =this.props.user? '('+AuthHelper.getStaffStateString(this.props.user.StaffState)+')':'';  
+            
             return (
                 <li className="dropdown" >
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                        <span className="glyphicon glyphicon-user"></span>  {staffName}{state}<b className="caret"></b>
+                        <span className="glyphicon glyphicon-user"></span>  {staffName}{stateStr}<b className="caret"></b>
                     </a>
                     <ul className="dropdown-menu">
                         <li className="menu-item dropdown dropdown-submenu left-submenu">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">更改状态</a>
                             <ul className="dropdown-menu">
-                                <li> <a href="#">在线</a></li>
-                                <li> <a href="#">离开</a></li>
-                                <li> <a href="#">转接</a></li>
+                                <li> <a href="#" style={this.getChangeStateStyle(staffStateValues.ONLINE)} key={staffStateValues.ONLINE} onClick={this.changeStaffState}>在线</a></li>
+                                <li> <a href="#" style={this.getChangeStateStyle(staffStateValues.LEAVE)} key={staffStateValues.LEAVE} onClick={this.changeStaffState}>离开</a></li>
+                                <li> <a href="#" style={this.getChangeStateStyle(staffStateValues.TRANSFER)} key={staffStateValues.TRANSFER} onClick={this.changeStaffState}>转接</a></li>
                             </ul>
                         </li>
                         <li className="divider"></li>
@@ -61,9 +75,9 @@ class StaffMenu extends Component {
 
 
 function mapStateToProps(state) {
-    const { user } = state.auth;
+    const { user  } = state.auth;
     return {
-        user
+        user,      
     };
     //return state.auth;
 }

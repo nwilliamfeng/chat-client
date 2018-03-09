@@ -13,9 +13,7 @@ export const configurationActions = {
      * 获取常用语列表
      */
     fetchCommonPhrase,
-
-    selectCommonPhraseNode,
-
+ 
 }
 
 /**
@@ -34,17 +32,7 @@ function fetchCommonPhrase() {
     }
 }
 
-/**
- * 选中节点
- * @param {string} key 
- */
-function selectCommonPhraseNode(key){
-    return {
-        type:constants.SELECT_COMMON_PHRASE_NODE,
-        selectedCommonPhraseNodeKey:key,
-    };
-}
-
+ 
 //todo -- add客服配置和自动回复action
 
 
