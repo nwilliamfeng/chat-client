@@ -1,4 +1,4 @@
 export  * from './components/HomePage';
-export  * from './components/Navbar';
+export  * from './components/Titlebar';
 export  * from './components/Statusbar';
  

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SplitterLayout from 'react-splitter-layout';
-import { Navbar } from './Navbar';
+import { Titlebar } from './Titlebar';
 import { Statusbar } from './Statusbar';
+import  Navibar  from './Navibar'
 import { CustomerList, StaffList } from '../../customers/components';
 import { CommonPhraseTreeView } from '../../configuration/components';
 
@@ -23,7 +24,7 @@ const leftTitleStyle = {
     fontWeight: 'Bold',
 }
 
-const customerListContianerStyle = {
+const innerContianerStyle = {
     paddingLeft: 5,
     paddingRight: 5,
     paddingBottom: 5,
@@ -77,31 +78,20 @@ class HomePage extends Component {
 
     // }
 
-//     <SplitterLayout primaryIndex={1} secondaryInitialSize={250}>
-//     <div>1st</div>
-//     <SplitterLayout secondaryInitialSize={250}>
-//         <SplitterLayout vertical secondaryInitialSize={250}>
-//             <div>2nd</div>
-//             <SplitterLayout secondaryInitialSize={250}>
-//                 <div>3rd</div>
-//                 <div>4th</div>
-//             </SplitterLayout>
-//         </SplitterLayout>
-//         <div>5th</div>
-//     </SplitterLayout>
-// </SplitterLayout>
-
+ 
 render() {
     return (
         <div>
-            <Navbar />
+            <Titlebar />
             <div style={containerStyle}>
-                <SplitterLayout primaryIndex={1} secondaryInitialSize={300} primaryMinSize={40}  secondaryMinSize={40} >
-                    <div style={{ marginTop: 100 }}>1st</div>
-                    <SplitterLayout  secondaryInitialSize={450}>
-                        <div style={containerStyle}> mainview</div>
+                <SplitterLayout primaryIndex={1} secondaryInitialSize={10} primaryMinSize={88}   secondaryMinSize={5} percentage>
+                    <div style={innerContianerStyle}>
+                    <Navibar/>
+                    </div>
+                    <SplitterLayout  secondaryInitialSize={30} primaryMinSize={50}  secondaryMinSize={10} percentage>
+                        <div style={innerContianerStyle}> mainview</div>
                         <SplitterLayout vertical secondaryInitialSize={50} primaryMinSize={10} secondaryMinSize={10} percentage>
-                            <div style={customerListContianerStyle}>
+                            <div style={innerContianerStyle}>
                                 <p style={leftTitleStyle}>客户列表</p>
                                 <CustomerList />
                             </div>

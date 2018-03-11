@@ -1,0 +1,6 @@
+ .nav-pills-xs>li>a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
