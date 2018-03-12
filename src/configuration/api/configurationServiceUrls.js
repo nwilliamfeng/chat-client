@@ -12,7 +12,7 @@ export const configurationServiceUrls={
    
      getFullUrl:function(url){
        
-       return url;
-      //  return  '/webimservice/'+url;
+       //return url;
+         return  '/staff/'+url;
      }
 }
