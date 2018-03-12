@@ -2,7 +2,12 @@
   "name": "chat-client",
   "version": "0.1.0",
   "private": true,
-   
+  "proxy": {
+    "/staff": {
+      "target": "http://imapitest.eastmoney.com:2021/",
+      "ws": true
+    }
+  },
   "dependencies": {
     "history": "^4.7.2",
     "react": "^16.2.0",
