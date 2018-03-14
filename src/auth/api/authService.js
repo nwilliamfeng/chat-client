@@ -40,7 +40,7 @@ class AuthService {
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
     async login(userName, password, ip, appKey, staffstate = 1) {
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_LOGIN);
+        const url = serviceUrls.URL_LOGIN;
         return await util.fetchWithPost(url, { userName, password, ip, appKey, staffstate });
     }
 
@@ -52,7 +52,7 @@ class AuthService {
      * @param {string} appKey 
      */
     async logout(staffId, token, ip, appKey) {
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_LOGOUT);
+        const url = serviceUrls.URL_LOGOUT;
         return await util.fetchWithPost(url, { staffId, token, ip, appKey });
     }
 
@@ -65,7 +65,7 @@ class AuthService {
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
     async sendStaffHeart(staffId, token, ip, appKey) {
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_HEART);
+        const url = serviceUrls.URL_HEART;
         return await util.fetchWithPost(url, { staffId, token, ip, appKey })
     }
 
@@ -79,7 +79,7 @@ class AuthService {
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
     async changeStaffState(staffState, staffId, token, ip, appKey) {
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_CHANGE_STAFF_STATE);
+        const url = serviceUrls.URL_CHANGE_STAFF_STATE;
         return await util.fetchWithPost(url, { staffState, staffId, token, ip, appKey });
     }
 

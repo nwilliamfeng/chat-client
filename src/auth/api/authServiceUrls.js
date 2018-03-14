@@ -22,12 +22,4 @@ export const authServiceUrls={
       */
      URL_CHANGE_STAFF_STATE: "/staff/ChangeStaffState",
 
-
-     getFullUrl:function(url){
-       
-        return url;
-        // return  '/staff/'+url;
-     }
-
-  
 }

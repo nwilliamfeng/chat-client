@@ -14,8 +14,6 @@ export const constants={
      */
     Get_STAFF_LIST_SUCCESS:'Get_STAFF_LIST_SUCCESS',
 
-    SORT_CUSTOMERS:'SORT_CUSTOMERS',
-
     
 }
 

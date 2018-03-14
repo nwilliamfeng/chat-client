@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SearchBox } from '../../search/components';
+import {ChatList} from '../../chat/components';
 require('../../assets/styles/nav-pill.css');
 
 const containerStyle = {
@@ -36,7 +37,7 @@ export default class Navibar extends Component {
                     <li role="presentation"><a href="#">其他2</a></li>
                 </ul>
                 <div style={containerStyle}>
-                    chat title list
+                   <ChatList/>
                 </div>
             </div>
         );

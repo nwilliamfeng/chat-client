@@ -21,7 +21,7 @@ class ConfigurationService {
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
     async getCommonPhrase(staffId,token,ip,appKey){
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_GET_COMMON_PHRASE);     
+        const url =  serviceUrls.URL_GET_COMMON_PHRASE ;     
         return await util.fetchWithPost(url, { staffId, token, ip, appKey });
     }
     

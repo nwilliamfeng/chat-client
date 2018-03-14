@@ -19,8 +19,7 @@ export const customerActions = {
      */
     fetchStaffList,
 
-    sortCustomerList,
-
+    
 }
 
 /**
@@ -51,10 +50,6 @@ function fetchStaffList() {
 }
 
 
-
-function sortCustomerList(sortColumn,sortOrder=1 ){
-    return {type:constants.SORT_CUSTOMERS, sortDescriptor:{ column :sortColumn,order:sortOrder}};
-}
-
+ 
 
 

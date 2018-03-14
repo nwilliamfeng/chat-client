@@ -12,10 +12,4 @@ export const customerServiceUrls={
       */
      URL_GET_STAFF_LIST:'/staff/GetStaffList',
 
-    
-     getFullUrl:function(url){
-       
-        return url;
-    //   return  '/staff/'+url;
-     }
 }

@@ -47,7 +47,7 @@ class CustomerService {
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
     async getStaffList(staffId, token, ip, appKey) {
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_GET_STAFF_LIST);     
+        const url =  serviceUrls.URL_GET_STAFF_LIST ;     
         return await util.fetchWithPost(url, { staffId, token, ip, appKey });
     }
 

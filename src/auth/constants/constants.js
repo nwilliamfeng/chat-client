@@ -18,7 +18,7 @@ export const constants={
 
     CLIENT_LOST_HEART:'CLIENT_LOST_HEART', //心跳丢失
 
-    LOGIN_CHANGE_STATE:'LOGIN_CHANGE_STATE',
+    LOGIN_CHANGE_STATE:'LOGIN_CHANGE_STATE', //登录状态变更
 
     
 
