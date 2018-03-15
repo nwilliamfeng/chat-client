@@ -84,7 +84,7 @@ render() {
         <div>
             <Titlebar />
             <div style={containerStyle}>
-                <SplitterLayout primaryIndex={1} secondaryInitialSize={10} primaryMinSize={88}   secondaryMinSize={5} percentage>
+                <SplitterLayout primaryIndex={1} secondaryInitialSize={240} primaryMinSize={300}   secondaryMinSize={50} >
                     <div style={innerContianerStyle}>
                     <Navibar/>
                     </div>

@@ -6,10 +6,16 @@ import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 /**
  * 客户聊天服务类
  */
-class CustomerChatService {
+class ChatService {
 
     constructor() {
+        this.chats =[];
+    }
 
+    createChat(customer,otherparm=null){
+        const newChat ={customer,channelId:this.chats.length+1,};
+        this.chats.push(newChat);
+        return newChat;
     }
    
     
@@ -23,4 +29,4 @@ class CustomerChatService {
 /**
  * 聊天服务实例
  */
-export const customerChatService = new CustomerChatService();
+export const chatService = new ChatService();

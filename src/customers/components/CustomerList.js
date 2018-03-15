@@ -28,7 +28,7 @@ class CustomerList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { sortColumn: -1, sortOrder: 0, };
+        this.state = { sortColumn: null, sortOrder: 0, };
         this.handleClick = this.handleClick.bind(this);
         this.handleColumnHeaderClick = this.handleColumnHeaderClick.bind(this);
         this.getSort = this.getSort.bind(this);
@@ -50,17 +50,17 @@ class CustomerList extends Component {
         alert('sdf');
     }
 
-    sortCustomerList(customers ) {
-        const {sortColumn,sortOrder}=this.state;
-       
+    sortCustomerList(customers) {
+        const { sortColumn, sortOrder } = this.state;
+
         if (sortColumn == null || sortOrder == 0) {
             return customers;
         }
         customers.sort((a, b) => {
             const result = sortOrder == 2 ? a[sortColumn] >= b[sortColumn] : a[sortColumn] <= b[sortColumn];
-            return result == true ? -1 :  1;
+            return result == true ? -1 : 1;
         })
-       
+
     }
 
     handleClick(e, data, target) {
@@ -90,7 +90,7 @@ class CustomerList extends Component {
 
     render() {
         const { customers } = this.props;
-        this.sortCustomerList(customers);
+        this.sortCustomerList(customers);//对列表进行排序
         return (
             <div style={divStyle} >
                 <table className="table table-bordered table-hover">
@@ -134,7 +134,7 @@ class CustomerList extends Component {
 function mapStateToProps(state) {
 
     const { customers } = state.customer;
-   
+
     return { customers };
 }
 

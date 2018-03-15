@@ -14,7 +14,9 @@ export const chatActions = {
      */
     openCustomerChat,
 
+    
  
+
 
 }
 
@@ -25,6 +27,8 @@ export const chatActions = {
  */
 function openCustomerChat(customer) {
     return async dispatch => {
+
+        const  chatService.createChat
         dispatch({type:constants.OPEN_CHAT,customer});
         // const ip = util.getIpAddress();
         // const staff = appContext.currentStaff;

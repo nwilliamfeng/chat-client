@@ -9,6 +9,7 @@ import { staffStateValues, loginStates } from '../../auth/constants';
 import { ContextMenu, MenuItem, SubMenu, ContextMenuTrigger } from "react-contextmenu";
 export const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 export const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
+require('../../assets/styles/li.css');
 
 
 const staffAvatarStyle = {
@@ -37,38 +38,38 @@ class StaffList extends Component {
 
     constructor(props) {
         super(props);
-       
+
         this.handleChangeStaffStateClick = this.handleChangeStaffStateClick.bind(this);
-       
+
     }
 
     componentDidMount() {
         console.log("StaffList componetDidMount");
 
-        const {loginState} =this.props;
-        if(loginState!=null && loginState== loginStates.LOGGED_IN){
+        const { loginState } = this.props;
+        if (loginState != null && loginState == loginStates.LOGGED_IN) {
             this.subscribeStaffList();
         }
-        
+
     }
 
-  
 
-    componentWillUnmount(){
-        if(this.subscription!=null){
+
+    componentWillUnmount() {
+        if (this.subscription != null) {
             this.subscription.dispose();
         }
-        
+
     }
 
 
     subscribeStaffList() {
         const source = Rx.Observable
             .interval(3000 /* ms */)
-            .timeInterval() ;
+            .timeInterval();
 
         this.subscription = source.subscribe(
-            ()=>{
+            () => {
                 if (appContext.currentStaff != null) {
                     const { dispatch } = this.props;
                     dispatch(customerActions.fetchStaffList());
@@ -77,25 +78,25 @@ class StaffList extends Component {
                     this.subscription.dispose();
                 }
             },
-             (err)=> {
+            (err) => {
                 console.log('Error: ' + err);
             },
-           ()=> {
+            () => {
                 console.log('Completed');
             });
     }
 
-    componentWillUpdate(){
-       const {loginState} =this.props;
-       if(loginState!=null && loginState== loginStates.LOGGED_OUT){
-        if(this.subscription!=null){
-            this.subscription.dispose();
+    componentWillUpdate() {
+        const { loginState } = this.props;
+        if (loginState != null && loginState == loginStates.LOGGED_OUT) {
+            if (this.subscription != null) {
+                this.subscription.dispose();
+            }
         }
-       }
     }
-   
+
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return this.props.staffs!=  nextProps.staffs  ;
+        return this.props.staffs != nextProps.staffs;
     }
 
     onOpenChat(userId) {
@@ -110,6 +111,7 @@ class StaffList extends Component {
         return {
             color: this.isSelf(staff) ? 'orange' : 'black',
             width: 75,
+            cursor:'default',
         }
     }
 
@@ -173,8 +175,9 @@ class StaffList extends Component {
 
         return (
             <div >
+            
                 {staffs &&
-                    <ul className="list-group">
+                    <ul className="list-group list-group-hover">
                         {staffs.map((item) => (
 
                             <li key={item.StaffId} style={{ padding: 0, }} className='list-group-item'>
@@ -223,8 +226,8 @@ class StaffList extends Component {
 
 function mapStateToProps(state) {
     const { staffs } = state.customer;
-    const {loginState} =state.auth;
-    return { staffs,loginState };
+    const { loginState } = state.auth;
+    return { staffs, loginState };
 }
 
 
