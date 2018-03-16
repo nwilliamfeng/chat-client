@@ -1,58 +1,87 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { appContext } from '../../util';
+import { chatActions } from '../actions';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import {ChatHeader} from './ChatHeader'
+require('../../assets/styles/li.css');
 
+export const CHAT_CONTEXTMENU_ID = 'CHAT_CONTEXTMENU_ID';
+ 
 class ChatList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state={selectedChat:null};//初始化状态
+        this.handleSelectChat =this.handleSelectChat.bind(this);
     }
 
-    render() {
-        const { staffs } = this.props;
+    closeChat(chat){
+        alert(chat.customer);
+    }   
 
+    componentDidMount(){
+        const {dispatch} =this.props;
+        dispatch(chatActions.initChats());
+
+    }
+
+    componentWillUnmount(){
+        this.setState({selectedChat:null});
+        const {dispatch} =this.props;
+        dispatch(chatActions.closeAllChats());
+    }
+
+    handleSelectChat(chat){
+        this.setState((prevState, props) => {
+            const {selectedChat} =prevState;
+            if( selectedChat==null || selectedChat.channelId!=chat.channelId ){
+                return {selectedChat:chat};
+            }          
+        });
+        const {newChat} =this.props;
+        if(newChat!=null){
+            const {dispatch} =this.props;
+            this.props.dispatch(chatActions.endOpenCustomerChat());
+        }
+    }
+
+    isSelectedChat(chat){
+        const {selectedChat} =this.state;
+        return selectedChat!=null && selectedChat.channelId==chat.channelId;        
+    }
+
+
+    render() {
+        const { chats, newChat } = this.props;      
+        if(newChat!=null){
+            this.handleSelectChat(newChat); //如果是新加的会话则选中
+        }
         return (
             <div >
-            
-                {staffs &&
+                {chats &&
                     <ul className="list-group list-group-hover">
-                        {staffs.map((item) => (
-
-                            <li key={item.StaffId} style={{ padding: 0, }} className='list-group-item'>
-                                <ContextMenuTrigger id={this.isSelf(item) ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
-                                    <div style={liStyle}>
-                                        <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
-                                        <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
-                                        <span>{this.fillCustomerCount(item.AssignedCustomerNumber)}</span>
+                        {/* {chats.map((item) => (
+                            <li key={item.channelId} style={liStyle} className='list-group-item'>
+                                <ContextMenuTrigger id={CHAT_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
+                                    <div style={liInnerDivStyle}>
+                                        <i className="fa fa-user-o" style={imgStyle} aria-hidden="true"></i>
+                                        <span>{item.customer.CustomerName}</span>
+                                       
                                     </div>
                                 </ContextMenuTrigger>
                             </li>
+                        ))} */}
+                         {chats.map((item) => (
+                            <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}/>                         
                         ))}
                     </ul>
                 }
 
-                <ContextMenu id={SELF_STAFF_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleChangeStaffStateClick} data={{ newStaffSate: staffStateValues.ONLINE }}>
-                        <span style={this.getStaffStateStyle(staffStateValues.ONLINE)}>在线</span>
-                    </MenuItem>
-                    <MenuItem onClick={this.handleChangeStaffStateClick} data={{ newStaffSate: staffStateValues.LEAVE }}>
-                        <span style={this.getStaffStateStyle(staffStateValues.LEAVE)}>离开</span>
-                    </MenuItem>
-                    <MenuItem onClick={this.handleChangeStaffStateClick} data={{ newStaffSate: staffStateValues.TRANSFER }}>
-                        <span style={this.getStaffStateStyle(staffStateValues.TRANSFER)}>转接</span>
-                    </MenuItem>
-                    <MenuItem divider />
-                    <SubMenu title='自动回复'>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '马上回来' }}>马上回来</MenuItem>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '现在忙' }}>现在忙</MenuItem>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '正在会议中' }}>正在会议中</MenuItem>
-                    </SubMenu>
-                    <MenuItem divider />
-                    <MenuItem onClick={this.handleContextMenuClick}>注销</MenuItem>
-                    <MenuItem onClick={this.handleContextMenuClick}>退出 </MenuItem>
-                </ContextMenu>
-                <ContextMenu id={OTHER_STAFF_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleContextMenuClick}>客服聊天</MenuItem>
+                <ContextMenu id={CHAT_CONTEXTMENU_ID}>
                     <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
+                    <MenuItem divider />
+                    <MenuItem onClick={this.handleContextMenuClick}>关闭</MenuItem>
                 </ContextMenu>
 
             </div>
@@ -61,7 +90,7 @@ class ChatList extends Component {
 }
 
 function mapStateToProps(state) {
-    return state;
+    return state.chat;
 }
 
 

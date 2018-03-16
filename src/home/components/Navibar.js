@@ -10,24 +10,15 @@ const containerStyle = {
     paddingRight: 5,
     paddingBottom: 5,
 }
-
-
+ 
+ 
 export default class Navibar extends Component {
 
     constructor(props) {
         super(props);
-
-
     }
 
-
-
-
-
     render() {
-
-
-
         return (
             <div>
                 <SearchBox />

@@ -3,42 +3,71 @@ import { chatService } from '../api';
 import { appSettings, appContext } from '../../util';
  
 
-
 /**
  * 聊天Action工厂实例
  */
 export const chatActions = {
 
     /**
-     * 打开会话
+     * 开始打开会话
      */
-    openCustomerChat,
+    beginOpenCustomerChat,
 
-    
- 
 
+    /**
+     * 结束打开会话
+     */
+    endOpenCustomerChat,
+
+    /**
+     * 初始化
+     */
+    initChats,
+
+    /**
+     * 关闭所有会话
+     */
+    closeAllChats,
 
 }
 
- 
 
-/**
- * 打开客户会话action
- */
-function openCustomerChat(customer) {
-    return async dispatch => {
+function initChats(){
+   return {
+       type:constants.INIT_CHATS,
+   }
+}
 
-        const  chatService.createChat
-        dispatch({type:constants.OPEN_CHAT,customer});
-        // const ip = util.getIpAddress();
-        // const staff = appContext.currentStaff;
-        // const { RetCode, Message, Data } = await customerService.getCustomerList(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
-        // if (RetCode == 1) {
-        //     dispatch({ type: constants.Get_CUSTOMER_LIST_SUCCESS, customers: Data });
-        // }
+function closeAllChats(){
+    return async dispatch=>{
+        await chatService.closeAllChats();
+        dispatch({type:constants.CLOSE_ALL_CHATS});
     }
 }
 
+
+
+
+
+/**
+ * 开始打开客户会话action
+ */
+function beginOpenCustomerChat(customer) {
+    return async dispatch => {
+        const newChat =await chatService.createChat(customer);
+        dispatch({type:constants.BEGIN_OPEN_CHAT,newChat,chats:chatService.chats});    
+     //   dispatch({type:constants.endOpenCustomerChat,chats:chatService.chats});      
+    }
+}
+
+/**
+ * 结束打开客户会话action
+ */
+function endOpenCustomerChat() {
+    return async dispatch => {
+        dispatch({type:constants.END_OPEN_CHAT,chats:chatService.chats});      
+    }
+}
  
 
  

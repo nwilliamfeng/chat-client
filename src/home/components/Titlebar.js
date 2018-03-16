@@ -7,7 +7,6 @@ class Titlebar extends Component {
 
     constructor(props) {
         super(props);
-
         this.updateDimensions = this.updateDimensions.bind(this);
 
     }

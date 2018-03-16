@@ -44,12 +44,10 @@ const appendTds = (customer) => {
     return cols;
 }
 
-
-
-export const CustomerListItem = ({ customer }) => {
+export const CustomerListItem = ({ customer ,openChat}) => {
 
     const onDoubleClick = () => {
-        alert(customer.Device);
+        openChat(customer);
     }
     return (
         <tr onDoubleClick={onDoubleClick}>

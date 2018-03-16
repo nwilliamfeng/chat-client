@@ -1,12 +1,18 @@
 export const constants={
 
+    INIT_CHATS:'INIT_CHATS',
+
     BEGIN_CHAT: 'BEGIN_CHAT',
 
-    OPEN_CHAT: 'OPEN_CHAT',
+    BEGIN_OPEN_CHAT: 'BEGIN_OPEN_CHAT',
+
+    END_OPEN_CHAT: 'END_OPEN_CHAT',
 
     END_CHAT:'END_CHAT',
 
     CLOSE_CHAT:'CLOSE_CHAT',
+
+    CLOSE_ALL_CHATS:'CLOSE_ALL_CHATS',
 
   
 }

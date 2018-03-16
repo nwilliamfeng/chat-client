@@ -9,15 +9,30 @@ import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 class ChatService {
 
     constructor() {
-        this.chats =[];
+        this._chats =[];
     }
 
-    createChat(customer,otherparm=null){
-        const newChat ={customer,channelId:this.chats.length+1,};
-        this.chats.push(newChat);
+    async createChat(customer,otherparm=null){
+        const newChat ={customer,channelId:this._chats.length+1,};
+        this._chats.push(newChat);
         return newChat;
     }
    
+    /** 
+     * 关闭所有的会话
+     */
+    async closeAllChats(){
+        //todo, 执行关闭chat
+        this._chats=[];
+    }
+
+    /**
+     * 返回所有会话
+     */
+    get chats(){
+        return this._chats;
+    }
+    
     
     // async getStaffList(staffId, token, ip, appKey) {
     //     const url =  serviceUrls.URL_GET_STAFF_LIST ;     

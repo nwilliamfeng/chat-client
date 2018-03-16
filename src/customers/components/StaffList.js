@@ -5,12 +5,11 @@ import { appContext } from '../../util';
 import { customerActions } from '../actions';
 import { authActions } from '../../auth/actions';
 import { staffStateValues, loginStates } from '../../auth/constants';
-
 import { ContextMenu, MenuItem, SubMenu, ContextMenuTrigger } from "react-contextmenu";
-export const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
-export const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 require('../../assets/styles/li.css');
 
+const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
+const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 
 const staffAvatarStyle = {
     marginLeft: 3,
@@ -33,14 +32,11 @@ const liStyle = {
     paddingBottom: 5,
 }
 
-
 class StaffList extends Component {
 
     constructor(props) {
         super(props);
-
         this.handleChangeStaffStateClick = this.handleChangeStaffStateClick.bind(this);
-
     }
 
     componentDidMount() {
@@ -50,24 +46,18 @@ class StaffList extends Component {
         if (loginState != null && loginState == loginStates.LOGGED_IN) {
             this.subscribeStaffList();
         }
-
     }
-
-
 
     componentWillUnmount() {
         if (this.subscription != null) {
             this.subscription.dispose();
         }
-
     }
-
 
     subscribeStaffList() {
         const source = Rx.Observable
             .interval(3000 /* ms */)
             .timeInterval();
-
         this.subscription = source.subscribe(
             () => {
                 if (appContext.currentStaff != null) {
@@ -172,10 +162,8 @@ class StaffList extends Component {
 
     render() {
         const { staffs } = this.props;
-
         return (
-            <div >
-            
+            <div >           
                 {staffs &&
                     <ul className="list-group list-group-hover">
                         {staffs.map((item) => (
@@ -217,7 +205,6 @@ class StaffList extends Component {
                     <MenuItem onClick={this.handleContextMenuClick}>客服聊天</MenuItem>
                     <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
                 </ContextMenu>
-
             </div>
         );
     }

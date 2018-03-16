@@ -31,6 +31,15 @@ const innerContianerStyle = {
     paddingTop: 83, //消除menu和statusbar的高度50+28+5
 }
 
+// const naviBarStyle={
+//     paddingLeft: 5,
+//     paddingRight: 5,
+//     paddingBottom: 5,
+//     paddingTop: 83,
+//     background:'#eee',
+//     height:'100%',
+// }
+
 const staffListContianerStyle = {
     padding: 5,
 

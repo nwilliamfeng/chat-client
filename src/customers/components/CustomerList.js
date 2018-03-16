@@ -5,6 +5,7 @@ import { customerActions } from '../actions';
 import { CustomerListItem } from './CustomerListItem';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import { CustomerColumnHeader } from './CustomerColumnHeader';
+import {chatActions} from '../../chat/actions';
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 //添加横向滚动条
 const divStyle = {
@@ -31,6 +32,7 @@ class CustomerList extends Component {
         this.state = { sortColumn: null, sortOrder: 0, };
         this.handleClick = this.handleClick.bind(this);
         this.handleColumnHeaderClick = this.handleColumnHeaderClick.bind(this);
+        this.handleOpenChat=this.handleOpenChat.bind(this);
         this.getSort = this.getSort.bind(this);
 
     }
@@ -46,13 +48,13 @@ class CustomerList extends Component {
         //todo close query customerlist
     }
 
-    onOpenChat() {
-        alert('sdf');
+    handleOpenChat(customer) {
+        const {dispatch} =this.props;
+        dispatch(chatActions.beginOpenCustomerChat(customer));
     }
 
     sortCustomerList(customers) {
         const { sortColumn, sortOrder } = this.state;
-
         if (sortColumn == null || sortOrder == 0) {
             return customers;
         }
@@ -60,7 +62,6 @@ class CustomerList extends Component {
             const result = sortOrder == 2 ? a[sortColumn] >= b[sortColumn] : a[sortColumn] <= b[sortColumn];
             return result == true ? -1 : 1;
         })
-
     }
 
     handleClick(e, data, target) {
@@ -112,7 +113,7 @@ class CustomerList extends Component {
                         <tbody >
                             {
                                 customers.map((item) => (
-                                    <CustomerListItem props={this.props} key={item.CustomerId} customer={item} />
+                                    <CustomerListItem props={this.props} key={item.CustomerId} customer={item} openChat={this.handleOpenChat}/>
                                 ))
                             }
                         </tbody>
@@ -132,9 +133,7 @@ class CustomerList extends Component {
 
 
 function mapStateToProps(state) {
-
     const { customers } = state.customer;
-
     return { customers };
 }
 
