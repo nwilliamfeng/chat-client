@@ -4,16 +4,18 @@ import { appContext } from '../../util';
 import { chatActions } from '../actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import {ChatHeader} from './ChatHeader'
-require('../../assets/styles/li.css');
+
 
 export const CHAT_CONTEXTMENU_ID = 'CHAT_CONTEXTMENU_ID';
+
+
  
 class ChatList extends Component {
 
     constructor(props) {
         super(props);
         this.state={selectedChat:null};//初始化状态
-        this.handleSelectChat =this.handleSelectChat.bind(this);
+        this.handleSelectChat =this.handleSelectChat.bind(this); 
     }
 
     closeChat(chat){
@@ -24,6 +26,13 @@ class ChatList extends Component {
         const {dispatch} =this.props;
         dispatch(chatActions.initChats());
 
+    }
+
+    componentWillMount(){
+        const {   newChat } = this.props;      
+        if(newChat!=null){
+            this.handleSelectChat(newChat); //如果是新加的会话则选中
+        }
     }
 
     componentWillUnmount(){
@@ -53,27 +62,17 @@ class ChatList extends Component {
 
 
     render() {
-        const { chats, newChat } = this.props;      
-        if(newChat!=null){
-            this.handleSelectChat(newChat); //如果是新加的会话则选中
-        }
+        const { chats, navibarSize } = this.props;      
+        // if(newChat!=null){
+        //     this.handleSelectChat(newChat); //如果是新加的会话则选中
+        // }
         return (
             <div >
                 {chats &&
-                    <ul className="list-group list-group-hover">
-                        {/* {chats.map((item) => (
-                            <li key={item.channelId} style={liStyle} className='list-group-item'>
-                                <ContextMenuTrigger id={CHAT_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
-                                    <div style={liInnerDivStyle}>
-                                        <i className="fa fa-user-o" style={imgStyle} aria-hidden="true"></i>
-                                        <span>{item.customer.CustomerName}</span>
-                                       
-                                    </div>
-                                </ContextMenuTrigger>
-                            </li>
-                        ))} */}
+                    <ul className="list-group list-group-hover">                   
                          {chats.map((item) => (
-                            <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}/>                         
+                            <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)} 
+                             maxWidth={navibarSize}/>                         
                         ))}
                     </ul>
                 }
@@ -90,7 +89,13 @@ class ChatList extends Component {
 }
 
 function mapStateToProps(state) {
-    return state.chat;
+    const {newChat,chats}= state.chat;
+    const {navibarSize} =state.home;
+    return {
+        newChat,
+        chats,
+        navibarSize,
+    }
 }
 
 

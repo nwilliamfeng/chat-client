@@ -56,7 +56,6 @@ function beginOpenCustomerChat(customer) {
     return async dispatch => {
         const newChat =await chatService.createChat(customer);
         dispatch({type:constants.BEGIN_OPEN_CHAT,newChat,chats:chatService.chats});    
-     //   dispatch({type:constants.endOpenCustomerChat,chats:chatService.chats});      
     }
 }
 

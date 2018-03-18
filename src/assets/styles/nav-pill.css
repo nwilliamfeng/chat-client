@@ -4,3 +4,10 @@
   padding-left: 3px;
   padding-right: 3px;
 }
+
+  .btn2{
+  border:0px solid transparent; /* this was 1px earlier */
+  padding: 3px;
+  color:gray,
+}  
+

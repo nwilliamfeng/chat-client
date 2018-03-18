@@ -2,35 +2,84 @@ import React, { PropTypes } from 'react';
 import { util } from '../../util';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_CONTEXTMENU_ID } from './ChatList';
+require('../../assets/styles/li.css');
 
-const imgStyle = {
-    marginLeft: 3,
-    marginRight: 5,
-    fontSize: 15,
-    //color: 'green',
+
+const headerStyle = {
+    display: 'table-cell',
 }
 
-const liStyle={
-    padding:0,
+const headerStyle2 = {
+    fontSize:14,
+    display: 'table-cell',
+    verticalAlign: 'top',
+    cursor:'default',
+}
+
+
+const liStyle = {
+    padding: 0,
     border: 'none',
 }
 
-const getAttributes=(chat)=> {
+const currMsgStyle = (width) => ({
+    fontSize: 12,
+    color: 'gray',
+    width: width ? width-56-65 : 100,
+    marginTop: 5,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+})
+customerStyle?????
+
+const timeStyle = {
+    fontSize: 12,
+    width:50,
+    color: 'gray',
+    textAlign:'right',
+    paddingRight:5,
+} 
+
+const alertStyle={
+    height:16,
+}
+
+const imgStyle = {
+  
+    marginLeft: 5,
+    marginRight: 10,
+    verticalAlign:'center',
+    textAlign:'center',
+    paddingBottom:5,
+    paddingTop:5,
+    paddingLeft:5,
+    paddingRight:5,
+    fontSize: 24,
+    width: 40,
+    height: 40,
+    color: 'white',
+    background: '#21b384',
+}
+
+
+
+const getAttributes = (chat) => {
     return { chatdata: JSON.stringify(chat) };
 }
- 
 
-const getChatStyle =(isSelected)=> ({
-    height: 36,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 7,
-    paddingBottom: 5,   
-    background:isSelected==true? '#eee':'transparent',
+
+const getChatStyle = (isSelected) => ({
+
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 11,
+    paddingBottom:10,
+    background: isSelected == true ? '#eee' : 'transparent',
 })
 
 
-export const ChatHeader = ({ chat, onSelectChat,isSelected }) => {
+export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
 
     const onClick = () => {
         onSelectChat(chat);
@@ -39,8 +88,20 @@ export const ChatHeader = ({ chat, onSelectChat,isSelected }) => {
         <li style={liStyle} className='list-group-item' onClick={onClick}>
             <ContextMenuTrigger id={CHAT_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
                 <div style={getChatStyle(isSelected)}>
-                    <i className="fa fa-user-o" style={imgStyle} aria-hidden="true"></i>
-                    <span>{chat.customer.CustomerName}</span>
+                    <div style={headerStyle}>
+                        <div style={imgStyle}>
+                            <img style={{  height:32,width:32,marginBottom:8,}} src={require('../../assets/imgs/customer.png')}/>
+                        </div>
+                    </div>
+                    <div style={headerStyle2}>
+                        <div> {chat.customer.CustomerName}</div>
+                        <div style={currMsgStyle(maxWidth)}> {'的俺的沙发大幅拉开飞机阿斯顿发福利阿斯顿发送到付款阿斯顿发生发动机发大发'}</div>
+                    </div>
+                    <div style={headerStyle2}>
+                        <div style={timeStyle}> {'18/12/23'}</div>
+                        <div style={alertStyle}></div>
+                    </div>
+                
                 </div>
             </ContextMenuTrigger>
         </li>

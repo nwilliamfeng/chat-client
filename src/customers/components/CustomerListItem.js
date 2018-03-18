@@ -7,6 +7,7 @@ import { CUSTOMER_CONTEXTMENU_ID } from './CustomerList';
 
 const tdStyle = {
     height: 24,
+    cursor:'default',
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 3,

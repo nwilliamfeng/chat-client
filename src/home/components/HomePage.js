@@ -6,6 +6,7 @@ import { Statusbar } from './Statusbar';
 import  Navibar  from './Navibar'
 import { CustomerList, StaffList } from '../../customers/components';
 import { CommonPhraseTreeView } from '../../configuration/components';
+import {homeActions} from '../actions';
 
 
 const containerStyle = {
@@ -31,14 +32,14 @@ const innerContianerStyle = {
     paddingTop: 83, //消除menu和statusbar的高度50+28+5
 }
 
-// const naviBarStyle={
-//     paddingLeft: 5,
-//     paddingRight: 5,
-//     paddingBottom: 5,
-//     paddingTop: 83,
-//     background:'#eee',
-//     height:'100%',
-// }
+const naviBarStyle={
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 5,
+    paddingTop: 83,
+  //  background:'#eee',
+    height:'100%',
+}
 
 const staffListContianerStyle = {
     padding: 5,
@@ -54,7 +55,21 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props);
+    
+        this.onSecondaryPaneSizeChange = this.onSecondaryPaneSizeChange.bind(this);
     }
+
+    componentDidMount(){
+        const {dispatch} =this.props;
+        dispatch(homeActions.notifyNavibarSizeChange(240));
+    }
+
+    onSecondaryPaneSizeChange(secondaryPaneSize) {
+      
+        const {dispatch} =this.props;
+        dispatch(homeActions.notifyNavibarSizeChange(secondaryPaneSize));
+     // console.log(secondaryPaneSize);
+      }
 
     // render() {
     //     return (
@@ -93,8 +108,10 @@ render() {
         <div>
             <Titlebar />
             <div style={containerStyle}>
-                <SplitterLayout primaryIndex={1} secondaryInitialSize={240} primaryMinSize={300}   secondaryMinSize={50} >
-                    <div style={innerContianerStyle}>
+                <SplitterLayout primaryIndex={1} secondaryInitialSize={240} primaryMinSize={900}   
+                secondaryMinSize={50} 
+                onSecondaryPaneSizeChange={this.onSecondaryPaneSizeChange}>
+                    <div style={naviBarStyle}>
                     <Navibar/>
                     </div>
                     <SplitterLayout  secondaryInitialSize={30} primaryMinSize={50}  secondaryMinSize={10} percentage>
@@ -128,7 +145,7 @@ render() {
 
 
 function mapStateToProps(state) {
-    return {};
+    return  state.home ;
 }
 
 
