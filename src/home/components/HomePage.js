@@ -47,8 +47,8 @@ const naviBarStyle = {
     paddingRight: 0,
     paddingBottom: 5,
     paddingTop: 83,
-    //  background:'#eee',
-    
+    //background:'#eee',
+    height:'100%',
 }
 
 const staffListContianerStyle = {

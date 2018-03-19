@@ -58,10 +58,10 @@ const imgStyle = {
     marginRight: 10,
     verticalAlign:'center',
     textAlign:'center',
-    paddingBottom:5,
-    paddingTop:5,
-    paddingLeft:5,
-    paddingRight:5,
+    paddingBottom:2,
+    paddingTop:2,
+    paddingLeft:2,
+    paddingRight:2,
     fontSize: 24,
     width: 40,
     height: 40,
@@ -97,8 +97,11 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
                 <div style={getChatStyle(isSelected)}>
                     <div style={headerStyle}>
                         <div style={imgStyle}>
-                            <img style={{  height:32,width:32,marginBottom:8,}} src={require('../../assets/imgs/customer.png')}/>
+                        
+                            <img style={{  height:34,width:34,marginBottom:4 }} src={require('../../assets/imgs/snail.png')}/>
+                            <div style={{height:14,width:14,borderRadius:60,background:'Red',position:'absolute',marginTop:-48,marginLeft:30,fontSize:8}}>99</div>
                         </div>
+                        
                     </div>
                     <div style={headerStyle2}>
                         <div style={titleStyle(maxWidth)}> {chat.customer.CustomerName}</div>

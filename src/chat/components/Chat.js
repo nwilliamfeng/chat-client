@@ -8,7 +8,7 @@ require('../../assets/styles/react-tabs.css');
 
 
 const outContainerStyle = {
-    paddingTop: 83,
+    paddingTop: 66,
     paddingLeft:3,
     paddingRight:3,
     paddingBottom:10,
@@ -31,7 +31,8 @@ class Chat extends Component {
         return (
 
             <SplitterLayout vertical secondaryInitialSize={150} secondaryMinSize={50} >
-                <div style={outContainerStyle}>                   
+                <div style={outContainerStyle}> 
+                <h3>{'asdfadsf'}</h3>                  
                     <Tabs>
                         <TabList>
                             <Tab>客户对话</Tab>
