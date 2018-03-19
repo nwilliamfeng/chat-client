@@ -11,12 +11,12 @@ const containerStyle = {
     paddingBottom: 0,
 }
 
-const containerStyle2 = {
-    paddingTop: 0,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingBottom: 10,
-}
+// const containerStyle2 = {
+//     paddingTop: 0,
+//     paddingLeft: 5,
+//     paddingRight: 5,
+//     paddingBottom: 10,
+// }
 
 
 export default class Navibar extends Component {
@@ -42,7 +42,7 @@ export default class Navibar extends Component {
                     <button type="button" className="btn btn-default"><i className="fa fa-weixin" aria-hidden="true"></i></button>
                     <button type="button" className="btn btn-default"><i className="fa fa-weixin" aria-hidden="true"></i></button>
                 </div> */}
-                <div  >
+                <div>
                     <ChatList />
                 </div>
             </div>

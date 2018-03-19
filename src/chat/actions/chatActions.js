@@ -29,6 +29,11 @@ export const chatActions = {
      */
     closeAllChats,
 
+    /**
+     * 关闭指定的会话
+     */
+    closeChat,
+
 }
 
 
@@ -45,7 +50,16 @@ function closeAllChats(){
     }
 }
 
-
+/**
+ * 关闭指定的会话
+ * @param {*} chat 
+ */
+function closeChat(chat){
+    return async dispatch=>{
+        await chatService.closeChat(chat);
+        dispatch({type:constants.CLOSE_CHAT,chats:chatService.chats});
+    }
+}
 
 
 

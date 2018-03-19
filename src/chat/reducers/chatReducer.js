@@ -21,8 +21,13 @@ export const chatReducer = (state = {}, action) => {
     case constants.END_OPEN_CHAT:
       return {
         ...state,
-        newChat:null,
-        chats: action.chats,
+        newChat: null,
+        chats: [...action.chats],
+      };
+
+    case constants.CLOSE_CHAT:
+      return {
+        chats: [...action.chats], //注意此处不能直接返回action.chats,
       };
 
     case constants.CLOSE_ALL_CHATS:

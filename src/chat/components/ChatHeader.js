@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { util } from '../../util';
 import { ContextMenuTrigger } from "react-contextmenu";
-import { CHAT_CONTEXTMENU_ID } from './ChatList';
+import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
 require('../../assets/styles/li.css');
 
 
@@ -31,7 +31,14 @@ const currMsgStyle = (width) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
 })
-customerStyle?????
+
+const titleStyle = (width) =>({
+    
+    width: width ? width-56-65 : 100,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+})
 
 const timeStyle = {
     fontSize: 12,
@@ -47,7 +54,7 @@ const alertStyle={
 
 const imgStyle = {
   
-    marginLeft: 5,
+    marginLeft: 3,
     marginRight: 10,
     verticalAlign:'center',
     textAlign:'center',
@@ -86,7 +93,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
     }
     return (
         <li style={liStyle} className='list-group-item' onClick={onClick}>
-            <ContextMenuTrigger id={CHAT_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
+            <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
                 <div style={getChatStyle(isSelected)}>
                     <div style={headerStyle}>
                         <div style={imgStyle}>
@@ -94,7 +101,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
                         </div>
                     </div>
                     <div style={headerStyle2}>
-                        <div> {chat.customer.CustomerName}</div>
+                        <div style={titleStyle(maxWidth)}> {chat.customer.CustomerName}</div>
                         <div style={currMsgStyle(maxWidth)}> {'的俺的沙发大幅拉开飞机阿斯顿发福利阿斯顿发送到付款阿斯顿发生发动机发大发'}</div>
                     </div>
                     <div style={headerStyle2}>

@@ -37,7 +37,7 @@ class HeartWatchService {
                     }
                 }
                 else {
-                    console.log("heart ok!");
+                   // console.log("heart ok!");
                 }
             }, 10 * 1000);
         }

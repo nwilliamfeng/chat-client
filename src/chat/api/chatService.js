@@ -27,6 +27,19 @@ class ChatService {
     }
 
     /**
+     * 关闭指定的会话
+     * @param {*} chat 
+     */
+    async closeChat(chat){
+        const idx =this._chats.findIndex((item)=>{
+            return item.channelId==chat.channelId;
+        });
+        if(idx>-1){
+            this._chats.splice(idx,1);
+        }
+    }
+
+    /**
      * 返回所有会话
      */
     get chats(){
