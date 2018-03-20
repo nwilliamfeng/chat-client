@@ -1,5 +1,5 @@
 import { constants } from '../constants';
- 
+
 
 export const chatReducer = (state = {}, action) => {
   switch (action.type) {
@@ -17,7 +17,7 @@ export const chatReducer = (state = {}, action) => {
     case constants.CLOSE_CHAT:
       return {
         chats: [...action.chats], //注意此处不能直接返回action.chats,
-        selectedChat:action.selectedChat,
+        selectedChat: action.selectedChat,
       };
 
     case constants.CLOSE_ALL_CHATS:
@@ -25,8 +25,15 @@ export const chatReducer = (state = {}, action) => {
 
     case constants.SELECT_CHAT:
       return {
-        chats:[...action.chats],
-        selectedChat:action.selectedChat,
+        chats: [...action.chats],
+        selectedChat: action.selectedChat,
+      }
+
+    case constants.ACTIVE_CHAT_PAGE:
+    console.log(action.selectedChat);
+      return {
+        chats:null,
+        selectedChat: action.selectedChat,
       }
 
     default:

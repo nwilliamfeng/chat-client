@@ -28,7 +28,10 @@ class Chat extends Component {
         alert(chat.customer);
     }
 
-    
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return true;
+      
+    }
 
     // componentWillMount(){
     //     const {selectedChat} =this.props;
@@ -42,22 +45,19 @@ class Chat extends Component {
      * 当前选中的页面
      */
     handleSelectActivePage(index, lastIndex,event){
-        const {selectedChat} =this.props;
-        selectedChat.activePage= index;
-        this.setState({activePage:index});
+        const {dispatch,selectedChat} =this.props;
+        
+        dispatch(chatActions.activeChatPage(selectedChat.channelId,index));
     }
 
     
     render() {
         const { selectedChat } = this.props;
-        // if(selectedChat!=null){
-        //     this.setState({activePage:selectedChat.activePage});
-        // }
         return (
             <SplitterLayout vertical secondaryInitialSize={150} secondaryMinSize={50} >
                 {selectedChat && <div style={outContainerStyle}>
                     <h3>{selectedChat.customer.CustomerName}</h3> 
-                    <Tabs selectedIndex={this.state.activePage} onSelect={this.handleSelectActivePage}>
+                    <Tabs selectedIndex={selectedChat.activePage} onSelect={this.handleSelectActivePage}>
                         <TabList >
                             <Tab>客户对话</Tab>
                             <Tab>客户信息</Tab>
@@ -84,7 +84,8 @@ class Chat extends Component {
 }
 
 function mapStateToProps(state) {
-    return state.chat;
+    const {selectedChat} =state.chat;
+    return {selectedChat};
 }
 
 

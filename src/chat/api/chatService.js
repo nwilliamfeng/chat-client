@@ -42,8 +42,24 @@ class ChatService {
         }
     }
 
+    /**
+     * 返回指定channelid的会话索引号
+     * @param {string} channelId 
+     */
+    getChatIndex(channelId){
+        return this._chats.findIndex((item)=>{
+            return item.channelId===channelId;
+        });
+    }
 
-     
+    /**
+     * 返回指定channelId的会话
+     * @param {string} channelId 
+     */
+    getChat(channelId){
+        const idx =this.getChatIndex(channelId);
+        return idx>-1? this._chats[idx]:null;
+    }
 
     /**
      * 返回所有会话

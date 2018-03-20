@@ -33,6 +33,11 @@ export const chatActions = {
      */
     selectChat,
 
+    /**
+     * 选中页面
+     */
+    activeChatPage,
+
 }
 
 
@@ -77,8 +82,17 @@ function closeChat(chat){
     }
 }
 
-function activeChatPage(page){
+function activeChatPage(channelId,page){
+    const selectedChat =chatService.getChat( channelId);
     
+        selectedChat.activePage=page;
+    
+
+    return {
+        type:constants.ACTIVE_CHAT_PAGE,
+        selectedChat:Object.assign({}, selectedChat),
+      
+    }
 }
 
 

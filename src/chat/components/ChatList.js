@@ -17,8 +17,10 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log('shouldComponentUpdate');
-        return true;
+
+        const {chats} = nextProps;
+      
+        return chats!=null;
     }
 
     handleCloseChat(e, data, target) {
@@ -38,26 +40,7 @@ class ChatList extends Component {
         }
     }
 
-    selectByKey(next = true) {
-        // this.setState((prevState, props) => {
-        //     const { chats } = props;
-        //     if (chats == null || chats.length == 0) {
-        //         return;
-        //     }
-        //     const { selectedChat } = prevState;
-        //     if (selectedChat == null) {
-        //         return { selectedChat: chats[next === true ? 0 : chats.length - 1] };
-        //     }
-        //     let idx = chats.indexOf(selectedChat) + (next === true ? 1 : -1);
-        //     if (idx < 0) {
-        //         idx = chats.length - 1;
-        //     }
-        //     else if (idx >= chats.length) {
-        //         idx = 0;
-        //     }
-        //     return { selectedChat: chats[idx] };
-        // });
-
+    selectByKey(next = true) {     
         const { chats, selectedChat,dispatch } = this.props;
         if (chats == null || chats.length === 0) {
             return;

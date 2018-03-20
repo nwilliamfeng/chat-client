@@ -26,5 +26,7 @@ export const constants = {
      */
     SELECT_CHAT: 'SELECT_CHAT',
 
+    ACTIVE_CHAT_PAGE :'ACTIVE_CHAT_PAGE',
+
 
 }
