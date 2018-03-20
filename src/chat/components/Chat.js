@@ -19,21 +19,45 @@ class Chat extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state={activePage:0};
+        this.handleSelectActivePage =this.handleSelectActivePage.bind(this);
+       
     }
 
     closeChat(chat) {
         alert(chat.customer);
     }
 
+    
+
+    // componentWillMount(){
+    //     const {selectedChat} =this.props;
+    //     if(selectedChat!=null){
+    //         this.setState({activePage:selectedChat.activePage});
+    //     }
+       
+    // }
+
+    /**
+     * 当前选中的页面
+     */
+    handleSelectActivePage(index, lastIndex,event){
+        const {selectedChat} =this.props;
+        selectedChat.activePage= index;
+        this.setState({activePage:index});
+    }
+
+    
     render() {
         const { selectedChat } = this.props;
+        // if(selectedChat!=null){
+        //     this.setState({activePage:selectedChat.activePage});
+        // }
         return (
-
             <SplitterLayout vertical secondaryInitialSize={150} secondaryMinSize={50} >
                 {selectedChat && <div style={outContainerStyle}>
                     <h3>{selectedChat.customer.CustomerName}</h3> 
-                    <Tabs selectedIndex={1}>
+                    <Tabs selectedIndex={this.state.activePage} onSelect={this.handleSelectActivePage}>
                         <TabList >
                             <Tab>客户对话</Tab>
                             <Tab>客户信息</Tab>

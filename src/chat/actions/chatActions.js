@@ -77,6 +77,10 @@ function closeChat(chat){
     }
 }
 
+function activeChatPage(page){
+    
+}
+
 
 /**
  * 开始打开客户会话action

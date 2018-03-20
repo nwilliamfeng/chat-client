@@ -1,4 +1,4 @@
-//import { util } from '../../util';
+import {activePageType} from '../constants';
 //import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 
 
@@ -12,7 +12,11 @@ class ChatService {
     }
 
     async createChat(customer,otherparm=null){
-        const newChat ={customer,channelId:this._chats.length+1,};
+        const newChat ={
+            customer,
+            channelId:this._chats.length+1,
+            activePage:activePageType.CHAT_PAGE
+        };
         this._chats.push(newChat);
         return newChat;
     }
@@ -37,6 +41,9 @@ class ChatService {
             this._chats.splice(idx,1);
         }
     }
+
+
+     
 
     /**
      * 返回所有会话
