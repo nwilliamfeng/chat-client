@@ -1,8 +1,7 @@
 import { constants } from '../constants';
 import { customerService } from '../api';
-import { history, util, appSettings, appContext } from '../../util';
-import Customer from '../../models/customer';
-
+import {   util,  appContext } from '../../util';
+ 
 
 /**
  * 客户Action工厂实例
@@ -30,7 +29,7 @@ function fetchCustomerList() {
         const ip = util.getIpAddress();
         const staff = appContext.currentStaff;
         const { RetCode, Message, Data } = await customerService.getCustomerList(staff.StaffId, staff.Token, ip, appContext.appKeys[0]);
-        if (RetCode == 1) {
+        if (RetCode === 1) {
             dispatch({ type: constants.Get_CUSTOMER_LIST_SUCCESS, customers: Data });
         }
     }
@@ -43,7 +42,7 @@ function fetchStaffList() {
     return async dispatch => {
        const {staffId,token,ip,appKey} =appContext.getStaffParams();
        const { RetCode, Message, Data } = await customerService.getStaffList(staffId, token, ip, appKey);
-        if (RetCode == 1) {
+        if (RetCode === 1) {
             dispatch({ type: constants.Get_STAFF_LIST_SUCCESS, staffs: Data });
         }
     }

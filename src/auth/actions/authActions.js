@@ -41,7 +41,7 @@ function login(userName, userPassword, appKey) {
         dispatch({ type: constants.LOGIN_REQUEST }); //发布正在登录
         const ip = util.getIpAddress();
         const { RetCode, Message, Data } = await authService.login(userName, userPassword, ip, appKey, 1);
-        if (RetCode == 1) {
+        if (RetCode === 1) {
             let staff = new Staff();
             Data.StaffState = AuthHelper.getStaffState(Data.StaffState);
             Object.assign(staff, Data);
@@ -67,7 +67,7 @@ function logout() {
     return async dispatch => {
         const { staffId, token, ip, appKey } = appContext.getStaffParams();
         const { RetCode, Message } = await authService.logout(staffId, token, ip, appKey);
-        if (RetCode != 1) {
+        if (RetCode !== 1) {
             alert(Message);
 
         }
@@ -86,7 +86,7 @@ function changeStaffState(staffState) {
     return async dispatch => {
         const { staffId, token, ip, appKey } = appContext.getStaffParams();
         const { RetCode, Message } = await authService.changeStaffState(staffState, staffId, token, ip, appKey);
-        if (RetCode != 1) {
+        if (RetCode !== 1) {
             alert(Message);
         }
         else {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { SearchBox } from '../../search/components';
 import { ChatList } from '../../chat/components';
 require('../../assets/styles/nav-pill.css');

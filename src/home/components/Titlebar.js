@@ -21,7 +21,7 @@ class Titlebar extends Component {
 
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
-        const { dispatch } = this.props;
+        //const { dispatch } = this.props;
         // dispatch(authActions.fetchState());
     }
 
@@ -45,12 +45,12 @@ class Titlebar extends Component {
                 <nav className="navbar navbar-default navbar-fixed-top" >
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <a className="navbar-brand" href="#">IM在线客服</a>
+                            <a className="navbar-brand">IM在线客服</a>
                         </div>
                         <ul className="nav navbar-nav navbar-right" >
 
-                            <li><a href="#" ><i className="fa fa-refresh" aria-hidden="true"></i> 刷新</a></li>
-                            <li><a href="#" style={{ marginRight: width }}><i className="fa fa-calendar" aria-hidden="true"></i> 历史</a></li>
+                            <li><a><i className="fa fa-refresh" aria-hidden="true"></i> 刷新</a></li>
+                            <li><a style={{ marginRight: width }}><i className="fa fa-calendar" aria-hidden="true"></i> 历史</a></li>
                             <StaffMenu />
 
                         </ul>

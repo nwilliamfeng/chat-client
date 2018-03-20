@@ -43,7 +43,7 @@ class StaffList extends Component {
         console.log("StaffList componetDidMount");
 
         const { loginState } = this.props;
-        if (loginState != null && loginState == loginStates.LOGGED_IN) {
+        if (loginState != null && loginState === loginStates.LOGGED_IN) {
             this.subscribeStaffList();
         }
     }
@@ -78,7 +78,7 @@ class StaffList extends Component {
 
     componentWillUpdate() {
         const { loginState } = this.props;
-        if (loginState != null && loginState == loginStates.LOGGED_OUT) {
+        if (loginState != null && loginState === loginStates.LOGGED_OUT) {
             if (this.subscription != null) {
                 this.subscription.dispose();
             }
@@ -86,7 +86,7 @@ class StaffList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return this.props.staffs != nextProps.staffs;
+        return this.props.staffs !== nextProps.staffs;
     }
 
     onOpenChat(userId) {
@@ -94,7 +94,7 @@ class StaffList extends Component {
     }
 
     isSelf(staff) {
-        return staff.StaffId == appContext.currentStaff.StaffId;
+        return staff.StaffId === appContext.currentStaff.StaffId;
     }
 
     getStaffNameStyle(staff) {
@@ -106,7 +106,7 @@ class StaffList extends Component {
     }
 
     getStaffStateStyle(staffState) {
-        return { fontWeight: appContext.currentStaff.StaffState == staffState ? 'bold' : 'normal' };
+        return { fontWeight: appContext.currentStaff.StaffState === staffState ? 'bold' : 'normal' };
 
     }
 
@@ -131,16 +131,7 @@ class StaffList extends Component {
         alert(data.autoReplyMessage);
     }
 
-    /**
-     * 通知更改客服状态
-     * @param {number} staffState 
-     */
-    notifyToChangeState(staffState) {
-        const { dispatch } = this.props;
-        alert(staffState);
-        //  dispatch(authActions.changeStaffState(staffState));
-    }
-
+    
     /**
      * 填充客户数量
      * @param {number} count 

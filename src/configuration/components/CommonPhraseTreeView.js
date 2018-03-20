@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appContext } from '../../util';
+
 import { configurationActions as actions } from '../actions';
 import TreeView from 'react-treeview';
-import ReactTooltip from 'react-tooltip';
+
 import { CategoryNode, LeafNode } from './TreeViewNode.js'
 require('../../assets/styles/react-treeview.css');
 
@@ -35,7 +35,7 @@ class CommonPhraseTreeView extends Component {
         if (selectNodeKey == null) {
             return unSelectNodeStyle;
         }
-        if (key == selectNodeKey) {
+        if (key === selectNodeKey) {
             return selectNodeStyle;
         }
         return unSelectNodeStyle;
@@ -61,8 +61,8 @@ class CommonPhraseTreeView extends Component {
                 smallCategories: [],
             }
             commonPhrase.forEach(y => {
-                if (y.Category == x) {
-                    let exist = category.smallCategories.find(item => item.smallCategoryId == y.SmallCategoryId);
+                if (y.Category === x) {
+                    let exist = category.smallCategories.find(item => item.smallCategoryId === y.SmallCategoryId);
                     if (exist == null) {
                         category.smallCategories.push(
                             {
@@ -114,7 +114,7 @@ class CommonPhraseTreeView extends Component {
         //样例： ":[{"PhraseId":28,"Category":"问候语","SmallCategoryId":27,"SmallCategoryName":"你好","Title":"测试","Content":"测试","CategorySort":0,"AppKey":null,"AppKeyId":8}...]
         const { commonPhrase } = this.props;
         const dataSource = this.convertToNode(commonPhrase);
-        const { collapsed } = this.state;
+        
         return (
             <div>
                 {dataSource.map((node, i) => {

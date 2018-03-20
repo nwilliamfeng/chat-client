@@ -1,6 +1,6 @@
 import { constants } from '../constants';
 import { chatService } from '../api';
-import { appSettings, appContext } from '../../util';
+import {  appContext } from '../../util';
  
 
 /**
@@ -11,14 +11,8 @@ export const chatActions = {
     /**
      * 开始打开会话
      */
-    beginOpenCustomerChat,
-
-
-    /**
-     * 结束打开会话
-     */
-    endOpenCustomerChat,
-
+    openCustomerChat,
+ 
     /**
      * 初始化
      */
@@ -34,6 +28,11 @@ export const chatActions = {
      */
     closeChat,
 
+    /**
+     * 选中会话
+     */
+    selectChat,
+
 }
 
 
@@ -41,6 +40,14 @@ function initChats(){
    return {
        type:constants.INIT_CHATS,
    }
+}
+
+function selectChat(chat){
+    return {
+        type:constants.SELECT_CHAT,
+        chats:chatService.chats,
+        selectedChat:chat,
+    }
 }
 
 function closeAllChats(){
@@ -57,32 +64,31 @@ function closeAllChats(){
 function closeChat(chat){
     return async dispatch=>{
         await chatService.closeChat(chat);
-        dispatch({type:constants.CLOSE_CHAT,chats:chatService.chats});
+        let selectedChat =null;
+        if(chatService.chats.length>0){
+            selectedChat =chatService.chats[0];
+        }
+        dispatch(
+            {
+                type:constants.CLOSE_CHAT,
+                chats:chatService.chats,
+                selectedChat,
+            });
     }
 }
-
 
 
 /**
  * 开始打开客户会话action
  */
-function beginOpenCustomerChat(customer) {
+function openCustomerChat(customer) {
     return async dispatch => {
         const newChat =await chatService.createChat(customer);
-        dispatch({type:constants.BEGIN_OPEN_CHAT,newChat,chats:chatService.chats});    
+        dispatch({type:constants.OPEN_CHAT,selectedChat:newChat,chats:chatService.chats});    
     }
 }
 
-/**
- * 结束打开客户会话action
- */
-function endOpenCustomerChat() {
-    return async dispatch => {
-        dispatch({type:constants.END_OPEN_CHAT,chats:chatService.chats});      
-    }
-}
  
-
  
 
 

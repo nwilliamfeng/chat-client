@@ -1,5 +1,4 @@
 import { util } from '../../util';
-import { constants } from '../constants';
 import { configurationServiceUrls as serviceUrls } from './configurationServiceUrls';
 
 

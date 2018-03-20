@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { customerActions } from '../actions'
-import { connect } from 'react-redux';
+import React from 'react';
+ 
 
 const thStyle = {
     fontWeight: 'normal',
@@ -18,20 +17,20 @@ const sortStyle = {
  * @param {number} sort 
  */
 const getSortRegion = (sort) => {
-   
-    if(sort ==1){
+
+    if (sort === 1) {
         return <i className="fa fa-caret-up"></i>;
     }
-    else  if(sort ==2){
+    else if (sort === 2) {
         return <i className="fa fa-caret-down"></i>;
     }
 }
 
-export const CustomerColumnHeader = ({ name, title, getSort , onHeaderSort}) => {
+export const CustomerColumnHeader = ({ name, title, getSort, onHeaderSort }) => {
 
     const onClick = () => {
-        const oldSort=  getSort(name);
-        onHeaderSort(name, oldSort==2?1:oldSort+1);
+        const oldSort = getSort(name);
+        onHeaderSort(name, oldSort === 2 ? 1 : oldSort + 1);
     }
     return (
         <th style={thStyle} onClick={onClick}>

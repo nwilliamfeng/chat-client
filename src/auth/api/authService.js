@@ -1,6 +1,5 @@
 
 import { util } from '../../util';
-import { staffStates } from '../constants';
 import { authServiceUrls as serviceUrls } from './authServiceUrls';
 import 'whatwg-fetch';
 
@@ -10,11 +9,7 @@ import 'whatwg-fetch';
  */
 class AuthService {
 
-    constructor() {
-
-    }
-
-
+   
     /**
      * 获取登录状态，刷新页面时调用，获取是否有效状态
      */

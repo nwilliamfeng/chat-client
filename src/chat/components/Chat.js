@@ -9,9 +9,9 @@ require('../../assets/styles/react-tabs.css');
 
 const outContainerStyle = {
     paddingTop: 66,
-    paddingLeft:3,
-    paddingRight:3,
-    paddingBottom:10,
+    paddingLeft: 3,
+    paddingRight: 3,
+    paddingBottom: 10,
 }
 
 
@@ -27,14 +27,14 @@ class Chat extends Component {
     }
 
     render() {
-
+        const { selectedChat } = this.props;
         return (
 
             <SplitterLayout vertical secondaryInitialSize={150} secondaryMinSize={50} >
-                <div style={outContainerStyle}> 
-                <h3>{'asdfadsf'}</h3>                  
-                    <Tabs>
-                        <TabList>
+                {selectedChat && <div style={outContainerStyle}>
+                    <h3>{selectedChat.customer.CustomerName}</h3> 
+                    <Tabs selectedIndex={1}>
+                        <TabList >
                             <Tab>客户对话</Tab>
                             <Tab>客户信息</Tab>
                             <Tab>消息记录</Tab>
@@ -50,12 +50,10 @@ class Chat extends Component {
                             <h2>历史消息</h2>
                         </TabPanel>
                     </Tabs>
-                </div>
+                </div>}
 
                 <div>input area</div>
             </SplitterLayout>
-
-
 
         );
     }

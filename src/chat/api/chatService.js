@@ -1,6 +1,5 @@
-import { util } from '../../util';
-import { constants } from '../constants';
-import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
+//import { util } from '../../util';
+//import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 
 
 /**
@@ -32,7 +31,7 @@ class ChatService {
      */
     async closeChat(chat){
         const idx =this._chats.findIndex((item)=>{
-            return item.channelId==chat.channelId;
+            return item.channelId===chat.channelId;
         });
         if(idx>-1){
             this._chats.splice(idx,1);

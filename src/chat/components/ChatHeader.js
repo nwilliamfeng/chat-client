@@ -1,5 +1,4 @@
-import React, { PropTypes } from 'react';
-import { util } from '../../util';
+import React from 'react';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
 require('../../assets/styles/li.css');
@@ -22,6 +21,10 @@ const liStyle = {
     border: 'none',
 }
 
+/**
+ * 消息内容样式
+ * @param {*} width 
+ */
 const currMsgStyle = (width) => ({
     fontSize: 12,
     color: 'gray',
@@ -32,14 +35,20 @@ const currMsgStyle = (width) => ({
     whiteSpace: 'nowrap',
 })
 
-const titleStyle = (width) =>({
-    
+/**
+ * 标题样式
+ * @param {*} width 
+ */
+const titleStyle = (width) =>({   
     width: width ? width-56-65 : 100,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
 })
 
+/** 
+ * 消息时间样式
+*/
 const timeStyle = {
     fontSize: 12,
     width:50,
@@ -52,8 +61,29 @@ const alertStyle={
     height:16,
 }
 
-const imgStyle = {
-  
+/** 
+ * 消息数气泡样式
+*/
+const msgCountStyle={
+    height:14,
+    minWidth:14,
+    borderRadius:60,
+    background:'Red',
+    paddingTop:0,
+    paddingBottom:1,
+    paddingLeft:1,
+    paddingRight:1,
+    position:'absolute',
+    marginTop:-48,
+    marginLeft:30,
+    fontSize:8,
+    cursor:'default',
+}
+
+/** 
+ * 头像容器样式
+*/
+const avatarContainerStyle = { 
     marginLeft: 3,
     marginRight: 10,
     verticalAlign:'center',
@@ -69,20 +99,26 @@ const imgStyle = {
     background: '#21b384',
 }
 
+/** 
+ * 头像图片样式
+*/
+const avatarStyle={
+    height:34,
+    width:34,
+    marginBottom:4
+}
 
 
 const getAttributes = (chat) => {
     return { chatdata: JSON.stringify(chat) };
 }
 
-
 const getChatStyle = (isSelected) => ({
-
     paddingLeft: 8,
     paddingRight: 8,
     paddingTop: 11,
     paddingBottom:10,
-    background: isSelected == true ? '#eee' : 'transparent',
+    background: isSelected === true ? '#eee' : 'transparent',
 })
 
 
@@ -96,12 +132,10 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
             <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
                 <div style={getChatStyle(isSelected)}>
                     <div style={headerStyle}>
-                        <div style={imgStyle}>
-                        
-                            <img style={{  height:34,width:34,marginBottom:4 }} src={require('../../assets/imgs/snail.png')}/>
-                            <div style={{height:14,width:14,borderRadius:60,background:'Red',position:'absolute',marginTop:-48,marginLeft:30,fontSize:8}}>99</div>
-                        </div>
-                        
+                        <div style={avatarContainerStyle}>                      
+                            <img alt='' style={avatarStyle} src={require('../../assets/imgs/snail.png')}/>
+                            <div style={msgCountStyle}>9</div>
+                        </div>                       
                     </div>
                     <div style={headerStyle2}>
                         <div style={titleStyle(maxWidth)}> {chat.customer.CustomerName}</div>

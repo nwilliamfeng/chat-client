@@ -23,11 +23,11 @@ class HeartWatchService {
      * @returns {{RetCode:number,Message:string,Data:Any}}
      */
     start(staffId, token, ip, appKey, errorCallback) {
-        if (this.isStart != true) {
+        if (this.isStart !== true) {
             this.isStart = true;
             this.intervalHandle = setInterval(async () => {
                 const result = await this.authService.sendStaffHeart(staffId, token, ip, appKey);
-                if (result.RetCode != 1) {
+                if (result.RetCode !== 1) {
                     this.errorCount += 1;
                     if (errorCallback != null) {
                         errorCallback(this.errorCount);
@@ -44,7 +44,7 @@ class HeartWatchService {
     }
 
     stop() {
-        if (this.isStart == true) {
+        if (this.isStart === true) {
             clearInterval(this.intervalHandle);
             this.isStart = false;
             this.errorCount = 0;

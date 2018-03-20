@@ -3,13 +3,13 @@ import { staffStateValues } from '../auth/constants'
 export default class AuthHelper {
 
     static getStaffState(stateString) {
-        if (stateString == 'Online') {
+        if (stateString === 'Online') {
             return staffStateValues.ONLINE;
         }
-        else if (stateString == 'Leave') {
+        else if (stateString === 'Leave') {
             return staffStateValues.LEAVE;
         }
-        else if (stateString == 'Transfer') {
+        else if (stateString === 'Transfer') {
             return staffStateValues.TRANSFER;
         }
     }

@@ -13,16 +13,7 @@ const divStyle = {
     whiteSpace: 'nowrap',
 }
 
-const thStyle = {
-    fontWeight: 'normal',
-    color: 'gray',
-    cursor: 'pointer',
-}
-
-const sortStyle = {
-    marginLeft: 5,
-    color: 'grey',
-}
+ 
 
 
 class CustomerList extends Component {
@@ -50,17 +41,17 @@ class CustomerList extends Component {
 
     handleOpenChat(customer) {
         const {dispatch} =this.props;
-        dispatch(chatActions.beginOpenCustomerChat(customer));
+        dispatch(chatActions.openCustomerChat(customer));
     }
 
     sortCustomerList(customers) {
         const { sortColumn, sortOrder } = this.state;
-        if (sortColumn == null || sortOrder == 0) {
+        if (sortColumn == null || sortOrder === 0) {
             return customers;
         }
         customers.sort((a, b) => {
-            const result = sortOrder == 2 ? a[sortColumn] >= b[sortColumn] : a[sortColumn] <= b[sortColumn];
-            return result == true ? -1 : 1;
+            const result = sortOrder === 2 ? a[sortColumn] >= b[sortColumn] : a[sortColumn] <= b[sortColumn];
+            return result === true ? -1 : 1;
         })
     }
 
@@ -70,12 +61,12 @@ class CustomerList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (this.props.sortOrder != nextProps.sortOrder || this.props.sortColumn != nextProps.sortColumn) {
+        if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortColumn !== nextProps.sortColumn) {
             return true;
         }
         const current = this.props.customers;
         const { customers } = nextProps;
-        var result = current != customers;
+        var result = current !== customers;
         return result;
     }
 
@@ -86,7 +77,7 @@ class CustomerList extends Component {
 
     getSort(column) {
         const { sortColumn, sortOrder } = this.state;
-        return sortColumn == column ? sortOrder != null ? sortOrder : 0 : 0;
+        return sortColumn === column ? sortOrder != null ? sortOrder : 0 : 0;
     }
 
     render() {
