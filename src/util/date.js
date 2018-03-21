@@ -23,8 +23,20 @@ function dateFormat(date, fmt) {
 }
 
 /**
+ * 返回几天前的日期
+ * @param {number} days 
+ */
+function substactDays(days) {  
+    let date =new Date();
+    date =new Date(date.getFullYear(),date.getMonth(),date.getDate());
+    date.setTime(date.getTime()-24*60*60*1000*days);
+    return date;
+}
+
+/**
  * 日期工具实例
  */
 export const dateUtil ={
     dateFormat,
+    substactDays,
 }

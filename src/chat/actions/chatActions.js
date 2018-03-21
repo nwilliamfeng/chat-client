@@ -2,6 +2,7 @@ import { constants } from '../constants';
 import { chatService } from '../api';
 import {  appContext } from '../../util';
  
+ 
 
 /**
  * 聊天Action工厂实例
@@ -38,6 +39,7 @@ export const chatActions = {
      */
     activeChatPage,
 
+    
 }
 
 
@@ -62,6 +64,7 @@ function closeAllChats(){
     }
 }
 
+ 
 /**
  * 关闭指定的会话
  * @param {*} chat 

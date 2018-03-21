@@ -13,9 +13,12 @@ class ChatService {
 
     async createChat(customer,otherparm=null){
         const newChat ={
-            customer,
-            channelId:this._chats.length+1,
-            activePage:activePageType.CHAT_PAGE
+            customer, //当前的客户
+            channelId:this._chats.length+1, //对应的频道Id
+            activePage:activePageType.CHAT_PAGE, //当前选中的页
+            messages:[], //持有的消息集合
+            historyMessages:[],//历史消息集合
+
         };
         this._chats.push(newChat);
         return newChat;

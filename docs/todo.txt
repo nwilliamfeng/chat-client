@@ -1,16 +1,5 @@
 1. 客服状态变更ui修改，将2级菜单改成1级；--处理
-2. nginx.config 配置？
- location /webimservice_test/ {
-			 proxy_redirect             off; 
-             proxy_pass   http://imapitest.eastmoney.com:2021/; 
-			 proxy_set_header           Host $host; 
-			 proxy_set_header           X-Real-IP $remote_addr; 
-			 proxy_set_header           X-Forwarded-For $proxy_add_x_forwarded_for; 
-			 client_max_body_size    1000m; 
-			 proxy_connect_timeout      1800;
-             proxy_send_timeout         1800;
-        }
-
+2. nginx.config 配置  --处理
 3. 刷新页面？heartwatchservice启用 
 4. 获取客户列表传参selfchatting 通过appsetting配置获取
 5. 获取本机IP方法实现 
@@ -19,4 +8,4 @@
 8. stafflist 的 li的contextmenu 在外侧点无法打开，参考customer table的td div  --处理
 9. stafflist和customerlist 每次从服务器获取数据后都要执行render，在shouldComponentUpdate方法中需要优化，比较集合
 10. 常用语树形结构双击文件夹图标不能收缩或展开 --尝试修复失败
-11. 会话列表在未选中会话时通过键盘上下键选择会有警告：Can only update a mounted or mounting component. This usually means you called setState, replaceState, or forceUpdate on an unmounted component.
+11. 会话窗口变化当前页会导致chatlist重新render，需要在chatlist 的shouldComponentUpdate方法里做优化,

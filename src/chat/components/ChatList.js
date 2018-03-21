@@ -17,9 +17,7 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-
-        const {chats} = nextProps;
-      
+        const {chats} = nextProps;     
         return chats!=null;
     }
 

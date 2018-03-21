@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext } from '../../util';
-import { chatActions } from '../actions';
+import { chatActions,messageActions } from '../actions';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import SplitterLayout from 'react-splitter-layout';
+import { MessageList } from './MessageList';
+import { activePageType } from '../constants';
 require('../../assets/styles/react-tabs.css');
 
 
@@ -19,9 +21,10 @@ class Chat extends Component {
 
     constructor(props) {
         super(props);
-        this.state={activePage:0};
-        this.handleSelectActivePage =this.handleSelectActivePage.bind(this);
-       
+        this.state = { activePage: 0 };
+        this.handleSelectActivePage = this.handleSelectActivePage.bind(this);
+        
+
     }
 
     closeChat(chat) {
@@ -30,7 +33,7 @@ class Chat extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return true;
-      
+
     }
 
     // componentWillMount(){
@@ -38,25 +41,32 @@ class Chat extends Component {
     //     if(selectedChat!=null){
     //         this.setState({activePage:selectedChat.activePage});
     //     }
-       
+
     // }
 
     /**
      * 当前选中的页面
      */
-    handleSelectActivePage(index, lastIndex,event){
-        const {dispatch,selectedChat} =this.props;
-        
-        dispatch(chatActions.activeChatPage(selectedChat.channelId,index));
+    handleSelectActivePage(index, lastIndex, event) {
+        const { dispatch, selectedChat } = this.props;
+        dispatch(chatActions.activeChatPage(selectedChat.channelId, index));
+        if(index===activePageType.HISTORY_PAGE){
+            this.loadHistoryMessage(dispatch);
+        }
     }
 
-    
+
+    loadHistoryMessage(dispatch){
+        dispatch(chatActions);
+    }
+
+
     render() {
         const { selectedChat } = this.props;
         return (
             <SplitterLayout vertical secondaryInitialSize={150} secondaryMinSize={50} >
                 {selectedChat && <div style={outContainerStyle}>
-                    <h3>{selectedChat.customer.CustomerName}</h3> 
+                    <h3>{selectedChat.customer.CustomerName}</h3>
                     <Tabs selectedIndex={selectedChat.activePage} onSelect={this.handleSelectActivePage}>
                         <TabList >
                             <Tab>客户对话</Tab>
@@ -65,7 +75,8 @@ class Chat extends Component {
                         </TabList>
 
                         <TabPanel>
-                            <h2>Any content 111</h2>
+                            <MessageList>
+                            </MessageList>
                         </TabPanel>
                         <TabPanel>
                             <h2>该网页未开通</h2>
@@ -84,8 +95,8 @@ class Chat extends Component {
 }
 
 function mapStateToProps(state) {
-    const {selectedChat} =state.chat;
-    return {selectedChat};
+    const { selectedChat } = state.chat;
+    return { selectedChat };
 }
 
 
