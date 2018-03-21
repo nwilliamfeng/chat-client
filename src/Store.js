@@ -2,7 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {authReducer} from './auth/reducers';
 import {customerReducer} from './customers/reducers';
 import {configurationReducer} from './configuration/reducers';
-import {chatReducer} from './chat/reducers';
+import {chatReducer,messageReducer} from './chat/reducers';
 import {homeReducer} from './home/reducers'
 import thunkMiddleware from 'redux-thunk'; 
  
@@ -28,6 +28,8 @@ const reducer = combineReducers({
    * 聊天的reducer
    */
   chat:chatReducer,
+
+  message:messageReducer,
 
   home:homeReducer,
 });

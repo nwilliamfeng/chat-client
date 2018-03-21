@@ -20,8 +20,8 @@ function loadHistoryMessage(customerId){
     //appkey, customerID, DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd"), 1,1, 1, 50
     const startTime=dateUtil.dateFormat( dateUtil.substactDays(7),'yyyy-MM-dd');
     return async dispatch =>{
-       const msgs= await messageService.getMessagesByCustomerId(customerId,startTime,1,1,1,50,appContext.appKeys[0]);
-       console.log(msgs);
+      const historyResult= await messageService.getMessagesByCustomerId(customerId,startTime,1,1,1,50,appContext.appKeys[0]);
+      dispatch({type:constants.LOAD_HISTORY_MESSAGE,historyResult});
     }
 }
 

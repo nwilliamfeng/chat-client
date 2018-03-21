@@ -51,15 +51,12 @@ class Chat extends Component {
         const { dispatch, selectedChat } = this.props;
         dispatch(chatActions.activeChatPage(selectedChat.channelId, index));
         if(index===activePageType.HISTORY_PAGE){
-            this.loadHistoryMessage(dispatch);
+            dispatch(messageActions.loadHistoryMessage(selectedChat.customer.CustomerId));
         }
     }
 
 
-    loadHistoryMessage(dispatch){
-        dispatch(chatActions);
-    }
-
+   
 
     render() {
         const { selectedChat } = this.props;

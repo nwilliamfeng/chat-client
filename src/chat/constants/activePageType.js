@@ -11,11 +11,11 @@ export const activePageType = {
     /**
      * 历史页
      */
-    HISTORY_PAGE:1,
+    HISTORY_PAGE:2,
      
     /**
      * 客户信息页
      */
-    CUSTOMER_INFO_PAGE:2,
+    CUSTOMER_INFO_PAGE:1,
 
 }
