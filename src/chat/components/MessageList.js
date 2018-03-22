@@ -15,13 +15,10 @@ class MessageList extends Component {
         this.state = { activePage: 0 };
     }
 
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return true;
-
-    }
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     return true;
+    // }
  
-
     render() {
         const { selectedChat } = this.props;
         return (
@@ -33,8 +30,7 @@ class MessageList extends Component {
 }
 
 function mapStateToProps(state) {
-    const { selectedChat } = state.chat;
-    return { selectedChat };
+    return state;
 }
 
 

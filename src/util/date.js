@@ -34,9 +34,30 @@ function substactDays(days) {
 }
 
 /**
+ * c#日期格式转换
+ * @param {string} date 
+ */
+function cSharpDateFormat(date) {
+    if (date == null) {
+        return "";
+    }
+    date = date.replace("/Date(", "").replace(")/", "");
+    if (date.indexOf("+") > 0) {
+        date = date.substring(0, date.indexOf("+"));
+    }
+    else if (date.indexOf("-") > 0) {
+        date = date.substring(0, date.indexOf("-"));
+    }
+    var date = new Date(parseInt(date, 10));
+    var time = dateFormat(date, 'yyyy-MM-dd hh:mm:ss');
+    return time;
+}
+
+/**
  * 日期工具实例
  */
 export const dateUtil ={
     dateFormat,
     substactDays,
+    cSharpDateFormat,
 }

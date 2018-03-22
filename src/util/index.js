@@ -15,4 +15,5 @@ export const util={
     sleep:promiseUtil.sleep,
     getIpAddress :netUtil.getIpAddress,
     dateFormat:dateUtil.dateFormat,
+    csharpDateFormat:dateUtil.cSharpDateFormat,
 }

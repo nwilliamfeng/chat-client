@@ -21,6 +21,9 @@ const txtMsgSample = {
     Content: { "Extension": "zxkf_001", "Content": "abc", "SenderID": "3002", "ID": "9f6c2d09-4095-4968-b572-1700fc53f745", "SenderName": "???", "ChannelID": "5356283611374137403" }
 }
 
+ 
+
+
 //????
 const channelMessage = {
     ChannelID,

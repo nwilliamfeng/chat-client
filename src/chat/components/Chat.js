@@ -5,6 +5,7 @@ import { chatActions,messageActions } from '../actions';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import SplitterLayout from 'react-splitter-layout';
 import { MessageList } from './MessageList';
+import { HistoryMessageList } from './HistoryMessageList';
 import { activePageType } from '../constants';
 require('../../assets/styles/react-tabs.css');
 
@@ -79,7 +80,7 @@ class Chat extends Component {
                             <h2>该网页未开通</h2>
                         </TabPanel>
                         <TabPanel>
-                            <h2>历史消息</h2>
+                            <HistoryMessageList></HistoryMessageList>
                         </TabPanel>
                     </Tabs>
                 </div>}

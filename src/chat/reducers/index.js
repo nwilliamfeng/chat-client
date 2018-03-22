@@ -1,4 +1,4 @@
  export * from './chatReducer';
- export * from './messageReducer';
+ export * from './historyMessageReducer';
  
  
