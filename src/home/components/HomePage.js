@@ -1,156 +1,164 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SplitterLayout from 'react-splitter-layout';
 import { Titlebar } from './Titlebar';
 import { Statusbar } from './Statusbar';
 import Navibar from './Navibar'
 import { CustomerList, StaffList } from '../../customers/components';
 import { CommonPhraseTreeView } from '../../configuration/components';
-import {Chat} from '../../chat/components';
+import { Chat } from '../../chat/components';
 import { homeActions } from '../actions';
-require('../../assets/styles/react-splitter-layout.css');
+import SplitPane from 'react-split-pane';
+require('../../assets/styles/react-split-pane.css');
 
 
-const containerStyle = {
-    width: '100%',
-    // paddingTop: 50,
-    left: 0,
-    
-    position: 'absolute',
-    //height: 'window.innerHeight - 50 - 28',
-    height: '100%',
-    marginTop: -28 //消除底部的statusbar的高度
-}
 
-
-const leftTitleStyle = {
+const titleStyle = {
     fontWeight: 'Bold',
 }
 
-const innerContianerStyle = {
+const customerListContianerStyle = {
     paddingLeft: 5,
     paddingRight: 5,
-    paddingBottom: 5,
-    paddingTop: 83, //消除menu和statusbar的高度50+28+5
+    paddingBottom: 35,
+
+    paddingTop: 63,
 }
 
 const chatContianerStyle = {
-    paddingLeft: 15,
-    paddingRight: 15,
-    
-    marginTop: 23, //消除menu和statusbar的高度50+28+5
-    
+    padding: 5,
+    background: '#f8f8f8'
 }
 
+
+
 const naviBarStyle = {
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingBottom: 5,
-    paddingTop: 83,
-    //background:'#eee',
-    height:'100%',
+    paddingTop: 53,
+    paddingBottom: 0,
 }
 
 const staffListContianerStyle = {
     padding: 5,
-
 }
+
+
 
 const commonPhraseContianerStyle = {
     padding: 5,
+}
 
+const initSize = {
+    heightOffset: 83,
+    customerListHeight: 60,
+    isCustomerListHeightPercentage: true,
+    customerListWidth: 300,
+    navibarInitPaneWidth: 250,
+    getChatListHeight: function () {
+        return window.innerHeight - this.heightOffset - 50;
+    },
+
+    getCustomerListHeightOffset: function () {
+        return this.heightOffset + 30;
+    },
+
+    getCustomerListInitWidth: function () {
+        return this.getCustomerListInitPaneDefaultWidth();
+    },
+    getCustomerListInitPaneDefaultHeight: function () {
+        return this.isCustomerListHeightPercentage ? this.customerListHeight.toString() + '%' : this.customerListHeight;
+    },
+    getCustomerListInitPaneDefaultWidth: function () {
+        return this.customerListWidth;
+    }
 }
 
 class HomePage extends Component {
 
     constructor(props) {
         super(props);
-        this.onSecondaryPaneSizeChange = this.onSecondaryPaneSizeChange.bind(this);
+        this.state = {
+            customerListHeight: 0,
+            customerListWidth: 0,
+            navibarWidth: 0,
+        };
+        this.onCustomerListWidthChange = this.onCustomerListWidthChange.bind(this);
+        this.onNavibarWidthChange = this.onNavibarWidthChange.bind(this);
+
+
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        const customerListWidth = initSize.getCustomerListInitPaneDefaultWidth();
         const { dispatch } = this.props;
-        dispatch(homeActions.notifyNavibarSizeChange(240));
+        dispatch(homeActions.notifyCustomerListWidthChange(customerListWidth));
+        dispatch(homeActions.notifyNavibarHeightChange(initSize.getChatListHeight()));
+        dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth - 5));
     }
 
-    onSecondaryPaneSizeChange(secondaryPaneSize) {
+
+    onNavibarWidthChange(width) {
+
         const { dispatch } = this.props;
-        dispatch(homeActions.notifyNavibarSizeChange(secondaryPaneSize));
-        // console.log(secondaryPaneSize);
+        const { navibarWidth } = this.state;
+        const nwWidth = width - 5;
+        if (navibarWidth != nwWidth) {
+            this.setState({ navibarWidth: nwWidth });
+            dispatch(homeActions.notifyNavibarWidthChange(nwWidth));
+        }
     }
 
-    // render() {
-    //     return (
-    //         <div>
-    //             <Navbar />
-    //             <div style={containerStyle}>
-    //                 <SplitterLayout primaryIndex={1} secondaryInitialSize={480} primaryMinSize={400} secondaryMinSize={200}>
-    //                     <SplitterLayout vertical secondaryInitialSize={50} primaryMinSize={10} secondaryMinSize={10} percentage>
-    //                         <div style={customerListContianerStyle}>                              
-    //                             <p style={leftTitleStyle}>客户列表</p>
-    //                             <CustomerList />
-    //                         </div>                        
-    //                         <SplitterLayout secondaryInitialSize={60} primaryMinSize={10}  secondaryMinSize={10} percentage>
-    //                             <div style={staffListContianerStyle}>
-    //                                 <p style={leftTitleStyle}>客服列表</p>
-    //                                 <StaffList/>
-    //                             </div>
-    //                             <div style={commonPhraseContianerStyle}>
-    //                                 <p style={leftTitleStyle}>常用语</p>
-    //                                 <CommonPhraseTreeView/>
-    //                             </div>
-    //                         </SplitterLayout>                                                  
-    //                     </SplitterLayout>
-    //                     <div>1st</div>
-    //                 </SplitterLayout>
-    //             </div>             
-    //             <Statusbar />
-    //         </div >
-    //     );
-
-    // }
+    onCustomerListWidthChange(width) {
+        const { dispatch } = this.props;
+        const { customerListWidth } = this.state;
+        if (customerListWidth != width) {
+            this.setState({ customerListWidth: width });
+            dispatch(homeActions.notifyCustomerListWidthChange(width));
+        }
+    }
 
 
     render() {
+        const initCustomerListHeight = initSize.getCustomerListInitPaneDefaultHeight();
+        const initCustomerListwidth = initSize.getCustomerListInitPaneDefaultWidth();
+        const initNavibarWidth = initSize.navibarInitPaneWidth;
+
         return (
             <div>
                 <Titlebar />
-                <div style={containerStyle}>
-                    <SplitterLayout primaryIndex={1} secondaryInitialSize={240} primaryMinSize={900}
-                        secondaryMinSize={50}
-                        onSecondaryPaneSizeChange={this.onSecondaryPaneSizeChange}>
-                        <div style={naviBarStyle}>
-                            <Navibar />
-                        </div>
-                        <SplitterLayout secondaryInitialSize={30} primaryMinSize={50} secondaryMinSize={10} percentage>
-                            
-                            <Chat/>
-                
-                            <SplitterLayout vertical secondaryInitialSize={50} primaryMinSize={10} secondaryMinSize={10} percentage>
-                                <div style={innerContianerStyle}>
-                                    <p style={leftTitleStyle}>客户列表</p>
-                                    <CustomerList />
-                                </div>
-                                <SplitterLayout secondaryInitialSize={60} primaryMinSize={10} secondaryMinSize={10} percentage>
-                                    <div style={staffListContianerStyle}>
-                                        <p style={leftTitleStyle}>客服列表</p>
-                                        <StaffList />
-                                    </div>
-                                    <div style={commonPhraseContianerStyle}>
-                                        <p style={leftTitleStyle}>常用语</p>
-                                        <CommonPhraseTreeView />
-                                    </div>
-                                </SplitterLayout>
-                            </SplitterLayout>
-                        </SplitterLayout>
 
-                    </SplitterLayout>
-                </div>
+                <SplitPane split='vertical' minSize={50} pane1Style={naviBarStyle} defaultSize={initNavibarWidth} maxSize={300} onChange={this.onNavibarWidthChange}>
+                    <Navibar />
+                    <SplitPane split="vertical" minSize={50} defaultSize={initCustomerListwidth} primary="second" onChange={this.onCustomerListWidthChange}>
+                        <SplitPane split="horizontal" minSize={50} pane1Style={{ background: '#f8f8f8' }} maxSize={450} defaultSize={150} primary="second"  >
+                            <Chat style={chatContianerStyle} />
+                            <div>{'23423423'}</div>
+                        </SplitPane>
+
+
+                        <SplitPane split="horizontal" minSize={150} maxSize={500} defaultSize={initCustomerListHeight} primary="first"  >
+                            <div style={customerListContianerStyle}>
+                                <p style={titleStyle}>客户列表</p>
+                                <CustomerList />
+                            </div>
+
+                            <SplitPane split="vertical" minSize={50} maxSize={200} defaultSize={'50%'} >
+                                <div style={staffListContianerStyle}>
+                                    <p style={titleStyle}>客服列表</p>
+                                    <StaffList />
+                                </div>
+                                <div style={commonPhraseContianerStyle}>
+                                    <p style={titleStyle}>常用语</p>
+                                    <CommonPhraseTreeView />
+                                </div>
+                            </SplitPane>
+                        </SplitPane>
+                    </SplitPane>
+                </SplitPane>
                 <Statusbar />
             </div >
         );
 
     }
+
 }
 
 

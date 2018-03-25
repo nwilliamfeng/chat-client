@@ -24,7 +24,7 @@ class CustomerService {
         const customers = [];
         for (let i = 0; i < 3; i++) {
             let customer = {
-                Device: 'Android' + i, CustomerState: 0, ProductName: 'product' + i, StaffName: 'staff' + i, CustomerId: '19014FB9C306EE40'
+                Device: 'Android' + i, CustomerState: 0, ProductName: 'product' + i, StaffName: 'staff' + i, CustomerId: '19014FB9C306EE4'+i
                 , Uid: 'uid' + i, CustomerName: 'customer' + i, CustomerIp: 'customerip' + i, CustomerIpMappingAddress: 'local' + i, EnterTime: new Date(), ChannelId: 'ChannelId' + i
             };
             customers.push(customer);

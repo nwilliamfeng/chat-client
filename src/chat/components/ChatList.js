@@ -6,6 +6,15 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader'
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 
+const chatListStyle=(height)=>({
+    overflowY: 'auto',
+    overflowX:'hidden',
+    height:'calc(100% - 125px)',
+    width:'calc(100% - 0px)',
+    position:'absolute',
+    
+})
+
 class ChatList extends Component {
 
     constructor(props) {
@@ -82,16 +91,17 @@ class ChatList extends Component {
 
     render() {
         console.log('do render chatlist');
-        const { chats, navibarSize } = this.props;
+        const { chats, chatListWidth,chatListHeight } = this.props;
         return (
-            <div >
+            <div style={chatListStyle(chatListHeight)}>
                 {chats &&
-                    <ul className="list-group list-group-hover">
+                    <ul className="list-group list-group-hover" >
                         {chats.map((item) => (
                             <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}
-                                maxWidth={navibarSize} />
+                                maxWidth={chatListWidth} />
                         ))}
                     </ul>
+                   
                 }
 
                 <ContextMenu id={CHAT_LIST_CONTEXTMENU_ID}>
@@ -107,11 +117,12 @@ class ChatList extends Component {
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
-    const { navibarSize } = state.home;
+    const { chatListWidth,chatListHeight } = state.home;
     return {
         chats,
         selectedChat,
-        navibarSize, //此参数用来调整消息省略号的样式
+        chatListWidth,
+        chatListHeight,  
 
     }
 }

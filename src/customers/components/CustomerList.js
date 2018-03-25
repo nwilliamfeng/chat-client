@@ -7,11 +7,17 @@ import { ContextMenu, MenuItem } from "react-contextmenu";
 import { CustomerColumnHeader } from './CustomerColumnHeader';
 import {chatActions} from '../../chat/actions';
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
-//添加横向滚动条
-const divStyle = {
-    // overflowX: 'scroll',
+
+const divStyle =(width)=> ({
+     overflowX: 'auto',
+     overflowY: 'auto',
     whiteSpace: 'nowrap',
-}
+    height:'100%',
+     width:width?width-10:'100%',
+    
+    paddingLeft:5,
+    paddingRight:5,
+})
 
  
 
@@ -64,6 +70,12 @@ class CustomerList extends Component {
         if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortColumn !== nextProps.sortColumn) {
             return true;
         }
+        if(this.props.customerListHeight!=nextProps.customerListHeight){
+            return true;
+        }
+        if(this.props.customerListWidth!=nextProps.customerListWidth){
+            return true;
+        }
         const current = this.props.customers;
         const { customers } = nextProps;
         var result = current !== customers;
@@ -81,11 +93,12 @@ class CustomerList extends Component {
     }
 
     render() {
-        const { customers } = this.props;
+        console.log('render customerlist');
+        const { customers,customerListWidth } = this.props;
         this.sortCustomerList(customers);//对列表进行排序
         return (
-            <div style={divStyle} >
-                <table className="table table-bordered table-hover">
+            <div  style={divStyle(customerListWidth)}>
+                <table className="table table-bordered table-hover" >
                     <thead>
                         <tr>
                             <CustomerColumnHeader title='来源' getSort={this.getSort} name='Device' onHeaderSort={this.handleColumnHeaderClick} />
@@ -125,7 +138,8 @@ class CustomerList extends Component {
 
 function mapStateToProps(state) {
     const { customers } = state.customer;
-    return { customers };
+    const { customerListWidth} =state.home;
+    return { customers , customerListWidth};
 }
 
 

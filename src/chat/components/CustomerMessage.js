@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appContext,util } from '../../util';
+import { appContext, util } from '../../util';
 import { chatActions } from '../actions';
-
-
-
+require('../../assets/styles/bubble.css');
 
 const imgMsgSample = {
     ChannelID: 5356283611374137403,
@@ -35,54 +33,49 @@ const historyMsgSample =
     }
 
 
-const staffMessageStyle ={
-    textAlign:'right',
+
+const containerStyle = {
+    margin: 10,
+    textAlign: 'left',
+    maxWidth: 400,
 }
 
-const staffMessageBodyStyle = {
+const sendTimeStyle = {
+    color: 'gray',
+    fontSize: 12,
+    marginLeft: 10,
+}
+
+const senderStyle = {
+    fontSize: 12,
+    color: 'gray',
+}
+
+const contentStyle = {
+
     padding: 5,
-    background: 'green',
-    textAlign: 'right',
+    background: 'pink',
+    textAlign: 'left',
+    wordWrap: 'break-word',
 }
 
- 
 
- 
+export const CustomerMessage = ({ message }) => {
 
-const isSelfMessage=(message)=>{
-    return message.Sender  ===appContext.currentStaff.StaffId;
-}
 
-const getContainerStyle =(message)=>{
-    return {
-        textAlign:isSelfMessage(message)? 'right':'left',
-    }
-}
-
-const getSendTimeStyle =(message)=>{
-    return {
-        color: isSelfMessage(message)?'gray':'red',  
-    }
-}
-
-const getSenderStyle =(message)=>{
-    return {
-        color: isSelfMessage(message)?'blue':'gray',  
-        marginLeft:10,
-    }
-}
- 
-
-export const HistoryMessage = ({ message}) => {
-
-     
     return (
-        <div style={getContainerStyle(message)}>
+        <div style={containerStyle}>
             {/* 显示台头 */}
-           <span style={getSendTimeStyle(message)}>{'['+util.csharpDateFormat( message.SendTime)+']'}<span style={getSenderStyle(message)}>{message.SenderName}</span></span>  
+            <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']：'}</span></span>
+            <div style={contentStyle} className='bkbubble left'>{message.MessageContent + "adfadsfqewrlkjqewrtowirtuewioetuewutowertuweutiweurtpweuetruerwtiuweoitruweutioweurtiowueiotruweourtoweutiouweoituweiutoweutoweutoiuweotiuweotwoetuowetuowerit;lkrjqw;ejtkewqhthqwekjhqwekrhkewqgahsdhadsklfhaskhf"}
+            </div>
+            <div class="send" style={{wordWrap: 'break-word',}}>
+                <div class="arrow"></div>
+                {message.MessageContent + "adfadsfqewrlkjqewrtowirtuewioetuewutowertuweutiweurtpweuetruerwtiuweoitruweutioweurtiowueiotruweourtoweutiouweoituweiutoweutoweutoiuweotiuweotwoetuowetuowerit;lkrjqw;ejtkewqhthqwekjhqwekrhkewqgahsdhadsklfhaskhf"}
+            </div>
         </div>
     )
 }
 
- 
+
 

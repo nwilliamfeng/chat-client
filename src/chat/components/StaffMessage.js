@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appContext,util } from '../../util';
+import { appContext, util } from '../../util';
 import { chatActions } from '../actions';
 
 
@@ -35,50 +35,41 @@ const historyMsgSample =
     }
 
 
-const staffMessageStyle ={
-    textAlign:'right',
-}
-
+ 
 const staffMessageBodyStyle = {
     padding: 5,
     background: 'green',
     textAlign: 'right',
 }
 
- 
 
- 
-
-
-
-const containerStyle ={   
-        textAlign: 'right' ,  
+const containerStyle = {
+    textAlign: 'right',
 }
 
 const sendTimeStyle = {
-     
-        color:  'gray' , 
-  
+    color: 'gray',
+    fontSize:12,
 }
 
 const senderStyle = {
-     
-        color:  'blue' ,  
-        marginLeft:10,
-   
+
+    color: 'blue',
+    marginLeft: 10,
+    fontSize:12,
 }
- 
 
-export const StaffMessage = ({ message}) => {
 
-     
+export const StaffMessage = ({ message }) => {
+
+
     return (
-        <div style={getContainerStyle(message)}>
+        <div style={containerStyle}>
             {/* 显示台头 */}
-           <span style={getSendTimeStyle(message)}>{'['+util.csharpDateFormat( message.SendTime)+']'}<span style={getSenderStyle(message)}>{message.SenderName}</span></span>  
+            <span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']'}<span style={senderStyle}>{message.SenderName+'：'}</span></span>
         </div>
     )
 }
 
- 
+
 

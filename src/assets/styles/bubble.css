@@ -1,0 +1,19 @@
+.send {
+    position:relative;
+    
+    padding:10px;
+    background:#F8C301;
+    border-radius:5px; /* 圆角 */
+    margin:30px auto 0;
+    }
+    
+    .send .arrow {
+    position:absolute;
+    top:12px;
+    right:-16px; /* 圆角的位置需要细心调试哦 */
+    width:0;
+    height:0;
+    font-size:0;
+    border:solid 8px;
+    border-color:transparent transparent transparent #F8C301;
+    }
