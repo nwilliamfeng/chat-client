@@ -73,15 +73,12 @@ class Chat extends Component {
                                 <Tab>客户信息</Tab>
                                 <Tab>消息记录</Tab>
                             </TabList>
-
                             <TabPanel>
                                 <MessageList>
                                 </MessageList>
                             </TabPanel>
                             <TabPanel>
-
                                 <h2>该网页未开通</h2>
-
                             </TabPanel>
                             <TabPanel>
 
@@ -99,48 +96,7 @@ class Chat extends Component {
     }
 
 
-    // render() {
-    //     const { selectedChat } = this.props;
-    //     return (
-
-    //         <div >
-    //             {selectedChat && <SplitPane split="horizontal" minSize={50} defaultSize={150} primary="second"  >
-    //                 <div style={outContainerStyle}>
-    //                     <h3>{selectedChat.customer.CustomerName}</h3>
-    //                     <Tabs selectedIndex={selectedChat.activePage} onSelect={this.handleSelectActivePage}>
-    //                         <TabList >
-    //                             <Tab>客户对话</Tab>
-    //                             <Tab>客户信息</Tab>
-    //                             <Tab>消息记录</Tab>
-    //                         </TabList>
-
-    //                         <TabPanel>
-    //                             <MessageList>
-    //                             </MessageList>
-    //                         </TabPanel>
-    //                         <TabPanel>
-    //                            <div style={{height:'100%',position:'absolute', background: '#f8f8f8',width:'100%'}}>
-    //                            <h2>该网页未开通</h2>
-    //                                </div>
-
-
-    //                         </TabPanel>
-    //                         <TabPanel>
-
-    //                             <HistoryMessageList></HistoryMessageList>
-
-
-    //                         </TabPanel>
-    //                     </Tabs>
-    //                 </div>
-
-    //                 <div>input area</div>
-    //             </SplitPane>}
-    //         </div>
-
-
-    //     );
-    // }
+   
 }
 
 function mapStateToProps(state) {

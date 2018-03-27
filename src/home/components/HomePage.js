@@ -10,8 +10,6 @@ import { homeActions } from '../actions';
 import SplitPane from 'react-split-pane';
 require('../../assets/styles/react-split-pane.css');
 
-
-
 const titleStyle = {
     fontWeight: 'Bold',
 }
@@ -20,7 +18,6 @@ const customerListContianerStyle = {
     paddingLeft: 5,
     paddingRight: 5,
     paddingBottom: 35,
-
     paddingTop: 63,
 }
 
@@ -28,7 +25,6 @@ const chatContianerStyle = {
     padding: 5,
     background: '#f8f8f8'
 }
-
 
 
 const naviBarStyle = {
@@ -39,7 +35,6 @@ const naviBarStyle = {
 const staffListContianerStyle = {
     padding: 5,
 }
-
 
 
 const commonPhraseContianerStyle = {
@@ -82,8 +77,6 @@ class HomePage extends Component {
         };
         this.onCustomerListWidthChange = this.onCustomerListWidthChange.bind(this);
         this.onNavibarWidthChange = this.onNavibarWidthChange.bind(this);
-
-
     }
 
     componentWillMount() {
@@ -96,7 +89,6 @@ class HomePage extends Component {
 
 
     onNavibarWidthChange(width) {
-
         const { dispatch } = this.props;
         const { navibarWidth } = this.state;
         const nwWidth = width - 5;
@@ -120,19 +112,18 @@ class HomePage extends Component {
         const initCustomerListHeight = initSize.getCustomerListInitPaneDefaultHeight();
         const initCustomerListwidth = initSize.getCustomerListInitPaneDefaultWidth();
         const initNavibarWidth = initSize.navibarInitPaneWidth;
-
+        const { selectedChat } = this.props;
         return (
             <div>
                 <Titlebar />
-
                 <SplitPane split='vertical' minSize={50} pane1Style={naviBarStyle} defaultSize={initNavibarWidth} maxSize={300} onChange={this.onNavibarWidthChange}>
                     <Navibar />
-                    <SplitPane split="vertical" minSize={50} defaultSize={initCustomerListwidth} primary="second" onChange={this.onCustomerListWidthChange}>
-                        <SplitPane split="horizontal" minSize={50} pane1Style={{ background: '#f8f8f8' }} maxSize={450} defaultSize={150} primary="second"  >
+                    <SplitPane split="vertical" minSize={50} maxSize={500} defaultSize={initCustomerListwidth} primary="second" onChange={this.onCustomerListWidthChange}>
+                        {selectedChat && <SplitPane split="horizontal" minSize={50} pane1Style={{ background: '#f8f8f8' }} maxSize={450} defaultSize={150} primary="second"  >
                             <Chat style={chatContianerStyle} />
                             <div>{'23423423'}</div>
                         </SplitPane>
-
+                        }
 
                         <SplitPane split="horizontal" minSize={150} maxSize={500} defaultSize={initCustomerListHeight} primary="first"  >
                             <div style={customerListContianerStyle}>
@@ -163,7 +154,9 @@ class HomePage extends Component {
 
 
 function mapStateToProps(state) {
-    return state.home;
+    // return state.home;
+    const { selectedChat } = state.chat;
+    return { selectedChat };
 }
 
 

@@ -1,0 +1,37 @@
+.staff {
+    position:relative;   
+    padding:10px;
+    background: rgb(39, 207, 39);
+    border-radius:5px; /* 圆角 */   
+    }
+    
+    .staff .arrow {
+    position:absolute;
+    top:12px;
+    right:-16px; /* 圆角的位置需要细心调试哦 */
+    width:0;
+    height:0;
+    font-size:0;
+    border:solid 8px;
+    border-color:transparent transparent transparent  rgb(39, 207, 39);
+    }
+
+.customer {
+        position:relative;
+        
+        padding:10px;
+        background:white;
+        border-radius:5px; /* 圆角 */
+         
+        }
+        
+        .customer .arrow {
+        position:absolute;
+        top:12px;
+        left:-16px; /* 圆角的位置需要细心调试哦 */
+        width:0;
+        height:0;
+        font-size:0;
+        border:solid 8px;
+        border-color:transparent white transparent transparent;
+        }

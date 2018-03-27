@@ -6,8 +6,7 @@ import {CustomerMessage} from './CustomerMessage';
 import {StaffMessage} from './StaffMessage';
 
 const outContainerStyle = {
-    background: '#f8f8f8',
-   
+    
     height: 'calc(100% - 125px)',
     width: '100%',
     position:'absolute',
@@ -43,7 +42,8 @@ class HistoryMessageList extends Component {
                     <ul className="list-group">
                         {result.data.map((msg) => (
                             this.isSelfMessage(msg)?
-                            <StaffMessage message={msg}/> :<CustomerMessage message={msg}/>
+                            <StaffMessage message={msg}/> : <CustomerMessage message={msg}/> 
+                           
                         ))}
                     </ul>
                 }

@@ -36,8 +36,6 @@ const historyMsgSample =
 
 const containerStyle = {
     margin: 10,
-    textAlign: 'left',
-    maxWidth: 400,
 }
 
 const sendTimeStyle = {
@@ -53,8 +51,6 @@ const senderStyle = {
 
 const contentStyle = {
 
-    padding: 5,
-    background: 'pink',
     textAlign: 'left',
     wordWrap: 'break-word',
 }
@@ -64,16 +60,30 @@ export const CustomerMessage = ({ message }) => {
 
 
     return (
-        <div style={containerStyle}>
-            {/* 显示台头 */}
-            <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']：'}</span></span>
-            <div style={contentStyle} className='bkbubble left'>{message.MessageContent + "adfadsfqewrlkjqewrtowirtuewioetuewutowertuweutiweurtpweuetruerwtiuweoitruweutioweurtiowueiotruweourtoweutiouweoituweiutoweutoweutoiuweotiuweotwoetuowetuowerit;lkrjqw;ejtkewqhthqwekjhqwekrhkewqgahsdhadsklfhaskhf"}
+
+        // <div style={containerStyle}>
+        //     <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']：'}</span></span>
+
+        //     <div class="louter"  >
+        //         <div className="lbubble"> {message.MessageContent}</div>
+
+        //     </div>
+
+        // </div>
+
+
+
+        <div class="louter" style={{marginLeft:10}}  >
+            <div>
+                <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']：'}</span></span>
+
             </div>
-            <div class="send" style={{wordWrap: 'break-word',}}>
-                <div class="arrow"></div>
-                {message.MessageContent + "adfadsfqewrlkjqewrtowirtuewioetuewutowertuweutiweurtpweuetruerwtiuweoitruweutioweurtiowueiotruweourtoweutiouweoituweiutoweutoweutoiuweotiuweotwoetuowetuowerit;lkrjqw;ejtkewqhthqwekjhqwekrhkewqgahsdhadsklfhaskhf"}
-            </div>
+            <div className="lbubble"> {message.MessageContent}</div>
+
         </div>
+
+
+
     )
 }
 
