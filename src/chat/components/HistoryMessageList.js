@@ -11,12 +11,13 @@ const outContainerStyle = {
     width: '100%',
     position:'absolute',
     // paddingTop: 66,
-    paddingLeft: 0,
-    paddingRight: 0,
+    paddingLeft: 10,
+    paddingRight: 20,
     paddingBottom:20,
     
     //  paddingBottom: 10,
     overflowY: 'auto',
+    overflowX:'hidden',
 }
 
 class HistoryMessageList extends Component {

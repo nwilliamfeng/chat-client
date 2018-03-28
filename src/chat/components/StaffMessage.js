@@ -55,7 +55,7 @@ export const StaffMessage = ({ message }) => {
 
 
 
-        <div class="router"  >
+        <div class="router" style={{marginLeft:400}} >
             <div style={{ textAlign: 'right' }}>
                 <span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']'}<span style={senderStyle}>{message.SenderName + '：'}</span></span>
             </div>
