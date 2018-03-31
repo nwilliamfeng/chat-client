@@ -4,6 +4,9 @@ import { appContext } from '../../util';
 import { chatActions } from '../actions';
 import {CustomerMessage} from './CustomerMessage';
 import {StaffMessage} from './StaffMessage';
+import {homeActions} from '../../home/actions';
+
+ 
 
 const outContainerStyle = {
     
@@ -12,10 +15,8 @@ const outContainerStyle = {
     position:'absolute',
     // paddingTop: 66,
     paddingLeft: 10,
-    paddingRight: 20,
+    paddingRight: 10,
     paddingBottom:20,
-    
-    //  paddingBottom: 10,
     overflowY: 'auto',
     overflowX:'hidden',
 }
@@ -31,19 +32,35 @@ class HistoryMessageList extends Component {
         return message.Sender ===appContext.currentStaff.StaffId;
     }
 
+    
+
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
     //     return true;
     // }
+
+    componentWillMount(){
+        const {dispatch} =this.props;
+        dispatch(homeActions.queryChatWidth());
+    }
+
+    handleListSizeChanged(e){
+        console.log(e);
+    }
+
+    getMessageWidth(chatWidth){
+        return chatWidth/2;
+    }
  
     render() {
-        const { result } = this.props;
+        const { result ,chatWidth} = this.props;
+        const msgWidth =this.getMessageWidth(chatWidth);
         return (
             <div style={outContainerStyle} >
                 {result &&
-                    <ul className="list-group">
+                    <ul className="list-group" key='historyMsgList'  >
                         {result.data.map((msg) => (
                             this.isSelfMessage(msg)?
-                            <StaffMessage message={msg}/> : <CustomerMessage message={msg}/> 
+                            <StaffMessage message={msg} width={msgWidth}/> : <CustomerMessage message={msg} width={msgWidth}/> 
                            
                         ))}
                     </ul>
@@ -55,7 +72,8 @@ class HistoryMessageList extends Component {
 
 function mapStateToProps(state) {
     const { result } = state.historyMessage;
-    return { result };
+    const {chatWidth} =state.home;
+    return { result,chatWidth };
 }
 
 

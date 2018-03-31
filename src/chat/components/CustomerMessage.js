@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext, util } from '../../util';
 import { chatActions } from '../actions';
+import { renderMessageContent } from './messageContentRender';
 require('../../assets/styles/bubble.css');
+
+
 
 const imgMsgSample = {
     ChannelID: 5356283611374137403,
@@ -34,9 +37,7 @@ const historyMsgSample =
 
 
 
-const containerStyle = {
-    margin: 10,
-}
+
 
 const sendTimeStyle = {
     color: 'gray',
@@ -49,41 +50,28 @@ const senderStyle = {
     color: 'gray',
 }
 
-const contentStyle = {
-
-    textAlign: 'left',
+const contentStyle = (width) => ({
     wordWrap: 'break-word',
-}
+    maxWidth: width ? width : window.innerWidth / 2,
+})
 
 
-export const CustomerMessage = ({ message }) => {
-
-
+export const CustomerMessage = ({ message, width }) => {
+    const { MessageContent } = message;
     return (
-
-        // <div style={containerStyle}>
-        //     <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']：'}</span></span>
-
-        //     <div class="louter"  >
-        //         <div className="lbubble"> {message.MessageContent}</div>
-
-        //     </div>
-
-        // </div>
-
-
-
-        <div class="louter" style={{marginLeft:10}}  >
-            <div>
-                <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']：'}</span></span>
-
+        <div class="louter"  >
+            <div style={{ display: 'table-cell', paddingRight: 15, }}>
+                <img style={{ width: 42, height: 42, marginTop: 30 }} src={require('../../assets/imgs/customer.jpg')} />
             </div>
-            <div className="lbubble"> {message.MessageContent}</div>
-
+            <div style={{ display: 'table-cell', }}>
+                <div>
+                    <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']'}</span></span>
+                </div>
+                <div className="lbubble" style={contentStyle(width)}>
+                    {renderMessageContent(MessageContent,width)}
+                </div>
+            </div>
         </div>
-
-
-
     )
 }
 

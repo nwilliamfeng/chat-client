@@ -1,4 +1,4 @@
-const messageSenderType={
+export const messageSenderType={
 
     UNKONWN:0,
 

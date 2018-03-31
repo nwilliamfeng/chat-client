@@ -1,6 +1,8 @@
 import { constants } from '../constants';
 
- 
+const sizeContext={
+  chatWidth:0,
+}
  
 export const homeReducer = (state = {}, action) => {
   switch (action.type) {
@@ -16,11 +18,12 @@ export const homeReducer = (state = {}, action) => {
         ...state,
         chatListHeight: action.height,
       };
-      // case constants.CUSTOMER_LIST_Height_CHANGED:
-      // return {
-      //   ...state,
-      //   customerListHeight: action.height,
-      // };
+
+      case constants.CHAT_WIDTH_QUERY:
+      return {
+        ...state,
+        chatWidth: sizeContext.chatWidth,
+      };
 
       case constants.CUSTOMER_LIST_WIDTH_CHANGED:
       return {
@@ -28,12 +31,13 @@ export const homeReducer = (state = {}, action) => {
         customerListWidth: action.width,
       };
 
-      // case constants.CUSTOMER_LIST_INIT_SIZE:
-      // return {
-      //   ...state,
-      //   customerListWidth: action.width,
-      //   customerListHeight:action.height,
-      // };
+      case constants.CHAT_WIDTH_CHANGE:
+      sizeContext.chatWidth=action.width;
+      return {
+        ...state,
+        chatWidth: action.width,
+       
+      };
 
     default:
       return state;

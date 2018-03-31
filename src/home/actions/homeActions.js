@@ -8,11 +8,12 @@ export const homeActions = {
     
     notifyNavibarWidthChange,
     notifyNavibarHeightChange,
-   // notifyCustomerListInitSize,
-  //  notifyCustomerListHeightChange,
+ 
     notifyCustomerListWidthChange,
 
+    notifyChatWidthChange,
     
+    queryChatWidth,
 }
 
  
@@ -32,22 +33,15 @@ function notifyNavibarHeightChange(height) {
      
 }
 
-// function notifyCustomerListHeightChange(height) {
-//     return   { 
-//         type: constants.CUSTOMER_LIST_Height_CHANGED, 
-//         height,
-//     } ;
+function notifyChatWidthChange(width) {
+    return   { 
+        type: constants.CHAT_WIDTH_CHANGE, 
+        width,
+    } ;
      
-// }
+}
 
-// function notifyCustomerListInitSize(height,width) {
-//     return   { 
-//         type: constants.CUSTOMER_LIST_INIT_SIZE, 
-//         height,
-//         width,
-//     } ;
-     
-// }
+ 
 
 function notifyCustomerListWidthChange(width) {
     return   { 
@@ -55,6 +49,12 @@ function notifyCustomerListWidthChange(width) {
         width,
     } ;
      
+}
+
+function queryChatWidth(){
+    return   { 
+        type: constants.CHAT_WIDTH_QUERY, 
+    } ;
 }
 
 

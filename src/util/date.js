@@ -36,8 +36,9 @@ function substactDays(days) {
 /**
  * c#日期格式转换
  * @param {string} date 
+ * @param {string} format
  */
-function cSharpDateFormat(date) {
+function cSharpDateFormat(date,format='yyyy-MM-dd hh:mm:ss') {
     if (date == null) {
         return "";
     }
@@ -49,7 +50,7 @@ function cSharpDateFormat(date) {
         date = date.substring(0, date.indexOf("-"));
     }
     var date = new Date(parseInt(date, 10));
-    var time = dateFormat(date, 'yyyy-MM-dd hh:mm:ss');
+    var time = dateFormat(date, format);
     return time;
 }
 

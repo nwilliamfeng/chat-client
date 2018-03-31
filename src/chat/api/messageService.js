@@ -1,10 +1,37 @@
 import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 import { util } from '../../util';
+import {messageContentType} from '../constants';
 
 /**
  * 消息服务类
  */
 class MessageService {
+
+    /**
+     * 返回指定的消息内容对应的类型
+     * @param {string} msgContent 
+     */
+    getMessageContentType(msgContent){
+        if(msgContent.startsWith('{Url:http://') && msgContent.endsWith(',UrlEnd:UrlEnd}')){
+            if(msgContent.indexOf(',ThumbUrl:')>0){
+                return messageContentType.Picture;
+            }
+            
+        }
+        return messageContentType.Text;
+    }
+
+
+    /**
+     * 
+     * @param {string} msgContent 
+     */
+    getThumbImg(msgContent){
+       const arrs=  msgContent.split(',');
+       return arrs[arrs.length-2].replace('ThumbUrl:','');
+    }
+
+
 
     /**
      * 返回指定客户id的历史消息

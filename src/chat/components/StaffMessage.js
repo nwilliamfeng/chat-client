@@ -2,25 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext, util } from '../../util';
 import { chatActions } from '../actions';
+import {renderMessageContent} from './messageContentRender';
 require('../../assets/styles/bubble.css');
 
 
 
-
-
 const containerStyle = {
-    margin: 10,
-
-    textAlign: 'right',
-    float: 'right',
     display: 'block',
     clear: 'right',
+    textAlign: 'right'
 }
 
-const contentStyle = {
+const avatarContainerStyle = {
+    float: 'right',
+    paddingLeft: 15,
+}
 
-    textAlign: 'left',
-    wordWrap: 'break-word',
+const avatarStyle = {
+    width: 42,
+    height: 42,
+    marginTop: 5,
+
 }
 
 
@@ -30,40 +32,58 @@ const sendTimeStyle = {
 }
 
 const senderStyle = {
-
     color: 'blue',
     marginLeft: 10,
     fontSize: 12,
 }
 
+const bodyStyle = {
+    float: 'right',
+    clear: 'left',
+}
 
-export const StaffMessage = ({ message }) => {
+const contentStyle = (width) => ({
+    maxWidth: width ? width : 500,
+    wordWrap: 'break-word',
+    marginBottom: 20,
+    textAlign: 'left'
+})
 
 
+// const renderMessageContent = (content) => {
+//     const contentType = messageService.getMessageContentType(content);
+//     switch (contentType) {
+//         case messageContentType.Text:
+//             return (
+//                 <div> {content}</div>
+//             );
+//         case messageContentType.Picture:
+//             return (
+//                  <img src={messageService.getThumbImg(content) } alt=''></img>
+//             );
+//         default:
+//             return(<div>{'无法识别的消息内容:'+content}</div>)
+//     }
+
+// }
+
+
+export const StaffMessage = ({ message, width }) => {
+    const { MessageContent } = message;
     return (
-
-        // <div style={containerStyle}>
-        //     {/* 显示台头 */}
-        //     <span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']'}<span style={senderStyle}>{message.SenderName+'：'}</span></span>
-
-        //     <div class="router"  >
-        //         <div className="rbubble"> {message.MessageContent}</div>
-
-        //     </div>
-        // </div>
-
-
-
-
-        <div class="router" style={{marginLeft:400}} >
-            <div style={{ textAlign: 'right' }}>
-                <span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime) + ']'}<span style={senderStyle}>{message.SenderName + '：'}</span></span>
+        <div style={containerStyle}  >
+            <div style={avatarContainerStyle}>
+                <img style={avatarStyle} src={require('../../assets/imgs/staff.jpg')} />
             </div>
-            <div className="rbubble"> {message.MessageContent}</div>
-
+            <div style={bodyStyle}>
+                <div>
+                    <span style={sendTimeStyle}>{'[' + util.csharpDateFormat(message.SendTime, 'MM-dd hh:mm:ss') + ']'}<span style={senderStyle}>{message.SenderName}</span></span>
+                </div>
+                <div className="rbubble" style={contentStyle(width)}>
+                    {renderMessageContent(MessageContent)}
+                </div>
+            </div>
         </div>
-
-
     )
 }
 

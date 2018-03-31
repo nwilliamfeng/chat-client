@@ -72,12 +72,21 @@ class HomePage extends Component {
         super(props);
         this.state = {
             customerListHeight: 0,
-            customerListWidth: 0,
-            navibarWidth: 0,
+            customerListWidth: initSize.customerListWidth,
+            navibarWidth: initSize.navibarInitPaneWidth,
         };
         this.onCustomerListWidthChange = this.onCustomerListWidthChange.bind(this);
         this.onNavibarWidthChange = this.onNavibarWidthChange.bind(this);
+        this.notifyChatWidthChange=this.notifyChatWidthChange.bind(this);
     }
+
+    notifyChatWidthChange(){
+        const {customerListWidth,navibarWidth} =this.state;
+        const { dispatch } = this.props;
+        const chatWidth=window.innerWidth- customerListWidth- navibarWidth;
+        dispatch(homeActions.notifyChatWidthChange(chatWidth));
+    }
+    
 
     componentWillMount() {
         const customerListWidth = initSize.getCustomerListInitPaneDefaultWidth();
@@ -85,6 +94,7 @@ class HomePage extends Component {
         dispatch(homeActions.notifyCustomerListWidthChange(customerListWidth));
         dispatch(homeActions.notifyNavibarHeightChange(initSize.getChatListHeight()));
         dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth - 5));
+        this.notifyChatWidthChange();
     }
 
 
@@ -95,6 +105,7 @@ class HomePage extends Component {
         if (navibarWidth != nwWidth) {
             this.setState({ navibarWidth: nwWidth });
             dispatch(homeActions.notifyNavibarWidthChange(nwWidth));
+            this.notifyChatWidthChange();
         }
     }
 
@@ -104,6 +115,7 @@ class HomePage extends Component {
         if (customerListWidth != width) {
             this.setState({ customerListWidth: width });
             dispatch(homeActions.notifyCustomerListWidthChange(width));
+            this.notifyChatWidthChange();
         }
     }
 
