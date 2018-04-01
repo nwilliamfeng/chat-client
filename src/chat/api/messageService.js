@@ -14,23 +14,43 @@ class MessageService {
     getMessageContentType(msgContent){
         if(msgContent.startsWith('{Url:http://') && msgContent.endsWith(',UrlEnd:UrlEnd}')){
             if(msgContent.indexOf(',ThumbUrl:')>0){
-                return messageContentType.Picture;
-            }
-            
+                return this.getThumbImg(msgContent).length>0?  messageContentType.Picture :messageContentType.File;
+            }            
         }
         return messageContentType.Text;
     }
 
 
     /**
-     * 
+     * 返回指定消息内容里的缩略图文件路径
      * @param {string} msgContent 
+     * @returns {string}
      */
     getThumbImg(msgContent){
        const arrs=  msgContent.split(',');
        return arrs[arrs.length-2].replace('ThumbUrl:','');
     }
 
+
+    /**
+     * 返回指定消息内容里的文件名称
+     * @param {string} msgContent 
+     * @returns {string}
+     */
+    getFileName(msgContent){
+        const arrs=  msgContent.split(',');
+        return arrs[arrs.length-3].replace('FileName:','');
+    }
+
+    /**
+     * 返回指定消息内容里的文件完整路径
+     * @param {string} msgContent 
+     * @returns {string}
+     */
+    getFullFileName(msgContent){
+        const arrs=  msgContent.split(',');
+        return arrs[0].replace('{Url:','');       
+    }
 
 
     /**

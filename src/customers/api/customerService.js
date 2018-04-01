@@ -9,7 +9,7 @@ class CustomerService {
 
     constructor() {
                 //customerid in company : 2D805092B1447AFD;
-                //customerid in home :19014FB9C306EE40
+                //customerid in home :BA34565DB69EB411
     }
 
     /**
@@ -25,7 +25,7 @@ class CustomerService {
         const customers = [];
         for (let i = 0; i < 3; i++) {
             let customer = {
-                Device: 'Android' + i, CustomerState: 0, ProductName: 'product' + i, StaffName: 'staff' + i, CustomerId: '2D805092B1447AFD'
+                Device: 'Android' + i, CustomerState: 0, ProductName: 'product' + i, StaffName: 'staff' + i, CustomerId: 'BA34565DB69EB411'
                 , Uid: 'uid' + i, CustomerName: 'customer' + i, CustomerIp: 'customerip' + i, CustomerIpMappingAddress: 'local' + i, EnterTime: new Date(), ChannelId: 'ChannelId' + i
             };
             customers.push(customer);

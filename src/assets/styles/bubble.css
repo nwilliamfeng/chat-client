@@ -8,35 +8,56 @@
     clear: right; 
     margin-left: 60px;
   }
+  .rbubble_file,
   .lbubble,
   .rbubble {
     position: relative;
     padding: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    -webkit-box-shadow: 2px 2px 10px 0px #616161;
-    box-shadow: 2px 2px 7px 0px #616161;
+  
     display: inline-block;
     margin-bottom: 8px;
   }
   .lbubble {
-    background: lightblue;
+    background: white;
   }
   .rbubble {
     background: lightgreen;
     float: right;/*add float right*/
+ 
   }
-  .lbubble:after {
+  .rbubble_file {
+    background: white;
+    float: right; 
+ 
+  }
+
+  .lbubble::before {
     content: "";
     position: absolute;
-    top: 5px;
+    top: 10px;
     left: -8px;
     border-style: solid;
-    border-width: 10px 14px 10px 0;
-    border-color: transparent lightblue;
+    border-width: 5px 7px 5px 0;
+    border-color: transparent #eee;
     width: 0;
     z-index: 1;
   }
+
+  .lbubble:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -6px;
+    border-style: solid;
+    border-width: 5px 7px 5px 0;
+    border-color: transparent white;
+    width: 0;
+    z-index: 1;
+  }
+
+   
   .rbubble:after {
     content: "";
     position: absolute;
@@ -45,6 +66,34 @@
     border-style: solid;
     border-width: 5px 0 5px 7px;
     border-color: transparent lightgreen;
+
     width:0px;
     z-index: 1;
   }
+
+  .rbubble_file:before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: -7px;
+    border-style: solid;
+    border-width: 5px 0 5px 7px;
+    border-color: transparent #eee;
+
+    width:0px;
+    z-index: 1;
+  }
+
+  .rbubble_file:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: -5px;
+    border-style: solid;
+    border-width: 5px 0 5px 7px;
+    border-color: transparent white;
+
+    width:0px;
+    z-index: 1;
+  }
+  
