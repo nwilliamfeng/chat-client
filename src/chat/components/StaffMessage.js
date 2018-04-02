@@ -24,7 +24,6 @@ const avatarStyle = {
     width: 42,
     height: 42,
     marginTop: 5,
-
 }
 
 
@@ -57,6 +56,7 @@ const file_contentStyle = {
     textAlign: 'left',
     border: '1px solid #eee',
     padding:10,
+
 }
 
 const imgStyle = (width) => ({
@@ -66,6 +66,25 @@ const imgStyle = (width) => ({
     border: '1px solid #eee',
     borderRadius: 5,
 })
+
+const fileNameStyle ={
+    display: 'table-cell', 
+    wordWrap: 'break-word',
+ 
+    width:150,
+    paddingTop:-30,
+   // verticalAlign: 'top',
+    maxWidth:150,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+}
+
+ 
+const fileLogoContainerStyle={
+    display: 'table-cell', 
+    
+}
 
 const renderContent=(content, width)=> {
     const contentType = messageService.getMessageContentType(content);
@@ -83,15 +102,15 @@ const renderContent=(content, width)=> {
         case messageContentType.File:
             return (
                 <div className='rbubble_file' style={file_contentStyle}>
-                    <div style={{ display: 'table-cell', wordWrap: 'break-word',width:150,marginRight:10 }}>
-                        {decodeURIComponent( messageService.getFileName(content))}
+                    <div style={fileNameStyle}>
+                   
+                        {decodeURIComponent( messageService.getFileName(content))} 
+                   
                     </div>
-                    <div style={{ display: 'table-cell' }}>
-                        <img src={messageContentRender.getFileImgSrc(messageService.getFileName(content))} alt={messageService.getFileName(content)}></img>
+                    <div style={fileLogoContainerStyle}>
+                        <img src={messageContentRender.getFileImgSrc(messageService.getFileName(content))} alt=''></img>
                     </div>
-
                 </div>
-
             );
         default:
             return (<div>{'无法识别的消息内容:' + content}</div>)

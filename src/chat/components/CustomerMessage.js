@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext, util } from '../../util';
+import { messageContentType } from '../constants';
 import { chatActions } from '../actions';
 import { messageContentRender } from './messageContentRender';
+import { messageService } from '../api';
 require('../../assets/styles/bubble.css');
 
 
@@ -70,11 +72,66 @@ const bodyStyle = {
     display: 'table-cell', 
 }
 
+// const file_contentStyle = {
+//     marginBottom: 20,
+//     textAlign: 'left',
+//     border: '1px solid #eee',
+//     padding:10,
+// }
+
+const imgStyle = (width) => ({
+    maxWidth: width - 30,
+    maxHeight: width - 30,
+    marginBottom: 15,
+    border: '1px solid #eee',
+    borderRadius: 5,
+})
+
+// const fileNameStyle ={
+//     display: 'table-cell', 
+//     wordWrap: 'break-word',
+//     width:150,
+//     marginLeft:10 ,
+// }
+
+// const fileLogoContainerStyle={
+//     display: 'table-cell', 
+// }
+
 const contentStyle = (width) => ({
     wordWrap: 'break-word',
     maxWidth: width ? width : window.innerWidth / 2,
     border: '1px solid #eee',
 })
+
+const renderContent=(content, width)=> {
+    const contentType = messageService.getMessageContentType(content);
+    switch (contentType) {
+        case messageContentType.Text:
+            return (
+                <div className='lbubble' style={contentStyle(width)}>
+                    {content}
+                </div>
+            );
+        case messageContentType.Picture:
+            return (
+                <img src={messageService.getThumbImg(content)} style={imgStyle(width)} alt=''></img>
+            );
+        // case messageContentType.File:
+        //     return (
+        //         <div className='lbubble' style={file_contentStyle}>
+        //             <div style={fileNameStyle}>
+        //                 {decodeURIComponent( messageService.getFileName(content))}
+        //             </div>
+        //             <div style={fileLogoContainerStyle}>
+        //                 <img src={messageContentRender.getFileImgSrc(messageService.getFileName(content))} alt=''></img>
+        //             </div>
+        //         </div>
+        //     );
+        default:
+            return (<div>{'无法识别的消息内容:' + content}</div>)
+    }
+}
 
 
 export const CustomerMessage = ({ message, width }) => {
@@ -88,8 +145,7 @@ export const CustomerMessage = ({ message, width }) => {
                 <div>
                     <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{messageContentRender.renderSendTime(message.SendTime)}</span></span>
                 </div>
-
-                {messageContentRender.renderContent(MessageContent, width, 'lbubble', contentStyle(width))}
+                {renderContent(MessageContent, width)}
             </div>
         </div>
     )
