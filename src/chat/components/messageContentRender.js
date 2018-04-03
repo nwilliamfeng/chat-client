@@ -34,11 +34,11 @@ class MessageContentRender {
      */
     renderSendTime(csharpTime) {
         const time = new Date(Date.parse(util.csharpDateFormat(csharpTime)));
-
-        if (time.getFullYear() === new Date().getFullYear()) {
+        
+        if (time.getTime()>=util.today().getTime()) {
             return '[' + util.dateFormat(time, 'hh:mm:ss') + ']';
         }
-        return '[' + util.dateFormat(time, 'MM-dd hh:mm:ss') + ']';
+        return '[' + util.dateFormat(time, 'M月d日 hh:mm:ss') + ']';
     }
 }
 

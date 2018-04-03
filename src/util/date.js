@@ -55,10 +55,24 @@ function cSharpDateFormat(date,format='yyyy-MM-dd hh:mm:ss') {
 }
 
 /**
+ * 返回当天0时
+ * @returns {Date}
+ */
+function today(){
+    let today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    return today;
+}
+
+/**
  * 日期工具实例
  */
 export const dateUtil ={
     dateFormat,
     substactDays,
     cSharpDateFormat,
+    today,
 }

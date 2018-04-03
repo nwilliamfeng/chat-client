@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {ReactDOM, Component } from 'react';
 import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { chatActions } from '../actions';
@@ -21,32 +21,43 @@ const outContainerStyle = {
     overflowX:'hidden',
 }
 
-class HistoryMessageList extends Component {
+class HistoryMessageList extends React.Component  {
 
     constructor(props) {
         super(props);
         this.state = {  };
+        this.refScroll =React.createRef();
+      
     }
 
     isSelfMessage(message){
         return message.Sender ===appContext.currentStaff.StaffId;
     }
 
-    
-
-    // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    //     return true;
-    // }
+     
+ 
+    handleScroll(ev) {
+        const rect =ev.currentTarget.children[0].getBoundingClientRect();
+        console.log( rect );
+        const ss=ev.currentTarget.getBoundingClientRect();
+      //  console.log(ss  );
+        console.log(ev.currentTarget  );
+    }
+    componentDidMount() {
+        const list =this.refScroll.current;
+        list.addEventListener('scroll', this.handleScroll);
+    }
+    componentWillUnmount() {
+        const list = this.refScroll.current;
+        list.removeEventListener('scroll', this.handleScroll);
+    }
 
     componentWillMount(){
         const {dispatch} =this.props;
         dispatch(homeActions.queryChatWidth());
     }
 
-    handleListSizeChanged(e){
-        console.log(e);
-    }
-
+   
     getMessageWidth(chatWidth){
         return chatWidth/2;
     }
@@ -55,9 +66,9 @@ class HistoryMessageList extends Component {
         const { result ,chatWidth} = this.props;
         const msgWidth =this.getMessageWidth(chatWidth);
         return (
-            <div style={outContainerStyle} >
+            <div style={outContainerStyle} ref={this.refScroll}>
                 {result &&
-                    <ul className="list-group" key='historyMsgList'  >
+                    <ul className="list-group"   >
                         {result.data.map((msg) => (
                             this.isSelfMessage(msg)?
                             <StaffMessage message={msg} width={msgWidth}/> : <CustomerMessage message={msg} width={msgWidth}/> 

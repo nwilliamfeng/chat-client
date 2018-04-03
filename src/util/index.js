@@ -16,4 +16,5 @@ export const util={
     getIpAddress :netUtil.getIpAddress,
     dateFormat:dateUtil.dateFormat,
     csharpDateFormat:dateUtil.cSharpDateFormat,
+    today:dateUtil.today,
 }
