@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { chatActions, messageActions } from '../actions';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-
 import { MessageList } from './MessageList';
 import { HistoryMessageList } from './HistoryMessageList';
 import { activePageType } from '../constants';
@@ -35,10 +34,10 @@ class Chat extends Component {
         alert(chat.customer);
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return true;
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     return true;
 
-    }
+    // }
 
     // componentWillMount(){
     //     const {selectedChat} =this.props;
@@ -55,7 +54,7 @@ class Chat extends Component {
         const { dispatch, selectedChat } = this.props;
         dispatch(chatActions.activeChatPage(selectedChat.channelId, index));
         if (index === activePageType.HISTORY_PAGE) {
-            dispatch(messageActions.loadHistoryMessage(selectedChat.customer.CustomerId));
+            dispatch(messageActions.getRecentMessages(selectedChat.customer.CustomerId));
         }
     }
 
@@ -81,9 +80,7 @@ class Chat extends Component {
                                 <h2>该网页未开通</h2>
                             </TabPanel>
                             <TabPanel>
-
-                                <HistoryMessageList></HistoryMessageList>
-
+                                <HistoryMessageList selectedChat={selectedChat}></HistoryMessageList>
                             </TabPanel>
                         </Tabs>
 

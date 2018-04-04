@@ -137,7 +137,7 @@ const renderContent=(content, width)=> {
 export const CustomerMessage = ({ message, width }) => {
     const { MessageContent } = message;
     return (
-        <div class="louter"  >
+        <div className="louter"  >
             <div style={avatarContainerStyle}>
                 <img style={avatarStyle} src={require('../../assets/imgs/customer.jpg')} />
             </div>
