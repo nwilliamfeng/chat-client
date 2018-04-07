@@ -19,10 +19,10 @@ const navibarStyle = {
     background: '#2A2D32',
 
     left: 0,
-    height: '100vh',
+    height: '100%',
     width: 60,
     float: 'left',
-
+    position:'fixed', 
 }
 
 

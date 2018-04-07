@@ -44,28 +44,9 @@ class HomePage extends Component {
                         <p style={{color:'red'}}>32</p>
                     </div> */}
                 
-                <div style={{  background:'red' ,overflow:'hidden',height:'calc(100%)'   }}>
-                     {/* <ChatRegion />   */}
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-
-                        <p>asdfadfsadf</p>
-                        <p>asdfadfsadf</p>
-
+                <div style={{ float: 'left',position:'fixed', left:60, background:'red' ,overflow:'hidden',height:'calc(100%)'   }}>
+                       <ChatRegion />  
+                        
                 </div>
 
             </div>

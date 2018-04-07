@@ -172,7 +172,7 @@ class ChatRegion extends Component {
 
 
 
-                <div style={{ display: 'table-cell', width: 220,   background: 'green' }}>
+                <div style={{ display: 'table-cell', width: 220,height:'100vh',   background: 'green' }}>
                     <div style={chatListContainerStyle}>
                         <div style={searchBoxStyle}>
                             <SearchBox />
