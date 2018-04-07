@@ -7,7 +7,7 @@ export const homeActions = {
 
     
     notifyNavibarWidthChange,
-    notifyNavibarHeightChange,
+   // notifyNavibarHeightChange,
  
     notifyCustomerListWidthChange,
 
@@ -25,13 +25,13 @@ function notifyNavibarWidthChange(width) {
      
 }
 
-function notifyNavibarHeightChange(height) {
-    return   { 
-        type: constants.NAVIBAR_HEIGHT_CHANGED, 
-        height,
-    } ;
+// function notifyNavibarHeightChange(height) {
+//     return   { 
+//         type: constants.NAVIBAR_HEIGHT_CHANGED, 
+//         height,
+//     } ;
      
-}
+// }
 
 function notifyChatWidthChange(width) {
     return   { 

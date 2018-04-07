@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import { SearchBox } from '../../search/components';
-import { ChatList } from '../../chat/components';
-require('../../assets/styles/nav-pill.css');
+import SplitPane from 'react-split-pane';
 
-const containerStyle = {
-   
-    paddingTop: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-    
+require('../../assets/styles/react-split-pane.css');
+require('../../assets/styles/button.css');
+
+const settingBtnStyle = {
+    //     display:'block',
+    //    backgroundColor:'transparent',
+    //     color:'white',
+    //     border: 'none',
+    //     outline:'none',
+    padding: 20,
+     paddingTop:30,
+    fontSize: 23
 }
 
+const navibarStyle = {
+    background: '#2A2D32',
 
+    left: 0,
+    height: '100vh',
+    width: 60,
+    float: 'left',
 
-// const containerStyle2 = {
-//     paddingTop: 0,
-//     paddingLeft: 5,
-//     paddingRight: 5,
-//     paddingBottom: 10,
-// }
+}
 
 
 export default class Navibar extends Component {
@@ -29,25 +34,14 @@ export default class Navibar extends Component {
 
     render() {
         return (
-            <div >
-                <div style={containerStyle}>
-                    <SearchBox />
+            <div style={navibarStyle}>
+                <div style={{ width: '100%', height: 'calc(100% - 83px)' }}>
                 </div>
-
-                {/* <ul className="nav nav-pills nav-pills-xs" style={containerStyle2}>
-                    <li role="presentation" className="active"><a href="#">在线客服</a></li>
-                    <li role="presentation"><a href="#">其他1</a></li>
-                    <li role="presentation"><a href="#">其他2</a></li>
-                </ul> */}
-                {/* <div className="btn-group" role="group" aria-label="...">
-                    <button type="button" className="btn btn-default"><i className="fa fa-weixin" aria-hidden="true"></i></button>
-                    <button type="button" className="btn btn-default"><i className="fa fa-weixin" aria-hidden="true"></i></button>
-                    <button type="button" className="btn btn-default"><i className="fa fa-weixin" aria-hidden="true"></i></button>
-                </div> */}
+            
+                    <button style={settingBtnStyle} className='metroBtn'><i className="fa fa-bars" aria-hidden="true"></i></button>
                
-                    <ChatList />
-                
             </div>
+
         );
     }
 

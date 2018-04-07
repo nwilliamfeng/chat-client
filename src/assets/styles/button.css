@@ -1,0 +1,17 @@
+ 
+.metroBtn{
+    
+    display:block;
+    background-color:transparent;
+    color:rgb(230, 224, 224);
+    border: none;
+    outline:none;
+  
+}
+
+.metroBtn:hover{
+    
+    
+    color:white;
+   
+}

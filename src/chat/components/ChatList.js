@@ -6,14 +6,15 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader'
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 
-const chatListStyle=(height)=>({
+const chatListStyle={
     overflowY: 'auto',
     overflowX:'hidden',
-    height:'calc(100% - 125px)',
+   //  height:'calc(100% - 125px)',
+   height:'calc(100% - 50px)',//50px位搜索框的高
     width:'calc(100% - 0px)',
     position:'absolute',
     
-})
+} 
 
 class ChatList extends Component {
 
@@ -91,9 +92,9 @@ class ChatList extends Component {
 
     render() {
         console.log('do render chatlist');
-        const { chats, chatListWidth,chatListHeight } = this.props;
+        const { chats, chatListWidth } = this.props;
         return (
-            <div style={chatListStyle(chatListHeight)}>
+            <div style={chatListStyle}>
                 {chats &&
                     <ul className="list-group list-group-hover" >
                         {chats.map((item) => (

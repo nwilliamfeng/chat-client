@@ -13,7 +13,7 @@ require('../../assets/styles/react-tabs.css');
 
 const outContainerStyle = {
     background: '#f8f8f8',
-    paddingTop: 35,
+    
     paddingLeft: 3,
     paddingRight: 3,
 

@@ -13,11 +13,11 @@ export const homeReducer = (state = {}, action) => {
         chatListWidth: action.width,
       };
 
-      case constants.NAVIBAR_HEIGHT_CHANGED:
-      return {
-        ...state,
-        chatListHeight: action.height,
-      };
+      // case constants.NAVIBAR_HEIGHT_CHANGED:
+      // return {
+      //   ...state,
+      //   chatListHeight: action.height,
+      // };
 
       case constants.CHAT_WIDTH_QUERY:
       return {

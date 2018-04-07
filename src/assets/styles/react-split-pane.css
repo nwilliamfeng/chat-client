@@ -42,7 +42,8 @@
     border-right: 5px solid rgba(0, 0, 0, 0.5);
 }
 .Resizer.disabled {
-  cursor: not-allowed;
+  cursor: default;
+  background: transparent;
 }
 .Resizer.disabled:hover {
   border-color: transparent;

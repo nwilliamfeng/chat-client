@@ -9,6 +9,7 @@ class Statusbar extends Component {
 
     render() {
         return (
+            
             <nav className="navbar-nav-xs navbar-default navbar-fixed-bottom" >
                 <ul className="nav navbar-nav" >
                     <li><a   >  info</a></li>
