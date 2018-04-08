@@ -40,7 +40,7 @@ const searchBoxStyle = {
     marginLeft: 8,
     marginTop: 5,
     marginRight: 3,
-    width:235,
+    width: 235,
 }
 
 
@@ -104,7 +104,7 @@ class ChatRegion extends Component {
         const { dispatch } = this.props;
         dispatch(homeActions.notifyCustomerListWidthChange(customerListWidth));
         // dispatch(homeActions.notifyNavibarHeightChange(initSize.getChatListHeight()));
-        dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth - 5));
+        dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth));
         this.notifyChatWidthChange();
     }
 
@@ -172,7 +172,7 @@ class ChatRegion extends Component {
 
 
 
-                <div style={{ display: 'table-cell', width: 220,height:'100vh',   background: 'green' }}>
+                <div style={{ display: 'table-cell', width: 250, height: '100vh', background: '#E6E6E7', position: 'fixed', }}>
                     <div style={chatListContainerStyle}>
                         <div style={searchBoxStyle}>
                             <SearchBox />
@@ -181,11 +181,32 @@ class ChatRegion extends Component {
                     </div>
                 </div>
 
-                <div style={{ display: 'table-cell', background: 'yellow',   width: '100%' }}>
-                    {/* <ChatRegion />    */}
-                    <p>chat</p>
+                <div style={{ display: 'table-cell', left: 310, position: 'fixed', width: '100%' }}>
+
+                    {/* {selectedChat && <SplitPane split="horizontal" minSize={50} pane1Style={{ background: '#f8f8f8' }} maxSize={450} defaultSize={150} primary="second"  >
+                        <Chat style={chatContianerStyle} />
+                         <div>{'23423423'}</div>
+                   </SplitPane>
+                      } */}
+
+                    <div className="row" style={{ height: '100vh' }}>
+                        <div className="col-md-7">
+                            <div style={{ background: 'red', height: '80vh', }}>
+                                <Chat style={chatContianerStyle} />
+                            </div>
+                            <div style={{ height: '20vh', position: 'absolute' }}>
+                                {'23423423'}
+                            </div>
+                        </div>
+                        <div className="col-md-5">
+                            <CustomerList />
+                        </div>
+                    </div>
+
+
 
                 </div>
+
 
             </div>
         );

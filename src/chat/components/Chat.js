@@ -26,13 +26,17 @@ class Chat extends Component {
         super(props);
         this.state = { activePage: 0 };
         this.handleSelectActivePage = this.handleSelectActivePage.bind(this);
-
-
+ 
     }
 
     closeChat(chat) {
         alert(chat.customer);
     }
+
+    // componentDidMount(){
+    //     const { dispatch, selectedChat } = this.props;
+    //     dispatch(messageActions.getRecentMessages(selectedChat.customer.CustomerId));
+    // }
 
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
     //     return true;

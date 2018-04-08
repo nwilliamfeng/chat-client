@@ -1,3 +1,9 @@
 .list-group-hover .list-group-item:hover {
-    background-color: #f5f5f5;
+    background-color: #DEDBDA;
 }
+
+.list-group-hover .list-group-item {
+    background-color: #E6E6E7;
+}
+
+  

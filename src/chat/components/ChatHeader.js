@@ -16,10 +16,12 @@ const headerStyle2 = {
 }
 
 
-const liStyle = {
+const liStyle =(width)=>( {
     padding: 0,
     border: 'none',
-}
+    maxWidth:width,
+    width:width,
+})
 
 /**
  * 消息内容样式
@@ -118,7 +120,7 @@ const getChatStyle = (isSelected) => ({
     paddingRight: 8,
     paddingTop: 11,
     paddingBottom:10,
-    background: isSelected === true ? '#eee' : 'transparent',
+     background: isSelected === true ? '#C4C4C5' :'transparent'
 })
 
 
@@ -128,7 +130,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
         onSelectChat(chat);
     }
     return (
-        <li style={liStyle} className='list-group-item' onClick={onClick}>
+        <li style={liStyle(maxWidth)} className='list-group-item' onClick={onClick}>
             <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
                 <div style={getChatStyle(isSelected)}>
                     <div style={headerStyle}>
