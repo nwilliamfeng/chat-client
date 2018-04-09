@@ -120,7 +120,7 @@ class HistoryMessageList extends React.Component {
         const { recentResult, chatWidth } = this.props;
         const msgWidth = this.getMessageWidth(chatWidth);
         return (
-            <Scrollbars style={{ width: 'calc(100% - 10px)', height: 'calc(100% - 130px)', position: 'absolute', }}
+            <Scrollbars style={{ width: 'calc(100% - 10px)',  maxHeight:'calc(80vh - 80px)', position: 'absolute', }}
                 ref="scrollbars"
                 onScrollFrame={this.handleScrollFrame} >
                 <div style={outContainerStyle} >

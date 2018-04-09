@@ -21,6 +21,7 @@ const liStyle =(width)=>( {
     border: 'none',
     maxWidth:width,
     width:width,
+    
 })
 
 /**

@@ -26,15 +26,10 @@ const chatListContainerStyle = {
 const customerListContianerStyle = {
     paddingLeft: 5,
     paddingRight: 5,
-    paddingBottom: 35,
+   // paddingBottom: 35,
     //   paddingTop: 63,
 }
-
-const chatContianerStyle = {
-    padding: 5,
-    paddingTop: 0,
-    background: '#f8f8f8'
-}
+ 
 
 const searchBoxStyle = {
     marginLeft: 8,
@@ -58,17 +53,7 @@ const initSize = {
     isCustomerListHeightPercentage: true,
     customerListWidth: 300,
     navibarInitPaneWidth: 250,
-    // getChatListHeight: function () {
-    //     return window.innerHeight - this.heightOffset - 50;
-    // },
 
-    // getCustomerListHeightOffset: function () {
-    //     return this.heightOffset + 30;
-    // },
-
-    // getCustomerListInitWidth: function () {
-    //     return this.getCustomerListInitPaneDefaultWidth();
-    // },
     getCustomerListInitPaneDefaultHeight: function () {
         return this.isCustomerListHeightPercentage ? this.customerListHeight.toString() + '%' : this.customerListHeight;
     },
@@ -172,7 +157,7 @@ class ChatRegion extends Component {
 
 
 
-                <div style={{ display: 'table-cell', width: 250, height: '100vh', background: '#E6E6E7', position: 'fixed', }}>
+                <div style={{ display: 'table-cell', width: 250, height: '100%', background: '#E6E6E7', position: 'fixed', }}>
                     <div style={chatListContainerStyle}>
                         <div style={searchBoxStyle}>
                             <SearchBox />
@@ -181,7 +166,7 @@ class ChatRegion extends Component {
                     </div>
                 </div>
 
-                <div style={{ display: 'table-cell', left: 310, position: 'fixed', width: '100%' }}>
+                <div style={{ display: 'table-cell', background: '#F5F5F5', left: 310, position: 'fixed', width: '100%' }}>
 
                     {/* {selectedChat && <SplitPane split="horizontal" minSize={50} pane1Style={{ background: '#f8f8f8' }} maxSize={450} defaultSize={150} primary="second"  >
                         <Chat style={chatContianerStyle} />
@@ -189,18 +174,30 @@ class ChatRegion extends Component {
                    </SplitPane>
                       } */}
 
-                    <div className="row" style={{ height: '100vh' }}>
-                        <div className="col-md-7">
-                            <div style={{ background: 'red', height: '80vh', }}>
-                                <Chat style={chatContianerStyle} />
+                    <div className="row" style={{ height: '100vh', marginLeft: 1 }}>
+                        <div className="col-md-7" style={{ padding: 5 }}>
+                            <div style={{ height: '80vh',  }}>
+                                 <Chat   />
                             </div>
-                            <div style={{ height: '20vh', position: 'absolute' }}>
-                                {'23423423'}
+                            <div style={{  height: '20vh', background:'red',width:'100%',padding:20, position: 'absolute'   }}>
+                               <div style={{ height: '100%',background:'green' ,width:'100%',  }}>
+                                   </div>
                             </div>
                         </div>
-                        <div className="col-md-5">
-                            <CustomerList />
+                        <div className="col-md-5" style={{ background: 'white'  }}>
+
+                            <div style={{height:'50vh',   marginTop: 10 }}>
+                                <p style={titleStyle}>客户列表</p>
+                                <CustomerList />
+                            </div>
+                            <div style={{height:'50vh',  }}>
+                                <p style={titleStyle}>客户列表</p>
+                               
+                            </div>
+                          
                         </div>
+
+
                     </div>
 
 

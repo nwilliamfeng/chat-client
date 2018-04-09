@@ -44,7 +44,7 @@ class HomePage extends Component {
                         <p style={{color:'red'}}>32</p>
                     </div> */}
                 
-                <div style={{ float: 'left',position:'fixed', left:60, background:'red' ,overflow:'hidden',height:'calc(100%)'   }}>
+                <div style={{ float: 'left',position:'fixed', left:60,overflow:'hidden',height:'calc(100%)'   }}>
                        <ChatRegion />  
                         
                 </div>

@@ -11,14 +11,7 @@ require('../../assets/styles/react-split-pane.css');
 require('../../assets/styles/react-tabs.css');
 
 
-const outContainerStyle = {
-    background: '#f8f8f8',
-    
-    paddingLeft: 3,
-    paddingRight: 3,
-
-}
-
+ 
 
 class Chat extends Component {
 
@@ -68,8 +61,8 @@ class Chat extends Component {
 
             <div >
                 {selectedChat &&
-                    <div style={outContainerStyle}>
-                        <h3>{selectedChat.customer.CustomerName}</h3>
+                    <div  >
+                        <p style={{fontSize:20}}>{selectedChat.customer.CustomerName}</p> 
                         <Tabs selectedIndex={selectedChat.activePage} onSelect={this.handleSelectActivePage} >
                             <TabList >
                                 <Tab>客户对话</Tab>

@@ -1,5 +1,6 @@
 
 .react-contextmenu {
+   
     min-width: 160px;
     padding: 5px 0;
     margin: 2px 0 0;
@@ -20,6 +21,7 @@
 .react-contextmenu.react-contextmenu--visible {
     opacity: 1;
     pointer-events: auto;
+   
 }
 
 .react-contextmenu-item {
@@ -32,7 +34,8 @@
     white-space: nowrap;
     background: 0 0;
     border: 0;
-	cursor: pointer;
+    cursor: pointer;
+   
 }
 
 .react-contextmenu-item.react-contextmenu-item--active,
@@ -59,6 +62,7 @@
 .react-contextmenu-item--divider:hover {
     background-color: transparent;
     border-color: rgba(0,0,0,.15);
+   
 }
 
 .react-contextmenu-item.react-contextmenu-submenu {
