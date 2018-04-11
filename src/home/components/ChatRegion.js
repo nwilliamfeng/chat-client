@@ -18,9 +18,9 @@ const titleStyle = {
 }
 
 const chatListContainerStyle = {
-    paddingTop: 5,
-    paddingLeft: 15,
-    paddingRight:  5,
+  //  paddingTop: 5,
+  //  paddingLeft: 15,
+   // paddingRight:  5,
 }
 
 const customerListContianerStyle = {
@@ -32,7 +32,7 @@ const customerListContianerStyle = {
 
 
 const searchBoxStyle = {
-    marginLeft: 8,
+    marginLeft: 20,
     marginTop: 5,
     marginRight: 3,
     
@@ -198,12 +198,11 @@ class ChatRegion extends Component {
                     </div>
 
                     <div className="col-offset-chat"  >
-                    werwe
-                        {/* <div className="row" style={{ overflowY: 'hidden',height: '100vh',width:200 }}>
+                   <div className="row" style={{ overflowY: 'hidden',height: '100vh',width:200 }}>
                         
                              
 
-                        </div>   */}
+                        </div>   
                     </div>
                 </div>
             </div>

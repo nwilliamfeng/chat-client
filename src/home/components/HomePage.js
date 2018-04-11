@@ -81,11 +81,11 @@ class HomePage extends Component {
                             </div>
                         </div> */}
                         <div className="col-md-12 col-offset-main">
-                            <div className="row" style={{ overflowY: 'hidden', height: '100vh' }}>
+                            
                                
                                 <ChatRegion />
                                 
-                            </div>
+                         
                         </div>
                     </div>
                 </div>

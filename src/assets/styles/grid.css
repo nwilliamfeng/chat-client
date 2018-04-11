@@ -6,20 +6,7 @@
     z-index:2;
 }
 
-.col-fixed-middle{
-    margin-left:60px;
-    width:250px;
-    background:blue;
-    position:fixed;
-    height:100%;
-    z-index:1;
-}
 
-.col-offset-right{
-    padding-left:310px;
-    z-index:0;
-    background: green
-}
 
 .col-offset-main{
     padding-left:60px;
@@ -28,7 +15,7 @@
 }
 
 .col-fixed-chatlist{
-    margin-left:0px;
+    
     width:250px;
     background:#E6E6E7;
     position:fixed;
@@ -38,7 +25,7 @@
 
 
 .col-offset-chat{
-    
+    padding-left:260px;
     z-index:0;
     background: blue
 }
