@@ -1,21 +1,44 @@
-.col-fixed-240{
-    width:240px;
-    background:red;
+.col-fixed-left{
+    width:60px;
+    background:#2A2D32;
     position:fixed;
     height:100%;
-    z-index:1;
+    z-index:2;
 }
 
-.col-fixed-160{
-    margin-left:240px;
-    width:160px;
+.col-fixed-middle{
+    margin-left:60px;
+    width:250px;
     background:blue;
     position:fixed;
     height:100%;
     z-index:1;
 }
 
-.col-offset-400{
-    padding-left:415px;
+.col-offset-right{
+    padding-left:310px;
     z-index:0;
+    background: green
+}
+
+.col-offset-main{
+    padding-left:60px;
+    z-index:1;
+    background: white
+}
+
+.col-fixed-chatlist{
+    margin-left:0px;
+    width:250px;
+    background:#E6E6E7;
+    position:fixed;
+    height:100%;
+    z-index:2;
+}
+
+
+.col-offset-chat{
+    
+    z-index:0;
+    background: blue
 }

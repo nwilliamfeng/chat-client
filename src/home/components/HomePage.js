@@ -9,6 +9,7 @@ import { Chat } from '../../chat/components';
 import { homeActions } from '../actions';
 import SplitPane from 'react-split-pane';
 import { ChatRegion } from './ChatRegion'
+import { Scrollbars } from 'react-custom-scrollbars';
 require('../../assets/styles/grid.css');
 
 
@@ -30,7 +31,7 @@ class HomePage extends Component {
 
     render() {
         const a = [];
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 200; i++) {
             a.push(1);
         }
 
@@ -64,21 +65,32 @@ class HomePage extends Component {
             //     </div>
             // </div>
 
-            <div className="container">
-                <div className="row">
-                    <div className="col-fixed-240">Fixed 240px</div>
-                    <div className="col-fixed-160">Fixed 160px</div>
-                    <div className="col-md-12 col-offset-400">
-                        <div className="row">
-                        <Scrollbars style={{  height: 'calc(100% - 52px)', position: 'absolute', }}>
-                        {a.map((item) => (
-                            <p>abc</p>
-                        ))}
-                        </Scrollbars>
-            </div>
+            <div className='bg' style={{ left: 0, right: 0, height: '100vh', background: 'pink', float: 'left', position: 'absolute' }}>
+                <div className='container'>
+                    <div className="row">
+                        <div className="col-fixed-left">
+                            <Navibar />
+                        </div>
+                        {/* <div className="col-fixed-middle">
+                            <div className="row" style={{ overflowX: 'hidden', height: '100vh', paddingLeft: 20, paddingRight: 20 }}>
+                                <Scrollbars  >
+                                    {a.map((item) => (
+                                        <p>abc</p>
+                                    ))}
+                                </Scrollbars>
+                            </div>
+                        </div> */}
+                        <div className="col-md-12 col-offset-main">
+                            <div className="row" style={{ overflowY: 'hidden', height: '100vh' }}>
+                               
+                                <ChatRegion />
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
         );
 

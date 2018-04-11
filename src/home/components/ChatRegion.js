@@ -10,8 +10,8 @@ import { homeActions } from '../actions';
 
 import { SearchBox } from '../../search/components';
 import { ChatList } from '../../chat/components';
-import SplitPane from 'react-split-pane';
-require('../../assets/styles/react-split-pane.css');
+
+require('../../assets/styles/grid.css');
 
 const titleStyle = {
     fontWeight: 'Bold',
@@ -19,23 +19,23 @@ const titleStyle = {
 
 const chatListContainerStyle = {
     paddingTop: 5,
-    paddingLeft: 0,
-    paddingRight: 5,
+    paddingLeft: 15,
+    paddingRight:  5,
 }
 
 const customerListContianerStyle = {
     paddingLeft: 5,
     paddingRight: 5,
-   // paddingBottom: 35,
+    // paddingBottom: 35,
     //   paddingTop: 63,
 }
- 
+
 
 const searchBoxStyle = {
     marginLeft: 8,
     marginTop: 5,
     marginRight: 3,
-    width: 235,
+    
 }
 
 
@@ -85,12 +85,12 @@ class ChatRegion extends Component {
 
 
     componentWillMount() {
-        const customerListWidth = initSize.getCustomerListInitPaneDefaultWidth();
-        const { dispatch } = this.props;
-        dispatch(homeActions.notifyCustomerListWidthChange(customerListWidth));
-        // dispatch(homeActions.notifyNavibarHeightChange(initSize.getChatListHeight()));
-        dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth));
-        this.notifyChatWidthChange();
+        // const customerListWidth = initSize.getCustomerListInitPaneDefaultWidth();
+        // const { dispatch } = this.props;
+        // dispatch(homeActions.notifyCustomerListWidthChange(customerListWidth));
+        // // dispatch(homeActions.notifyNavibarHeightChange(initSize.getChatListHeight()));
+        // dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth));
+        // this.notifyChatWidthChange();
     }
 
 
@@ -153,58 +153,59 @@ class ChatRegion extends Component {
             //         </SplitPane>
             //     </SplitPane>
             // </SplitPane>
-            <div style={{ float: 'left', }} >
+            // <div style={{ float: 'left', }} >
+            //     <div style={{ display: 'table-cell', width: 250, height: '100%', background: '#E6E6E7', position: 'fixed', }}>
+            //         <div style={chatListContainerStyle}>
+            //             <div style={searchBoxStyle}>
+            //                 <SearchBox />
+            //             </div>
+            //             <ChatList />
+            //         </div>
+            //     </div>
 
-
-
-                <div style={{ display: 'table-cell', width: 250, height: '100%', background: '#E6E6E7', position: 'fixed', }}>
-                    <div style={chatListContainerStyle}>
-                        <div style={searchBoxStyle}>
-                            <SearchBox />
+            //     <div style={{ display: 'table-cell', background: '#F5F5F5', left: 310, position: 'fixed', width: '100%' }}>           
+            //         <div className="row" style={{ height: '100vh', marginLeft: 1 }}>
+            //             <div className="col-md-7" style={{ padding: 5 }}>
+            //                 <div style={{ height: '80vh',  }}>
+            //                      <Chat   />
+            //                 </div>
+            //                 <div style={{  height: '20vh', background:'red',width:'100%',padding:20, position: 'absolute'   }}>
+            //                    <div style={{ height: '100%',background:'green' ,width:'100%',  }}>
+            //                        </div>
+            //                 </div>
+            //             </div>
+            //             <div className="col-md-5" style={{ background: 'white'  }}>
+            //                 <div style={{height:'50vh',   marginTop: 10 }}>
+            //                     <p style={titleStyle}>客户列表</p>
+            //                     <CustomerList />
+            //                 </div>
+            //                 <div style={{height:'50vh',  }}>
+            //                     <p style={titleStyle}>客户列表</p>                              
+            //                 </div>                         
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
+            <div >
+                <div className="row">
+                    <div className="col-fixed-chatlist">
+                        <div style={chatListContainerStyle}>
+                            <div style={searchBoxStyle}>
+                                <SearchBox />
+                            </div>
+                            <ChatList />
                         </div>
-                        <ChatList />
-                    </div>
-                </div>
-
-                <div style={{ display: 'table-cell', background: '#F5F5F5', left: 310, position: 'fixed', width: '100%' }}>
-
-                    {/* {selectedChat && <SplitPane split="horizontal" minSize={50} pane1Style={{ background: '#f8f8f8' }} maxSize={450} defaultSize={150} primary="second"  >
-                        <Chat style={chatContianerStyle} />
-                         <div>{'23423423'}</div>
-                   </SplitPane>
-                      } */}
-
-                    <div className="row" style={{ height: '100vh', marginLeft: 1 }}>
-                        <div className="col-md-7" style={{ padding: 5 }}>
-                            <div style={{ height: '80vh',  }}>
-                                 <Chat   />
-                            </div>
-                            <div style={{  height: '20vh', background:'red',width:'100%',padding:20, position: 'absolute'   }}>
-                               <div style={{ height: '100%',background:'green' ,width:'100%',  }}>
-                                   </div>
-                            </div>
-                        </div>
-                        <div className="col-md-5" style={{ background: 'white'  }}>
-
-                            <div style={{height:'50vh',   marginTop: 10 }}>
-                                <p style={titleStyle}>客户列表</p>
-                                <CustomerList />
-                            </div>
-                            <div style={{height:'50vh',  }}>
-                                <p style={titleStyle}>客户列表</p>
-                               
-                            </div>
-                          
-                        </div>
-
-
                     </div>
 
+                    <div className="col-offset-chat"  >
+                    werwe
+                        {/* <div className="row" style={{ overflowY: 'hidden',height: '100vh',width:200 }}>
+                        
+                             
 
-
+                        </div>   */}
+                    </div>
                 </div>
-
-
             </div>
         );
     }
