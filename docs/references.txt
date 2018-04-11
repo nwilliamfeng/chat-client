@@ -14,3 +14,5 @@ https://fontawesome.com/v4.7.0/icon/calendar/
 
 5. javascript 截图
 https://www.cnblogs.com/mobeisanghai/p/7682463.html
+
+https://stackoverflow.com/questions/19231742/bootstrap-3-0-fluid-grid-that-includes-fixed-column-sizes
