@@ -18,6 +18,7 @@ const headerStyle2 = {
 
 const liStyle =(width)=>( {
     padding: 0,
+  
     border: 'none',
     maxWidth:width,
     width:width,
@@ -31,7 +32,7 @@ const liStyle =(width)=>( {
 const currMsgStyle = (width) => ({
     fontSize: 12,
     color: 'gray',
-    width: width ? width-56-65 : 100,
+    width: width ? width-156-55  : 120,
     marginTop: 5,
     textOverflow: 'ellipsis',
     overflow: 'hidden',

@@ -6,14 +6,16 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader';
 import { Scrollbars } from 'react-custom-scrollbars';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
+require('../../assets/styles/scrollbar.css');
 
 const chatListStyle={
-  //  overflowY: 'auto',
-  //  overflowX:'hidden',
+     overflowY: 'auto',
+    overflowX:'hidden',
    //  height:'calc(100% - 125px)',
-   height:'calc(100% - 50px)',//50px位搜索框的高
+    height:'calc(100% )',//50px位搜索框的高
     width:'calc(100% - 0px)',
     position:'absolute',
+    paddingLeft:10,
     
 } 
 
@@ -95,10 +97,12 @@ class ChatList extends Component {
         console.log('do render chatlist');
         const { chats, chatListWidth } = this.props;
         return (
-            <Scrollbars style={{  height: 'calc(100% - 52px)', position: 'absolute', }}
+            // <Scrollbars style={{  height: 'calc(100% - 52px)', position: 'absolute',width:'calc(100% - 5px)' }}
             
-            >
-            <div style={chatListStyle}>
+            // >
+            <div style={{  height: 'calc(100% - 52px)', position: 'absolute',width:'calc(100% - 5px)' }}>
+               
+            <div style={chatListStyle} className='scollContainer'>
                 {chats &&
                     <ul className="list-group list-group-hover" style={{background:'transparent'}}>
                         {chats.map((item) => (
@@ -116,7 +120,8 @@ class ChatList extends Component {
                 </ContextMenu>
 
             </div>
-            </Scrollbars>
+            </div>
+            // </Scrollbars>
         );
     }
 }

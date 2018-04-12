@@ -6,15 +6,17 @@ import { CustomerListItem } from './CustomerListItem';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import { CustomerColumnHeader } from './CustomerColumnHeader';
 import {chatActions} from '../../chat/actions';
+require('../../assets/styles/scrollbar.css');
+
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 
 const divStyle =(width)=> ({
      overflowX: 'auto',
-     overflowY: 'auto',
+     overflowY: 'hidden',
     whiteSpace: 'nowrap',
     height:'100%',
-     width:width?width-10:'100%',
-    
+     width: '100%',
+     
     paddingLeft:5,
     paddingRight:5,
 })
@@ -97,7 +99,7 @@ class CustomerList extends Component {
         const { customers,customerListWidth } = this.props;
         this.sortCustomerList(customers);//对列表进行排序
         return (
-            <div  style={divStyle(customerListWidth)}>
+            <div  style={divStyle(customerListWidth)} className='scollContainer'>
                 <table className="table table-bordered table-hover" >
                     <thead>
                         <tr>

@@ -10,17 +10,18 @@ import { homeActions } from '../actions';
 
 import { SearchBox } from '../../search/components';
 import { ChatList } from '../../chat/components';
-
+import { Scrollbars } from 'react-custom-scrollbars';
 require('../../assets/styles/grid.css');
+require('../../assets/styles/scrollbar.css');
 
 const titleStyle = {
     fontWeight: 'Bold',
 }
 
 const chatListContainerStyle = {
-  //  paddingTop: 5,
-  //  paddingLeft: 15,
-   // paddingRight:  5,
+    paddingTop: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
 }
 
 const customerListContianerStyle = {
@@ -35,7 +36,7 @@ const searchBoxStyle = {
     marginLeft: 20,
     marginTop: 5,
     marginRight: 3,
-    
+
 }
 
 
@@ -116,6 +117,12 @@ class ChatRegion extends Component {
     }
 
     render() {
+        const a = [];
+        for (var i = 0; i < 200; i++) {
+            a.push(1);
+        }
+
+
         const initCustomerListHeight = initSize.getCustomerListInitPaneDefaultHeight();
         const initCustomerListwidth = initSize.getCustomerListInitPaneDefaultWidth();
         const initNavibarWidth = initSize.navibarInitPaneWidth;
@@ -198,11 +205,36 @@ class ChatRegion extends Component {
                     </div>
 
                     <div className="col-offset-chat"  >
-                   <div className="row" style={{ overflowY: 'hidden',height: '100vh',width:200 }}>
+                        {/* <div className="row" style={{ overflowY: 'hidden', height: '100vh', width: 200 }}>
                         
-                             
 
-                        </div>   
+                        </div> */}
+
+                        <div className="row" style={{ overflowY: 'hidden', height: '100vh', marginLeft: 1 }}>
+                            <div className="col-md-8" style={{ padding: 5 }}>
+                                <div style={{ height: '80vh', }}>
+                                    <Chat />
+                                </div>
+                                <div style={{ height: '20vh', background: 'red', width: '100%', padding: 20, position: 'absolute' }}>
+                                    <div style={{ height: '100%', background: 'green', width: '100%', }}>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4" style={{ background: 'white' }}>
+                                <div style={{ height: '50vh', marginTop: 10 }}>
+                                    <p style={titleStyle}>客户列表</p>
+                                    
+                                        <CustomerList />
+                                  
+                                </div>
+                                <div style={{ height: '10vh' }}>
+                                   
+                                </div>
+                                <div style={{ height: '40vh', }}>
+                                    <p style={titleStyle}>客户列表</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

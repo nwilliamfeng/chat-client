@@ -1,0 +1,24 @@
+.scollContainer::-webkit-scrollbar     
+
+{  
+    width: 6px;  
+    height:6px;
+   
+}  
+.scollContainer::-webkit-scrollbar-track 
+{
+   
+    border-radius: 12px; 
+  
+}
+
+
+
+
+.scollContainer::-webkit-scrollbar-thumb   
+{  
+    border-radius: 12px;  
+   
+   background-color:#b5b1b1;
+} 
+
