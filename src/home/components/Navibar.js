@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import SplitPane from 'react-split-pane';
 import Popup from "reactjs-popup";
-require('../../assets/styles/react-split-pane.css');
-require('../../assets/styles/button.css');
 
+require('../../assets/styles/button.css');
+require('../../assets/styles/menu.css');
 
 const settingBtnStyle = {
     //     display:'block',
@@ -33,15 +33,27 @@ export default class Navibar extends Component {
                 <div style={{ width: '100%', height: 'calc(100% - 83px)' }}>
                 </div>
 
-                {/* <button style={settingBtnStyle} className='metroBtn'><i className="fa fa-bars" aria-hidden="true"></i></button> */}
+
                 <Popup
                     trigger={open => (
-                        <button className="button">Trigger - {open ? "Opened" : "Closed"}</button>
+                        <button style={settingBtnStyle} className='metroBtn'><i className="fa fa-bars" aria-hidden="true"></i></button>
+
                     )}
-                    position="right center"
-                    closeOnDocumentClick
+                    position="right bottom" on="click" closeOnDocumentClick
+                    mouseLeaveDelay={300}
+                    mouseEnterDelay={0}
+                    contentStyle={{ padding: "0px", border: "none",width:150,backgroundColor:'transparent',marginTop:-20 }}
+                    arrow={false}
                 >
-                    <span> popup content </span>
+
+                    <div className="menu">
+                       
+                        <div className="menu-item"> item 4</div>
+                        <div className="menu-item"> item 5</div>
+                        <div className="menu-item"> item 6</div>
+                    </div>
+
+
                 </Popup>
             </div>
 

@@ -10,6 +10,7 @@ import { homeActions } from '../actions';
 import SplitPane from 'react-split-pane';
 import { ChatRegion } from './ChatRegion'
 import { Scrollbars } from 'react-custom-scrollbars';
+import BackgroundImg from '../../assets/imgs/background.jpg';
 require('../../assets/styles/grid.css');
 
 
@@ -22,6 +23,8 @@ const navibarStyle = {
     float: 'left',
 
 }
+
+ 
 
 class HomePage extends Component {
 
@@ -65,8 +68,18 @@ class HomePage extends Component {
             //     </div>
             // </div>
 
-            <div className='bg' style={{ left: 0, right: 0, height: '100vh', background: 'pink', float: 'left', position: 'absolute' }}>
-                <div className='container'>
+            <div className='bg'>
+            <div  style={{ left: 0, right: 0, height: '100vh',
+            opacity:0.5
+            ,backgroundImage:`url(${BackgroundImg})` 
+            ,backgroundAttachment: 'fixed' ,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover' ,
+            display: 'block',
+            filter: 'blur(5px)'
+            ,   float: 'left', position: 'absolute' }}>
+                </div>
+                <div className='container'  >
                     <div className="row">
                         <div className="col-fixed-left">
                             <Navibar />

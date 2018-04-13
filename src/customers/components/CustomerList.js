@@ -12,13 +12,14 @@ export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 
 const divStyle =(width)=> ({
      overflowX: 'auto',
-     overflowY: 'hidden',
+     overflowY: 'auto',
     whiteSpace: 'nowrap',
     height:'100%',
      width: '100%',
      
     paddingLeft:5,
     paddingRight:5,
+    
 })
 
  

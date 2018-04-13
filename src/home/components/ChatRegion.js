@@ -221,17 +221,18 @@ class ChatRegion extends Component {
                                 </div>
                             </div>
                             <div className="col-md-4" style={{ background: 'white' }}>
-                                <div style={{ height: '50vh', marginTop: 10 }}>
+                                <div style={{ height: '45vh', marginTop: 10 }}>
                                     <p style={titleStyle}>客户列表</p>
-                                    
-                                        <CustomerList />
-                                  
+
+                                    <CustomerList />
+
                                 </div>
-                                <div style={{ height: '10vh' }}>
-                                   
-                                </div>
-                                <div style={{ height: '40vh', }}>
-                                    <p style={titleStyle}>客户列表</p>
+                                <div style={{ height: '10vh' }}> </div>
+                                <div style={{ 'borderBottom': '1px solid gray', height: 1, width: 'calc(100% + 25px)', marginLeft: -12, marginBottom: 20 }}></div>
+
+                                <div style={{ height: '45vh', }}>
+                                    <p style={titleStyle}>客服列表</p>
+                                    <StaffList />
                                 </div>
                             </div>
                         </div>

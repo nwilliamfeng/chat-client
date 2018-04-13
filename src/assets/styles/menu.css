@@ -1,0 +1,20 @@
+.menu {
+    width: 150px;
+    
+    display: flex;
+    flex-direction: column;
+    background: #2A2A2A;
+    color: gray;
+  }
+  .menu-item {
+    cursor: pointer;
+    padding-left: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    
+  }
+  .menu-item:hover {
+    
+    background: #2F3134;
+  }
