@@ -22,8 +22,12 @@ export default class AuthHelper {
                 return '在线';
             case staffStateValues.TRANSFER:
                 return '转接';
+            case staffStateValues.OFFLINE:
+                return '离线';
             default:
                 return '';
         }
     }
+
+   
 }

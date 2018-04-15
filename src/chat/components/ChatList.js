@@ -8,16 +8,15 @@ import { Scrollbars } from 'react-custom-scrollbars';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 require('../../assets/styles/scrollbar.css');
 
-const chatListStyle={
-     overflowY: 'auto',
-    overflowX:'hidden',
-   //  height:'calc(100% - 125px)',
-    height:'calc(100% )',//50px位搜索框的高
-    width:'calc(100% - 0px)',
-    position:'absolute',
-    paddingLeft:10,
-    
-} 
+const chatListStyle = {
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    height: 'calc(100% - 20px )',//搜索框距离
+    width: 'calc(100% - 0px)',
+    position: 'absolute',
+    paddingLeft: 10,
+
+}
 
 class ChatList extends Component {
 
@@ -30,8 +29,8 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const {chats} = nextProps;     
-        return chats!=null;
+        const { chats } = nextProps;
+        return chats != null;
     }
 
     handleCloseChat(e, data, target) {
@@ -51,8 +50,8 @@ class ChatList extends Component {
         }
     }
 
-    selectByKey(next = true) {     
-        const { chats, selectedChat,dispatch } = this.props;
+    selectByKey(next = true) {
+        const { chats, selectedChat, dispatch } = this.props;
         if (chats == null || chats.length === 0) {
             return;
         }
@@ -65,7 +64,7 @@ class ChatList extends Component {
         else if (idx >= chats.length) {
             idx = 0;
         }
-        dispatch( chatActions.selectChat(chats[idx]));
+        dispatch(chatActions.selectChat(chats[idx]));
     }
 
     componentDidMount() {
@@ -80,10 +79,10 @@ class ChatList extends Component {
     }
 
     handleSelectChat(chat) {
-        const { dispatch,selectedChat } = this.props;
+        const { dispatch, selectedChat } = this.props;
         //如果是同一个会话则返回
-        if(selectedChat!=null && selectedChat.channelId===chat.channelId){
-            return; 
+        if (selectedChat != null && selectedChat.channelId === chat.channelId) {
+            return;
         }
         dispatch(chatActions.selectChat(chat));
     }
@@ -97,43 +96,41 @@ class ChatList extends Component {
         console.log('do render chatlist');
         const { chats, chatListWidth } = this.props;
         return (
-            // <Scrollbars style={{  height: 'calc(100% - 52px)', position: 'absolute',width:'calc(100% - 5px)' }}
-            
-            // >
-            <div style={{  height: 'calc(100% - 52px)', position: 'absolute',width:'calc(100% - 5px)' }}>
-               
-            <div style={chatListStyle} className='scollContainer'>
-                {chats &&
-                    <ul className="list-group list-group-hover" style={{background:'transparent'}}>
-                        {chats.map((item) => (
-                            <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}
-                                maxWidth={chatListWidth} />
-                        ))}
-                    </ul>
-                   
-                }
+          
+            <div style={{ height: 'calc(100% - 52px)', position: 'absolute', width: 'calc(100% - 5px)' }}>
 
-                <ContextMenu id={CHAT_LIST_CONTEXTMENU_ID}>
-                    <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
-                    <MenuItem divider />
-                    <MenuItem onClick={this.handleCloseChat}>关闭</MenuItem>
-                </ContextMenu>
+                <div style={chatListStyle} className='scollContainer'>
+                    {chats &&
+                        <ul className="list-group list-group-hover" style={{ background: 'transparent' }}>
+                            {chats.map((item) => (
+                                <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}
+                                    maxWidth={chatListWidth} />
+                            ))}
+                        </ul>
 
+                    }
+
+                    <ContextMenu id={CHAT_LIST_CONTEXTMENU_ID}>
+                        <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
+                        <MenuItem divider />
+                        <MenuItem onClick={this.handleCloseChat}>关闭</MenuItem>
+                    </ContextMenu>
+
+                </div>
             </div>
-            </div>
-            // </Scrollbars>
+       
         );
     }
 }
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
-    const { chatListWidth,chatListHeight } = state.home;
+    const { chatListWidth, chatListHeight } = state.home;
     return {
         chats,
         selectedChat,
         chatListWidth,
-        chatListHeight,  
+        chatListHeight,
 
     }
 }

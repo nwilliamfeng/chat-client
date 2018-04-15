@@ -1,0 +1,43 @@
+.nav_ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+      overflow: auto;
+  }
+  
+  .nav_li{
+    color: #AAAAAA;
+    font-size: 18px;
+    position: relative;
+    float: left;
+    width: 100%;
+    text-align: center;
+      
+  }
+  
+  .nav_li input[type=radio]{
+    position: absolute;
+    visibility: hidden;
+  }
+  
+  .nav_li label{
+    display: block;
+    position: relative;
+    font-weight: 300;
+    font-size: 1.35em;
+   
+    margin: 10px auto;
+    
+    z-index: 9;
+    cursor: pointer;
+    -webkit-transition: all 0.25s linear;
+  }
+  
+  .nav_li:hover label{
+      color: #FFFFFF;
+  }
+  
+   
+  .nav_li input[type=radio]:checked ~ label{
+    color: rgb(57, 206, 57);
+  }

@@ -34,7 +34,7 @@ const customerListContianerStyle = {
 
 const searchBoxStyle = {
     marginLeft: 20,
-    marginTop: 5,
+    marginTop: 20,
     marginRight: 3,
 
 }
@@ -117,12 +117,7 @@ class ChatRegion extends Component {
     }
 
     render() {
-        const a = [];
-        for (var i = 0; i < 200; i++) {
-            a.push(1);
-        }
-
-
+      
         const initCustomerListHeight = initSize.getCustomerListInitPaneDefaultHeight();
         const initCustomerListwidth = initSize.getCustomerListInitPaneDefaultWidth();
         const initNavibarWidth = initSize.navibarInitPaneWidth;
@@ -205,11 +200,7 @@ class ChatRegion extends Component {
                     </div>
 
                     <div className="col-offset-chat"  >
-                        {/* <div className="row" style={{ overflowY: 'hidden', height: '100vh', width: 200 }}>
-                        
-
-                        </div> */}
-
+                 
                         <div className="row" style={{ overflowY: 'hidden', height: '100vh', marginLeft: 1 }}>
                             <div className="col-md-8" style={{ padding: 5 }}>
                                 <div style={{ height: '80vh', }}>
