@@ -25,6 +25,12 @@ export const homeReducer = (state = {}, action) => {
         chatWidth: sizeContext.chatWidth,
       };
 
+      case constants.PAGE_SELECT:
+      return {
+        ...state,
+        page:action.page,
+      };
+
       case constants.CUSTOMER_LIST_WIDTH_CHANGED:
       return {
         ...state,

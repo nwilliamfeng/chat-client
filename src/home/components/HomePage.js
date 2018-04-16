@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Titlebar } from './Titlebar';
-import { Statusbar } from './Statusbar';
-import {Navibar} from './Navibar'
-import { CustomerList, StaffList } from '../../customers/components';
-import { CommonPhraseTreeView } from '../../configuration/components';
-import { Chat } from '../../chat/components';
+ 
+import { Navibar } from './Navibar'
+ 
+ 
 import { homeActions } from '../actions';
-import SplitPane from 'react-split-pane';
-import { ChatRegion } from './ChatRegion'
-import { Scrollbars } from 'react-custom-scrollbars';
+import { pageType } from '../constants';
+import { ChatPage } from '../../chat/components'
+import  UnimplementPage  from './UnimplementPage'
 import BackgroundImg from '../../assets/imgs/background.jpg';
 require('../../assets/styles/grid.css');
 
 /**
  * 背景样式
  */
-const bgStyle={
-    left: 0, 
-    right: 0, 
+const bgStyle = {
+    left: 0,
+    right: 0,
     height: '100vh',
-    opacity: 0.5, 
-    backgroundImage: `url(${BackgroundImg})`, 
+    opacity: 0.5,
+    backgroundImage: `url(${BackgroundImg})`,
     backgroundAttachment: 'fixed',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     display: 'block',
-    filter: 'blur(5px)', 
-    float: 'left', 
+    filter: 'blur(5px)',
+    float: 'left',
     position: 'absolute'
 }
 
@@ -38,10 +36,12 @@ class HomePage extends Component {
         super(props);
     }
 
+    
     render() {
-        return (          
+        const {page} =this.props;
+        return (
             <div>
-                <div style={bgStyle}></div>              
+                <div style={bgStyle}></div>
                 <div className='container'  >
                     <div className="row">
                         <div className="col-fixed-left">
@@ -49,7 +49,12 @@ class HomePage extends Component {
                         </div>
 
                         <div className="col-md-12 col-offset-main">
-                            <ChatRegion />
+                            {page === pageType.CHAT ? (
+                                 <ChatPage />
+                            ) : page === pageType.OTHER ? (
+                                <UnimplementPage />
+                            ) : null}
+                           
                         </div>
                     </div>
                 </div>
@@ -61,7 +66,7 @@ class HomePage extends Component {
 
 
 function mapStateToProps(state) {
-    return state;
+    return state.home;
 }
 
 

@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Titlebar } from './Titlebar';
-import { Statusbar } from './Statusbar';
-import Navibar from './Navibar'
+
 import { CustomerList, StaffList } from '../../customers/components';
 import { CommonPhraseTreeView } from '../../configuration/components';
-import { Chat } from '../../chat/components';
-import { homeActions } from '../actions';
+import { Chat } from './Chat';
+ 
 
 import { SearchBox } from '../../search/components';
-import { ChatList } from '../../chat/components';
+import { ChatList } from './ChatList';
 import { Scrollbars } from 'react-custom-scrollbars';
 require('../../assets/styles/grid.css');
 require('../../assets/styles/scrollbar.css');
@@ -63,7 +61,7 @@ const initSize = {
     }
 }
 
-class ChatRegion extends Component {
+class ChatPage extends Component {
 
     constructor(props) {
         super(props);
@@ -81,19 +79,11 @@ class ChatRegion extends Component {
         const { customerListWidth, navibarWidth } = this.state;
         const { dispatch } = this.props;
         const chatWidth = window.innerWidth - customerListWidth - navibarWidth;
-        dispatch(homeActions.notifyChatWidthChange(chatWidth));
+       // dispatch(homeActions.notifyChatWidthChange(chatWidth));
     }
 
 
-    componentWillMount() {
-        // const customerListWidth = initSize.getCustomerListInitPaneDefaultWidth();
-        // const { dispatch } = this.props;
-        // dispatch(homeActions.notifyCustomerListWidthChange(customerListWidth));
-        // // dispatch(homeActions.notifyNavibarHeightChange(initSize.getChatListHeight()));
-        // dispatch(homeActions.notifyNavibarWidthChange(initSize.navibarInitPaneWidth));
-        // this.notifyChatWidthChange();
-    }
-
+    
 
     onNavibarWidthChange(width) {
         const { dispatch } = this.props;
@@ -101,8 +91,8 @@ class ChatRegion extends Component {
         const nwWidth = width - 5;
         if (navibarWidth != nwWidth) {
             this.setState({ navibarWidth: nwWidth });
-            dispatch(homeActions.notifyNavibarWidthChange(nwWidth));
-            this.notifyChatWidthChange();
+        //    dispatch(homeActions.notifyNavibarWidthChange(nwWidth));
+        //    this.notifyChatWidthChange();
         }
     }
 
@@ -111,8 +101,8 @@ class ChatRegion extends Component {
         const { customerListWidth } = this.state;
         if (customerListWidth != width) {
             this.setState({ customerListWidth: width });
-            dispatch(homeActions.notifyCustomerListWidthChange(width));
-            this.notifyChatWidthChange();
+          //  dispatch(homeActions.notifyCustomerListWidthChange(width));
+          //  this.notifyChatWidthChange();
         }
     }
 
@@ -239,5 +229,5 @@ function mapStateToProps(state) {
     return { selectedChat };
 }
 
-const page = connect(mapStateToProps)(ChatRegion);
-export { page as ChatRegion }; 
+const page = connect(mapStateToProps)(ChatPage);
+export { page as ChatPage }; 

@@ -14,6 +14,8 @@ export const homeActions = {
     notifyChatWidthChange,
     
     queryChatWidth,
+
+    changePage,
 }
 
  
@@ -25,13 +27,14 @@ function notifyNavibarWidthChange(width) {
      
 }
 
-// function notifyNavibarHeightChange(height) {
-//     return   { 
-//         type: constants.NAVIBAR_HEIGHT_CHANGED, 
-//         height,
-//     } ;
+function changePage(page) {
+    return   { 
+        type: constants.PAGE_SELECT, 
+        page,
+       
+    } ;
      
-// }
+}
 
 function notifyChatWidthChange(width) {
     return   { 

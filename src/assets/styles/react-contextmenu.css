@@ -75,7 +75,7 @@
 
 .react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item:after {
     content: "▶";
-    font-size:10px;
+    font-size:2px;
     display: inline-block;
     position: absolute;
     right: 7px;
