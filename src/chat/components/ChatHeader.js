@@ -16,39 +16,35 @@ const headerStyle2 = {
 }
 
 
-const liStyle =(width)=>( {
-    padding: 0,
-  
-    border: 'none',
-    maxWidth:width,
-    width:width,
-    
-})
+const liStyle = {
+    padding: 0,  
+    border: 'none',   
+}
 
 /**
  * 消息内容样式
  * @param {*} width 
  */
-const currMsgStyle = (width) => ({
+const currMsgStyle =  {
     fontSize: 12,
     color: 'gray',
-    width: width ? width-156-55  : 120,
+     width:  120,
     marginTop: 5,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-})
+} 
 
 /**
  * 标题样式
  * @param {*} width 
  */
-const titleStyle = (width) =>({   
-    width: width ? width-56-65 : 100,
+const titleStyle = {   
+     width:   100,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-})
+}
 
 /** 
  * 消息时间样式
@@ -126,13 +122,13 @@ const getChatStyle = (isSelected) => ({
 })
 
 
-export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
+export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
 
     const onClick = () => {
         onSelectChat(chat);
     }
     return (
-        <li style={liStyle(maxWidth)} className='list-group-item' onClick={onClick}>
+        <li style={liStyle} className='list-group-item' onClick={onClick}>
             <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
                 <div style={getChatStyle(isSelected)}>
                     <div style={headerStyle}>
@@ -142,8 +138,8 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected, maxWidth }) => {
                         </div>                       
                     </div>
                     <div style={headerStyle2}>
-                        <div style={titleStyle(maxWidth)}> {chat.customer.CustomerName}</div>
-                        <div style={currMsgStyle(maxWidth)}> {'的俺的沙发大幅拉开飞机阿斯顿发福利阿斯顿发送到付款阿斯顿发生发动机发大发'}</div>
+                        <div style={titleStyle}> {chat.customer.CustomerName}</div>
+                        <div style={currMsgStyle}> {'的俺的沙发大幅拉开飞机阿斯顿发福利阿斯顿发送到付款阿斯顿发生发动机发大发'}</div>
                     </div>
                     <div style={headerStyle2}>
                         <div style={timeStyle}> {'18/12/23'}</div>

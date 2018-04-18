@@ -29,3 +29,42 @@
     z-index:0;
     background: #F5F5F5
 }
+
+
+.innerHold-chat{
+    float: left;
+    width:65%;
+    /* make sure left/right margins or left/right padding are 0px here
+            - it'll mess with the width otherwise*/
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:0px;
+    padding-right:0px;
+    
+}
+
+.innerHold-extend{
+    float: left;
+    width:35%;
+    /* make sure left/right margins or left/right padding are 0px here
+            - it'll mess with the width otherwise*/
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:0px;
+    padding-right:0px;
+    background: white;
+    height: 100%;
+}
+
+.inner{
+    /* Here set your columns padding, borders, and margin 
+            - or in the class names as I do below */
+    margin:0px;
+}
+.col1, .col2{
+    margin-right:10px;
+}
+
+.clear{
+    clear:both;
+}

@@ -1,4 +1,4 @@
-import {activePageType} from '../constants';
+
 //import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 
 
@@ -15,7 +15,7 @@ class ChatService {
         const newChat ={
             customer, //当前的客户
             channelId:this._chats.length+1, //对应的频道Id
-            activePage:activePageType.CHAT_PAGE, //当前选中的页
+        
             messages:[], //持有的消息集合
             historyMessages:[],//历史消息集合
 

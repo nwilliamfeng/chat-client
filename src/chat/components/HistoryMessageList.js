@@ -10,14 +10,14 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 const outContainerStyle = {
 
-    // height: 'calc(100% - 125px)',
-    // width: '100%',
-    // position: 'absolute',
+      height: 'calc(100% - 185px)',
+      width: 'calc(100% - 600px)',
+      position: 'absolute',
     // paddingTop: 66,
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 20,
-    //   overflowY: 'auto',
+      overflowY: 'auto',
     //   overflowX: 'hidden',
 }
 
@@ -89,7 +89,7 @@ class HistoryMessageList extends React.Component {
 
                 const { scrollbars } = this.refs;
                 this.setState({ page: currentPageIndex, pageCount, needScroll: true, });
-                scrollbars.scrollToBottom();
+              //  scrollbars.scrollToBottom();
 
                 // scrollbars.scrollTop(50);
             }
@@ -120,9 +120,10 @@ class HistoryMessageList extends React.Component {
         const { recentResult, chatWidth } = this.props;
         const msgWidth = this.getMessageWidth(chatWidth);
         return (
-            <Scrollbars style={{ width: 'calc(100% - 10px)',  maxHeight:'calc(80vh - 80px)', position: 'absolute', }}
-                ref="scrollbars"
-                onScrollFrame={this.handleScrollFrame} >
+            // <Scrollbars style={{ width: 'calc(100% - 40px)',  maxHeight:'calc(80vh - 80px)',  }}
+            //     ref="scrollbars"
+            //     onScrollFrame={this.handleScrollFrame} >
+            <div>
                 <div style={outContainerStyle} >
                     {recentResult &&
                         <ul className="list-group">
@@ -135,8 +136,8 @@ class HistoryMessageList extends React.Component {
                 </div>
                 
                 {this.renderMessages( )}
-              
-            </Scrollbars>
+            </div> 
+            // </Scrollbars>
         );
     }
 }

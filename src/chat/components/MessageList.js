@@ -12,7 +12,7 @@ class MessageList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { activePage: 0 };
+       
     }
 
     // shouldComponentUpdate(nextProps, nextState, nextContext) {

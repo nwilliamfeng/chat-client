@@ -94,7 +94,7 @@ class ChatList extends Component {
 
     render() {
         console.log('do render chatlist');
-        const { chats, chatListWidth } = this.props;
+        const { chats } = this.props;
         return (
           
             <div style={{ height: 'calc(100% - 52px)', position: 'absolute', width: 'calc(100% - 5px)' }}>
@@ -104,7 +104,7 @@ class ChatList extends Component {
                         <ul className="list-group list-group-hover" style={{ background: 'transparent' }}>
                             {chats.map((item) => (
                                 <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}
-                                    maxWidth={chatListWidth} />
+                                    />
                             ))}
                         </ul>
 
@@ -125,13 +125,12 @@ class ChatList extends Component {
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
-    const { chatListWidth, chatListHeight } = state.home;
+    
     return {
         chats,
         selectedChat,
-        chatListWidth,
-        chatListHeight,
-
+      
+       
     }
 }
 

@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { CustomerList, StaffList } from '../../customers/components';
 import { CommonPhraseTreeView } from '../../configuration/components';
 import { Chat } from './Chat';
- 
-
 import { SearchBox } from '../../search/components';
 import { ChatList } from './ChatList';
 import { Scrollbars } from 'react-custom-scrollbars';
 require('../../assets/styles/grid.css');
+require('../../assets/styles/ul.css');
 require('../../assets/styles/scrollbar.css');
 
 const titleStyle = {
@@ -22,14 +20,7 @@ const chatListContainerStyle = {
     paddingRight: 5,
 }
 
-const customerListContianerStyle = {
-    paddingLeft: 5,
-    paddingRight: 5,
-    // paddingBottom: 35,
-    //   paddingTop: 63,
-}
-
-
+  
 const searchBoxStyle = {
     marginLeft: 20,
     marginTop: 20,
@@ -37,28 +28,13 @@ const searchBoxStyle = {
 
 }
 
-
-const staffListContianerStyle = {
-    padding: 5,
-}
-
-const commonPhraseContianerStyle = {
-    padding: 5,
-}
-
+ 
 const initSize = {
     heightOffset: 83,
-    customerListHeight: 60,
-    isCustomerListHeightPercentage: true,
+    
     customerListWidth: 300,
     navibarInitPaneWidth: 250,
-
-    getCustomerListInitPaneDefaultHeight: function () {
-        return this.isCustomerListHeightPercentage ? this.customerListHeight.toString() + '%' : this.customerListHeight;
-    },
-    getCustomerListInitPaneDefaultWidth: function () {
-        return this.customerListWidth;
-    }
+ 
 }
 
 class ChatPage extends Component {
@@ -70,47 +46,14 @@ class ChatPage extends Component {
             customerListWidth: initSize.customerListWidth,
             navibarWidth: initSize.navibarInitPaneWidth,
         };
-        this.onCustomerListWidthChange = this.onCustomerListWidthChange.bind(this);
-        this.onNavibarWidthChange = this.onNavibarWidthChange.bind(this);
-        this.notifyChatWidthChange = this.notifyChatWidthChange.bind(this);
-    }
-
-    notifyChatWidthChange() {
-        const { customerListWidth, navibarWidth } = this.state;
-        const { dispatch } = this.props;
-        const chatWidth = window.innerWidth - customerListWidth - navibarWidth;
-       // dispatch(homeActions.notifyChatWidthChange(chatWidth));
-    }
-
-
-    
-
-    onNavibarWidthChange(width) {
-        const { dispatch } = this.props;
-        const { navibarWidth } = this.state;
-        const nwWidth = width - 5;
-        if (navibarWidth != nwWidth) {
-            this.setState({ navibarWidth: nwWidth });
-        //    dispatch(homeActions.notifyNavibarWidthChange(nwWidth));
-        //    this.notifyChatWidthChange();
-        }
-    }
-
-    onCustomerListWidthChange(width) {
-        const { dispatch } = this.props;
-        const { customerListWidth } = this.state;
-        if (customerListWidth != width) {
-            this.setState({ customerListWidth: width });
-          //  dispatch(homeActions.notifyCustomerListWidthChange(width));
-          //  this.notifyChatWidthChange();
-        }
-    }
-
-    render() {
+       
       
-        const initCustomerListHeight = initSize.getCustomerListInitPaneDefaultHeight();
-        const initCustomerListwidth = initSize.getCustomerListInitPaneDefaultWidth();
-        const initNavibarWidth = initSize.navibarInitPaneWidth;
+    }
+
+  
+    render() {
+
+       
         const { selectedChat } = this.props;
         return (
             // <SplitPane split='vertical' minSize={50} defaultSize={initNavibarWidth} maxSize={500} onChange={this.onNavibarWidthChange}>
@@ -189,34 +132,27 @@ class ChatPage extends Component {
                         </div>
                     </div>
 
-                    <div className="col-offset-chat"  >
-                 
-                        <div className="row" style={{ overflowY: 'hidden', height: '100vh', marginLeft: 1 }}>
-                            <div className="col-md-8" style={{ padding: 5 }}>
-                                <div style={{ height: '80vh', }}>
-                                    <Chat />
-                                </div>
-                                <div style={{ height: '20vh', background: 'red', width: '100%', padding: 20, position: 'absolute' }}>
-                                    <div style={{ height: '100%', background: 'green', width: '100%', }}>
-                                    </div>
+                    <div className="col-offset-chat" style={{ overflowY: 'hidden', height: '100vh', }}   >
+                        <div className="innerHold-chat" >
+                            <div style={{ height: '80vh'}}>
+                                <Chat />
+                            </div>
+                            <div style={{ height: '20vh', background: 'red', width: '100%', padding: 10,   }}>
+                                <div style={{ height: '100%', background: 'green', width: '100%',  }}>
                                 </div>
                             </div>
-                            <div className="col-md-4" style={{ background: 'white' }}>
-                                <div style={{ height: '45vh', marginTop: 10 }}>
+                        </div>
+                        <div className="innerHold-extend"  >
+                        <div style={{ height: '45vh', marginTop: 10 ,  }}>
                                     <p style={titleStyle}>客户列表</p>
 
                                     <CustomerList />
 
                                 </div>
-                                <div style={{ height: '10vh' }}> </div>
-                                <div style={{ 'borderBottom': '1px solid gray', height: 1, width: 'calc(100% + 25px)', marginLeft: -12, marginBottom: 20 }}></div>
+                         </div>
 
-                                <div style={{ height: '45vh', }}>
-                                    <p style={titleStyle}>客服列表</p>
-                                    <StaffList />
-                                </div>
-                            </div>
-                        </div>
+                        <div className="clear"></div>
+ 
                     </div>
                 </div>
             </div>

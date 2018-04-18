@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
- 
+
 import { Navibar } from './Navibar'
- 
- 
+
+
 import { homeActions } from '../actions';
 import { pageType } from '../constants';
 import { ChatPage } from '../../chat/components'
-import  UnimplementPage  from './UnimplementPage'
+import UnimplementPage from './UnimplementPage'
 import BackgroundImg from '../../assets/imgs/background.jpg';
 require('../../assets/styles/grid.css');
 
@@ -36,13 +36,13 @@ class HomePage extends Component {
         super(props);
     }
 
-    
+
     render() {
-        const {page} =this.props;
+        const { page } = this.props;
         return (
-            <div>
+            <div >
                 <div style={bgStyle}></div>
-                <div className='container'  >
+                 
                     <div className="row">
                         <div className="col-fixed-left">
                             <Navibar />
@@ -50,14 +50,14 @@ class HomePage extends Component {
 
                         <div className="col-md-12 col-offset-main">
                             {page === pageType.CHAT ? (
-                                 <ChatPage />
+                                <ChatPage />
                             ) : page === pageType.OTHER ? (
                                 <UnimplementPage />
                             ) : null}
-                           
+
                         </div>
                     </div>
-                </div>
+                
             </div>
 
         );

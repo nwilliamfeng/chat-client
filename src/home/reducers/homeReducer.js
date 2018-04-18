@@ -7,23 +7,17 @@ const sizeContext={
 export const homeReducer = (state = {}, action) => {
   switch (action.type) {
 
-    case constants.NAVIBAR_WIDTH_CHANGED:
-      return {
-        ...state,
-        chatListWidth: action.width,
-      };
+    // case constants.NAVIBAR_WIDTH_CHANGED:
+    //   return {
+    //     ...state,
+    //     chatListWidth: action.width,
+    //   };
 
-      // case constants.NAVIBAR_HEIGHT_CHANGED:
+      // case constants.CHAT_WIDTH_QUERY:
       // return {
       //   ...state,
-      //   chatListHeight: action.height,
+      //   chatWidth: sizeContext.chatWidth,
       // };
-
-      case constants.CHAT_WIDTH_QUERY:
-      return {
-        ...state,
-        chatWidth: sizeContext.chatWidth,
-      };
 
       case constants.PAGE_SELECT:
       return {
@@ -31,11 +25,11 @@ export const homeReducer = (state = {}, action) => {
         page:action.page,
       };
 
-      case constants.CUSTOMER_LIST_WIDTH_CHANGED:
-      return {
-        ...state,
-        customerListWidth: action.width,
-      };
+      // case constants.CUSTOMER_LIST_WIDTH_CHANGED:
+      // return {
+      //   ...state,
+      //   customerListWidth: action.width,
+      // };
 
       case constants.CHAT_WIDTH_CHANGE:
       sizeContext.chatWidth=action.width;
