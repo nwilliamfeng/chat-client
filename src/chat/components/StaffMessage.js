@@ -5,6 +5,7 @@ import { chatActions } from '../actions';
 import { messageContentRender } from './messageContentRender';
 import { messageService } from '../api';
 import { appContext, util } from '../../util';
+import sizeMe from 'react-sizeme';
 require('../../assets/styles/bubble.css');
 
 
@@ -44,11 +45,12 @@ const bodyStyle = {
 }
 
 const contentStyle = (width) => ({
-    maxWidth: width ? width : 500,
+    maxWidth: 150,
     wordWrap: 'break-word',
     marginBottom: 20,
     textAlign: 'left',
     border: '1px solid #eee',
+   
 })
 
 const file_contentStyle = {
@@ -60,8 +62,8 @@ const file_contentStyle = {
 }
 
 const imgStyle = (width) => ({
-    maxWidth: width - 30,
-    maxHeight: width - 30,
+    maxWidth: '40%',
+    maxHeight: '20%',
     marginBottom: 15,
     border: '1px solid #eee',
     borderRadius: 5,
@@ -119,7 +121,7 @@ const renderContent=(content, width)=> {
 
 
 
-export const StaffMessage = ({ message, width }) => {
+function StaffMessage ({ message }){
     const { MessageContent } = message;
     return (
         <div style={containerStyle}  >
@@ -130,11 +132,11 @@ export const StaffMessage = ({ message, width }) => {
                 <div>
                     <span style={sendTimeStyle}>{messageContentRender.renderSendTime(message.SendTime)}<span style={senderStyle}>{message.SenderName}</span></span>
                 </div>
-                {renderContent(MessageContent, width)}
+                {renderContent(MessageContent)}
             </div>
         </div>
     )
 }
 
-
+export default sizeMe({ monitorHeight: true })(StaffMessage);
 

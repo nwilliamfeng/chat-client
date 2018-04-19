@@ -1,16 +1,14 @@
 import { constants } from '../constants';
-import {constants as homeConstants,pageType} from '../../home/constants';
+import { constants as homeConstants, pageType } from '../../home/constants';
+
+
 
 export const chatReducer = (state = {}, action) => {
   switch (action.type) {
 
-    case homeConstants.PAGE_SELECT:
-       if(action.page===pageType.CHAT){
-        return {
-          ...state,
-        };
-       }
    
+
+
 
     case constants.OPEN_CHAT:
       return {
@@ -40,8 +38,8 @@ export const chatReducer = (state = {}, action) => {
         selectedChat: action.selectedChat,
       }
 
-      
-    
+
+
 
     default:
       return state;

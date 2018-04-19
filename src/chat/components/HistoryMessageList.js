@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { messageActions } from '../actions';
 import { CustomerMessage } from './CustomerMessage';
-import { StaffMessage } from './StaffMessage';
+import   StaffMessage   from './StaffMessage';
 import { homeActions } from '../../home/actions';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -67,16 +67,7 @@ class HistoryMessageList extends React.Component {
 
     }
 
-    componentDidMount() {
-        //   this.refScroll.current.addEventListener('scroll', this.handleScroll); //注册滚动事件
-
-
-    }
-
-
-    componentWillUnmount() {
-        //   this.refScroll.current.removeEventListener('scroll', this.handleScroll); //取消滚动事件
-    }
+   
 
     componentDidUpdate(prevProps, prevState) {
         const { recentResult } = this.props;
@@ -117,19 +108,21 @@ class HistoryMessageList extends React.Component {
     }
  
     render() {
-        const { recentResult, chatWidth } = this.props;
-        const msgWidth = this.getMessageWidth(chatWidth);
+        const { recentResult } = this.props;
+      
+       
         return (
             // <Scrollbars style={{ width: 'calc(100% - 40px)',  maxHeight:'calc(80vh - 80px)',  }}
             //     ref="scrollbars"
             //     onScrollFrame={this.handleScrollFrame} >
+ 
             <div>
                 <div style={outContainerStyle} >
                     {recentResult &&
                         <ul className="list-group">
                             {recentResult.messages.map((msg) => (
                                 this.isSelfMessage(msg) ?
-                                    <StaffMessage key={msg.MsgId} message={msg} width={msgWidth} /> : <CustomerMessage key={msg.MsgId} message={msg} width={msgWidth} />
+                                    <StaffMessage key={msg.MsgId} message={msg} props={this.props} /> : <CustomerMessage key={msg.MsgId} message={msg}   />
                             ))}
                         </ul>
                     }
@@ -144,14 +137,15 @@ class HistoryMessageList extends React.Component {
 
 function mapStateToProps(state) {
     const { recentResult } = state.historyMessage;
-    const { chatWidth } = state.home;
-    return { recentResult, chatWidth };
+    
+    return { recentResult };
 }
 
 
-const page = connect(mapStateToProps, null)(HistoryMessageList);
+ const page = connect(mapStateToProps, null)(HistoryMessageList);
+ 
 
 /**
  * HistoryMessageList??
  */
-export { page as HistoryMessageList };
+ export { page as HistoryMessageList }; 

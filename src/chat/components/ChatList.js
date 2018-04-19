@@ -12,7 +12,7 @@ const chatListStyle = {
     overflowY: 'auto',
     overflowX: 'hidden',
     height: 'calc(100% - 20px )',//搜索框距离
-    width: 'calc(100% - 0px)',
+    width: '100%',
     position: 'absolute',
     paddingLeft: 10,
 
@@ -73,10 +73,7 @@ class ChatList extends Component {
         dispatch(chatActions.initChats());
     }
 
-    componentWillUnmount() {
-        const { dispatch } = this.props;
-        dispatch(chatActions.closeAllChats());
-    }
+   
 
     handleSelectChat(chat) {
         const { dispatch, selectedChat } = this.props;
@@ -97,7 +94,7 @@ class ChatList extends Component {
         const { chats } = this.props;
         return (
           
-            <div style={{ height: 'calc(100% - 52px)', position: 'absolute', width: 'calc(100% - 5px)' }}>
+            <div style={{ height: 'calc(100% - 52px)', position: 'absolute', width: 'calc(100% - 7px)' }}>
 
                 <div style={chatListStyle} className='scollContainer'>
                     {chats &&
