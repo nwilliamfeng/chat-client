@@ -79,13 +79,13 @@ const bodyStyle = {
 //     padding:10,
 // }
 
-const imgStyle = (width) => ({
-    maxWidth: width - 30,
-    maxHeight: width - 30,
+const imgStyle = {
+    maxWidth: '60%',
+    maxHeight: '25%',
     marginBottom: 15,
     border: '1px solid #eee',
     borderRadius: 5,
-})
+} 
 
 // const fileNameStyle ={
 //     display: 'table-cell', 
@@ -98,24 +98,24 @@ const imgStyle = (width) => ({
 //     display: 'table-cell', 
 // }
 
-const contentStyle = (width) => ({
+const contentStyle =  {
     wordWrap: 'break-word',
-    maxWidth: width ? width : window.innerWidth / 2,
+    maxWidth: '80%',
     border: '1px solid #eee',
-})
+} 
 
-const renderContent=(content, width)=> {
+const renderContent=(content)=> {
     const contentType = messageService.getMessageContentType(content);
     switch (contentType) {
         case messageContentType.Text:
             return (
-                <div className='lbubble' style={contentStyle(width)}>
+                <div className='lbubble' style={contentStyle}>
                     {content}
                 </div>
             );
         case messageContentType.Picture:
             return (
-                <img src={messageService.getThumbImg(content)} style={imgStyle(width)} alt=''></img>
+                <img src={messageService.getThumbImg(content)} style={imgStyle} alt=''></img>
             );
         // case messageContentType.File:
         //     return (
@@ -134,7 +134,7 @@ const renderContent=(content, width)=> {
 }
 
 
-export const CustomerMessage = ({ message, width }) => {
+export const CustomerMessage = ({ message }) => {
     const { MessageContent } = message;
     return (
         <div className="louter"  >
@@ -145,7 +145,7 @@ export const CustomerMessage = ({ message, width }) => {
                 <div>
                     <span style={senderStyle}>{message.SenderName}<span style={sendTimeStyle}>{messageContentRender.renderSendTime(message.SendTime)}</span></span>
                 </div>
-                {renderContent(MessageContent, width)}
+                {renderContent(MessageContent)}
             </div>
         </div>
     )

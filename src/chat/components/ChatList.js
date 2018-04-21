@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import { chatActions } from '../actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader';
-import { Scrollbars } from 'react-custom-scrollbars';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 require('../../assets/styles/scrollbar.css');
 
 const chatListStyle = {
-    overflowY: 'auto',
-    overflowX: 'hidden',
+  //  overflowY: 'auto',
+  //  overflowX: 'hidden',
     height: 'calc(100% - 20px )',//搜索框距离
     width: '100%',
     position: 'absolute',

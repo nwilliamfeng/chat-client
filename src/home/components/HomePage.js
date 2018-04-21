@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Navibar } from './Navibar'
-
-
 import { homeActions } from '../actions';
 import { pageType } from '../constants';
 import { ChatPage } from '../../chat/components'

@@ -6,6 +6,7 @@ import { messageContentRender } from './messageContentRender';
 import { messageService } from '../api';
 import { appContext, util } from '../../util';
 import sizeMe from 'react-sizeme';
+import {chatWindow} from '../chatRegionHelper'
 require('../../assets/styles/bubble.css');
 
 
@@ -13,8 +14,9 @@ require('../../assets/styles/bubble.css');
 const containerStyle = {
     display: 'block',
     clear: 'right',
-    textAlign: 'right'
-}
+    textAlign: 'right',
+    
+} 
 
 const avatarContainerStyle = {
     float: 'right',
@@ -44,14 +46,14 @@ const bodyStyle = {
     clear: 'left',
 }
 
-const contentStyle = (width) => ({
-    maxWidth: 150,
+const contentStyle = (width)=>( {
+     maxWidth:width ,
     wordWrap: 'break-word',
     marginBottom: 20,
     textAlign: 'left',
     border: '1px solid #eee',
    
-})
+} )
 
 const file_contentStyle = {
     marginBottom: 20,
@@ -62,8 +64,8 @@ const file_contentStyle = {
 }
 
 const imgStyle = (width) => ({
-    maxWidth: '40%',
-    maxHeight: '20%',
+    maxWidth: width,
+    maxHeight: '25%',
     marginBottom: 15,
     border: '1px solid #eee',
     borderRadius: 5,
@@ -89,17 +91,18 @@ const fileLogoContainerStyle={
 }
 
 const renderContent=(content, width)=> {
+    width = chatWindow.width * 0.6 ;
     const contentType = messageService.getMessageContentType(content);
     switch (contentType) {
         case messageContentType.Text:
             return (
-                <div className='rbubble' style={contentStyle(width)}>
+                <div className='rbubble' style={contentStyle(width) }>
                     {content}
                 </div>
             );
         case messageContentType.Picture:
             return (
-                <img src={messageService.getThumbImg(content)} style={imgStyle(width)} alt=''></img>
+                <img src={messageService.getThumbImg(content)} style={imgStyle(width*0.5)} alt=''></img>
             );
         case messageContentType.File:
             return (
@@ -121,10 +124,11 @@ const renderContent=(content, width)=> {
 
 
 
-function StaffMessage ({ message }){
+export const StaffMessage =({ message })=>{
     const { MessageContent } = message;
+
     return (
-        <div style={containerStyle}  >
+        <div style={containerStyle }  >
             <div style={avatarContainerStyle}>
                 <img style={avatarStyle} src={require('../../assets/imgs/staff.jpg')} />
             </div>
@@ -137,6 +141,6 @@ function StaffMessage ({ message }){
         </div>
     )
 }
+ 
 
-export default sizeMe({ monitorHeight: true })(StaffMessage);
-
+ 

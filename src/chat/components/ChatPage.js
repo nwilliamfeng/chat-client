@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { CustomerList, StaffList } from '../../customers/components';
 import { CommonPhraseTreeView } from '../../configuration/components';
 import { Chat } from './Chat';
+import  ChatContainer   from './ChatContainer';
 import { SearchBox } from '../../search/components';
 import { ChatList } from './ChatList';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -135,7 +136,7 @@ class ChatPage extends Component {
                     <div className="col-offset-chat" style={{ overflowY: 'hidden', height: '100vh', }}   >
                         <div className="innerHold-chat" >
                             <div style={{ height: '80vh'}}>
-                                <Chat />
+                                <ChatContainer />
                             </div>
                             <div style={{ height: '20vh', background: 'red', width: '100%', padding: 10,   }}>
                                 <div style={{ height: '100%', background: 'green', width: '100%',  }}>
