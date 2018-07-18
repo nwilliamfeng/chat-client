@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { messageContentType } from '../constants';
 import { chatActions } from '../actions';
-import { messageContentRender } from './messageContentRender';
+import { messageContentRender } from './MessageContentRender';
 import { messageService } from '../api';
 import { appContext, util } from '../../util';
 import sizeMe from 'react-sizeme';
@@ -90,8 +90,8 @@ const fileLogoContainerStyle={
     
 }
 
-const renderContent=(content, width)=> {
-    width = chatWindow.width * 0.6 ;
+const renderContent=(content)=> {
+    const width = chatWindow.width * 0.6 ;
     const contentType = messageService.getMessageContentType(content);
     switch (contentType) {
         case messageContentType.Text:

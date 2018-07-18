@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { appContext, util } from '../../util';
 import { messageContentType } from '../constants';
 import { chatActions } from '../actions';
-import { messageContentRender } from './messageContentRender';
+import { messageContentRender } from './MessageContentRender';
 import { messageService } from '../api';
 require('../../assets/styles/bubble.css');
 
