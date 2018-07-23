@@ -69,7 +69,7 @@ const msgCountStyle={
     minWidth:14,
     borderRadius:60,
     background:'Red',
-    paddingTop:0,
+    paddingTop:1,
     paddingBottom:1,
     paddingLeft:1,
     paddingRight:1,

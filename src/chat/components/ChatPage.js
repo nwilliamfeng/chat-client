@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CustomerList, StaffList } from '../../customers/components';
-import { CommonPhraseTreeView } from '../../configuration/components';
-import { Chat } from './Chat';
 import  ChatContainer   from './ChatContainer';
 import { SearchBox } from '../../search/components';
 import { ChatList } from './ChatList';
-import { Scrollbars } from 'react-custom-scrollbars';
 require('../../assets/styles/grid.css');
 require('../../assets/styles/ul.css');
 require('../../assets/styles/scrollbar.css');
@@ -146,9 +143,7 @@ class ChatPage extends Component {
                         <div className="innerHold-extend"  >
                         <div style={{ height: '45vh', marginTop: 10 ,  }}>
                                     <p style={titleStyle}>客户列表</p>
-
                                     <CustomerList />
-
                                 </div>
                          </div>
 
