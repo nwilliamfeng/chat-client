@@ -4,6 +4,7 @@ import { messageContentRender } from './MessageContentRender';
 import { messageService } from '../api';
 import { chatWindow } from '../chatRegionHelper';
 import ImageZoom from 'react-medium-image-zoom';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 require('../../assets/styles/bubble.css');
 
 
@@ -61,13 +62,14 @@ const file_contentStyle = {
 
 }
 
-const imgStyle = (width) => ({
-    maxWidth: width,
-    maxHeight: '25%',
-    marginBottom: 15,
-    border: '1px solid #eee',
-    borderRadius: 5,
-})
+const imgStyle = {
+    // maxWidth: width,
+    // maxHeight: '25%',
+    // marginBottom: 15,
+    // border: '1px solid #eee',
+    // borderRadius: 5,
+    padding: 10,
+}
 
 const fileNameStyle = {
     display: 'table-cell',
@@ -91,10 +93,14 @@ const fileLogoContainerStyle = {
 const renderContent = (content) => {
     const width = chatWindow.width * 0.6;
     const contentType = messageService.getMessageContentType(content);
-    const onFileClick = () => {
+    //下载文件
+    const downloadFile = () => {
         const url = messageService.getFullFileName(content);
         window.open(url);
     }
+
+    const CONTEXTMENU_ID = 'staff_contextMenu';
+
     switch (contentType) {
         case messageContentType.Text:
             return (
@@ -104,21 +110,27 @@ const renderContent = (content) => {
             );
         case messageContentType.Picture:
             return (
-                <div>
-                    <ImageZoom
-                        image={{
-                            src: messageService.getThumbImg(content),                         
-                            style: { maxWidth: '180px' }
-                        }}
-                        zoomImage={{
-                            src: messageService.getFullFileName(content),     
-                        }}
-                    />
-                </div>
+                <ContextMenuTrigger id={CONTEXTMENU_ID}>
+                    <div style={imgStyle}>
+                        <ImageZoom
+                            image={{
+                                src: messageService.getThumbImg(content),
+                                style: { maxWidth: '180px' }
+                            }}
+                            zoomImage={{
+                                src: messageService.getFullFileName(content),
+                            }}
+                        />
+                        <ContextMenu id={CONTEXTMENU_ID}>
+                            <MenuItem onClick={downloadFile}>下载图片</MenuItem>
+                        </ContextMenu>
+                    </div>
+                </ContextMenuTrigger>
+
             );
         case messageContentType.File:
             return (
-                <div className='rbubble_file' style={file_contentStyle} onClick={onFileClick}>
+                <div className='rbubble_file' style={file_contentStyle} onClick={downloadFile}>
                     <div style={fileNameStyle}>
 
                         {decodeURIComponent(messageService.getFileName(content))}
