@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { messageContentType } from '../constants';
-import { chatActions } from '../actions';
 import { messageContentRender } from './MessageContentRender';
 import { messageService } from '../api';
-import { appContext, util } from '../../util';
-import sizeMe from 'react-sizeme';
-import {chatWindow} from '../chatRegionHelper'
+import { chatWindow } from '../chatRegionHelper';
+import ImageZoom from 'react-medium-image-zoom';
 require('../../assets/styles/bubble.css');
 
 
@@ -15,8 +12,8 @@ const containerStyle = {
     display: 'block',
     clear: 'right',
     textAlign: 'right',
-    
-} 
+
+}
 
 const avatarContainerStyle = {
     float: 'right',
@@ -46,20 +43,21 @@ const bodyStyle = {
     clear: 'left',
 }
 
-const contentStyle = (width)=>( {
-     maxWidth:width ,
+const contentStyle = (width) => ({
+    maxWidth: width,
     wordWrap: 'break-word',
     marginBottom: 20,
     textAlign: 'left',
     border: '1px solid #eee',
-   
-} )
+
+})
 
 const file_contentStyle = {
     marginBottom: 20,
     textAlign: 'left',
     border: '1px solid #eee',
-    padding:10,
+    padding: 10,
+    cursor: 'pointer',
 
 }
 
@@ -71,46 +69,60 @@ const imgStyle = (width) => ({
     borderRadius: 5,
 })
 
-const fileNameStyle ={
-    display: 'table-cell', 
+const fileNameStyle = {
+    display: 'table-cell',
     wordWrap: 'break-word',
- 
-    width:150,
-    paddingTop:-30,
-   // verticalAlign: 'top',
-    maxWidth:150,
+
+    width: 150,
+    paddingTop: -30,
+    // verticalAlign: 'top',
+    maxWidth: 150,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
 }
 
- 
-const fileLogoContainerStyle={
-    display: 'table-cell', 
-    
+
+const fileLogoContainerStyle = {
+    display: 'table-cell',
+
 }
 
-const renderContent=(content)=> {
-    const width = chatWindow.width * 0.6 ;
+const renderContent = (content) => {
+    const width = chatWindow.width * 0.6;
     const contentType = messageService.getMessageContentType(content);
+    const onFileClick = () => {
+        const url = messageService.getFullFileName(content);
+        window.open(url);
+    }
     switch (contentType) {
         case messageContentType.Text:
             return (
-                <div className='rbubble' style={contentStyle(width) }>
+                <div className='rbubble' style={contentStyle(width)}>
                     {content}
                 </div>
             );
         case messageContentType.Picture:
             return (
-                <img src={messageService.getThumbImg(content)} style={imgStyle(width*0.5)} alt=''></img>
+                <div>
+                    <ImageZoom
+                        image={{
+                            src: messageService.getThumbImg(content),                         
+                            style: { maxWidth: '180px' }
+                        }}
+                        zoomImage={{
+                            src: messageService.getFullFileName(content),     
+                        }}
+                    />
+                </div>
             );
         case messageContentType.File:
             return (
-                <div className='rbubble_file' style={file_contentStyle}>
+                <div className='rbubble_file' style={file_contentStyle} onClick={onFileClick}>
                     <div style={fileNameStyle}>
-                   
-                        {decodeURIComponent( messageService.getFileName(content))} 
-                   
+
+                        {decodeURIComponent(messageService.getFileName(content))}
+
                     </div>
                     <div style={fileLogoContainerStyle}>
                         <img src={messageContentRender.getFileImgSrc(messageService.getFileName(content))} alt=''></img>
@@ -124,11 +136,11 @@ const renderContent=(content)=> {
 
 
 
-export const StaffMessage =({ message })=>{
+export const StaffMessage = ({ message }) => {
     const { MessageContent } = message;
 
     return (
-        <div style={containerStyle }  >
+        <div style={containerStyle}  >
             <div style={avatarContainerStyle}>
                 <img style={avatarStyle} src={require('../../assets/imgs/staff.jpg')} />
             </div>
@@ -141,6 +153,5 @@ export const StaffMessage =({ message })=>{
         </div>
     )
 }
- 
 
- 
+

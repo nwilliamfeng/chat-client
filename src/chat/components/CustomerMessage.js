@@ -5,6 +5,7 @@ import { messageContentType } from '../constants';
 import { chatActions } from '../actions';
 import { messageContentRender } from './MessageContentRender';
 import { messageService } from '../api';
+import ImageZoom from 'react-medium-image-zoom';
 require('../../assets/styles/bubble.css');
 
 
@@ -41,9 +42,6 @@ require('../../assets/styles/bubble.css');
 //         Type: 1,
 //     }
 
-
-
-
 const avatarContainerStyle = {
     display: 'table-cell',
     paddingRight: 15,
@@ -53,9 +51,7 @@ const avatarStyle = {
     width: 42,
     height: 42,
     marginTop: 30,
-
 }
-
 
 const sendTimeStyle = {
     color: 'gray',
@@ -72,12 +68,6 @@ const bodyStyle = {
     display: 'table-cell', 
 }
 
-// const file_contentStyle = {
-//     marginBottom: 20,
-//     textAlign: 'left',
-//     border: '1px solid #eee',
-//     padding:10,
-// }
 
 const imgStyle = {
     maxWidth: '60%',
@@ -87,17 +77,7 @@ const imgStyle = {
     borderRadius: 5,
 } 
 
-// const fileNameStyle ={
-//     display: 'table-cell', 
-//     wordWrap: 'break-word',
-//     width:150,
-//     marginLeft:10 ,
-// }
-
-// const fileLogoContainerStyle={
-//     display: 'table-cell', 
-// }
-
+ 
 const contentStyle =  {
     wordWrap: 'break-word',
     maxWidth: '80%',
@@ -115,7 +95,17 @@ const renderContent=(content)=> {
             );
         case messageContentType.Picture:
             return (
-                <img src={messageService.getThumbImg(content)} style={imgStyle} alt=''></img>
+                <div>
+                    <ImageZoom
+                        image={{
+                            src: messageService.getThumbImg(content),                         
+                            style: { maxWidth: '180px' }
+                        }}
+                        zoomImage={{
+                            src: messageService.getFullFileName(content),     
+                        }}
+                    />
+                </div>
             );
         // case messageContentType.File:
         //     return (

@@ -96,7 +96,6 @@ class CustomerList extends Component {
     }
 
     render() {
-        console.log('render customerlist');
         const { customers,customerListWidth } = this.props;
         this.sortCustomerList(customers);//对列表进行排序
         return (

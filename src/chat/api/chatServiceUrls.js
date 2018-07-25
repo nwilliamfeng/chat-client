@@ -13,5 +13,6 @@ export const chatServiceUrls={
     */
    URL_GET_MESSAGES_BY_CUSTOMER_ID : "/staff/GetMessagesByCustomerId",
      
+   
 
 }
