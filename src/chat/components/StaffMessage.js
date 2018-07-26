@@ -105,7 +105,7 @@ const renderContent = (content) => {
 
 
     const dd=()=>{
-     ?? return https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif
+        return content+ '<img src="https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif">'
     }
 
 
@@ -115,7 +115,7 @@ const renderContent = (content) => {
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
                     <div className='rbubble' style={contentStyle(width)}>
-                        {content}
+                        {content}<img src="https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif"/>
                     </div>
                 </ContextMenuTrigger>
             );
