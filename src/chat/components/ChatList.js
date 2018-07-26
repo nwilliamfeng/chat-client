@@ -99,11 +99,9 @@ class ChatList extends Component {
                     {chats &&
                         <ul className="list-group list-group-hover" style={{ background: 'transparent' }}>
                             {chats.map((item) => (
-                                <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)}
-                                    />
+                                <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)} />
                             ))}
                         </ul>
-
                     }
 
                     <ContextMenu id={CHAT_LIST_CONTEXTMENU_ID}>

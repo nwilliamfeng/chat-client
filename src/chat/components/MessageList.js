@@ -4,9 +4,9 @@ import { appContext } from '../../util';
 import { messageActions } from '../actions';
 import { CustomerMessage } from './CustomerMessage';
 import { StaffMessage } from './StaffMessage';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenu, MenuItem } from "react-contextmenu";
 import { Scrollbars } from 'react-custom-scrollbars';
- 
+
 
 // const outContainerStyle = {
 
@@ -21,24 +21,39 @@ import { Scrollbars } from 'react-custom-scrollbars';
 //        overflowX: 'hidden',
 // }
 
-export const MSGLST_CONTEXTMENU_DOWNLOAD_ID = 'MSGLST_CONTEXTMENU_DOWNLOAD';
+/**
+ * 图片消息快捷菜单Id
+ */
+export const MSGLST_CONTEXTMENU_IMAGE_ID = 'MSGLST_CONTEXTMENU_IMAGE';
+
+/**
+ * 文件消息快捷菜单Id
+ */
+export const MSGLST_CONTEXTMENU_FILE_ID = 'MSGLST_CONTEXTMENU_FILE';
+
+/**
+ * 普通文本消息快捷菜单Id
+ */
+export const MSGLST_CONTEXTMENU_TEXT_MSG_ID = 'MSGLST_CONTEXTMENU_TEXT_MSG';
 
 class MessageList extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = { selectedChat: props.selectedChat, page: 0, pageCount: 0, currHeight: 0, needScroll: false };
+
         this.handleScrollFrame = this.handleScrollFrame.bind(this);
-        this.handleDownloadFile = this.handleDownloadFile.bind(this);
+
     }
 
     isSelfMessage(message) {
         return message.Sender === appContext.currentStaff.StaffId;
     }
 
+
     //处理下载文件或者图片
     handleDownloadFile(e, data, target) {
-        let url = target.getAttribute('url');
+        const url = target.getAttribute('url');
         if (url != null) {
             try {
                 window.open(url);
@@ -47,8 +62,10 @@ class MessageList extends React.Component {
                 console.log(e);
             }
         }
-
     }
+
+  
+
 
     handleScrollFrame(value) {
         const { scrollHeight, top } = value;
@@ -106,6 +123,7 @@ class MessageList extends React.Component {
     render() {
         const { recentResult } = this.props;
         return (
+
             <Scrollbars style={{ width: '100%', height: 'calc(80vh - 80px)' }}
                 ref="scrollbars"
                 onScrollFrame={this.handleScrollFrame} >
@@ -120,11 +138,19 @@ class MessageList extends React.Component {
                     }
                     {this.renderMessages()}
 
-                    <ContextMenu id={MSGLST_CONTEXTMENU_DOWNLOAD_ID}>
+                    <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
+                      
                         <MenuItem onClick={this.handleDownloadFile}>下载图片</MenuItem>
+                    </ContextMenu>
+                    <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
+                        <MenuItem onClick={this.handleDownloadFile}>下载文件</MenuItem>
+                    </ContextMenu>
+                    <ContextMenu id={MSGLST_CONTEXTMENU_TEXT_MSG_ID}>
+                        
                     </ContextMenu>
                 </div>
             </Scrollbars>
+
 
         );
     }

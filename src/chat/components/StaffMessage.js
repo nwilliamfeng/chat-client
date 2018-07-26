@@ -5,7 +5,7 @@ import MessageHelper from '../messageHelper';
 import { chatWindow } from '../chatRegionHelper';
 import ImageZoom from 'react-medium-image-zoom';
 import { ContextMenuTrigger } from "react-contextmenu";
-import { MSGLST_CONTEXTMENU_DOWNLOAD_ID } from './MessageList';
+import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID,MSGLST_CONTEXTMENU_FILE_ID } from './MessageList';
 require('../../assets/styles/bubble.css');
 
 
@@ -100,25 +100,30 @@ const renderContent = (content) => {
     const downloadFile = () => {
         const url = MessageHelper.getFullFileName(content);
         window.open(url);
-
+       // https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif
     }
 
 
+    const dd=()=>{
+     ?? return https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif
+    }
 
 
 
     switch (contentType) {
         case messageContentType.Text:
             return (
-                <div className='rbubble' style={contentStyle(width)}>
-                    {content}
-                </div>
+                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
+                    <div className='rbubble' style={contentStyle(width)}>
+                        {content}
+                    </div>
+                </ContextMenuTrigger>
             );
         case messageContentType.Picture:
 
             return (
 
-                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_DOWNLOAD_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
+                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_IMAGE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
                     <div style={imgStyle}>
                         <ImageZoom
                             image={{
@@ -135,14 +140,16 @@ const renderContent = (content) => {
             );
         case messageContentType.File:
             return (
-                <div className='rbubble_file' style={file_contentStyle} onClick={downloadFile}>
-                    <div style={fileNameStyle}>
-                        {decodeURIComponent(MessageHelper.getFileName(content))}
+                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_FILE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
+                    <div className='rbubble_file' style={file_contentStyle} onClick={downloadFile}>
+                        <div style={fileNameStyle}>
+                            {decodeURIComponent(MessageHelper.getFileName(content))}
+                        </div>
+                        <div style={fileLogoContainerStyle}>
+                            <img src={messageContentRender.getFileImgSrc(MessageHelper.getFileName(content))} alt=''></img>
+                        </div>
                     </div>
-                    <div style={fileLogoContainerStyle}>
-                        <img src={messageContentRender.getFileImgSrc(MessageHelper.getFileName(content))} alt=''></img>
-                    </div>
-                </div>
+                </ContextMenuTrigger>
             );
         default:
             return (<div>{'无法识别的消息内容:' + content}</div>)
