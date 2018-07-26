@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { messageContentType } from '../constants';
 import { messageContentRender } from './MessageContentRender';
-import { messageService } from '../api';
 import ImageZoom from 'react-medium-image-zoom';
+import MessageHelper from '../messageHelper';
 require('../../assets/styles/bubble.css');
 
 
@@ -82,7 +82,7 @@ const contentStyle =  {
 } 
 
 const renderContent=(content)=> {
-    const contentType = messageService.getMessageContentType(content);
+    const contentType = MessageHelper.getMessageContentType(content);
     switch (contentType) {
         case messageContentType.Text:
             return (
@@ -95,11 +95,11 @@ const renderContent=(content)=> {
                 <div>
                     <ImageZoom
                         image={{
-                            src: messageService.getThumbImg(content),                         
+                            src: MessageHelper.getThumbImg(content),                         
                             style: { maxWidth: '180px' }
                         }}
                         zoomImage={{
-                            src: messageService.getFullFileName(content),     
+                            src: MessageHelper.getFullFileName(content),     
                         }}
                     />
                 </div>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { messageContentType } from '../constants';
 import { messageContentRender } from './MessageContentRender';
-import { messageService } from '../api';
+import MessageHelper from '../messageHelper';
 import { chatWindow } from '../chatRegionHelper';
 import ImageZoom from 'react-medium-image-zoom';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenuTrigger } from "react-contextmenu";
+import { MSGLST_CONTEXTMENU_DOWNLOAD_ID } from './MessageList';
 require('../../assets/styles/bubble.css');
 
 
@@ -90,16 +91,21 @@ const fileLogoContainerStyle = {
 
 }
 
+
+
 const renderContent = (content) => {
     const width = chatWindow.width * 0.6;
-    const contentType = messageService.getMessageContentType(content);
+    const contentType = MessageHelper.getMessageContentType(content);
     //下载文件
     const downloadFile = () => {
-        const url = messageService.getFullFileName(content);
+        const url = MessageHelper.getFullFileName(content);
         window.open(url);
+
     }
 
-    const CONTEXTMENU_ID = 'staff_contextMenu';
+
+
+
 
     switch (contentType) {
         case messageContentType.Text:
@@ -109,21 +115,20 @@ const renderContent = (content) => {
                 </div>
             );
         case messageContentType.Picture:
+
             return (
-                <ContextMenuTrigger id={CONTEXTMENU_ID}>
+
+                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_DOWNLOAD_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
                     <div style={imgStyle}>
                         <ImageZoom
                             image={{
-                                src: messageService.getThumbImg(content),
+                                src: MessageHelper.getThumbImg(content),
                                 style: { maxWidth: '180px' }
                             }}
                             zoomImage={{
-                                src: messageService.getFullFileName(content),
+                                src: MessageHelper.getFullFileName(content),
                             }}
                         />
-                        <ContextMenu id={CONTEXTMENU_ID}>
-                            <MenuItem onClick={downloadFile}>下载图片</MenuItem>
-                        </ContextMenu>
                     </div>
                 </ContextMenuTrigger>
 
@@ -132,12 +137,10 @@ const renderContent = (content) => {
             return (
                 <div className='rbubble_file' style={file_contentStyle} onClick={downloadFile}>
                     <div style={fileNameStyle}>
-
-                        {decodeURIComponent(messageService.getFileName(content))}
-
+                        {decodeURIComponent(MessageHelper.getFileName(content))}
                     </div>
                     <div style={fileLogoContainerStyle}>
-                        <img src={messageContentRender.getFileImgSrc(messageService.getFileName(content))} alt=''></img>
+                        <img src={messageContentRender.getFileImgSrc(MessageHelper.getFileName(content))} alt=''></img>
                     </div>
                 </div>
             );

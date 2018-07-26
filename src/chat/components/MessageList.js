@@ -4,8 +4,9 @@ import { appContext } from '../../util';
 import { messageActions } from '../actions';
 import { CustomerMessage } from './CustomerMessage';
 import { StaffMessage } from './StaffMessage';
-import { homeActions } from '../../home/actions';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { Scrollbars } from 'react-custom-scrollbars';
+ 
 
 // const outContainerStyle = {
 
@@ -20,16 +21,33 @@ import { Scrollbars } from 'react-custom-scrollbars';
 //        overflowX: 'hidden',
 // }
 
+export const MSGLST_CONTEXTMENU_DOWNLOAD_ID = 'MSGLST_CONTEXTMENU_DOWNLOAD';
+
 class MessageList extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = { selectedChat: props.selectedChat, page: 0, pageCount: 0, currHeight: 0, needScroll: false };
         this.handleScrollFrame = this.handleScrollFrame.bind(this);
+        this.handleDownloadFile = this.handleDownloadFile.bind(this);
     }
 
     isSelfMessage(message) {
         return message.Sender === appContext.currentStaff.StaffId;
+    }
+
+    //处理下载文件或者图片
+    handleDownloadFile(e, data, target) {
+        let url = target.getAttribute('url');
+        if (url != null) {
+            try {
+                window.open(url);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+
     }
 
     handleScrollFrame(value) {
@@ -101,8 +119,13 @@ class MessageList extends React.Component {
                         </ul>
                     }
                     {this.renderMessages()}
+
+                    <ContextMenu id={MSGLST_CONTEXTMENU_DOWNLOAD_ID}>
+                        <MenuItem onClick={this.handleDownloadFile}>下载图片</MenuItem>
+                    </ContextMenu>
                 </div>
             </Scrollbars>
+
         );
     }
 }
