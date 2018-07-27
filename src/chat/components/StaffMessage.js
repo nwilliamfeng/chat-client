@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { messageContentType } from '../constants';
 import { messageContentRender } from './MessageContentRender';
 import MessageHelper from '../messageHelper';
@@ -103,19 +103,13 @@ const renderContent = (content) => {
        // https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif
     }
 
-
-    const dd=()=>{
-        return content+ '<img src="https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif">'
-    }
-
-
-
+ 
     switch (contentType) {
         case messageContentType.Text:
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
                     <div className='rbubble' style={contentStyle(width)}>
-                        {content}<img src="https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif"/>
+                        {MessageHelper.parseEmoji(content)} 
                     </div>
                 </ContextMenuTrigger>
             );
