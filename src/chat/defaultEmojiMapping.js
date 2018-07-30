@@ -7,9 +7,12 @@ class DefaultEmojiMapping {
           
     }
 
-    _loadEmoji(emojiPack = 'default') {
+    _loadEmoji() {
 
-        this._emojis = require('../assets/emoji/' + emojiPack + '/mapping.json');
+        this._emojis = require('../assets/emoji/default/mapping.json');
+       
+        const requireContext = require.context("../assets/emoji/default", true, /^\.\/.*\.gif$/);
+        this._images = requireContext.keys().map(requireContext);
     }
 
 
@@ -49,7 +52,11 @@ class DefaultEmojiMapping {
                 result= element;
             }
         });
-        return result;
+        if(result==null){
+            return null;
+        }
+        const imgSrc=this._images[ this._emojis.items.indexOf(result)];
+        return {...result,imgSrc};
     }
 
 

@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Editor, EditorState} from 'draft-js';
 
-
+/**
+ * 输入框
+ */
 class InputBox extends Component{
     constructor(props) {
         super(props);

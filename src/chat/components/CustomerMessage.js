@@ -104,17 +104,7 @@ const renderContent=(content)=> {
                     />
                 </div>
             );
-        // case messageContentType.File:
-        //     return (
-        //         <div className='lbubble' style={file_contentStyle}>
-        //             <div style={fileNameStyle}>
-        //                 {decodeURIComponent( messageService.getFileName(content))}
-        //             </div>
-        //             <div style={fileLogoContainerStyle}>
-        //                 <img src={messageContentRender.getFileImgSrc(messageService.getFileName(content))} alt=''></img>
-        //             </div>
-        //         </div>
-        //     );
+        
         default:
             return (<div>{'无法识别的消息内容:' + content}</div>)
     }

@@ -6,6 +6,7 @@ import { chatWindow } from '../chatRegionHelper';
 import ImageZoom from 'react-medium-image-zoom';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID,MSGLST_CONTEXTMENU_FILE_ID } from './MessageList';
+import  Staff_Avatar_Img  from '../../assets/imgs/staff.jpg';
 require('../../assets/styles/bubble.css');
 
 
@@ -75,20 +76,20 @@ const imgStyle = {
 const fileNameStyle = {
     display: 'table-cell',
     wordWrap: 'break-word',
-
+    textAlign:'top',
     width: 150,
-    paddingTop: -30,
-    // verticalAlign: 'top',
+    
+    verticalAlign: 'text-top',
     maxWidth: 150,
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
+  //  textOverflow: 'ellipsis',
+   // overflow: 'hidden',
+ //   whiteSpace: 'nowrap',
 }
 
 
 const fileLogoContainerStyle = {
-    display: 'table-cell',
-
+    display: 'table-cell', 
+    padding:5,
 }
 
 
@@ -100,21 +101,19 @@ const renderContent = (content) => {
     const downloadFile = () => {
         const url = MessageHelper.getFullFileName(content);
         window.open(url);
-       // https://61.152.230.122:9090/CS2/Common/images/emotion_qq/5.gif
     }
 
  
     switch (contentType) {
-        case messageContentType.Text:
+        case messageContentType.Text: //处理普通文本消息
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
                     <div className='rbubble' style={contentStyle(width)}>
-                        {MessageHelper.parseEmoji(content)} 
+                        {messageContentRender.renderTextContent(content)} 
                     </div>
                 </ContextMenuTrigger>
             );
-        case messageContentType.Picture:
-
+        case messageContentType.Picture: //处理图片消息
             return (
 
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_IMAGE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
@@ -132,12 +131,12 @@ const renderContent = (content) => {
                 </ContextMenuTrigger>
 
             );
-        case messageContentType.File:
+        case messageContentType.File: //处理文本消息
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_FILE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
                     <div className='rbubble_file' style={file_contentStyle} onClick={downloadFile}>
                         <div style={fileNameStyle}>
-                            {decodeURIComponent(MessageHelper.getFileName(content))}
+                            {MessageHelper.getFileName(content)}
                         </div>
                         <div style={fileLogoContainerStyle}>
                             <img src={messageContentRender.getFileImgSrc(MessageHelper.getFileName(content))} alt=''></img>
@@ -158,7 +157,7 @@ export const StaffMessage = ({ message }) => {
     return (
         <div style={containerStyle}  >
             <div style={avatarContainerStyle}>
-                <img style={avatarStyle} src={require('../../assets/imgs/staff.jpg')} />
+                <img style={avatarStyle} src={Staff_Avatar_Img} />
             </div>
             <div style={bodyStyle}>
                 <div>

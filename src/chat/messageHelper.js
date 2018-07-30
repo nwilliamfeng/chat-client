@@ -1,7 +1,4 @@
 import { messageContentType } from './constants';
-import React from 'react';
- 
-import {defaultEmojiMapping} from './defaultEmojiMapping';
  
 
 export default class MessageHelper {
@@ -18,39 +15,7 @@ export default class MessageHelper {
         return messageContentType.Text;
     }
 
-    static _renderEmoji(item){
-        const isEmoji=item.startsWith('[:');
-        return (
-            {isEmoji ? (
-                <p onClick={this.handleLogoutClick} />
-              ) : (
-                <p onClick={this.handleLoginClick} />
-              )}
-        )
-    }
-
-    /**
-     * 解析表情符号
-     * @param {*} msgContent 
-     */
-    static parseEmoji(msgContent) {
-        const items= defaultEmojiMapping.splitWithEmojis(msgContent);
-        return (
-            <div>
-                 {items.map((item) => (
-                     if(item.startsWith('[:'))
-                                 isLoggedIn ? (
-                                    <p>32</p>
-                                  ) : (
-                                    <LoginButton onClick={this.handleLoginClick} />
-                                  )
-                            ))}
-                {msgContent} <img src={require("../assets/emoji/default/1.gif")} />
-            </div>
-        )
-    }
-
-
+   
     /**
      * 返回指定消息内容里的缩略图文件路径
      * @param {string} msgContent 
@@ -69,7 +34,7 @@ export default class MessageHelper {
      */
     static getFileName(msgContent) {
         const arrs = msgContent.split(',');
-        return arrs[arrs.length - 3].replace('FileName:', '');
+        return decodeURIComponent(arrs[arrs.length - 3].replace('FileName:', ''));
     }
 
     /**
