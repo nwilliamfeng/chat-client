@@ -12,8 +12,6 @@ require('../../assets/styles/bubble.css');
  */
 class MessageContentRender {
 
-     
-
     /**
      * 
      * @param {string} fileName 
@@ -55,8 +53,6 @@ class MessageContentRender {
     }
 
     
-
-
     /**
      * 呈现普通消息内容，包括普通文本消息、表情符号，暂时不解析图片
      * @param {*} msgContent 
@@ -71,8 +67,6 @@ class MessageContentRender {
             </div>
         )
     }
-
-
 
     /**
      * 返回指定时间的呈现结果

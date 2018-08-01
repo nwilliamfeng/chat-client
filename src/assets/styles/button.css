@@ -15,3 +15,34 @@
     color:white;
    
 }
+
+
+.send-msg-btn {
+  padding-top: 2;
+  padding-left: 15;
+  padding-bottom: 2;
+  padding-right: 15;
+ 
+  border: '1px solid lightGrey';
+  
+  background: 'none';
+  color:'grey';
+  outline: 'none';
+}
+
+.send-msg-btn:hover {
+    background-color: #ff0000;
+}
+
+
+/*active 要在后面 否则会被hover覆盖*/
+
+
+.send-msg-btn:focus {
+    background-color: #00ff00;
+}
+
+
+.send-msg-btn:active {
+    background-color: #000000;
+}

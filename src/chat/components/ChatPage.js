@@ -8,33 +8,61 @@ import { InputBox  } from './InputBox';
 
 require('../../assets/styles/grid.css');
 require('../../assets/styles/ul.css');
+
 require('../../assets/styles/scrollbar.css');
 
 const titleStyle = {
     fontWeight: 'Bold',
 }
 
-const chatListContainerStyle = {
+//会话列表容器样式
+const chatListDivStyle = {
     paddingTop: 5,
     paddingLeft: 5,
     paddingRight: 5,
 }
 
-
-const searchBoxStyle = {
+//查询框容器样式
+const searchBoxDivStyle = {
     marginLeft: 20,
     marginTop: 20,
     marginRight: 3,
 
 }
 
+//输入框容器样式
+const inputBoxDivStyle={
+    height: '20vh',   
+    width: '100%', 
+    padding: 10, 
+    background:'white',
+    borderTopStyle:'solid',
+    borderWidth:1, 
+    paddingTop:10,
+    borderColor:'lightGrey',
+}
+
+//客户列表容器样式
+const customerDivStyle={
+    height: '45vh',
+    marginTop: 10,
+}
+
+//客服列表容器样式
+const staffDivStyle={
+    height: '45vh', 
+    marginTop: 40,  
+    borderTopStyle:'solid', 
+    paddingTop:10,
+    borderColor:'lightGrey',
+    borderWidth:1 
+}
+
 
 const initSize = {
     heightOffset: 83,
-
     customerListWidth: 300,
     navibarInitPaneWidth: 250,
-
 }
 
 class ChatPage extends Component {
@@ -52,37 +80,33 @@ class ChatPage extends Component {
 
 
     render() {
-
-        const { selectedChat } = this.props;
         return (            
             <div >
                 <div className="row">
                     <div className="col-fixed-chatlist">
-                        <div style={chatListContainerStyle}>
-                            <div style={searchBoxStyle}>
+                        <div style={chatListDivStyle}>
+                            <div style={searchBoxDivStyle}>
                                 <SearchBox />
                             </div>
                             <ChatList />
                         </div>
                     </div>
 
-                    <div className="col-offset-chat" style={{ overflowY: 'hidden', height: '100vh', }}   >
+                    <div className="col-offset-chat"    >
                         <div className="innerHold-chat" >
                             <div style={{ height: '80vh' }}>
                                 <ChatContainer />
                             </div>
-                            <div style={{ height: '20vh',   width: '100%', padding: 10, }}>
-                                 
-                                <InputBox/>
-                                
+                            <div style={inputBoxDivStyle}>                        
+                                <InputBox/>                               
                             </div>
                         </div>
                         <div className="innerHold-extend"  >
-                            <div style={{ height: '45vh', marginTop: 10, }}>
+                            <div style={customerDivStyle}>
                                 <p style={titleStyle}>客户列表</p>
                                 <CustomerList />
                             </div>
-                            <div style={{ height: '45vh', marginTop: 40,  borderTopStyle:'solid', paddingTop:10,borderColor:'lightGrey' }}>
+                            <div style={staffDivStyle}>
                                 <p style={titleStyle}>客服列表</p>
                                 <StaffList />
                             </div>
