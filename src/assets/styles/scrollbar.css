@@ -1,9 +1,9 @@
 .scollContainer::-webkit-scrollbar     
 
 {  
-    width: 6px;  
-    height:6px;
-   
+    width: 8px;  
+    height:6px;   
+    
 }  
 .scollContainer::-webkit-scrollbar-track 
 {
@@ -11,6 +11,7 @@
     border-radius: 12px; 
     background-color: transparent;
     display: none;
+    
 }
 
  
@@ -18,8 +19,7 @@
 
 .scollContainer::-webkit-scrollbar-thumb   
 {  
-    border-radius: 12px;  
-   
+    border-radius:12px;  
    background-color:#b5b1b1;
  
    overflow:hidden;height:whatever px;
