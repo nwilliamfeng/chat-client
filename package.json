@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "draft-js": "^0.10.5",
+    "draft-js-image-plugin": "^2.0.5",
+    "draft-js-plugins-editor": "^2.1.1",
     "history": "^4.7.2",
     "react": "^16.4.1",
     "react-contextmenu": "^2.9.2",

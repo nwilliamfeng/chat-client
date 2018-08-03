@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appContext } from '../../util';
 import { chatActions, messageActions } from '../actions';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { MessageList } from './MessageList';
+
+ 
 
 class Chat extends Component {
 
@@ -11,9 +11,7 @@ class Chat extends Component {
         super(props);
 
     }
-    closeChat(chat) {
-        alert(chat.customer);
-    }
+    
 
     componentDidUpdate(nextProps, nextState, nextContext) {
         const { dispatch, selectedChat } = this.props;
