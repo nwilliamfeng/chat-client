@@ -19,23 +19,10 @@ export default class UnimplementPage extends React.Component {
       };
       this.onChange = (editorState) => this.setState({editorState});
       this.onURLChange = (e) => this.setState({urlValue: e.target.value});
-       this.onFileUrlChange=(e)=>{
-        
-         const file= e.target.files[0];
-         const reader = new FileReader();
-         reader.readAsDataURL(file);
-         reader.onload = ()=> {
-           console.log(reader.result);
-           
-         };
-         reader.onerror =  (error)=> {
-           console.log('Error: ', error);
-         };
-       };
+      this.onFileUrlChange=this.onFileUrlChange.bind(this);
       this.confirmMedia = this.confirmMedia.bind(this);
       this.handleKeyCommand = this._handleKeyCommand.bind(this);
-      this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
-     
+      
     }
 
     _handleKeyCommand(command, editorState) {
@@ -73,11 +60,46 @@ export default class UnimplementPage extends React.Component {
       });
     }
 
-    _onURLInputKeyDown(e) {
-      if (e.which === 13) {
-        this._confirmMedia(e);
-      }
-    }
+     
+
+    onFileUrlChange(e){
+        
+      const file= e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = ()=> {
+        this.setState({urlValue:reader.result});
+        const {editorState, urlValue, urlType} = this.state;
+        const contentState = editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity(
+          urlType,
+          'IMMUTABLE',
+          {src: urlValue}
+        );
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        const newEditorState = EditorState.set(
+          editorState,
+          {currentContent: contentStateWithEntity}
+        );
+  
+        this.setState({
+          editorState: AtomicBlockUtils.insertAtomicBlock(
+            newEditorState,
+            entityKey,
+            ' '
+          ),
+   
+          urlValue: '',
+        });
+      };
+      reader.onerror =  (error)=> {
+        console.log('Error: ', error);
+      };
+    
+    };
+
+    
+     
  
 
     renderInput=()=>{
@@ -89,7 +111,7 @@ export default class UnimplementPage extends React.Component {
               style={styles.urlInput}
               type="text"
               value={this.state.urlValue}
-              onKeyDown={this.onURLInputKeyDown}
+             
             />
             <input type='file' onChange={this.onFileUrlChange} accept="image/gif, image/jpeg"/>
             <button onMouseDown={this.confirmMedia}>
