@@ -17,15 +17,17 @@ export default class UnimplementPage extends React.Component {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
     };
-    this.onChange = (editorState) => this.setState({ editorState });
     
+    this.onChange = (editorState) =>{
+      this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
+    }
+     
     this.onFileUrlChange = this.onFileUrlChange.bind(this);
+    this.handleKeyCommand = this.handleKeyCommand.bind(this);
     
-    this.handleKeyCommand = this._handleKeyCommand.bind(this);
-
   }
 
-  _handleKeyCommand(command, editorState) {
+  handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
@@ -34,80 +36,63 @@ export default class UnimplementPage extends React.Component {
     return false;
   }
 
-  confirmMedia(e) {
-    e.preventDefault();
-    const { editorState, urlValue, urlType } = this.state;
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
-      urlType,
-      'IMMUTABLE',
-      { src: urlValue }
-    );
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(
-      editorState,
-      { currentContent: contentStateWithEntity }
-    );
-
-    this.setState({
-      editorState: AtomicBlockUtils.insertAtomicBlock(
-        newEditorState,
-        entityKey,
-        ' '
-      ),
-
-      urlValue: '',
-    });
-  }
-
 
 
   onFileUrlChange(e) {
-
+    const content = this.state.editorState.getCurrentContent();
+    const raw =convertToRaw(content) ;
     const file = e.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.setState({ urlValue: reader.result });
-      const { editorState, urlValue, urlType } = this.state;
-      const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity(
-        urlType,
-        'IMMUTABLE',
-        { src: urlValue }
-      );
-      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-      const newEditorState = EditorState.set(
-        editorState,
-        { currentContent: contentStateWithEntity }
-      );
+    try {
+      
+      reader.readAsDataURL(file);//读取文件选择器的base64内容
+      reader.onload = () => {
+        //   this.setState({ urlValue: reader.result });
+        const { editorState, urlValue, urlType } = this.state;
 
-      this.setState({
-        editorState: AtomicBlockUtils.insertAtomicBlock(
-          newEditorState,
-          entityKey,
-          ' '
-        ),
+        const contentState = editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity( urlType, 'IMMUTABLE', { src: reader.result } );
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        const newEditorState = EditorState.set(
+          editorState,
+          { currentContent: contentStateWithEntity }
+        );
 
-        urlValue: '',
-      });
-    };
-    reader.onerror = (error) => {
-      console.log('Error: ', error);
-    };
+        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock( newEditorState, entityKey,' '),
+
+          urlValue: '',
+        });
+      };
+      reader.onerror = (error) => {
+        console.log('Error: ', error);
+      };
+    }
+    catch (e) {
+      console.log(e);
+    }
 
   };
 
 
 
+  handleKeyCommand(command, editorState) {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return 'handled';
+    }
+    return 'not-handled';
+  }
+
+  
 
 
   renderInput = () => {
     return (
       <div style={styles.urlInputContainer}>
-      
+
         <input type='file' onChange={this.onFileUrlChange} accept="image/gif, image/jpeg" />
-       
+
       </div>
     )
   }
@@ -116,6 +101,7 @@ export default class UnimplementPage extends React.Component {
     return (
       <div style={styles.root}>
         {this.renderInput()}
+      
         <div style={styles.editor} onClick={this.focus}>
           <Editor
             blockRendererFn={mediaBlockRenderer}
@@ -137,7 +123,7 @@ export default class UnimplementPage extends React.Component {
   }
 }
 
-const mediaBlockRenderer=(block)=> {
+const mediaBlockRenderer = (block) => {
   if (block.getType() === 'atomic') {
     return {
       component: Media,
@@ -186,7 +172,7 @@ const styles = {
   },
   media: {
     maxWidth: 150,
-    minWidth:16,
+    minWidth: 16,
     whiteSpace: 'initial'
   },
 };
