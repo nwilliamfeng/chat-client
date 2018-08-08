@@ -7,12 +7,13 @@ export default class UnimplementPage extends React.Component {
     super(props);
 
     this.state = {
-      editorState: EditorState.createEmpty(),
-      url: '',
-      urlType: 'image',
+      editorState: EditorState.createEmpty(),   
     };
 
-    this.focus = () => this.refs.editor.focus();
+    this.focus = () =>  {
+      this.refs.editor.focus();
+    }
+
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
@@ -22,7 +23,7 @@ export default class UnimplementPage extends React.Component {
       this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
     }
      
-    this.onFileUrlChange = this.onFileUrlChange.bind(this);
+    this.onImgUrlChange = this.onImgUrlChange.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     
   }
@@ -36,32 +37,19 @@ export default class UnimplementPage extends React.Component {
     return false;
   }
 
-
-
-  onFileUrlChange(e) {
-    const content = this.state.editorState.getCurrentContent();
-    const raw =convertToRaw(content) ;
+  onImgUrlChange(e) {
     const file = e.target.files[0];
     const reader = new FileReader();
     try {
       
       reader.readAsDataURL(file);//读取文件选择器的base64内容
       reader.onload = () => {
-        //   this.setState({ urlValue: reader.result });
-        const { editorState, urlValue, urlType } = this.state;
-
+        const { editorState} = this.state;
         const contentState = editorState.getCurrentContent();
-        const contentStateWithEntity = contentState.createEntity( urlType, 'IMMUTABLE', { src: reader.result } );
+        const contentStateWithEntity = contentState.createEntity( 'IMAGE', 'IMMUTABLE', { src: reader.result } );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-        const newEditorState = EditorState.set(
-          editorState,
-          { currentContent: contentStateWithEntity }
-        );
-
-        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock( newEditorState, entityKey,' '),
-
-          urlValue: '',
-        });
+        const newEditorState = EditorState.set( editorState, { currentContent: contentStateWithEntity } );
+        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock( newEditorState, entityKey,' ')});    
       };
       reader.onerror = (error) => {
         console.log('Error: ', error);
@@ -85,14 +73,12 @@ export default class UnimplementPage extends React.Component {
   }
 
   
-
-
   renderInput = () => {
     return (
-      <div style={styles.urlInputContainer}>
-
-        <input type='file' onChange={this.onFileUrlChange} accept="image/gif, image/jpeg" />
-
+      <div  >
+        <input type='file' onChange={this.onImgUrlChange} accept="image/*" />
+        <input type='file'   accept="file/.zip" />
+       
       </div>
     )
   }
@@ -152,14 +138,8 @@ const styles = {
   buttons: {
     marginBottom: 10,
   },
-  urlInputContainer: {
-    marginBottom: 10,
-  },
-  urlInput: {
-    fontFamily: '\'Georgia\', serif',
-    marginRight: 10,
-    padding: 3,
-  },
+  
+  
   editor: {
     border: '1px solid #ccc',
     cursor: 'text',
@@ -171,9 +151,10 @@ const styles = {
     textAlign: 'center',
   },
   media: {
-    maxWidth: 150,
+    maxWidth: 120,
     minWidth: 16,
-    whiteSpace: 'initial'
+    whiteSpace: 'initial',
+   
   },
 };
 
