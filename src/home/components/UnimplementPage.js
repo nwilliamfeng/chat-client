@@ -1,5 +1,12 @@
 import React from "react";
 import { AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, } from "draft-js";
+ 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { faImage as farImage } from '@fortawesome/free-regular-svg-icons';
+import { faFolder as farFolder } from '@fortawesome/free-regular-svg-icons';
+require('../../assets/styles/button.css');
+ 
 
 
 export default class UnimplementPage extends React.Component {
@@ -75,9 +82,11 @@ export default class UnimplementPage extends React.Component {
   
   renderInput = () => {
     return (
-      <div  >
-        <input type='file' onChange={this.onImgUrlChange} accept="image/*" />
-        <input type='file'   accept="file/.zip" />
+      <div style={{padding:5}} >
+        <label for="uploadPhoto" className="label-toolbar"> <FontAwesomeIcon icon={farImage}   size='lg' /></label>
+        <input id="uploadPhoto" type='file' style={inputStyle} onChange={this.onImgUrlChange} accept="image/*" />
+        <label for="uploadFile" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg'/></label>
+        <input type='file' id="uploadFile" style={inputStyle}  accept=".xls,.xlsx,.doc,.docx,.txt,.pdf,.zip" />
        
       </div>
     )
@@ -120,6 +129,9 @@ const mediaBlockRenderer = (block) => {
   return null;
 }
 
+const inputStyle={
+  display:'none',
+}
 
 
 const Image = ({ src }) => {

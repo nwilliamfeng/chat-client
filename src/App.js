@@ -5,7 +5,9 @@ import { Router, Route, BrowserRouter } from 'react-router-dom';
 import { history } from './util';
 import { LoginPage, LoginRoute } from './auth/components';
 import { HomePage } from './home';
+
 require('./assets/styles/react-contextmenu.css'); //这里react-contextmenu.css需要在全局里声明
+
 
 
 class App extends Component {

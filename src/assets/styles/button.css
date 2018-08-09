@@ -40,3 +40,15 @@
 .send-msg-btn:active {
     background-color: #2cc42c;
 }
+
+
+.label-toolbar {
+    cursor: pointer;
+    margin-right: 5px;
+    color: grey;
+ }
+ 
+ .label-toolbar:hover {
+    color: #259425;
+   
+}
