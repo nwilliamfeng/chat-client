@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faImage as farImage } from '@fortawesome/free-regular-svg-icons';
 import { faFolder as farFolder } from '@fortawesome/free-regular-svg-icons';
+import ReactTooltip from 'react-tooltip';
 require('../../assets/styles/button.css');
  
 
@@ -83,11 +84,11 @@ export default class UnimplementPage extends React.Component {
   renderInput = () => {
     return (
       <div style={{padding:5}} >
-        <label for="uploadPhoto" className="label-toolbar"> <FontAwesomeIcon icon={farImage}   size='lg' /></label>
+        <label for="uploadPhoto" data-tip="发送图片"  className="label-toolbar"> <FontAwesomeIcon icon={farImage}   size='lg' /></label>
         <input id="uploadPhoto" type='file' style={inputStyle} onChange={this.onImgUrlChange} accept="image/*" />
-        <label for="uploadFile" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg'/></label>
+        <label for="uploadFile"  data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg'/></label>
         <input type='file' id="uploadFile" style={inputStyle}  accept=".xls,.xlsx,.doc,.docx,.txt,.pdf,.zip" />
-       
+       <ReactTooltip />
       </div>
     )
   }
@@ -157,6 +158,7 @@ const styles = {
     cursor: 'text',
     minHeight: 80,
     padding: 10,
+    
   },
   button: {
     marginTop: 10,
