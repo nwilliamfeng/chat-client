@@ -18,7 +18,7 @@ class MessageService {
      * @param {number} index 
      * @param {number} pageSize 
      * @param {string} appKey 
-     * @returns  {TotalItemCount: 0, PageSize: 50, CurrentPageIndex: 0, Results:[]}
+     * @returns  {TotalItemCount: 0, PageSize: 10, CurrentPageIndex: 0, Results:[]}
      */
     async getMessagesByCustomerId(customerId, startTime, type, sort, index, pageSize, appKey) {
         const url = serviceUrls.URL_GET_MESSAGES_BY_CUSTOMER_ID;
@@ -37,7 +37,7 @@ class MessageService {
             return res.Data; //sample:TotalItemCount: 5, PageSize: 50, CurrentPageIndex: 1, Results:[]
         }
         else{
-            return {TotalItemCount: 0, PageSize: 50, CurrentPageIndex: 0, Results:[]}
+            return {TotalItemCount: 0, PageSize: 10, CurrentPageIndex: 0, Results:[]}
         }
     }
 
