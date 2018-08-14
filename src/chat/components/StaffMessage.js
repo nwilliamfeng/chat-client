@@ -152,12 +152,12 @@ const renderContent = (content) => {
 
 
 export const StaffMessage = ({ message }) => {
-    const { MessageContent } = message;
+    const { MessageContent,AvataUrl } = message;
 
     return (
         <div style={containerStyle}  >
             <div style={avatarContainerStyle}>
-                <img style={avatarStyle} src={Staff_Avatar_Img} />
+                <img style={avatarStyle} src={AvataUrl} />
             </div>
             <div style={bodyStyle}>
                 <div>

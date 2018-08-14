@@ -51,7 +51,7 @@ const customerDivStyle={
 
 //客服列表容器样式
 const staffDivStyle={
-    height: '45vh', 
+    height: 'calc(55vh - 51px)', 
     marginTop: 40,  
     borderTopStyle:'solid', 
     paddingTop:10,

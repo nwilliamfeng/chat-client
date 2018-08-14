@@ -112,11 +112,11 @@ const renderContent=(content)=> {
 
 
 export const CustomerMessage = ({ message }) => {
-    const { MessageContent } = message;
+    const { MessageContent,AvataUrl } = message;
     return (
         <div className="louter"  >
             <div style={avatarContainerStyle}>
-                <img style={avatarStyle} src={require('../../assets/imgs/customer.jpg')} />
+                <img style={avatarStyle} src={AvataUrl} />
             </div>
             <div style={bodyStyle}>
                 <div>
