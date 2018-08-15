@@ -92,11 +92,11 @@ class MessageList extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { recentResult } = this.props;
+        const { offlineMessageData } = this.props;
 
-        if (recentResult != null) {
+        if (offlineMessageData != null) {
             const { page } = this.state;
-            const { currentPageIndex, totalItemCount, pageSize } = recentResult;
+            const { currentPageIndex, totalItemCount, pageSize } = offlineMessageData;
             if (page !== currentPageIndex) {
                 const pageCount = (totalItemCount / pageSize).toFixed(0);
 
@@ -121,16 +121,16 @@ class MessageList extends React.Component {
     }
 
     render() {
-        const { recentResult } = this.props;
+        const { offlineMessageData } = this.props;
         return (
 
             <Scrollbars style={{ width: '100%', height: 'calc(80vh - 80px)' }}
                 ref="scrollbars"
                 onScrollFrame={this.handleScrollFrame} >
                 <div style={{ padding: 5 }} >
-                    {recentResult &&
+                    {offlineMessageData &&
                         <ul className="list-group">
-                            {recentResult.messages.map((msg) => (
+                            {offlineMessageData.messages.map((msg) => (
                                 this.isSelfMessage(msg) ?
                                     <StaffMessage key={msg.MsgId} message={msg} props={this.props} /> : <CustomerMessage key={msg.MsgId} message={msg} />
                             ))}
@@ -157,8 +157,8 @@ class MessageList extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { recentResult } = state.historyMessage;
-    return { recentResult };
+    const { offlineMessageData } = state.offlineMessage;
+    return { offlineMessageData };
 }
 
 

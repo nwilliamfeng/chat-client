@@ -40,6 +40,6 @@ function getRecentMessages(channelId,pageIdx=1){
     const sortOrder=0;//按时间升序
     return async dispatch =>{
       const data= await messageService.getMessagesByCustomerId(channelId,startTime,1,sortOrder,pageIdx,10,appContext.appKeys[0]);
-      dispatch({type:constants.LOAD_RECENT_MESSAGE,data});
+      dispatch({type:constants.LOAD_OFFLINE_MESSAGE,data});
     }
 }

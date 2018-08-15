@@ -2,7 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {authReducer} from './auth/reducers';
 import {customerReducer} from './customers/reducers';
 import {configurationReducer} from './configuration/reducers';
-import {chatReducer,historyMessageReducer} from './chat/reducers';
+import {chatReducer,historyMessageReducer,offlineMessageReducer} from './chat/reducers';
 import {homeReducer} from './home/reducers'
 import thunkMiddleware from 'redux-thunk'; 
  
@@ -33,6 +33,9 @@ const reducer = combineReducers({
    * 历史消息reducer
    */
   historyMessage:historyMessageReducer,
+
+
+  offlineMessage:offlineMessageReducer,
 
   home:homeReducer,
 });

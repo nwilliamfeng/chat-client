@@ -1,14 +1,8 @@
 import { constants } from '../constants';
 
 
-// const historyMessageContext = {
-//   data: [],
-//   totalItemCount: 0,
-//   pageSize: 0,
-//   currentPageIndex: 0,
-// }
 
-const recentMessageContext = {
+const historyMessageContext = {
   messages: [],
   totalItemCount: 0,
   pageSize: 0,
@@ -24,20 +18,22 @@ export const historyMessageReducer = (state = {}, action) => {
     //     historyResult: historyMessageContext,
     //   };
 
-    case constants.LOAD_RECENT_MESSAGE:
-      updateCurrRecentMessage(action.data);
-      
-      return {...state,
-        recentResult: Object.assign({}, recentMessageContext),
-      };
+    case constants.LOAD_OFFLINE_MESSAGE:
+      return state;
+      // updateCurrRecentMessage(action.data);
+
+      // return {
+      //   ...state,
+      //   recentResult: Object.assign({}, historyMessageContext),
+      // };
 
     case constants.CLOSE_CHAT: //如果关闭会话则当前的历史消息清空
-      recentMessageContext.messages=[];
-      recentMessageContext.totalItemCount=0;
-      recentMessageContext.pageSize=0;
-      recentMessageContext.currentPageIndex=0;
+      historyMessageContext.messages = [];
+      historyMessageContext.totalItemCount = 0;
+      historyMessageContext.pageSize = 0;
+      historyMessageContext.currentPageIndex = 0;
       return {
-        recentResult: Object.assign({}, recentMessageContext),
+        recentResult: Object.assign({}, historyMessageContext),
       };
 
     default:
@@ -80,15 +76,15 @@ export const historyMessageReducer = (state = {}, action) => {
 function updateCurrRecentMessage(data) {
   const nwMsgs = data.Results;
   nwMsgs.forEach(msg => {
-    const idx = recentMessageContext.messages.findIndex(x => {
+    const idx = historyMessageContext.messages.findIndex(x => {
       return x.MsgId === msg.MsgId
     });
-    if (idx < 0 ) {
-      recentMessageContext.messages.push(msg);
+    if (idx < 0) {
+      historyMessageContext.messages.push(msg);
     }
   });
-  recentMessageContext.messages = [...recentMessageContext.messages];
-  recentMessageContext.currentPageIndex = data.CurrentPageIndex;
-  recentMessageContext.pageSize = data.PageSize;
-  recentMessageContext.totalItemCount = data.TotalItemCount;
+  historyMessageContext.messages = [...historyMessageContext.messages];
+  historyMessageContext.currentPageIndex = data.CurrentPageIndex;
+  historyMessageContext.pageSize = data.PageSize;
+  historyMessageContext.totalItemCount = data.TotalItemCount;
 }
