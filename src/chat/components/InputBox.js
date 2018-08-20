@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, } from "draft-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage as farImage } from '@fortawesome/free-regular-svg-icons';
-import { faFolder as farFolder } from '@fortawesome/free-regular-svg-icons';
+import { faImage as farImage,faFolder as farFolder,faSmile as farSmile} from '@fortawesome/free-regular-svg-icons';
+ 
 import ReactTooltip from 'react-tooltip';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
@@ -139,6 +139,7 @@ class InputBox extends Component {
   renderInput = () => {
     return (
       <div style={{ padding: 5 }} >
+        <label data-tip="表情" onClick className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>
         <label for="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
         <input id="uploadPhoto" type='file' style={inputStyle} onChange={this.onImgUrlChange} accept="image/*" />
         <label for="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
