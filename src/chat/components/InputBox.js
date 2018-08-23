@@ -86,9 +86,11 @@ class InputBox extends Component {
       this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
     }
 
+  
+
     this.onImgUrlChange = this.onImgUrlChange.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-
+    this.onPopupEmojis =this.onPopupEmojis.bind(this);
   }
 
   handleKeyCommand(command, editorState) {
@@ -98,6 +100,11 @@ class InputBox extends Component {
       return true;
     }
     return false;
+  }
+
+
+  onPopupEmojis(){
+    console.log();
   }
 
   onImgUrlChange(e) {
@@ -139,7 +146,7 @@ class InputBox extends Component {
   renderInput = () => {
     return (
       <div style={{ padding: 5 }} >
-        <label data-tip="表情" onClick className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>
+        <label data-tip="表情" onClick={onPopupEmojis} className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>
         <label for="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
         <input id="uploadPhoto" type='file' style={inputStyle} onChange={this.onImgUrlChange} accept="image/*" />
         <label for="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
