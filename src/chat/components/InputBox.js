@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AtomicBlockUtils, Editor, EditorState, RichUtils, convertToRaw, } from "draft-js";
+import { AtomicBlockUtils,Modifier, Editor, EditorState, RichUtils, convertToRaw, } from "draft-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage as farImage,faFolder as farFolder,faSmile as farSmile} from '@fortawesome/free-regular-svg-icons';
  
@@ -104,7 +104,13 @@ class InputBox extends Component {
 
 
   onPopupEmojis(){
-    console.log();
+    
+    const editorState= this.state.editorState;
+    const selection  = editorState.getSelection();
+    const content  = editorState.getCurrentContent();
+    const start = selection.getStartOffset();
+    Modifier.insertText(content ,start,"11111");
+    console.log(start);
   }
 
   onImgUrlChange(e) {
@@ -120,6 +126,7 @@ class InputBox extends Component {
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
         this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ') });
+        this.logState();
       };
       reader.onerror = (error) => {
         console.log('Error: ', error);
@@ -146,7 +153,7 @@ class InputBox extends Component {
   renderInput = () => {
     return (
       <div style={{ padding: 5 }} >
-        <label data-tip="表情" onClick={onPopupEmojis} className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>
+        <label data-tip="表情" onClick={this.onPopupEmojis} className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>
         <label for="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
         <input id="uploadPhoto" type='file' style={inputStyle} onChange={this.onImgUrlChange} accept="image/*" />
         <label for="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
