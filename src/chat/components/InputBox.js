@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AtomicBlockUtils,Modifier, Editor, EditorState, RichUtils, convertToRaw, } from "draft-js";
+import { AtomicBlockUtils, Modifier, Editor, EditorState, RichUtils, convertToRaw,CompositeDecorator } from "draft-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage as farImage,faFolder as farFolder,faSmile as farSmile} from '@fortawesome/free-regular-svg-icons';
- 
+import { faImage as farImage, faFolder as farFolder, faSmile as farSmile } from '@fortawesome/free-regular-svg-icons';
+
 import ReactTooltip from 'react-tooltip';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
@@ -62,15 +62,49 @@ const styles = {
   },
 };
 
+const findWithRegex = (regex, contentBlock, callback) => {
+  const text = contentBlock.getText();
+  let matchArr;
+  let start;
+  while ((matchArr = regex.exec(text)) !== null) {
+    start = matchArr.index;
+    callback(start, start + matchArr[0].length);
+  }
+};
+ 
+
+const decorator = new CompositeDecorator([
+  //处理表情
+  {
+    strategy: (contentBlock, callback, contentState) => {
+      const emojiRegex = /\[[^\[\]]+\]/g;
+      findWithRegex(emojiRegex, contentBlock, callback);
+    },
+ 
+    component: (props) => {
+
+      return <img style={{ height: 32 }} src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535284262359&di=be17c6445b45c9f4241a6339dd517de7&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201509%2F06%2F20150906022108_5vMaV.jpeg" />;
+    },
+
+
+  },
+  // {
+  //   strategy: findImageEntities,
+  //   component: Image,
+  // },
+]);
+
 /**
  * 输入框
  */
 class InputBox extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      editorState: EditorState.createEmpty(),
+    // this.state = {
+    //  editorState: EditorState.createEmpty(),
+    // }
+    this.state = {   
+     editorState: EditorState.createEmpty(  decorator ),
     };
 
     this.focus = () => {
@@ -86,11 +120,11 @@ class InputBox extends Component {
       this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
     }
 
-  
+
 
     this.onImgUrlChange = this.onImgUrlChange.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.onPopupEmojis =this.onPopupEmojis.bind(this);
+    this.onPopupEmojis = this.onPopupEmojis.bind(this);
   }
 
   handleKeyCommand(command, editorState) {
@@ -103,14 +137,29 @@ class InputBox extends Component {
   }
 
 
-  onPopupEmojis(){
-    
-    const editorState= this.state.editorState;
-    const selection  = editorState.getSelection();
-    const content  = editorState.getCurrentContent();
-    const start = selection.getStartOffset();
-    Modifier.insertText(content ,start,"11111");
-    console.log(start);
+  onPopupEmojis() {
+
+    const content = "😂";
+    const editorState = this.state.editorState;
+    const selection = editorState.getSelection();
+    const contentState = editorState.getCurrentContent();
+    let newContentState = null;
+
+    // 判断是否有选中，有则替换，无则插入
+    const selectionEnd = selection.getEndOffset();
+    const selectionStart = selection.getStartOffset();
+    if (selectionEnd === selectionStart) {
+      newContentState = Modifier.insertText(contentState, selection, content);
+    } else {
+      newContentState = Modifier.replaceText(contentState, selection, content);
+    }
+    const newEditorState = EditorState.push(editorState, newContentState);
+    this.onChange(newEditorState);
+    setTimeout(() => {
+      this.focus();
+    }, 0);
+
+
   }
 
   onImgUrlChange(e) {
