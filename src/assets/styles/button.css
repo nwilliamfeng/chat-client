@@ -50,5 +50,13 @@
 
  .emoji-btn:hover {
      color:white;
-     background-color: rgb(190, 184, 184);
+     background-color:#F5F5F5;
  }
+
+ .emoji-category-btn {
+    padding: 10px;    
+    border: 0px solid transparent;
+    background: white;
+    
+    outline: none;
+}

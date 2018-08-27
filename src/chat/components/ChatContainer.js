@@ -15,7 +15,7 @@ class ChatContainer extends Component {
     
 
     render() {
-        const { width, height } = this.props.size;
+        const { width } = this.props.size;
         chatWindow.width=width;
         return (
             <div style={{ height: 'calc(100% - 80px)' }}>

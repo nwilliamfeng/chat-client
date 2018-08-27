@@ -58,10 +58,25 @@ const styles = {
 
   },
 
-  emojiPanel: {
-    padding: "0px",
-    marginTop: -20
-  }
+  emojiTab: {
+    padding:  0,
+    marginTop: -20,
+    width:442,
+  },
+
+  emojiTabPanel:{
+    paddingLeft:10,
+    paddingRight:10,
+    paddingTop:10,
+  },
+
+  emojiTabHeader:  {
+    background:'#F5F5F5',
+    padding:0,
+    marginRight:-10,
+    marginLeft:-10,
+    marginTop:10,
+  },
 };
 
 /**
@@ -205,7 +220,7 @@ class InputBox extends Component {
 
   //绘制单个表情
   renderEmoji = (emojiKey, onClose) => {
-    const { imgSrc } = defaultEmojiMapping.getEmoji(emojiKey);
+    const { imgSrc,description } = defaultEmojiMapping.getEmoji(emojiKey);
     const doClick = () => {
       onClose();
       alert('add');
@@ -213,7 +228,7 @@ class InputBox extends Component {
     }
     return (
       <button key={emojiKey} className='emoji-btn' onClick={doClick}>
-        <img src={imgSrc} style={{ width: 24 }} />
+        <img src={imgSrc} style={{ width: 24 }} title={description}/>
       </button>
     )
   }
@@ -246,7 +261,7 @@ class InputBox extends Component {
     let result = [];
     for (let i = 0; i < rows; i++) {
       result.push(
-        <div>
+        <div >
           {this.renderEmojiRow(i,cols, close)}
         </div>
 
@@ -263,11 +278,14 @@ class InputBox extends Component {
       trigger={<label data-tip="表情" className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
       position="center bottom"
       closeOnDocumentClick
-      contentStyle={styles.emojiPanel}
+      contentStyle={styles.emojiTab}
       arrow={false} >
       {close => (
-        <div>
+        <div style={styles.emojiTabPanel}>
           {this.renderEmojiRows(close)}
+          <div style={styles.emojiTabHeader}>
+              <button className='emoji-category-btn'>默认</button>
+           </div>
         </div>
 
       )}
