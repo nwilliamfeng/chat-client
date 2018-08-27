@@ -79,8 +79,8 @@ class Navibar extends Component {
                     arrow={false} >
 
                     <div className="menu">                      
-                        <div className="menu-item"> 设置</div>
-                        <div className="menu-item"> 帮助</div>                                           
+                        <div className="menu-item"> è®¾ç½®</div>
+                        <div className="menu-item"> å¸®åŠ©</div>                                           
                     </div>
 
                 </Popup>

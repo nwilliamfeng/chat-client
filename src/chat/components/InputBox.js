@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AtomicBlockUtils, Modifier, Editor, EditorState, RichUtils, convertToRaw,CompositeDecorator } from "draft-js";
+import { defaultEmojiMapping } from '../defaultEmojiMapping';
+import { AtomicBlockUtils, Modifier, Editor, EditorState, RichUtils, convertToRaw, CompositeDecorator } from "draft-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage as farImage, faFolder as farFolder, faSmile as farSmile } from '@fortawesome/free-regular-svg-icons';
-
+import Popup from "reactjs-popup";
 import ReactTooltip from 'react-tooltip';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
@@ -42,13 +43,9 @@ const styles = {
     marginBottom: 10,
   },
 
-
   editor: {
-
     cursor: 'text',
     minHeight: 80,
-
-
   },
   button: {
     marginTop: 10,
@@ -60,30 +57,41 @@ const styles = {
     whiteSpace: 'initial',
 
   },
+
+  emojiPanel: {
+    padding: "0px",
+    marginTop: -20
+  }
 };
 
+/**
+ * 
+ * @param {*} regex 
+ * @param {*} contentBlock 
+ * @param {*} callback 
+ */
 const findWithRegex = (regex, contentBlock, callback) => {
   const text = contentBlock.getText();
-  let matchArr;
-  let start;
+  let matchArr, start;
   while ((matchArr = regex.exec(text)) !== null) {
     start = matchArr.index;
     callback(start, start + matchArr[0].length);
   }
 };
- 
+
 
 const decorator = new CompositeDecorator([
   //处理表情
   {
     strategy: (contentBlock, callback, contentState) => {
-      const emojiRegex = /\[[^\[\]]+\]/g;
+      const emojiRegex = /\[+\:[^\[\]]+\]/g; //正则判断
       findWithRegex(emojiRegex, contentBlock, callback);
     },
- 
-    component: (props) => {
 
-      return <img style={{ height: 32 }} src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535284262359&di=be17c6445b45c9f4241a6339dd517de7&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201509%2F06%2F20150906022108_5vMaV.jpeg" />;
+    component: (props) => {
+      const text = props.decoratedText.trim();
+      console.log('decorated text', text);
+      return <span data-offset-key={props.offsetKey} style={{ color: 'red' }}>{props.children}</span>;
     },
 
 
@@ -100,11 +108,9 @@ const decorator = new CompositeDecorator([
 class InputBox extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //  editorState: EditorState.createEmpty(),
-    // }
-    this.state = {   
-     editorState: EditorState.createEmpty(  decorator ),
+
+    this.state = {
+      editorState: EditorState.createEmpty(decorator),//创建editorState
     };
 
     this.focus = () => {
@@ -119,8 +125,6 @@ class InputBox extends Component {
     this.onChange = (editorState) => {
       this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
     }
-
-
 
     this.onImgUrlChange = this.onImgUrlChange.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -139,25 +143,26 @@ class InputBox extends Component {
 
   onPopupEmojis() {
 
-    const content = "😂";
-    const editorState = this.state.editorState;
-    const selection = editorState.getSelection();
-    const contentState = editorState.getCurrentContent();
-    let newContentState = null;
+    //  this.setState({showEmojiPanel:true});
+    // const content = "😂";
+    // const editorState = this.state.editorState;
+    // const selection = editorState.getSelection();
+    // const contentState = editorState.getCurrentContent();
+    // let newContentState = null;
 
-    // 判断是否有选中，有则替换，无则插入
-    const selectionEnd = selection.getEndOffset();
-    const selectionStart = selection.getStartOffset();
-    if (selectionEnd === selectionStart) {
-      newContentState = Modifier.insertText(contentState, selection, content);
-    } else {
-      newContentState = Modifier.replaceText(contentState, selection, content);
-    }
-    const newEditorState = EditorState.push(editorState, newContentState);
-    this.onChange(newEditorState);
-    setTimeout(() => {
-      this.focus();
-    }, 0);
+    // // 判断是否有选中，有则替换，无则插入
+    // const selectionEnd = selection.getEndOffset();
+    // const selectionStart = selection.getStartOffset();
+    // if (selectionEnd === selectionStart) {
+    //   newContentState = Modifier.insertText(contentState, selection, content);
+    // } else {
+    //   newContentState = Modifier.replaceText(contentState, selection, content);
+    // }
+    // const newEditorState = EditorState.push(editorState, newContentState);
+    // this.onChange(newEditorState);
+    // setTimeout(() => {
+    //   this.focus();
+    // }, 0);
 
 
   }
@@ -198,16 +203,91 @@ class InputBox extends Component {
     return 'not-handled';
   }
 
+  //绘制单个表情
+  renderEmoji = (emojiKey, onClose) => {
+    const { imgSrc } = defaultEmojiMapping.getEmoji(emojiKey);
+    const doClick = () => {
+      onClose();
+      alert('add');
 
-  renderInput = () => {
+    }
+    return (
+      <button key={emojiKey} className='emoji-btn' onClick={doClick}>
+        <img src={imgSrc} style={{ width: 24 }} />
+      </button>
+    )
+  }
+
+  renderEmojiRow = (rowIdx,cols, onClose) => {
+   
+    const emojis=defaultEmojiMapping.getAllEmojis();
+    let arr = [];
+    for (let i = 0; i < cols; i++) {
+      const emoji =emojis[cols*rowIdx+i];
+      if(emoji!=null){
+       const {masks} =emoji; 
+       arr.push(masks);
+      }
+       
+         
+    }
+    return (
+      <div>
+          { arr.map((item)=>this.renderEmoji(item,onClose) )}   
+      </div>
+   
+    )
+  }
+
+  renderEmojiRows = (close) => {
+    const emojis = defaultEmojiMapping.getAllEmojis();
+    const cols = 15;
+    const rows = Math.ceil(emojis.length / cols);
+    let result = [];
+    for (let i = 0; i < rows; i++) {
+      result.push(
+        <div>
+          {this.renderEmojiRow(i,cols, close)}
+        </div>
+
+      );
+    }
+    return result;
+  }
+
+
+  // 绘制表情输入框
+  renderEmojiPanel = () => {
+
+    return (<Popup
+      trigger={<label data-tip="表情" className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
+      position="center bottom"
+      closeOnDocumentClick
+      contentStyle={styles.emojiPanel}
+      arrow={false} >
+      {close => (
+        <div>
+          {this.renderEmojiRows(close)}
+        </div>
+
+      )}
+    </Popup>)
+  }
+
+
+
+  //绘制输入框
+  renderInput() {
     return (
       <div style={{ padding: 5 }} >
-        <label data-tip="表情" onClick={this.onPopupEmojis} className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>
+
+        {this.renderEmojiPanel()}
         <label for="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
         <input id="uploadPhoto" type='file' style={inputStyle} onChange={this.onImgUrlChange} accept="image/*" />
         <label for="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
         <input type='file' id="uploadFile" style={inputStyle} accept=".xls,.xlsx,.doc,.docx,.txt,.pdf,.zip" />
         <ReactTooltip />
+
       </div>
     )
   }
@@ -235,36 +315,6 @@ class InputBox extends Component {
       </div>
     );
   }
-
-
-
-
-  // render() {
-
-  //   return (
-  //     <div>
-
-
-
-  //       <div className='scollContainer editor-container'>
-
-  //         <div    >
-  //         <Editor
-  //           editorState={this.state.editorState}
-  //           onChange={this.onChange}
-
-  //           ref={element => {
-  //             this.editor = element;
-  //           }}
-  //         />
-  //         </div>
-
-  //       </div>
-  //       <button className='send-msg-btn'>{'发送'}</button>
-
-  //     </div>
-  //   )
-  // }
 
 
 }

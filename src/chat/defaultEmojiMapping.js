@@ -45,6 +45,10 @@ class DefaultEmojiMapping {
         return result;
     }
 
+    /**
+     * 返回指定key的表情Json对象
+     * @param {string} key 
+     */
     getEmoji(key) {
         let result=null;
         this._emojis.items.forEach(element => {
@@ -57,6 +61,13 @@ class DefaultEmojiMapping {
         }
         const imgSrc=this._images[ this._emojis.items.indexOf(result)];
         return {...result,imgSrc};
+    }
+
+    /**
+     * 返回所有的表情Json对象集合
+     */
+    getAllEmojis(){
+        return this._emojis.items;
     }
 
 

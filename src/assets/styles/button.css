@@ -1,54 +1,54 @@
- 
-.metroBtn{
-    
-    display:block;
-    background-color:transparent;
-    color:rgb(230, 224, 224);
-    border: none;
-    outline:none;
-  
-}
-
-.metroBtn:hover{
-    
-    
-    color:white;
-   
-}
-
-
-.send-msg-btn {
-  padding-top: 2px;
-  padding-left: 18px;
-  padding-bottom: 2px;
-  padding-right: 18px;
- 
-  border: 1px solid lightGrey;
-  
-  background:transparent;
-  color:gray;
-  outline: none;
-}
-
-.send-msg-btn:hover {
-    background-color: #259425;
-    color: white;
-}
-
- 
-
-.send-msg-btn:active {
-    background-color: #2cc42c;
-}
-
-
-.label-toolbar {
-    cursor: pointer;
-    margin-right:10px;
-    color: grey;
+ .metroBtn {
+     display: block;
+     background-color: transparent;
+     color: rgb(230, 224, 224);
+     border: none;
+     outline: none;
  }
- 
+
+ .metroBtn:hover {
+     color: white;
+ }
+
+ .send-msg-btn {
+     padding-top: 2px;
+     padding-left: 18px;
+     padding-bottom: 2px;
+     padding-right: 18px;
+     border: 1px solid lightGrey;
+     background: transparent;
+     color: gray;
+     outline: none;
+ }
+
+ .send-msg-btn:hover {
+     background-color: #259425;
+     color: white;
+ }
+
+ .send-msg-btn:active {
+     background-color: #2cc42c;
+ }
+
+ .label-toolbar {
+     cursor: pointer;
+     margin-right: 10px;
+     color: grey;
+ }
+
  .label-toolbar:hover {
-    color: #259425;
-   
-}
+     color: #259425;
+ }
+
+ .emoji-btn {
+     padding: 2px;    
+     border: 0px solid transparent;
+     background: transparent;
+     color: transparent;
+     outline: none;
+ }
+
+ .emoji-btn:hover {
+     color:white;
+     background-color: rgb(190, 184, 184);
+ }
