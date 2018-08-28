@@ -48,6 +48,6 @@ function mapStateToProps(state) {
 const page = connect(mapStateToProps, null)(Chat);
 
 /**
- * Chat实例
+ * Chatå®žä¾‹
  */
 export { page as Chat };

@@ -5,267 +5,320 @@
     {
       "fileName": "1.gif",
       "masks": "[:wx]",
-      "description": "微笑"
+      "description": "微笑",
+      "character" :"😃"
     },
     {
       "fileName": "2.gif",
       "masks": "[:se]",
-      "description": "色"
+      "description": "色",
+      "character" :"😍"
     },
     {
       "fileName": "3.gif",
       "masks": "[:dai]",
-      "description": "呆"
+      "description": "呆",
+      "character" :"😳"
     },
     {
       "fileName": "4.gif",
       "masks": "[:djy]",
-      "description": "大金牙"
+      "description": "大金牙",
+      "character" :"😸"
     },
     {
       "fileName": "5.gif",
       "masks": "[:dk]",
-      "description": "大哭"
+      "description": "大哭",
+      "character" :"😭"
     },
     {
       "fileName": "6.gif",
       "masks": "[:hx1]",
-      "description": "害羞"
+      "description": "害羞",
+      "character" :"😏"
     },
     {
       "fileName": "7.gif",
       "masks": "[:bz]",
-      "description": "闭嘴"
+      "description": "闭嘴",
+      "character" :"😷"
     },
     {
       "fileName": "8.gif",
       "masks": "[:kun]",
-      "description": "困"
+      "description": "困",
+      "character" :"😪"
     },
     {
       "fileName": "9.gif",
       "masks": "[:kuk]",
-      "description": "哭"
+      "description": "哭",
+      "character" :"😢"
     },
     {
       "fileName": "10.gif",
       "masks": "[:gg]",
-      "description": "尴尬"
+      "description": "尴尬",
+      "character" :"😓"
     },
     {
       "fileName": "11.gif",
       "masks": "[:fh]",
-      "description": "发火"
+      "description": "发火",
+      "character" :"😡"
     },
     {
       "fileName": "12.gif",
       "masks": "[:tp]",
-      "description": "调皮"
+      "description": "调皮",
+      "character" :"😜"
     },
     {
       "fileName": "13.gif",
       "masks": "[:zy]",
-      "description": "龇牙"
+      "description": "龇牙",
+      "character" :"😁"
     },
     {
       "fileName": "14.gif",
       "masks": "[:jy]",
-      "description": "惊讶"
+      "description": "惊讶",
+      "character" :"😨"
     },
     {
       "fileName": "15.gif",
       "masks": "[:ng]",
-      "description": "难过"
+      "description": "难过",
+      "character" :"😞"
     },
     {
       "fileName": "16.gif",
       "masks": "[:ku]",
-      "description": "酷"
+      "description": "酷",
+      "character" :"😠"
     },
     {
       "fileName": "17.gif",
       "masks": "[:han]",
-      "description": "汗"
+      "description": "汗",
+      "character" :"🙎"
     },
     {
       "fileName": "18.gif",
       "masks": "[:zk]",
-      "description": "抓狂"
+      "description": "抓狂",
+      "character" :"😫"
     },
     {
       "fileName": "19.gif",
       "masks": "[:tu]",
-      "description": "吐"
+      "description": "吐",
+      "character" :"😖"
     },
     {
       "fileName": "20.gif",
       "masks": "[:tx]",
-      "description": "偷笑"
+      "description": "偷笑",
+      "character" :"😻"
     },
     {
       "fileName": "21.gif",
       "masks": "[:ka]",
-      "description": "可爱"
+      "description": "可爱",
+      "character" :"😊"
     },
     {
       "fileName": "22.gif",
       "masks": "[:by]",
-      "description": "白眼"
+      "description": "白眼",
+      "character" :"😒"
     },
     {
       "fileName": "23.gif",
       "masks": "[:am]",
-      "description": "傲慢"
+      "description": "傲慢",
+      "character" :"🙏"
     },
     {
       "fileName": "24.gif",
       "masks": "[:ts]",
-      "description": "吐舌"
+      "description": "吐舌",
+      "character" :"😋"
     },
     {
       "fileName": "25.gif",
       "masks": "[:hk]",
-      "description": "很困"
+      "description": "很困",
+      "character" :"😩"
     },
     {
       "fileName": "26.gif",
       "masks": "[:jk]",
-      "description": "惊恐"
+      "description": "惊恐",
+      "character" :"😰"
     },
     {
       "fileName": "27.gif",
       "masks": "[:lh]",
-      "description": "流汗"
+      "description": "流汗",
+      "character" :"😅"
     },
     {
       "fileName": "28.gif",
       "masks": "[:dx]",
-      "description": "大笑"
+      "description": "大笑",
+      "character" :"😂"
     },
     {
       "fileName": "29.gif",
       "masks": "[:db]",
-      "description": "大兵"
+      "description": "大兵",
+      "character" :"😼"
     },
     {
       "fileName": "30.gif",
       "masks": "[:fd]",
-      "description": "奋斗"
+      "description": "奋斗",
+      "character" :"😘"
     },
     {
       "fileName": "31.gif",
       "masks": "[:dc]",
-      "description": "大吵"
+      "description": "大吵",
+      "character" :"🙀"
     },
     {
       "fileName": "32.gif",
       "masks": "[:yw]",
-      "description": "疑问"
+      "description": "疑问",
+      "character" :"🙇"
     },
     {
       "fileName": "33.gif",
       "masks": "[:xu]",
-      "description": "嘘"
+      "description": "嘘",
+      "character" :"😄"
     },
     {
       "fileName": "34.gif",
       "masks": "[:yun]",
-      "description": "晕"
+      "description": "晕",
+      "character" :"😵"
     },
     {
       "fileName": "35.gif",
       "masks": "[:fk]",
-      "description": "疯狂"
+      "description": "疯狂",
+      "character" :"😔"
     },
     {
       "fileName": "36.gif",
       "masks": "[:pz]",
-      "description": "撇嘴"
+      "description": "撇嘴",
+      "character" :"😝"
     },
     {
       "fileName": "38.gif",
       "masks": "[:qiao]",
-      "description": "敲"
+      "description": "敲",
+      "character" :"😿"
     },
     {
       "fileName": "39.gif",
       "masks": "[:zj]",
-      "description": "再见"
+      "description": "再见",
+      "character" :"🙋"
     },
     {
       "fileName": "40.gif",
       "masks": "[:ch]",
-      "description": "擦汗"
+      "description": "擦汗",
+      "character" :"🙉"
     },
     {
       "fileName": "41.gif",
       "masks": "[:kb]",
-      "description": "抠鼻"
+      "description": "抠鼻",
+      "character" :"🙊"
     },
     {
       "fileName": "42.gif",
       "masks": "[:gz]",
-      "description": "鼓掌"
+      "description": "鼓掌",
+      "character" :"🙌"
     },
     {
       "fileName": "43.gif",
       "masks": "[:qiu]",
-      "description": "糗"
+      "description": "糗",
+      "character" :"😤"
     },
     {
       "fileName": "44.gif",
       "masks": "[:hx]",
-      "description": "坏笑"
+      "description": "坏笑",
+      "character" :"😉"
     },
     {
       "fileName": "45.gif",
       "masks": "[:zxx]",
-      "description": "左嘘嘘"
+      "description": "左嘘嘘",
+      "character" :"🙅"
     },
     {
       "fileName": "46.gif",
       "masks": "[:yxx]",
-      "description": "右嘘嘘"
+      "description": "右嘘嘘",
+      "character" :"🙆"
     },
     {
       "fileName": "47.gif",
       "masks": "[:hq]",
-      "description": "哈欠"
+      "description": "哈欠",
+      "character" :"😆"
     },
     {
       "fileName": "48.gif",
       "masks": "[:bs]",
-      "description": "鄙视"
+      "description": "鄙视",
+      "character" :"😲"
     },
     {
       "fileName": "49.gif",
       "masks": "[:wq]",
-      "description": "委屈"
+      "description": "委屈",
+      "character" :"😌"
     },
     {
       "fileName": "50.gif",
       "masks": "[:kkl]",
-      "description": "快哭了"
+      "description": "快哭了",
+      "character" :"😣"
     },
     {
       "fileName": "51.gif",
       "masks": "[:yx]",
-      "description": "阴险"
+      "description": "阴险",
+      "character" :"😹"
     },
     {
       "fileName": "52.gif",
       "masks": "[:qq]",
-      "description": "亲亲"
+      "description": "亲亲",
+      "character" :"😚"
     },
     {
       "fileName": "53.gif",
       "masks": "[:xia]",
-      "description": "吓"
+      "description": "吓",
+      "character" :"😱"
     },
     {
       "fileName": "54.gif",
       "masks": "[:kll]",
-      "description": "可怜"
+      "description": "可怜",
+      "character" :"😥"
     }
   ]
 }

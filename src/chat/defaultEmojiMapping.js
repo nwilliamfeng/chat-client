@@ -12,7 +12,14 @@ class DefaultEmojiMapping {
         this._emojis = require('../assets/emoji/default/mapping.json');
        
         const requireContext = require.context("../assets/emoji/default", true, /^\.\/.*\.gif$/);
-        this._images = requireContext.keys().map(requireContext);
+        const keys= requireContext.keys().sort((a,b)=>{
+            const toValue=(x)=>{
+                return Number.parseInt( x.replace('./','').replace('.gif',''));
+            }
+            return toValue(a)-toValue(b);
+        });
+       
+        this._images = keys.map(requireContext);
     }
 
 
@@ -62,6 +69,26 @@ class DefaultEmojiMapping {
         const imgSrc=this._images[ this._emojis.items.indexOf(result)];
         return {...result,imgSrc};
     }
+
+
+    /**
+     * 返回指定emojiCharacter的表情Json对象
+     * @param {string} emojiCharacter 
+     */
+    getEmojiByCharacter(emojiCharacter) {
+        let result=null;
+        this._emojis.items.forEach(element => {
+            if(element.character===emojiCharacter){
+                result= element;
+            }
+        });
+        if(result==null){
+            return null;
+        }
+        const imgSrc=this._images[ this._emojis.items.indexOf(result)];
+        return {...result,imgSrc};
+    }
+
 
     /**
      * 返回所有的表情Json对象集合

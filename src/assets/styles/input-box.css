@@ -4,3 +4,17 @@
 }
 
 
+.emoji-span::selection {
+       
+        color:white;
+       
+}
+
+
+    .emoji-span::-moz-selection {
+        color:white;
+    }
+    
+    .emoji-span::-webkit-selection {
+        color:white;
+    }
