@@ -74,7 +74,7 @@ const renderEmojiRows = (onSelect) => {
     let result = [];
     for (let i = 0; i < rows; i++) {
         result.push(
-            <div >
+            <div key={i}>
                 {renderEmojiRow(i, cols, onSelect)}
             </div>
 
