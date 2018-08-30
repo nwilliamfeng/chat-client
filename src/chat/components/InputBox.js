@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { defaultEmojiMapping } from '../defaultEmojiMapping';
-import { AtomicBlockUtils, Modifier, Editor, EditorState, RichUtils, CompositeDecorator } from "draft-js";
+import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState, RichUtils, CompositeDecorator } from "draft-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage as farImage, faFolder as farFolder, } from '@fortawesome/free-regular-svg-icons';
 import ReactTooltip from 'react-tooltip';
 import { renderEmojiPanel } from './EmojiTab';
+import {appSettings} from '../../util';
+import { fileActions } from '../actions';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
 require('../../assets/styles/input-box.css');
 
-//返回指定的contentBlock是否属于非文本类型
-const isAtomicBlock=(block)=>{
-   return block.getType() === 'atomic';
-}
+/**
+ * 返回指定的contentBlock是否属于非文本类型
+ * @param {*} block 
+ */
+const isAtomicBlock = (block) => block.getType() === 'atomic';
+
 
 const mediaBlockRenderer = (block) => {
   if (isAtomicBlock(block)) {
@@ -25,9 +29,12 @@ const mediaBlockRenderer = (block) => {
   return null;
 }
 
-//正则匹配集
-const regexs={
-  emoji:/\ud83d[\ude00-\ude4f]/g,
+/**
+ * 正则匹配集
+ */
+const regexs = {
+  emoji: /\ud83d[\ude00-\ude4f]/g,//识别emoji符号
+  base64Content: /^data:image\/(jpeg|png|gif);base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/g, //识别img的base64
 }
 
 
@@ -85,7 +92,7 @@ const findWithRegex = (regex, contentBlock, callback) => {
   let matchArr, start;
   while ((matchArr = regex.exec(text)) !== null) {
     start = matchArr.index;
-     callback(start, start + matchArr[0].length);
+    callback(start, start + matchArr[0].length);
   }
 };
 
@@ -101,7 +108,7 @@ const decorator = new CompositeDecorator([
       if (emoji == null) { //如果没有找到对应表情则直接返回
         return props.children;
       }
-      const {imgSrc} = emoji;
+      const { imgSrc } = emoji;
       return <span style={emojiStyle(imgSrc)}>{props.children}</span>;//注意必须与return同行写
     },
 
@@ -121,12 +128,8 @@ class InputBox extends Component {
     super(props);
 
     this.state = {
-      editorState: EditorState.createEmpty(decorator),//创建editorState
+      editorState: EditorState.createEmpty(decorator),//关联Editor的state
     };
-
-    this.focus = () => {
-      this.refs.editor.focus(); //获得焦点
-    }
 
     this.onChange = (editorState) => {
       this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
@@ -143,7 +146,9 @@ class InputBox extends Component {
     return false;
   }
 
-  //选中图片
+  /**
+   * 选中图片
+   */
   onSelectImage = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -155,41 +160,95 @@ class InputBox extends Component {
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', { src: reader.result });
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
-        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ') });
+        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ')});
       };
       reader.onerror = (error) => {
         console.log('Error: ', error);
       };
+      
     }
     catch (e) {
       console.log(e);
     }
-
   };
 
-  //发送消息
-  onSend = () => {
+  /**
+   * 点击发送图片按钮时触发
+   */
+  onClickSelectImage=(e)=>{
+    e.target.value=null; //必须将value置空，否则无法选择相同的文件
+  }
+
+  /**
+   * 使输入框获得焦点
+   */
+  focus = () => {
+    setTimeout(() => {
+      this.refs.editor.focus(); //设置完成后让输入框重新获得焦点
+    }, 0);
+  }
+
+  /**
+   * 返回要发送的内容
+   */
+  getSendContent = () => {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
     const blocks = contentState.getBlocksAsArray();
-    console.log(blocks);
-    let value =blocks[0].text;
-    let dd= value.replace(regexs.emoji,(x)=>{
-      const {masks}= defaultEmojiMapping.getEmojiByCharacter(x); 
-      return masks;
+    return blocks.map(block => {
+      if (isAtomicBlock(block)) { //如果是图片类型，则
+        const entity = contentState.getEntity(block.getEntityAt(0));
+        return entity.getData().src;
+      }
+      return block.text.replace(regexs.emoji, emojiChar => defaultEmojiMapping.getEmojiByCharacter(emojiChar).masks);
     });
-
-
-  //  console.log(dd);
   }
 
-  //选中表情
+  /**
+   * 清除输入框
+   */
+  clear = () => {
+    const editorState = EditorState.push(this.state.editorState, ContentState.createFromText(''));
+    this.setState({ editorState });
+    this.focus();
+  }
+
+  /**
+   * 采用图文分开发送
+   */
+  onSendWithAutoSplitMode=()=>{
+    this.getSendContent().filter(content=>!(content==null || content.trim()=='')).forEach(content => {
+      if (regexs.base64Content.exec(content) != null) {
+        console.log("image!!");
+      }
+      else {
+        console.log("ddd"+content);
+      }
+    });
+    const {auth} =this.props;
+  
+   // const {ImUserId,RefreshToken}=auth.user; //这里临时写
+  }
+
+  /**
+   * 发送输入框的内容
+   */
+  onSend = () => {
+    if(appSettings.autoSplitInputContent){
+      this.onSendWithAutoSplitMode();
+    }
+    
+    this.clear();
+  }
+
+  /**
+   * 选中表情
+   */
   onSelectEmoji = (content) => {
     const editorState = this.state.editorState;
     const selection = editorState.getSelection();
     const contentState = editorState.getCurrentContent();
     let newContentState = null;
-
     // 判断是否有选中，有则替换，无则插入
     const selectionEnd = selection.getEndOffset();
     const selectionStart = selection.getStartOffset();
@@ -200,9 +259,7 @@ class InputBox extends Component {
     }
     const newEditorState = EditorState.push(editorState, newContentState);
     this.onChange(newEditorState);
-    setTimeout(() => {
-      this.focus(); //设置完成后让输入框重新获得焦点
-    }, 0);
+    this.focus();
   }
 
   handleKeyCommand(command, editorState) {
@@ -214,18 +271,20 @@ class InputBox extends Component {
     return 'not-handled';
   }
 
-  //绘制输入框
-  renderInput() {
-    return (
-      <div style={styles.toolbar} >
-        {renderEmojiPanel(this.onSelectEmoji)}
-        <label htmlFor="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
-        <input id="uploadPhoto" type='file' style={styles.input} onChange={this.onSelectImage} accept="image/*" />
-        <label htmlFor="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
-        <input type='file' id="uploadFile" style={styles.input} accept=".xls,.xlsx,.doc,.docx,.txt,.pdf,.zip" />
-        <ReactTooltip />
-      </div>
-    )}
+  /**
+   * 绘制输入框
+   */
+  renderInput = () =>{
+    return (<div style={styles.toolbar} >
+      {renderEmojiPanel(this.onSelectEmoji)}
+      <label htmlFor="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
+      <input id="uploadPhoto" type='file' style={styles.input} onClick={this.onClickSelectImage}   onChange={this.onSelectImage} accept="image/*"/>
+      <label htmlFor="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
+      <input type='file' id="uploadFile" style={styles.input} accept=".xls,.xlsx,.doc,.docx,.txt,.pdf,.zip" />
+      <ReactTooltip />
+    </div>)
+  }
+
 
   render() {
     return (

@@ -13,6 +13,9 @@ export const chatServiceUrls={
     */
    URL_GET_MESSAGES_BY_CUSTOMER_ID : "/staff/GetMessagesByCustomerId",
      
-   
+   /**
+    * 上传图片地址
+    */
+   URL_UPLOAD_IMAGE :'/ImageService/ImageUpLoad',
 
 }

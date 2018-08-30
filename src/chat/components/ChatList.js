@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import { appContext } from '../../util';
 import { chatActions } from '../actions';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenu, MenuItem } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 require('../../assets/styles/scrollbar.css');

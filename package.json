@@ -6,6 +6,10 @@
     "/staff": {
       "target": "http://imapitest.eastmoney.com:2021/",
       "ws": true
+    },
+    "/ImageService": {
+      "target": "http://10.205.208.179:16060/",
+      "ws": true
     }
   },
   "dependencies": {

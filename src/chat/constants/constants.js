@@ -35,4 +35,11 @@ export const constants = {
     RECEIVE_MESSAGE:'RECEIVE_MESSAGE',
 
 
+
+    /**
+     * 文件上传
+     */
+    UPLOAD_IMAGE:'UPLOAD_IMAGE',
+
+    UPLOAD_FILE:'UPLOAD_FILE',
 }

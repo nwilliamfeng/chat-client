@@ -2,18 +2,22 @@
    
 
     constructor(){
+       
         this.appKey='';
+        this.autoSplitInputContent=true;
        // this.lastLoginName='';
        // this.lastPassword='';
-        let setting =localStorage.getItem('IMAppSettings');
+        const setting =localStorage.getItem('IMAppSettings');
         if(setting==null){
             this.save();
         }
         else{
-            this.appKey =JSON.parse(setting).appKey;
+            const json= JSON.parse(setting);
+            this.appKey =json.appKey;
+            this.autoSplitInputContent =json.autoSplitInputContent;
         }
 
-        
+       
     }
 
     save(){
