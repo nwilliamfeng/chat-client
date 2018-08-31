@@ -34,7 +34,7 @@ const mediaBlockRenderer = (block) => {
  */
 const regexs = {
   emoji: /\ud83d[\ude00-\ude4f]/g,//识别emoji符号
-  base64Content: /^data:image\/(jpeg|png|gif);base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/g, //识别img的base64
+  base64Content: /data:image\/(jpeg|png|gif);base64,/g, //识别img的base64
 }
 
 
@@ -217,23 +217,32 @@ class InputBox extends Component {
    * 采用图文分开发送
    */
   onSendWithAutoSplitMode=()=>{
+    const {auth} =this.props;
+    if(auth==null){
+      return;
+    }
+    
+    const {ImUserId,RefreshToken}=auth.user; //这里临时写
+
     this.getSendContent().filter(content=>!(content==null || content.trim()=='')).forEach(content => {
       if (regexs.base64Content.exec(content) != null) {
         console.log("image!!");
+        const { dispatch } = this.props;
+        dispatch(fileActions.uploadImage('myimg',content,ImUserId,RefreshToken) ); 
       }
       else {
         console.log("ddd"+content);
       }
     });
-    const {auth} =this.props;
-  
-   // const {ImUserId,RefreshToken}=auth.user; //这里临时写
+   
+
   }
 
   /**
    * 发送输入框的内容
    */
   onSend = () => {
+    console.log(appSettings);
     if(appSettings.autoSplitInputContent){
       this.onSendWithAutoSplitMode();
     }

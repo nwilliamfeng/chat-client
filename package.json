@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
+    "/ImageService": {
+      "target": "https://imsktest.eastmoney.com:16060/",
+      "ws": true,
+      "secure":false
+    },
     "/staff": {
       "target": "http://imapitest.eastmoney.com:2021/",
       "ws": true
-    },
-    "/ImageService": {
-      "target": "http://10.205.208.179:16060/",
-      "ws": true
     }
+   
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",

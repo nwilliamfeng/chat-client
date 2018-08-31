@@ -8,9 +8,10 @@ import { util } from '../../util';
  */
 class FileUploadService {
     async uploadImage(imageName,base64Content,imUserID,accessToken) {
+ 
         const url = serviceUrls.URL_UPLOAD_IMAGE;
         const headers={ 
-            'Content-Type': 'application/json',
+            
             'imUserID':imUserID,
             'accessToken': accessToken,
         }

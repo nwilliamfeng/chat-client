@@ -15,6 +15,9 @@
             const json= JSON.parse(setting);
             this.appKey =json.appKey;
             this.autoSplitInputContent =json.autoSplitInputContent;
+            if(this.autoSplitInputContent==null){
+                this.autoSplitInputContent=true;
+            }
         }
 
        
