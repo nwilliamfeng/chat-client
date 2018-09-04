@@ -6,13 +6,12 @@
     "/ImageService": {
       "target": "https://imsktest.eastmoney.com:16060/",
       "ws": true,
-      "secure":false
+      "secure": false
     },
     "/staff": {
       "target": "http://imapitest.eastmoney.com:2021/",
       "ws": true
     }
-   
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
@@ -22,6 +21,7 @@
     "@fortawesome/react-fontawesome": "0.1.0-11",
     "draft-js": "^0.10.5",
     "history": "^4.7.2",
+    "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-contextmenu": "^2.9.3",
     "react-custom-scrollbars": "^4.2.1",

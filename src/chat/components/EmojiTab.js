@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes  from 'prop-types';
 import { defaultEmojiMapping } from '../defaultEmojiMapping';
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,25 +28,26 @@ const styles = {
         marginLeft: -10,
         marginTop: 10,
     },
+
+    emojiImg: {
+        width: 24,
+    }
 };
 
 
 //绘制单个表情
-const renderEmoji = (emojiKey, onSelect) => {
-    const { imgSrc, description,character } = defaultEmojiMapping.getEmoji(emojiKey);
-    const onClick = () => {
-        onSelect(character);
-    }
+const Emoji = ({ emojiKey, onSelect }) => {
+    const { imgSrc, description, character } = defaultEmojiMapping.getEmoji(emojiKey);
+    const onClick = () => onSelect(character);
     return (
         <button key={emojiKey} className='emoji-btn' onClick={onClick}>
-            <img src={imgSrc} style={{ width: 24 }} title={description} />
+            <img src={imgSrc} style={styles.emojiImg} title={description} />
         </button>
     )
 }
 
 //绘制表情行
-const renderEmojiRow = (rowIdx, cols, onSelect) => {
-
+const EmojiRow = ({ rowIdx, cols, onSelect }) => {
     const emojis = defaultEmojiMapping.getAllEmojis();
     let arr = [];
     for (let i = 0; i < cols; i++) {
@@ -57,17 +59,27 @@ const renderEmojiRow = (rowIdx, cols, onSelect) => {
     }
     return (
         <div>
-            {arr.map((item) => renderEmoji(item, onSelect))}
+            {arr.map(key => <Emoji emojiKey={key} onSelect={onSelect} />)}
         </div>
 
     )
 }
 
+EmojiRow.prototype={
+    rowIdx: PropTypes.number.isRequired,
+    cols:PropTypes.number.isRequired,
+    onSelect:PropTypes.func.isRequired,
+}
+
 /**
+ * 表情table
  * 
- * @param {*} onSelect 
  */
-const renderEmojiRows = (onSelect) => {
+const EmojiTable = ({ close, onSelect }) => {
+    const doSelect = key => {
+        close();
+        onSelect(key);
+    }
     const emojis = defaultEmojiMapping.getAllEmojis();
     const cols = 15;
     const rows = Math.ceil(emojis.length / cols);
@@ -75,20 +87,23 @@ const renderEmojiRows = (onSelect) => {
     for (let i = 0; i < rows; i++) {
         result.push(
             <div key={i}>
-                {renderEmojiRow(i, cols, onSelect)}
+                <EmojiRow rowIdx={i} cols={cols} onSelect={doSelect} />
             </div>
-
         );
     }
     return result;
 }
 
+EmojiTable.prototype={
+    close:PropTypes.func.isRequired,
+    onSelect:PropTypes.func.isRequired,
+}
 
 /**
  * 绘制表情输入框
  * @param {*} onSelect 
  */
-export const renderEmojiPanel = (onSelect) => {
+export const EmojiPanel = ({ onSelect }) => {
     //todo-- 默认只加了qq表情，之后如有扩展需要实现button的style关联状态
     return (<Popup
         trigger={<label data-tip="表情" className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
@@ -98,10 +113,7 @@ export const renderEmojiPanel = (onSelect) => {
         arrow={false} >
         {close => (
             <div style={styles.emojiTabPanel}>
-                {renderEmojiRows((key) => {
-                    close() ;
-                    onSelect(key) ;
-                })}
+                <EmojiTable close={close} onSelect={onSelect} />
                 <div style={styles.emojiTabHeader}>
                     <button className='emoji-category-btn'>默认</button>
                 </div>
@@ -112,6 +124,8 @@ export const renderEmojiPanel = (onSelect) => {
 }
 
 
-
+EmojiPanel.prototype={
+    onSelect: PropTypes.func.isRequired,
+}
 
 

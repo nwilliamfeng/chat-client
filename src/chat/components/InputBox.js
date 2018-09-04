@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { defaultEmojiMapping } from '../defaultEmojiMapping';
-import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState, RichUtils, CompositeDecorator } from "draft-js";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage as farImage, faFolder as farFolder, } from '@fortawesome/free-regular-svg-icons';
-import ReactTooltip from 'react-tooltip';
-import { renderEmojiPanel } from './EmojiTab';
-import {appSettings} from '../../util';
+import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState,  CompositeDecorator } from "draft-js";
+import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
+import { appSettings } from '../../util';
 import { fileActions } from '../actions';
+import {Toolbar} from './Toolbar';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
 require('../../assets/styles/input-box.css');
@@ -16,17 +14,15 @@ require('../../assets/styles/input-box.css');
  * 返回指定的contentBlock是否属于非文本类型
  * @param {*} block 
  */
-const isAtomicBlock = (block) => block.getType() === 'atomic';
+const isAtomicBlock = block => block.getType() === 'atomic';
 
+const mediaBlockRenderer = block => isAtomicBlock(block) ? { component: Media, editable: false } : null;
 
-const mediaBlockRenderer = (block) => {
-  if (isAtomicBlock(block)) {
-    return {
-      component: Media,
-      editable: false,
-    };
-  }
-  return null;
+/**
+ * 按键命令集合
+ */
+const keyCommands = {
+  SEND: 'editor-send',
 }
 
 /**
@@ -37,8 +33,7 @@ const regexs = {
   base64Content: /data:image\/(jpeg|png|gif);base64,/g, //识别img的base64
 }
 
-
-const Media = (props) => {
+const Media = props => {
   const entity = props.contentState.getEntity(props.block.getEntityAt(0));
   const { src } = entity.getData();
   return <img src={src} style={styles.img} />;
@@ -46,18 +41,11 @@ const Media = (props) => {
 
 //样式集
 const styles = {
-  input: {
-    display: 'none',
-  },
-
+   
   buttons: {
     marginBottom: 10,
   },
-
-  toolbar: {
-    padding: 5,
-  },
-
+  
   editor: {
     cursor: 'text',
     minHeight: 80,
@@ -70,13 +58,11 @@ const styles = {
     maxWidth: 120,
     minWidth: 16,
     whiteSpace: 'initial',
-
   },
-
 };
 
 //获取表情样式
-const emojiStyle = (imgSrc) => {
+const emojiStyle = imgSrc => {
   return {
     padding: 0,
     backgroundImage: `url(${imgSrc})`,
@@ -111,8 +97,6 @@ const decorator = new CompositeDecorator([
       const { imgSrc } = emoji;
       return <span style={emojiStyle(imgSrc)}>{props.children}</span>;//注意必须与return同行写
     },
-
-
   },
   // {
   //   strategy: findImageEntities,
@@ -126,30 +110,37 @@ const decorator = new CompositeDecorator([
 class InputBox extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       editorState: EditorState.createEmpty(decorator),//关联Editor的state
     };
-
-    this.onChange = (editorState) => {
-      this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
-    }
-
+    this.onChange = editorState => this.setState({ editorState }); //在编辑器内容被更改后重新重新设置状态
   }
 
-  handleKeyCommand = (command, editorState) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return true;
+  editorKeyBindingFn = e => {
+    const { hasCommandModifier } = KeyBindingUtil;
+    if (e.keyCode === 13 && hasCommandModifier(e)) {
+      return keyCommands.SEND;//ctrl+enter 发送
     }
-    return false;
+    return getDefaultKeyBinding(e);
+  }
+
+  /**
+   * 处理按键
+   */
+  handleKeyCommand = command => {
+    switch (command) {
+      case keyCommands.SEND:
+        this.onSend();
+        break;
+      default:
+        break;
+    }
   }
 
   /**
    * 选中图片
    */
-  onSelectImage = (e) => {
+  onSelectImage = e => {
     const file = e.target.files[0];
     const reader = new FileReader();
     try {
@@ -160,24 +151,16 @@ class InputBox extends Component {
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', { src: reader.result });
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
-        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ')});
+        this.setState({ editorState: AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ') });
       };
       reader.onerror = (error) => {
         console.log('Error: ', error);
       };
-      
     }
     catch (e) {
       console.log(e);
     }
   };
-
-  /**
-   * 点击发送图片按钮时触发
-   */
-  onClickSelectImage=(e)=>{
-    e.target.value=null; //必须将value置空，否则无法选择相同的文件
-  }
 
   /**
    * 使输入框获得焦点
@@ -216,37 +199,31 @@ class InputBox extends Component {
   /**
    * 采用图文分开发送
    */
-  onSendWithAutoSplitMode=()=>{
-    const {auth} =this.props;
-    if(auth==null){
+  onSendWithAutoSplitMode = () => {
+    const { auth } = this.props;
+    if (auth == null) {
       return;
     }
-    
-    const {ImUserId,RefreshToken}=auth.user; //这里临时写
-
-    this.getSendContent().filter(content=>!(content==null || content.trim()=='')).forEach(content => {
+    const { ImUserId, RefreshToken } = auth.user; //这里临时写
+    this.getSendContent().filter(content => !(content == null || content.trim() == '')).forEach(content => {
       if (regexs.base64Content.exec(content) != null) {
         console.log("image!!");
         const { dispatch } = this.props;
-        dispatch(fileActions.uploadImage('myimg',content,ImUserId,RefreshToken) ); 
+        dispatch(fileActions.uploadImage('myimg', content, ImUserId, RefreshToken));
       }
       else {
-        console.log("ddd"+content);
+        console.log("ddd" + content);
       }
     });
-   
-
   }
 
   /**
    * 发送输入框的内容
    */
   onSend = () => {
-    console.log(appSettings);
-    if(appSettings.autoSplitInputContent){
+    if (appSettings.autoSplitInputContent) {
       this.onSendWithAutoSplitMode();
     }
-    
     this.clear();
   }
 
@@ -271,40 +248,17 @@ class InputBox extends Component {
     this.focus();
   }
 
-  handleKeyCommand(command, editorState) {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return 'handled';
-    }
-    return 'not-handled';
-  }
-
-  /**
-   * 绘制输入框
-   */
-  renderInput = () =>{
-    return (<div style={styles.toolbar} >
-      {renderEmojiPanel(this.onSelectEmoji)}
-      <label htmlFor="uploadPhoto" data-tip="发送图片" className="label-toolbar"> <FontAwesomeIcon icon={farImage} size='lg' /></label>
-      <input id="uploadPhoto" type='file' style={styles.input} onClick={this.onClickSelectImage}   onChange={this.onSelectImage} accept="image/*"/>
-      <label htmlFor="uploadFile" data-tip="发送文件" className="label-toolbar"> <FontAwesomeIcon icon={farFolder} size='lg' /></label>
-      <input type='file' id="uploadFile" style={styles.input} accept=".xls,.xlsx,.doc,.docx,.txt,.pdf,.zip" />
-      <ReactTooltip />
-    </div>)
-  }
-
-
   render() {
     return (
       <div style={styles.root}>
-        {this.renderInput()}
+        <Toolbar onSelectEmoji={this.onSelectEmoji} onSelectImage={this.onSelectImage}/>
         <div className='scollContainer editor-container'>
           <div style={styles.editor} onClick={this.focus} style={styles.editor} >
             <Editor
               blockRendererFn={mediaBlockRenderer}
               editorState={this.state.editorState}
               handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.editorKeyBindingFn}
               onChange={this.onChange}
               ref="editor"
             />
@@ -316,15 +270,8 @@ class InputBox extends Component {
   }
 }
 
-
-function mapStateToProps(state) {
-  return state;
-}
-
+const mapStateToProps = state => state;
 
 const page = connect(mapStateToProps, null)(InputBox);
 
-/**
-* InputBox
-*/
 export { page as InputBox };

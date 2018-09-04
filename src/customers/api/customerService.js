@@ -28,7 +28,7 @@ class CustomerService {
                 Device: 'Android' + i, CustomerState: 0, ProductName: 'product' + i, StaffName: 'staff' + i, CustomerId: 'F7942B04616B0E47'
                 , Uid: 'uid' + i, CustomerName: 'customer' + i, CustomerIp: 'customerip' + i, CustomerIpMappingAddress: 'local' + i, EnterTime: new Date(), ChannelId: 'ChannelId' + i
             };
-            customers.push(customer);
+        //    customers.push(customer);
         }
         return { RetCode: 1, Message: '', Data: customers };
        
