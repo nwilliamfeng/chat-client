@@ -212,7 +212,7 @@ class InputBox extends Component {
         dispatch(fileActions.uploadImage('myimg', content, ImUserId, RefreshToken));
       }
       else {
-        console.log("ddd" + content);
+        console.log("this is not a image"  );
       }
     });
   }

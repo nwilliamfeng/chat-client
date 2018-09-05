@@ -46,6 +46,12 @@ const Emoji = ({ emojiKey, onSelect }) => {
     )
 }
 
+Emoji.prototype={
+    emojiKey:PropTypes.string.isRequired,
+    onSelect:PropTypes.func.isRequired,
+}
+
+
 //绘制表情行
 const EmojiRow = ({ rowIdx, cols, onSelect }) => {
     const emojis = defaultEmojiMapping.getAllEmojis();
@@ -59,7 +65,7 @@ const EmojiRow = ({ rowIdx, cols, onSelect }) => {
     }
     return (
         <div>
-            {arr.map(key => <Emoji emojiKey={key} onSelect={onSelect} />)}
+            {arr.map(key => <Emoji key={key} emojiKey={key} onSelect={onSelect} />)}
         </div>
 
     )
@@ -107,7 +113,7 @@ export const EmojiPanel = ({ onSelect }) => {
     //todo-- 默认只加了qq表情，之后如有扩展需要实现button的style关联状态
     return (<Popup
         trigger={<label data-tip="表情" className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
-        position="center bottom"
+        position='center bottom'
         closeOnDocumentClick
         contentStyle={styles.emojiTab}
         arrow={false} >

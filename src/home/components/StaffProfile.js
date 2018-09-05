@@ -7,6 +7,10 @@ import { ContextMenu,SubMenu, MenuItem, ContextMenuTrigger } from "react-context
 import AvatarImg from '../../assets/imgs/avatar.png';
 import AuthHelper from '../../auth/authHelper';
 import { appContext } from '../../util';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import {StaffStateIcon} from './StaffStateIcon';
 require('../../assets/styles/button.css');
 require('../../assets/styles/menu.css');
 require('../../assets/styles/nav_ul.css');
@@ -63,7 +67,8 @@ class StaffProfile extends Component {
                 break;
         }
         return (
-            <div style={{ marginLeft: 30, paddingTop: 25 }}><i className={icon} style={{ background: bg, padding: 1, color: 'white', fontSize: 10, borderRadius: 3 }} aria-hidden="true"></i></div>
+            // <div style={{ marginLeft: 30, paddingTop: 25 }}><i className={icon} style={{ background: bg, padding: 1, color: 'white', fontSize: 10, borderRadius: 3 }} aria-hidden="true"></i></div>
+            <div style={{ marginLeft: 30, paddingTop: 25 }}><FontAwesomeIcon icon={faClock}  style={{ background: bg,    color: 'white',   borderRadius: 30 }} /></div>
         )
     }
 
@@ -111,7 +116,7 @@ class StaffProfile extends Component {
                     <Popup
                         trigger={
                             <div style={avatarStyle}>
-                                {this.props.user && this.createStaffState(this.props.user.StaffState)}
+                                {this.props.user && <StaffStateIcon state={this.props.user.StaffState}/>}
                             </div>}
                         position="right top"
                         on="click"
