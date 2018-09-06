@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import Popup from "reactjs-popup";
 import { authActions } from '../../auth/actions';
 import { staffStateValues } from '../../auth/constants/staffStates';
-import { ContextMenu,SubMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenu, SubMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import AvatarImg from '../../assets/imgs/avatar.png';
-import AuthHelper from '../../auth/authHelper';
 import { appContext } from '../../util';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
-import {StaffStateIcon} from './StaffStateIcon';
+import { StaffStateIcon } from './StaffStateIcon';
+import {AutoReplyMenu}  from './AutoReplyMenu';
 require('../../assets/styles/button.css');
 require('../../assets/styles/menu.css');
 require('../../assets/styles/nav_ul.css');
@@ -25,62 +22,25 @@ const avatarStyle = {
     width: 36,
 }
 
-const STAFF_PROFILE_CONTEXTMENU_ID = 'STAFF_PROFILE_CONTEXTMENU_ID';
+const STAFF_PROFILE_CONTEXTMENU_ID = 'STAFF_CONTEXTMENU_ID';
+
 
 
 class StaffProfile extends Component {
 
     constructor(props) {
         super(props);
-
-        this.handleLogout =this.handleLogout.bind(this);
-        this.handleChangeStaffStateClick = this.handleChangeStaffStateClick.bind(this);
     }
-
-
 
     createNaviLi(fontIconName) {
         return (<li className='nav_li'> <i className={fontIconName} aria-hidden="true"></i>  </li>)
     }
 
-    createStaffState(state) {
-        let icon = null;
-        let bg = 'transparent';
-        switch (state) {
-            case staffStateValues.LEAVE:
-                icon = 'fa fa-clock-o';
-                bg = '#AFEEEE';
-                break;
-            case staffStateValues.ONLINE:
-                icon = 'fa fa-check';
-                bg = '#39CE39';
-                break;
-            case staffStateValues.TRANSFER:
-                icon = 'fa fa-share';
-                bg = '#DAA520';
-                break;
-            case staffStateValues.OFFLINE:
-                icon = 'fa fa-close';
-                bg = '#D3D3D3';
-                break;
-            default:
-                break;
-        }
-        return (
-            // <div style={{ marginLeft: 30, paddingTop: 25 }}><i className={icon} style={{ background: bg, padding: 1, color: 'white', fontSize: 10, borderRadius: 3 }} aria-hidden="true"></i></div>
-            <div style={{ marginLeft: 30, paddingTop: 25 }}><FontAwesomeIcon icon={faClock}  style={{ background: bg,    color: 'white',   borderRadius: 30 }} /></div>
-        )
-    }
-
-
     getStaffStateStyle(staffState) {
         return { fontWeight: appContext.currentStaff.StaffState === staffState ? 'bold' : 'normal' };
-
     }
 
-    
-
-    handleChangeStaffStateClick(e, data, target) {
+    handleChangeStaffStateClick = (e, data) => {
         const { dispatch } = this.props;
         dispatch(authActions.changeStaffState(data.newStaffSate));
     }
@@ -96,41 +56,35 @@ class StaffProfile extends Component {
         alert(data.autoReplyMessage);
     }
 
-     /**
-     * 注销
-     */
-    handleLogout() {
+    /**
+    * 注销
+    */
+    handleLogout = () => {
         const { dispatch } = this.props;
         dispatch(authActions.logout());
     }
 
 
-
     render() {
-        const staffName = this.props.user ? this.props.user.StaffName : '';
-        const stateStr = this.props.user ? '(' + AuthHelper.getStaffStateString(this.props.user.StaffState) + ')' : '';
-
+        const { user } = this.props;
         return (
             <div>
                 <ContextMenuTrigger id={STAFF_PROFILE_CONTEXTMENU_ID}>
                     <Popup
                         trigger={
                             <div style={avatarStyle}>
-                                {this.props.user && <StaffStateIcon state={this.props.user.StaffState}/>}
+                                {user && <StaffStateIcon state={user.StaffState} />}
                             </div>}
                         position="right top"
                         on="click"
                         closeOnDocumentClick
-                        arrow={false}
-                    >
+                        arrow={false} >
                         <div>此人深不可测~ </div>
                     </Popup>
-
-
                 </ContextMenuTrigger>
                 <ContextMenu id={STAFF_PROFILE_CONTEXTMENU_ID}>
 
-                  <MenuItem onClick={this.handleChangeStaffStateClick} data={{ newStaffSate: staffStateValues.ONLINE }}>
+                    <MenuItem onClick={this.handleChangeStaffStateClick} data={{ newStaffSate: staffStateValues.ONLINE }}>
                         <span style={this.getStaffStateStyle(staffStateValues.ONLINE)}>在线</span>
                     </MenuItem>
                     <MenuItem onClick={this.handleChangeStaffStateClick} data={{ newStaffSate: staffStateValues.LEAVE }}>
@@ -140,14 +94,9 @@ class StaffProfile extends Component {
                         <span style={this.getStaffStateStyle(staffStateValues.TRANSFER)}>转接</span>
                     </MenuItem>
                     <MenuItem divider />
-                    <SubMenu title='自动回复'>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '马上回来' }}>马上回来</MenuItem>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '现在忙' }}>现在忙</MenuItem>
-                        <MenuItem onClick={this.sendAutoReplyMessage} data={{ autoReplyMessage: '正在会议中' }}>正在会议中</MenuItem>
-                    </SubMenu>
+                    <AutoReplyMenu/>          
                     <MenuItem divider />
                     <MenuItem onClick={this.handleLogout}>注销</MenuItem>
-                   
                 </ContextMenu>
             </div>
 

@@ -113,10 +113,10 @@ export const EmojiPanel = ({ onSelect }) => {
     //todo-- 默认只加了qq表情，之后如有扩展需要实现button的style关联状态
     return (<Popup
         trigger={<label data-tip="表情" className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
-        position='center bottom'
+        position='top center'
         closeOnDocumentClick
         contentStyle={styles.emojiTab}
-        arrow={false} >
+        offsetY={-20}>
         {close => (
             <div style={styles.emojiTabPanel}>
                 <EmojiTable close={close} onSelect={onSelect} />
@@ -124,7 +124,6 @@ export const EmojiPanel = ({ onSelect }) => {
                     <button className='emoji-category-btn'>默认</button>
                 </div>
             </div>
-
         )}
     </Popup>)
 }

@@ -4,7 +4,6 @@ import { faImage as farImage, faFolder as farFolder, } from '@fortawesome/free-r
 import ReactTooltip from 'react-tooltip';
 import { EmojiPanel } from './EmojiTab';
 import PropTypes from 'prop-types';
-import { propTypes } from 'reactjs-popup';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
 require('../../assets/styles/input-box.css');

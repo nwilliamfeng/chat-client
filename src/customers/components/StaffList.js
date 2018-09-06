@@ -6,21 +6,17 @@ import { customerActions } from '../actions';
 import { authActions } from '../../auth/actions';
 import { staffStateValues, loginStates } from '../../auth/constants';
 import { ContextMenu, MenuItem, SubMenu, ContextMenuTrigger } from "react-contextmenu";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as fastar2 } from '@fortawesome/free-regular-svg-icons';
 require('../../assets/styles/li.css');
 
 const SELF_STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 
-const staffAvatarStyle = {
-    marginLeft: 3,
-    marginRight: 5,
-    fontSize: 15,
-    color: 'green',
-}
 
 const starStyle = {
     marginLeft: 3,
-    fontSize: 15,
     color: 'blue',
 }
 
@@ -32,15 +28,62 @@ const liStyle = {
     paddingBottom: 5,
 }
 
+const styles = {
+    staffList: {
+        padding: 0,
+    }
+}
+
+const staffNameStyle = (isSelf) => {
+    return {
+        color: isSelf ? 'orange' : 'black',
+        width: 75,
+        cursor: 'default',
+        marginLeft: 10,
+        marginRight: 10,
+    }
+}
+
+/**
+ * 会话数组件
+ * @param {*} param0 
+ */
+const ChatCounter = ({ count }) => {
+    let result = [];
+    count++;
+    let capacity = 5;
+    for (let i = 0; i < capacity; i++) {
+        const cn = (i < count) ? faStar : fastar2;
+        result.push(<FontAwesomeIcon key={i} icon={cn} style={starStyle} />);
+    }
+    return result;
+}
+
+/**
+ * 客服项
+ */
+const StaffItem = ({ data }) => {
+    const { StaffName, AssignedCustomerNumber, StaffId } = data;
+    const isSelf = StaffId === appContext.currentStaff.StaffId;
+    return (
+        <li style={styles.staffList} className='list-group-item'>
+            <ContextMenuTrigger id={isSelf ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ staffdata: JSON.stringify(data) }}>
+                <div style={liStyle}>
+                    <FontAwesomeIcon icon={faUser} color='gray' />
+                    <span style={staffNameStyle(isSelf)}>{StaffName}</span>
+                    <ChatCounter count={AssignedCustomerNumber} />
+                </div>
+            </ContextMenuTrigger>
+        </li>)
+}
+
 class StaffList extends Component {
 
     constructor(props) {
         super(props);
-        this.handleChangeStaffStateClick = this.handleChangeStaffStateClick.bind(this);
     }
 
     componentDidMount() {
-        console.log("StaffList componetDidMount");
 
         const { loginState } = this.props;
         if (loginState != null && loginState === loginStates.LOGGED_IN) {
@@ -92,19 +135,7 @@ class StaffList extends Component {
     onOpenChat(userId) {
         alert(userId);
     }
-
-    isSelf(staff) {
-        return staff.StaffId === appContext.currentStaff.StaffId;
-    }
-
-    getStaffNameStyle(staff) {
-        return {
-            color: this.isSelf(staff) ? 'orange' : 'black',
-            width: 75,
-            cursor:'default',
-        }
-    }
-
+ 
     getStaffStateStyle(staffState) {
         return { fontWeight: appContext.currentStaff.StaffState === staffState ? 'bold' : 'normal' };
 
@@ -115,7 +146,7 @@ class StaffList extends Component {
         alert(staff.StaffName);
     }
 
-    handleChangeStaffStateClick(e, data, target) {
+    handleChangeStaffStateClick = (e, data) => {
         const { dispatch } = this.props;
         dispatch(authActions.changeStaffState(data.newStaffSate));
     }
@@ -131,7 +162,7 @@ class StaffList extends Component {
         alert(data.autoReplyMessage);
     }
 
-    
+
     /**
      * 填充客户数量
      * @param {number} count 
@@ -154,21 +185,10 @@ class StaffList extends Component {
     render() {
         const { staffs } = this.props;
         return (
-            <div >           
+            <div >
                 {staffs &&
                     <ul className="list-group list-group-hover">
-                        {staffs.map((item) => (
-
-                            <li key={item.StaffId} style={{ padding: 0, }} className='list-group-item'>
-                                <ContextMenuTrigger id={this.isSelf(item) ? SELF_STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={this.getAttributes(item)}>
-                                    <div style={liStyle}>
-                                        <i className="fa fa-user-o" style={staffAvatarStyle} aria-hidden="true"></i>
-                                        <span style={this.getStaffNameStyle(item)}>{item.StaffName}</span>
-                                        <span>{this.fillCustomerCount(item.AssignedCustomerNumber)}</span>
-                                    </div>
-                                </ContextMenuTrigger>
-                            </li>
-                        ))}
+                        {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
                     </ul>
                 }
 
