@@ -1,7 +1,7 @@
 import { constants } from '../constants';
 
  
-const initState = { customers: [], staffs: []  };
+const initState = { customers: [],  };
 
 export const customerReducer = (state = initState, action) => {
   switch (action.type) {
@@ -12,13 +12,7 @@ export const customerReducer = (state = initState, action) => {
         customers: action.customers,
       };
 
-    case constants.Get_STAFF_LIST_SUCCESS:
-      return {
-        ...state,
-        staffs: action.staffs,
-      };
-
-   
+     
 
     default:
       return state;

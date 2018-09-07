@@ -13,12 +13,7 @@ export const customerActions = {
      */
     fetchCustomerList,
 
-    /**
-     * 获取客服列表
-     */
-    fetchStaffList,
-
-    
+  
 }
 
 /**
@@ -35,18 +30,7 @@ function fetchCustomerList() {
     }
 }
 
-/** 
- * 返回客服类别action
- */
-function fetchStaffList() {
-    return async dispatch => {
-       const {staffId,token,ip,appKey} =appContext.getStaffParams();
-       const { RetCode, Message, Data } = await customerService.getStaffList(staffId, token, ip, appKey);
-        if (RetCode === 1) {
-            dispatch({ type: constants.Get_STAFF_LIST_SUCCESS, staffs: Data });
-        }
-    }
-}
+
 
 
  

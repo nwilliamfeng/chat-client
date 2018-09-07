@@ -5,6 +5,7 @@
        
         this.appKey='';
         this.autoSplitInputContent=true;
+        this.autoReplyMessage=null;
        // this.lastLoginName='';
        // this.lastPassword='';
         const setting =localStorage.getItem('IMAppSettings');
@@ -14,6 +15,7 @@
         else{
             const json= JSON.parse(setting);
             this.appKey =json.appKey;
+            this.autoReplyMessage =json.autoReplyMessage;
             this.autoSplitInputContent =json.autoSplitInputContent;
             if(this.autoSplitInputContent==null){
                 this.autoSplitInputContent=true;

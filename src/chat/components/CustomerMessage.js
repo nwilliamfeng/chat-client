@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { messageContentType } from '../constants';
 import { messageContentRender } from './MessageContentRender';
 import ImageZoom from 'react-medium-image-zoom';

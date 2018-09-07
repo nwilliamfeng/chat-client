@@ -69,4 +69,8 @@ function mapStateToProps(state) {
 
 
 const page = connect(mapStateToProps)(HomePage);
+
+/**
+ * 主页
+ */
 export { page as HomePage }; 

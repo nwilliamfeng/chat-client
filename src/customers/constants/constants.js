@@ -9,11 +9,7 @@ export const constants={
      */
     Get_CUSTOMER_LIST_SUCCESS:"Get_CUSTOMER_LIST_SUCCESS",  
 
-    /**
-     * 获取客服列表成功
-     */
-    Get_STAFF_LIST_SUCCESS:'Get_STAFF_LIST_SUCCESS',
-
+ 
     
 }
 

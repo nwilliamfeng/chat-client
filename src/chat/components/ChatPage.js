@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { CustomerList, StaffList } from '../../customers/components';
+import { CustomerList } from '../../customers/components';
+import { StaffList } from '../../staff/components';
 import ChatContainer from './ChatContainer';
 import { SearchBox } from '../../search/components';
 import { ChatList } from './ChatList';

@@ -1,3 +1,3 @@
 export * from './CustomerList';
-export * from  './StaffList';
+export * from  '../../staff/components/StaffList';
 export * from './CustomerColumnHeader';

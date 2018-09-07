@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {authReducer} from './auth/reducers';
 import {customerReducer} from './customers/reducers';
+import {staffReducer} from './staff/reducers';
 import {configurationReducer} from './configuration/reducers';
 import {chatReducer,historyMessageReducer,offlineMessageReducer} from './chat/reducers';
 import {homeReducer} from './home/reducers'
@@ -18,6 +19,11 @@ const reducer = combineReducers({
    * 客户的reducer
    */
   customer:customerReducer,
+
+  /**
+   * 客服的reducer
+   */
+  staff:staffReducer,
 
   /**
    * 配置的reducer

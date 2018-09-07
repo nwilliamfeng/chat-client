@@ -112,7 +112,7 @@ EmojiTable.prototype={
 export const EmojiPanel = ({ onSelect }) => {
     //todo-- 默认只加了qq表情，之后如有扩展需要实现button的style关联状态
     return (<Popup
-        trigger={<label data-tip="表情" className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
+        trigger={<label title='表情' className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
         position='top center'
         closeOnDocumentClick
         contentStyle={styles.emojiTab}
