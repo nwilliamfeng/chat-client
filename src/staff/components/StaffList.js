@@ -36,7 +36,9 @@ const styles = {
 const staffNameStyle = isSelf => {
     return {
         color: isSelf ? 'orange' : 'black',
-        maxWidth: 55,
+        maxWidth: 75,
+        verticalAlign: 'middle',
+        display: 'inline-block',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
@@ -72,7 +74,7 @@ const StaffItem = ({ data }) => {
             <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ staffdata: JSON.stringify(data) }}>
                 <div style={styles.staffLi}>
                     <FontAwesomeIcon icon={faUser} color='gray' />
-                    <span style={staffNameStyle(isSelf)}>{StaffName}</span>
+                    <span title={StaffName} style={staffNameStyle(isSelf)}>{StaffName}</span>
                     <ChatCounter count={AssignedCustomerNumber} />
                 </div>
             </ContextMenuTrigger>
