@@ -1,1 +1,5 @@
 1. 调用actions.someAction：如 dispatch(customerActions.fetchCustomerList())，action名称后一定要带上括号;
+
+2. 机器人自动消息回复，http://www.tuling123.com/openapi/api?key=f7702f1f5dd7289678faec28844505de&amp;userid=99122&amp;info=  ，在websocket未实现前先用着模拟收客户消息
+
+appkey： PwUAQEYJER

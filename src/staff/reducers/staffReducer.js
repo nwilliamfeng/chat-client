@@ -14,8 +14,7 @@ export const staffReducer = (state = initState, action) => {
         staffs: action.staffs,
       };
 
-   
-
+     
     default:
       return state;
   }

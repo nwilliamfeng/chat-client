@@ -16,8 +16,8 @@ class ChatService {
             customer, //当前的客户
             channelId:this._chats.length+1, //对应的频道Id
         
-            messages:[], //持有的消息集合
-            historyMessages:[],//历史消息集合
+           // messages:[], //持有的消息集合
+         //   historyMessages:[],//历史消息集合
 
         };
         this._chats.push(newChat);
@@ -72,11 +72,6 @@ class ChatService {
     }
     
     
-    // async getStaffList(staffId, token, ip, appKey) {
-    //     const url =  serviceUrls.URL_GET_STAFF_LIST ;     
-    //     return await util.fetchWithPost(url, { staffId, token, ip, appKey });
-    // }
-
 }
 
 /**

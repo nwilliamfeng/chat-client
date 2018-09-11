@@ -14,44 +14,23 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
   }
 
 
   render() {
-    const { alert } = this.props;
-    return (
-      
-        <div className="container">
-                
+    return (  
+        <div className="container">              
             <Router history={history}>
               <div>
                 <LoginRoute exact path="/" component={HomePage} />
                 <Route path="/login" component={LoginPage} />
               </div>
-            </Router>
-          
+            </Router>          
         </div>
      
     );
   }
-
-  // render() {
-  //   return (
-  //     <div className="App">
-
-  //       <Router history={history} >
-  //         <div>
-  //           <LoginRoute exact path="/" component={Home} />
-  //           <Route path="/login" component={Login} />
-
-  //         </div>
-  //       </Router>
-  //     </div>
-  //   );
-  // }
-
-
+ 
 }
 
 

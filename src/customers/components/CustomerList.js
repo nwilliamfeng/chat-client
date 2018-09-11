@@ -10,7 +10,7 @@ require('../../assets/styles/scrollbar.css');
 
 export const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 
-const divStyle =(width)=> ({
+const divStyle =width=> ({
      overflowX: 'auto',
      overflowY: 'auto',
     whiteSpace: 'nowrap',
@@ -29,10 +29,7 @@ class CustomerList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { sortColumn: null, sortOrder: 0, };
-        this.handleClick = this.handleClick.bind(this);
-        this.handleColumnHeaderClick = this.handleColumnHeaderClick.bind(this);
-        this.handleOpenChat=this.handleOpenChat.bind(this);
+        this.state = { sortColumn: null, sortOrder: 0, };       
         this.getSort = this.getSort.bind(this);
 
     }
@@ -48,10 +45,10 @@ class CustomerList extends Component {
         //todo close query customerlist
     }
 
-    handleOpenChat(customer) {
+    handleOpenChat= customer=> {
         const {dispatch} =this.props;
         dispatch(chatActions.openCustomerChat(customer));
-    }
+     }
 
     sortCustomerList(customers) {
         const { sortColumn, sortOrder } = this.state;
@@ -64,7 +61,7 @@ class CustomerList extends Component {
         })
     }
 
-    handleClick(e, data, target) {
+    handleClick=({target})=> {
         const customer = JSON.parse(target.getAttribute('customer'));
         alert(customer.CustomerName);
     }
@@ -85,7 +82,7 @@ class CustomerList extends Component {
         return result;
     }
 
-    handleColumnHeaderClick(column, sortOrder) {
+    handleColumnHeaderClick =(column, sortOrder)=> {
         this.setState({ sortColumn: column, sortOrder });
         this.forceUpdate(); //强迫render
     }
@@ -117,11 +114,7 @@ class CustomerList extends Component {
                     </thead>
                     {customers &&
                         <tbody >
-                            {
-                                customers.map((item) => (
-                                    <CustomerListItem props={this.props} key={item.CustomerId} customer={item} openChat={this.handleOpenChat}/>
-                                ))
-                            }
+                            { customers.map(item => ( <CustomerListItem props={this.props} key={item.CustomerId} customer={item} openChat={this.handleOpenChat}/> ))}
                         </tbody>
                     }
                 </table>

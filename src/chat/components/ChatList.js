@@ -7,8 +7,8 @@ export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 require('../../assets/styles/scrollbar.css');
 
 const chatListStyle = {
-  //  overflowY: 'auto',
-  //  overflowX: 'hidden',
+    //  overflowY: 'auto',
+    //  overflowX: 'hidden',
     height: 'calc(100% - 20px )',//搜索框距离
     width: '100%',
     position: 'absolute',
@@ -20,10 +20,6 @@ class ChatList extends Component {
 
     constructor(props) {
         super(props);
-        //this.state = {  };//初始化状态
-        this.handleSelectChat = this.handleSelectChat.bind(this);
-        this.handleKeydown = this.handleKeydown.bind(this);
-        this.handleCloseChat = this.handleCloseChat.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -31,13 +27,13 @@ class ChatList extends Component {
         return chats != null;
     }
 
-    handleCloseChat(e, data, target) {
+    handleCloseChat = (e, data, target) => {
         const chat = JSON.parse(target.getAttribute('chatdata'));
         const { dispatch } = this.props;
         dispatch(chatActions.closeChat(chat));
     }
 
-    handleKeydown(event) {
+    handleKeydown = event => {
         switch (event.keyCode) {
             case 40:
                 this.selectByKey(true);
@@ -71,9 +67,9 @@ class ChatList extends Component {
         dispatch(chatActions.initChats());
     }
 
-   
 
-    handleSelectChat(chat) {
+
+    handleSelectChat = chat => {
         const { dispatch, selectedChat } = this.props;
         //如果是同一个会话则返回
         if (selectedChat != null && selectedChat.channelId === chat.channelId) {
@@ -91,7 +87,7 @@ class ChatList extends Component {
         console.log('do render chatlist');
         const { chats } = this.props;
         return (
-          
+
             <div style={{ height: 'calc(100% - 52px)', position: 'absolute', width: 'calc(100% - 7px)' }}>
 
                 <div style={chatListStyle} className='scollContainer'>
@@ -111,19 +107,19 @@ class ChatList extends Component {
 
                 </div>
             </div>
-       
+
         );
     }
 }
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
-    
+
     return {
         chats,
         selectedChat,
-      
-       
+
+
     }
 }
 

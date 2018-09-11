@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as fastar2 } from '@fortawesome/free-regular-svg-icons';
 import { StaffContextMenu } from './StaffContextMenu';
+import {isEqual} from 'lodash';
 require('../../assets/styles/li.css');
 
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
@@ -35,7 +36,10 @@ const styles = {
 const staffNameStyle = isSelf => {
     return {
         color: isSelf ? 'orange' : 'black',
-        width: 75,
+        maxWidth: 55,
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
         cursor: 'default',
         marginLeft: 10,
         marginRight: 10,
@@ -79,12 +83,12 @@ const StaffItem = ({ data }) => {
  * 其他客服的快捷菜单
  * @param {*} param0 
  */
-export const OtherStaffContextMenu = ({contextMenuId,dispatch}) => {
-   const handleContextMenuClick=(e, data, target)=> {
+export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
+    const handleContextMenuClick = ({target}) => {
         const staff = JSON.parse(target.getAttribute('staffdata'));
         alert(staff.StaffName);
     }
-    return (     
+    return (
         <ContextMenu id={contextMenuId}>
             <MenuItem onClick={handleContextMenuClick}>客服聊天</MenuItem>
             <MenuItem onClick={handleContextMenuClick}>转接</MenuItem>
@@ -142,43 +146,39 @@ class StaffList extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return this.props.staffs !== nextProps.staffs;
+    shouldComponentUpdate(nextProps, nextState, nextContext) {    
+       return !isEqual( this.props.staffs, nextProps.staffs); //如果是客服列表相同则跳过
     }
 
-    onOpenChat(userId) {
-        alert(userId);
-    }
-
- 
-
+    
     render() {
-        const { staffs, dispatch } = this.props;
+        const { staffs , dispatch } = this.props;
         return (
             <div >
                 {staffs &&
-                    <ul className="list-group list-group-hover">
-                        {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
+                    <ul className='list-group list-group-hover'>
+                        {staffs.map(item => <StaffItem key={item.StaffId} data={item}/>)}
                     </ul>
                 }
                 <StaffContextMenu dispatch={dispatch} contextMenuId={STAFF_CONTEXTMENU_ID} />
-                <OtherStaffContextMenu dispatch={dispatch}  contextMenuId ={OTHER_STAFF_CONTEXTMENU_ID}/>
+                <OtherStaffContextMenu dispatch={dispatch} contextMenuId={OTHER_STAFF_CONTEXTMENU_ID} />
             </div>
         );
     }
 }
 
+ 
 
-function mapStateToProps(state) {
-    const { staffs } = state.staff;
+const mapStateToProps = state => {  
     const { loginState } = state.auth;
-    return { staffs, loginState };
+    const {staffs} =state.staff;   
+    return {staffs, loginState };
 }
 
 
 const page = connect(mapStateToProps, null)(StaffList);
 
 /**
- * StaffList实例
+ * 客服列表实例
  */
 export { page as StaffList }; 

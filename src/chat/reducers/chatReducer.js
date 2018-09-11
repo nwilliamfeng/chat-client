@@ -1,14 +1,7 @@
 import { constants } from '../constants';
-import { constants as homeConstants, pageType } from '../../home/constants';
-
-
 
 export const chatReducer = (state = {}, action) => {
   switch (action.type) {
-
-   
-
-
 
     case constants.OPEN_CHAT:
       return {
