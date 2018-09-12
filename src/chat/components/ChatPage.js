@@ -84,7 +84,7 @@ class ChatPage extends Component {
     render() {
         return (            
             <div >
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-fixed-chatlist">
                         <div style={chatListDivStyle}>
                             <div style={searchBoxDivStyle}>
@@ -92,18 +92,18 @@ class ChatPage extends Component {
                             </div>
                             <ChatList />
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="col-offset-chat"    >
-                        <div className="innerHold-chat" >
-                            <div style={{ height: '80vh' }}>
+                    {/* <div className="col-offset-chat"    > */}
+                        <div   >
+                            <div style={{ height: '80vh'}}>
                                 <ChatContainer />
                             </div>
                             <div style={inputBoxDivStyle}>                        
                                 <InputBox/>                               
                             </div>
                         </div>
-                        <div className="innerHold-extend"  >
+                        {/* <div className="innerHold-extend"  >
                             <div style={customerDivStyle}>
                                 <p style={titleStyle}>客户列表</p>
                                 <CustomerList />
@@ -114,10 +114,10 @@ class ChatPage extends Component {
                             </div>
                         </div>
 
-                        <div className="clear"></div>
+                        <div className="clear"></div> 
 
-                    </div>
-                </div>
+                    </div>*/}
+                {/* </div> */}
             </div>
         );
     }

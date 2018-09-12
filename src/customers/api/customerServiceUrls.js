@@ -8,4 +8,5 @@ export const customerServiceUrls={
      URL_GET_CUSTOMER_LIST:"/staff/GetCustomerList",
 
  
+    URL_GET_RELATION_MAPPING_LIST:'/staff/GetRelationMappingListByKey',
 }

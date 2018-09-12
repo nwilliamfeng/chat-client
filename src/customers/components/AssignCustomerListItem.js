@@ -2,7 +2,7 @@ import React  from 'react';
 import { util } from '../../util';
 import CustomerHelper from '../customerHelper'
 import { ContextMenuTrigger } from "react-contextmenu";
-import { CUSTOMER_CONTEXTMENU_ID } from './CustomerList';
+import { CUSTOMER_CONTEXTMENU_ID } from './AssignCustomerList';
 
 
 const tdStyle = {
@@ -45,7 +45,7 @@ const appendTds = (customer) => {
     return cols;
 }
 
-export const CustomerListItem = ({ customer ,openChat}) => {
+export const AssignCustomerListItem = ({ customer ,openChat}) => {
 
     const onDoubleClick = () => {
         openChat(customer);

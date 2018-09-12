@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as fastar2 } from '@fortawesome/free-regular-svg-icons';
 import { StaffContextMenu } from './StaffContextMenu';
-import {isEqual} from 'lodash';
+import { isEqual, groupBy } from 'lodash';
+import styled from 'styled-components';
 require('../../assets/styles/li.css');
 
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
@@ -25,13 +26,18 @@ const styles = {
         color: 'blue',
     },
     staffLi: {
-        height: 36,
+        height: 32,
         paddingLeft: 5,
-        paddingRight: 5,
+
         paddingTop: 7,
         paddingBottom: 5,
     },
 }
+const StaffUl=styled.ul`
+  &:hover{
+    background-color: #DEDBDA;
+  }
+`;
 
 const staffNameStyle = isSelf => {
     return {
@@ -58,7 +64,7 @@ const ChatCounter = ({ count }) => {
     let capacity = 5;
     for (let i = 0; i < capacity; i++) {
         const cn = (i < count) ? faStar : fastar2;
-        result.push(<FontAwesomeIcon key={i} icon={cn} style={styles.star} />);
+        result.push(<FontAwesomeIcon key={i} icon={cn} size={10} style={styles.star} />);
     }
     return result;
 }
@@ -82,11 +88,27 @@ const StaffItem = ({ data }) => {
 }
 
 /**
+ * 客服组
+ * @param {*} param0 
+ */
+const StaffGroup = ({ staffs }) => {
+    return (
+        <div>
+            {staffs[0].GroupName}
+            <StaffUl className='list-group'>
+                {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
+            </StaffUl>
+        </div>
+
+    )
+}
+
+/**
  * 其他客服的快捷菜单
  * @param {*} param0 
  */
 export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
-    const handleContextMenuClick = ({target}) => {
+    const handleContextMenuClick = ({ target }) => {
         const staff = JSON.parse(target.getAttribute('staffdata'));
         alert(staff.StaffName);
     }
@@ -101,10 +123,14 @@ class StaffList extends Component {
 
     constructor(props) {
         super(props);
+        // const a = [{ part: 'a', name: 'abc' }, { part: 'a', name: 'abcd' }, { part: 'b', name: 'bcd' }, { part: 'b', name: 'bcde' }];
+        // const x = groupBy(a, 'part');
+        // console.log(x);
+        // const  d=Object.values(x);
+        // console.log(d);
     }
 
     componentDidMount() {
-
         const { loginState } = this.props;
         if (loginState != null && loginState === loginStates.LOGGED_IN) {
             this.subscribeStaffList();
@@ -148,18 +174,26 @@ class StaffList extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {    
-       return !isEqual( this.props.staffs, nextProps.staffs); //如果是客服列表相同则跳过
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return !isEqual(this.props.staffs, nextProps.staffs); //如果是客服列表相同则跳过
     }
 
-    
+
     render() {
-        const { staffs , dispatch } = this.props;
+        const { staffs, dispatch } = this.props;
+        const groups =staffs? Object.values( groupBy(staffs)) :[];
+        const staffCount =staffs? staffs.length :0;
         return (
-            <div >
-                {staffs &&
+            <div style={{leftPadding:5}}>
+                {/* {staffs &&
                     <ul className='list-group list-group-hover'>
-                        {staffs.map(item => <StaffItem key={item.StaffId} data={item}/>)}
+                        {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
+                    </ul>
+                } */}
+                {`部门-组别 (${staffCount})`}
+                 {groups.length>0 &&
+                    <ul className='list-group list-group-hover'>
+                        {groups.map(group => <StaffGroup staffs={group} />)}
                     </ul>
                 }
                 <StaffContextMenu dispatch={dispatch} contextMenuId={STAFF_CONTEXTMENU_ID} />
@@ -169,12 +203,12 @@ class StaffList extends Component {
     }
 }
 
- 
 
-const mapStateToProps = state => {  
+
+const mapStateToProps = state => {
     const { loginState } = state.auth;
-    const {staffs} =state.staff;   
-    return {staffs, loginState };
+    const { staffs } = state.staff;
+    return { staffs, loginState };
 }
 
 

@@ -10,7 +10,7 @@ const getIcon=(isSelect, page)=>{
     switch (page) {
         case pageType.CHAT:
             return isSelect? faComment2 :faComment;            
-        case pageType.OTHER:
+        case pageType.CUSTOMER_LIST:
             return isSelect? faUser2 :faUser;
         default:
             return null;
@@ -19,7 +19,7 @@ const getIcon=(isSelect, page)=>{
 
 getIcon.prototype={
     isSelect: PropTypes.bool.isRequired,
-    page: PropTypes.oneOf([pageType.CHAT,pageType.OTHER]).isRequired,
+    page: PropTypes.oneOf([pageType.CHAT,pageType.CUSTOMER_LIST]).isRequired,
 }
 
 
@@ -27,7 +27,7 @@ const getTooltip=page=>{
     switch (page) {
         case pageType.CHAT:
             return '消息';
-        case pageType.OTHER:
+        case pageType.CUSTOMER_LIST:
             return '其他';
         default:
             return null;
@@ -51,7 +51,7 @@ export const PageHeader = ({ isSelect, page, onClick }) => {
 
 PageHeader.prototype={
     isSelect: PropTypes.bool.isRequired,
-    page : PropTypes.oneOf([pageType.CHAT,pageType.OTHER]).isRequired,
+    page : PropTypes.oneOf([pageType.CHAT,pageType.CUSTOMER_LIST]).isRequired,
     onClick:PropTypes.func.isRequired,
 }
 

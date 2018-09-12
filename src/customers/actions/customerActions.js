@@ -13,6 +13,7 @@ export const customerActions = {
      */
     fetchCustomerList,
 
+    fetchCustomerRelationMappingList,
   
 }
 
@@ -31,6 +32,16 @@ function fetchCustomerList() {
 }
 
 
+function fetchCustomerRelationMappingList() {
+    return async dispatch => {
+        const ip = util.getIpAddress();
+        const staff = appContext.currentStaff;
+        const { RetCode, Message, Data } = await customerService.getRelationMappingListByKey(staff.StaffId,  appContext.appKeys[0]);
+        if (RetCode === 1) {
+            dispatch({ type: constants.Get_CUSTOMER_RELATION_MAPPING_SUCCESS, customers: Data });
+        }
+    }
+}
 
 
  

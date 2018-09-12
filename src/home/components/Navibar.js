@@ -67,7 +67,7 @@ class Navibar extends Component {
                     <StaffProfile/>
                     <ul className='nav_ul'>
                         <PageHeader isSelect={this.isSelectPage(pageType.CHAT)} page={pageType.CHAT} onClick={this.activatePage} />
-                        <PageHeader isSelect={this.isSelectPage(pageType.OTHER)} page={pageType.OTHER} onClick={this.activatePage} />
+                        <PageHeader isSelect={this.isSelectPage(pageType.CUSTOMER_LIST)} page={pageType.CUSTOMER_LIST} onClick={this.activatePage} />
                     </ul>
                 </div>
 
