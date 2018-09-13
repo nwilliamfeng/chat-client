@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Popup from "reactjs-popup";
+import Rx from 'rx';
+import { loginStates } from '../../auth/constants';
+import { appContext } from '../../util';
+import { staffActions } from '../actions';
 import { ContextMenuTrigger } from "react-contextmenu";
 import {StaffContextMenu} from './StaffContextMenu';
 import AvatarImg from '../../assets/imgs/avatar.png';
@@ -30,6 +34,50 @@ class StaffProfile extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        const { loginState } = this.props;
+        if (loginState != null && loginState === loginStates.LOGGED_IN) {
+            this.subscribeStaffList();
+        }
+    }
+
+    componentWillUpdate() {
+        const { loginState } = this.props;
+        if (loginState != null && loginState === loginStates.LOGGED_OUT) {
+            if (this.subscription != null) {
+                this.subscription.dispose();
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.subscription != null) {
+            this.subscription.dispose();
+        }
+    }
+
+    subscribeStaffList=()=> {
+        const source = Rx.Observable
+            .interval(3000 /* ms */)
+            .timeInterval();
+        this.subscription = source.subscribe(
+            () => {
+                if (appContext.currentStaff != null) {
+                    const { dispatch } = this.props;
+                    dispatch(staffActions.fetchStaffList());
+                }
+                else {
+                    this.subscription.dispose();
+                }
+            },
+            (err) => {
+                console.log('Error: ' + err);
+            },
+            () => {
+                console.log('Completed');
+            });
+    }
+
     render() {
         const { user,dispatch } = this.props;
         return (
@@ -55,9 +103,10 @@ class StaffProfile extends Component {
 
 
 function mapStateToProps(state) {
-    const { user } = state.auth;
+    const { user,loginState } = state.auth;  
     return {
         user,
+        loginState,
     };
 }
 

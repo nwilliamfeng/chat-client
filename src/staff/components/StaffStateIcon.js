@@ -1,54 +1,77 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { staffStateValues } from '../../auth/constants/staffStates';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShare ,faCheckCircle, faTimesCircle ,faClock} from '@fortawesome/free-solid-svg-icons';
+import { faShare, faCheckCircle, faTimesCircle, faClock } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
+
  
-
-const styles = {
-    default: {
-        background: 'white',
-        padding:0, 
-        borderRadius: 30,      
-    },
-
-    transfer: {
-        background: '#DAA520',
-        padding:2,       
-        borderRadius: 30,
-    },
-  
-    div:{
-        marginLeft: 30, 
-        paddingTop: 25,
-    }
-}
-
 /**
- * 获取图标参数
+ * 获取图标数据
  * @param {*} state 
  */
-const getIconParams=(state)=>{
+const getIconData = state => {
     switch (state) {
         case staffStateValues.LEAVE:
-            return {icon:faClock,color:'#AFEEEE',style:styles.default};  
+            return faClock;
         case staffStateValues.ONLINE:
-            return {icon:faCheckCircle,color:'#39CE39',style:styles.default};  
+            return faCheckCircle;
         case staffStateValues.TRANSFER:
-            return {icon:faShare, color:'white', style:styles.transfer};    
+            return faShare;
         default:
-            return {icon:faTimesCircle,color:'#DAA520',style:styles.default};  
+            return faTimesCircle;
     }
 }
 
+const Div = styled.div`
+    margin-left:30px;
+    padding-top:25px;
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+    border-radius:30px;
+    color:${props => {
+        switch (props.state) {
+            case staffStateValues.LEAVE:
+                return '#AFEEEE';
+            case staffStateValues.ONLINE:
+                return '#39CE39';
+            case staffStateValues.TRANSFER:
+                return 'white';
+            default:
+                return '#DAA520';
+        }
+    }};
+
+    background:${props => {
+        switch (props.state) {
+            case staffStateValues.TRANSFER:
+                return '#DAA520';
+            default:
+                return 'white';
+        }
+    }};
+
+    padding:${props => {
+        switch (props.state) {
+            case staffStateValues.TRANSFER:
+                return '2px';
+            default:
+                return '0px';
+        }
+    }};
+`;
+
+/**
+ * 客服状态图标
+ * @param {*} param0 
+ */
 export const StaffStateIcon = ({ state }) => {
-    const {icon,color,style} =getIconParams(state);
-    return <div style={styles.div}><FontAwesomeIcon icon={icon} color={color} style={style} /></div> 
+    const icon = getIconData(state);
+    return <Div><Icon icon={icon} state={state} /></Div>
 }
 
-StaffStateIcon.prototype={
-    state:PropTypes.oneOf([staffStateValues.LEAVE,staffStateValues.OFFLINE,staffStateValues.ONLINE,staffStateValues.TRANSFER]),
+StaffStateIcon.prototype = {
+    state: PropTypes.oneOf([staffStateValues.LEAVE, staffStateValues.OFFLINE, staffStateValues.ONLINE, staffStateValues.TRANSFER]),
 }
 
- 

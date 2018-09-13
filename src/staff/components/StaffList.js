@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Rx from 'rx';
 import { appContext } from '../../util';
-import { staffActions } from '../actions';
-import { loginStates } from '../../auth/constants';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -12,47 +9,52 @@ import { StaffContextMenu } from './StaffContextMenu';
 import { isEqual, groupBy } from 'lodash';
 import styled from 'styled-components';
 require('../../assets/styles/li.css');
-
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 
 
-const styles = {
-    staffList: {
-        padding: 0,
-    },
-    star: {
-        marginLeft: 3,
-        color: 'blue',
-    },
-    staffLi: {
-        height: 32,
-        paddingLeft: 5,
+/**
+ * staff自定义ul
+ */
+const StaffUl = styled.ul`
+  `;
 
-        paddingTop: 7,
-        paddingBottom: 5,
-    },
-}
-const StaffUl=styled.ul`
-  &:hover{
-    background-color: #DEDBDA;
-  }
+/**
+ * staff自定义li
+ */
+const StaffLi = styled.li`
+    padding:5px 10px;
+    outline:none;
+    &:hover{
+        background-color: #DEDBDA;
+    };
+  `;
+
+/**
+ * 客服名称span
+ */
+const StaffNameSpan = styled.span`
+     color: ${props=>props.isSelf?'orange':'black'};
+     max-width: 75px;
+     width:75px;
+     vertical-align:middle;
+     display:inline-block;
+     overflow:hidden;
+     white-space:nowrap;
+     text-overflow:ellipsis;
+     cursor:default;
+     margin-left:10px;
+     margin-right:10px;
 `;
 
-const staffNameStyle = isSelf => {
-    return {
-        color: isSelf ? 'orange' : 'black',
-        maxWidth: 75,
-        verticalAlign: 'middle',
-        display: 'inline-block',
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
-        cursor: 'default',
-        marginLeft: 10,
-        marginRight: 10,
-    }
-}
+/**
+ * 会客数FontAwesomeIcon
+ */
+const Star=styled(FontAwesomeIcon)`
+    margin-left:3px;
+    color:orangered;
+    text-align:right;
+`;
 
 /**
  * 会话数组件
@@ -64,7 +66,7 @@ const ChatCounter = ({ count }) => {
     let capacity = 5;
     for (let i = 0; i < capacity; i++) {
         const cn = (i < count) ? faStar : fastar2;
-        result.push(<FontAwesomeIcon key={i} icon={cn} size={10} style={styles.star} />);
+        result.push(<Star key={i} icon={cn} size={'xs'} />);
     }
     return result;
 }
@@ -76,15 +78,13 @@ const StaffItem = ({ data }) => {
     const { StaffName, AssignedCustomerNumber, StaffId } = data;
     const isSelf = StaffId === appContext.currentStaff.StaffId;
     return (
-        <li style={styles.staffList} className='list-group-item'>
+        <StaffLi >
             <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ staffdata: JSON.stringify(data) }}>
-                <div style={styles.staffLi}>
-                    <FontAwesomeIcon icon={faUser} color='gray' />
-                    <span title={StaffName} style={staffNameStyle(isSelf)}>{StaffName}</span>
-                    <ChatCounter count={AssignedCustomerNumber} />
-                </div>
+                <FontAwesomeIcon icon={faUser} color='gray' />
+                <StaffNameSpan title={StaffName} isSelf={isSelf} >{StaffName}</StaffNameSpan>
+                <ChatCounter count={AssignedCustomerNumber} />
             </ContextMenuTrigger>
-        </li>)
+        </StaffLi>)
 }
 
 /**
@@ -99,7 +99,6 @@ const StaffGroup = ({ staffs }) => {
                 {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
             </StaffUl>
         </div>
-
     )
 }
 
@@ -123,56 +122,8 @@ class StaffList extends Component {
 
     constructor(props) {
         super(props);
-        // const a = [{ part: 'a', name: 'abc' }, { part: 'a', name: 'abcd' }, { part: 'b', name: 'bcd' }, { part: 'b', name: 'bcde' }];
-        // const x = groupBy(a, 'part');
-        // console.log(x);
-        // const  d=Object.values(x);
-        // console.log(d);
     }
 
-    componentDidMount() {
-        const { loginState } = this.props;
-        if (loginState != null && loginState === loginStates.LOGGED_IN) {
-            this.subscribeStaffList();
-        }
-    }
-
-    componentWillUnmount() {
-        if (this.subscription != null) {
-            this.subscription.dispose();
-        }
-    }
-
-    subscribeStaffList() {
-        const source = Rx.Observable
-            .interval(3000 /* ms */)
-            .timeInterval();
-        this.subscription = source.subscribe(
-            () => {
-                if (appContext.currentStaff != null) {
-                    const { dispatch } = this.props;
-                    dispatch(staffActions.fetchStaffList());
-                }
-                else {
-                    this.subscription.dispose();
-                }
-            },
-            (err) => {
-                console.log('Error: ' + err);
-            },
-            () => {
-                console.log('Completed');
-            });
-    }
-
-    componentWillUpdate() {
-        const { loginState } = this.props;
-        if (loginState != null && loginState === loginStates.LOGGED_OUT) {
-            if (this.subscription != null) {
-                this.subscription.dispose();
-            }
-        }
-    }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return !isEqual(this.props.staffs, nextProps.staffs); //如果是客服列表相同则跳过
@@ -181,17 +132,12 @@ class StaffList extends Component {
 
     render() {
         const { staffs, dispatch } = this.props;
-        const groups =staffs? Object.values( groupBy(staffs)) :[];
-        const staffCount =staffs? staffs.length :0;
+        const groups = staffs ? Object.values(groupBy(staffs)) : [];
+        const staffCount = staffs ? staffs.length : 0;
         return (
-            <div style={{leftPadding:5}}>
-                {/* {staffs &&
-                    <ul className='list-group list-group-hover'>
-                        {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
-                    </ul>
-                } */}
+            <div style={{ leftPadding: 5 }}>
                 {`部门-组别 (${staffCount})`}
-                 {groups.length>0 &&
+                {groups.length > 0 &&
                     <ul className='list-group list-group-hover'>
                         {groups.map(group => <StaffGroup staffs={group} />)}
                     </ul>
@@ -206,9 +152,8 @@ class StaffList extends Component {
 
 
 const mapStateToProps = state => {
-    const { loginState } = state.auth;
     const { staffs } = state.staff;
-    return { staffs, loginState };
+    return { staffs };
 }
 
 
