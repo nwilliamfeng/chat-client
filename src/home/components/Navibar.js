@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import Popup from "reactjs-popup";
 import { homeActions } from '../actions'
 import { StaffProfile } from '../../staff/components';
@@ -35,6 +36,29 @@ const styles = {
 
 }
 
+const Container=styled.div`height: 100%; `;
+
+const ContainerTop =styled.div` 
+    width: 100%;
+    height: calc(100% - 100px);
+`;
+
+
+const SettingButton =styled.button`
+     padding: 20px;
+     padding-top: 30px;
+     font-size: 23px;
+     display: block;
+     background-color: transparent;
+     color: rgb(230, 224, 224);
+     border: none;
+     outline: none;
+     &:hover{
+        color: white;
+     };
+`;
+
+
 class Navibar extends Component {
 
     constructor(props) {
@@ -62,17 +86,17 @@ class Navibar extends Component {
     render() {
 
         return (
-            <div style={styles.navibar}>
-                <div style={styles.navbarTop}>
+            <Container>
+                <ContainerTop>
                     <StaffProfile/>
                     <ul className='nav_ul'>
                         <PageHeader isSelect={this.isSelectPage(pageType.CHAT)} page={pageType.CHAT} onClick={this.activatePage} />
                         <PageHeader isSelect={this.isSelectPage(pageType.CUSTOMER_LIST)} page={pageType.CUSTOMER_LIST} onClick={this.activatePage} />
                     </ul>
-                </div>
+                </ContainerTop>
 
                 <Popup
-                    trigger={() => (<button style={styles.settingBtn} title='更多' className='metroBtn'><FontAwesomeIcon icon={faBars} color='white'/></button>)}
+                    trigger={() => (<SettingButton   title='更多'><FontAwesomeIcon icon={faBars} /></SettingButton>)}
                     position="right bottom" 
                     on="click"
                     closeOnDocumentClick
@@ -86,7 +110,7 @@ class Navibar extends Component {
                     </div>
 
                 </Popup>
-            </div>);
+            </Container>);
     }
 }
 

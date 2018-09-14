@@ -28,13 +28,18 @@ const StaffLi = styled.li`
     &:hover{
         background-color: #DEDBDA;
     };
+    &:hover ${Avata} {
+        color: orangered; 
+    }
+    color: gray;
   `;
+
 
 /**
  * 客服名称span
  */
 const StaffNameSpan = styled.span`
-     color: ${props=>props.isSelf?'orange':'black'};
+     color: ${props => props.isSelf ? 'orange' : 'black'};
      max-width: 75px;
      width:75px;
      vertical-align:middle;
@@ -50,10 +55,14 @@ const StaffNameSpan = styled.span`
 /**
  * 会客数FontAwesomeIcon
  */
-const Star=styled(FontAwesomeIcon)`
+const Star = styled(FontAwesomeIcon)`
     margin-left:3px;
     color:orangered;
     text-align:right;
+`;
+
+const Avata = styled(FontAwesomeIcon)`
+   
 `;
 
 /**
@@ -78,10 +87,10 @@ const StaffItem = ({ data }) => {
     const { StaffName, AssignedCustomerNumber, StaffId } = data;
     const isSelf = StaffId === appContext.currentStaff.StaffId;
     return (
-        <StaffLi >
+        <StaffLi>
             <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ staffdata: JSON.stringify(data) }}>
-                <FontAwesomeIcon icon={faUser} color='gray' />
-                <StaffNameSpan title={StaffName} isSelf={isSelf} >{StaffName}</StaffNameSpan>
+                <Avata icon={faUser} />
+                <StaffNameSpan title={StaffName} isSelf={isSelf}>{StaffName}</StaffNameSpan>
                 <ChatCounter count={AssignedCustomerNumber} />
             </ContextMenuTrigger>
         </StaffLi>)

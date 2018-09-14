@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { SubMenu, MenuItem } from 'react-contextmenu';
 import { appSettings } from '../../util/appSettings';
 
@@ -14,9 +15,9 @@ const onAutoReply = (e, data) => {
     alert(autoReplyMessage);
 }
 
-const getStyle = content => {
-    return { fontWeight: appSettings.autoReplyMessage === content ? 'bold' : 'normal' }
-}
+const TextBlock = styled.span`
+   font-weight:${props => appSettings.autoReplyMessage === props.content ? 'bold' : 'normal'};
+`;
 
 /**
   * 绘制自动回复，注意这里不能构建自定义组件，样式问题
@@ -27,8 +28,8 @@ export const AutoReplyMenu = () => {
     const meeting = initAutoReplyMessages.Meeting;
     return (
         <SubMenu title='自动回复'>
-            <MenuItem onClick={onAutoReply} data={{ autoReplyMessage: backSoon }}><span style={getStyle(backSoon)}>{backSoon}</span></MenuItem>
-            <MenuItem onClick={onAutoReply} data={{ autoReplyMessage: busyNow }}><span style={getStyle(busyNow)} >{busyNow}</span></MenuItem>
-            <MenuItem onClick={onAutoReply} data={{ autoReplyMessage: meeting }}><span style={getStyle(meeting)}>{meeting}</span></MenuItem>
+            <MenuItem onClick={onAutoReply} data={{ autoReplyMessage: backSoon }}><TextBlock content={backSoon}>{backSoon}</TextBlock></MenuItem>
+            <MenuItem onClick={onAutoReply} data={{ autoReplyMessage: busyNow }}><TextBlock content={busyNow} >{busyNow}</TextBlock></MenuItem>
+            <MenuItem onClick={onAutoReply} data={{ autoReplyMessage: meeting }}><TextBlock content={meeting}>{meeting}</TextBlock></MenuItem>
         </SubMenu>)
 }

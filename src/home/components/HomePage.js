@@ -6,51 +6,106 @@ import { SearchBox } from '../../search/components';
 import BackgroundImg from '../../assets/imgs/background.jpg';
 import { ChatPage, ChatList } from '../../chat/components';
 import { CompositList } from '../../customers/components';
-require('../../assets/styles/grid.css');
-require('../../assets/styles/ul.css');
+import styled from 'styled-components';
 require('../../assets/styles/scrollbar.css');
 
 
-const styles = {
-    //主页背景样式
-    bg: {
-        left: 0,
-        right: 0,
-        height: '100vh',
-        opacity: 0.5,
-        backgroundImage: `url(${BackgroundImg})`,
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        display: 'block',
-        filter: 'blur(5px)',
-        float: 'left',
-        position: 'absolute',
-    },
 
-    //列表div样式
-    listDiv: {
-        paddingTop: 5,
-        paddingLeft: 5,
-        paddingRight: 5,
-    },
+/**
+ * 背景板
+ */
+const Background = styled.div`
+        left: 0px;
+        right: 0px;
+        height: 100vh;
+        opacity: 0.5;
+        background-attachment:fixed;
+        background-image:${props => `url(${props.img})`};
+        background-repeat:no-repeat;
+        background-size:cover;
+        display:block;
+        filter: blur(5px);
+        float: left;
+        position: absolute;      
+`;
 
-    //查询框div样式
-    searchBoxDiv: {
-        marginLeft: 20,
-        marginTop: 20,
-        marginRight: 3,
-    },
-    //列表容器样式
-    listContainer: {
-        height: 'calc(100% - 72px )',//搜索框距离
+/**
+ * 列表区域
+ */
+const ListRegion = styled.div`
+    width:250px;
+    background:#E6E6E7;
+    position:fixed;
+    height:100%;
+    z-index:2;
+    padding:5px 5px 0px 5px;
+`;
 
-        position: 'absolute',
-        paddingLeft: 10,
-        width: 'calc(100% - 7px)'
-    },
-}
+/**
+ * 列表容器
+ */
+const ListContainer = styled.div`
+    height: calc(100% - 72px );
+    position:  absolute;
+    padding-left: 10px;
+    
+    width: calc(100% - 7px);
+`;
 
+
+/**
+ * 导航栏容器
+ */
+const NavibarContainer = styled.div`
+    width:60px;
+    background:#2A2D32;
+    position:fixed;
+    height:100%;
+    z-index:2;
+`;
+
+/**
+ * 搜索框容器
+ */
+const SearchBoxContainer = styled.div`
+   margin:20px 5px 0px 20px;
+`;
+
+const DetailContainer =styled.div`
+    padding-left:250px;
+    z-index:0;
+    background: #F5F5F5;
+    overflow-y: hidden;
+    height: 100vh;
+`;
+
+const ChatContainer =styled.div`
+   float: left;
+    width:65%;
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:0px;
+    padding-right:0px;
+    
+`;
+
+const ExtendContainer =styled.div`
+    float: left;
+    width:35%;
+    background:pink;
+    margin-left:0px;
+    margin-right:0px;
+    padding-left:5px;
+    padding-right:5px;   
+    border-left: lightgray solid 1px;
+    height: 100%;
+`;
+
+const MainRegion=styled.div`
+    padding-left:60px;
+    z-index:1;
+    background: white;
+`;
 
 
 class HomePage extends Component {
@@ -64,32 +119,29 @@ class HomePage extends Component {
         const { page } = this.props;
         return (
             <div>
-                <div style={styles.bg}></div>
+                <Background img={BackgroundImg} />
                 <div className="row">
-                    <div className="col-fixed-left">
+                    <NavibarContainer>
                         <Navibar />
-                    </div>
-                    <div className="col-md-12 col-offset-main">
+                    </NavibarContainer>
+                    <MainRegion className="col-md-12">
                         <div className="row">
-                            <div className="col-fixed-chatlist">
-                                <div style={styles.listDiv}>
-                                    <div style={styles.searchBoxDiv}>
-                                        <SearchBox />
-                                    </div>
+                            <ListRegion>
+                                <SearchBoxContainer>
+                                    <SearchBox />
+                                </SearchBoxContainer>
+                                <ListContainer className='scollContainer'>
+                                    {page === pageType.CHAT && <ChatList />}
+                                    {page === pageType.CUSTOMER_LIST && <CompositList />}
+                                </ListContainer>
 
-                                    <div style={styles.listContainer} className='scollContainer'>
-                                        {page === pageType.CHAT && <ChatList />}
-                                        {page === pageType.CUSTOMER_LIST && <CompositList />}
-                                    </div>
+                            </ListRegion>
 
-                                </div>
-                            </div>
-
-                            <div className="col-offset-chat">
-                                <div className="innerHold-chat" >
+                            <DetailContainer>
+                                <ChatContainer >
                                     <ChatPage />
-                                </div>
-                                <div className="innerHold-extend" style={{ background: 'pink', height: '100vh' }}  >
+                                </ChatContainer>
+                                <ExtendContainer >
                                     {/* <div style={customerDivStyle}>
                                         <p style={titleStyle}>客户列表</p>
                                         <CustomerList />
@@ -98,14 +150,12 @@ class HomePage extends Component {
                                         <p style={titleStyle}>客服列表</p>
                                         <StaffList />
                                     </div> */}
-                                </div>
+                                </ExtendContainer>
 
-                                <div className="clear"></div>
-
-                            </div>
+                            </DetailContainer>
                         </div>
 
-                    </div>
+                    </MainRegion>
                 </div>
 
             </div>

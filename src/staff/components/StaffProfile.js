@@ -5,6 +5,7 @@ import Rx from 'rx';
 import { loginStates } from '../../auth/constants';
 import { appContext } from '../../util';
 import { staffActions } from '../actions';
+import  styled from 'styled-components';
 import { ContextMenuTrigger } from "react-contextmenu";
 import {StaffContextMenu} from './StaffContextMenu';
 import AvatarImg from '../../assets/imgs/avatar.png';
