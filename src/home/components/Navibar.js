@@ -9,42 +9,27 @@ import { PageHeader } from './PageHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-require('../../assets/styles/button.css');
-require('../../assets/styles/menu.css');
-require('../../assets/styles/nav_ul.css');
 
-const styles = {
-    settingBtn: {
-        padding: 20,
-        paddingTop: 30,
-        fontSize: 23
-    },
-    navibar: {
-        height: '100%',
-    },
-    navbarTop: {
-        width: '100%',
-        height: 'calc(100% - 100px)'
-    },
-    navbarBottom: {
-        padding: "0px",
-        border: "none",
-        width: 150,
-        backgroundColor: 'transparent',
-        marginTop: -20
-    },
 
-}
 
-const Container=styled.div`height: 100%; `;
+const popupContentStyle = {
+    padding: "0px",
+    border: "none",
+    width: 150,
+    backgroundColor: 'transparent',
+    marginTop: -20
+};
 
-const ContainerTop =styled.div` 
+
+const Container = styled.div`height: 100%; `;
+
+const ContainerTop = styled.div` 
     width: 100%;
     height: calc(100% - 100px);
 `;
 
 
-const SettingButton =styled.button`
+const SettingButton = styled.button`
      padding: 20px;
      padding-top: 30px;
      font-size: 23px;
@@ -58,6 +43,34 @@ const SettingButton =styled.button`
      };
 `;
 
+const NavUl = styled.ul`
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+`;
+
+const SettingMenu = styled.div`
+    width: 150px;
+    
+    display: flex;
+    flex-direction: column;
+    background: #2A2A2A;
+    color: gray;
+`;
+
+const SettingMenuItem = styled.div`  
+    cursor: pointer;
+    padding-left: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+     
+    &:hover {   
+        background: #2F3134;
+    }
+
+`;
+
 
 class Navibar extends Component {
 
@@ -67,7 +80,7 @@ class Navibar extends Component {
         this.activatePage = this.activatePage.bind(this);
     }
 
-   
+
     activatePage(page) {
         this.setState({ selectPage: page });
         const { dispatch } = this.props;
@@ -88,26 +101,26 @@ class Navibar extends Component {
         return (
             <Container>
                 <ContainerTop>
-                    <StaffProfile/>
-                    <ul className='nav_ul'>
+                    <StaffProfile />
+                    <NavUl>
                         <PageHeader isSelect={this.isSelectPage(pageType.CHAT)} page={pageType.CHAT} onClick={this.activatePage} />
                         <PageHeader isSelect={this.isSelectPage(pageType.CUSTOMER_LIST)} page={pageType.CUSTOMER_LIST} onClick={this.activatePage} />
-                    </ul>
+                    </NavUl>
                 </ContainerTop>
 
                 <Popup
-                    trigger={() => (<SettingButton   title='更多'><FontAwesomeIcon icon={faBars} /></SettingButton>)}
-                    position="right bottom" 
+                    trigger={() => (<SettingButton title='更多'><FontAwesomeIcon icon={faBars} /></SettingButton>)}
+                    position="right bottom"
                     on="click"
                     closeOnDocumentClick
                     mouseLeaveDelay={300}
                     mouseEnterDelay={0}
-                    contentStyle={styles.navbarBottom}
+                    contentStyle={popupContentStyle}
                     arrow={false} >
-                    <div className="menu">
-                        <div className="menu-item">帮助</div>
-                        <div className="menu-item">设置</div>
-                    </div>
+                    <SettingMenu>
+                        <SettingMenuItem>帮助</SettingMenuItem>
+                        <SettingMenuItem>设置</SettingMenuItem>
+                    </SettingMenu>
 
                 </Popup>
             </Container>);
