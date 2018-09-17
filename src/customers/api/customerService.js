@@ -41,7 +41,7 @@ class CustomerService {
 
 
     async getRelationMappingListByKey(staffId, appKey) {
-        const url = serviceUrls.getFullUrl(serviceUrls.URL_GET_RELATION_MAPPING_LIST);
+        const url =  serviceUrls.URL_GET_RELATION_MAPPING_LIST ;
         return await util.fetchWithPost(url, { staffId, customerId: '', customerName: '', appKey });
     }
 
@@ -57,8 +57,13 @@ class CustomerService {
         this._subscription = source.subscribe(
            async() => {
                 if (appContext.currentStaff != null) {
-                  const {StaffId,}
-                   this._relationMappingList = await getRelationMappingListByKey();
+                  const {StaffId,AppKey}=appContext.currentStaff;
+                  const {RetCode,Message,Data}= await customerService.getRelationMappingListByKey(StaffId,AppKey);
+                  if(RetCode==1){
+                      console.log(Data);
+                      this._relationMappingList= Data;
+                  }
+             
                 }
                
             },

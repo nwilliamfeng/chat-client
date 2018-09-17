@@ -127,6 +127,10 @@ export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
         </ContextMenu>)
 }
 
+const ContainerDiv=styled.div`
+   padding-left:5px;
+`;
+
 class StaffList extends Component {
 
     constructor(props) {
@@ -144,7 +148,7 @@ class StaffList extends Component {
         const groups = staffs ? Object.values(groupBy(staffs)) : [];
         const staffCount = staffs ? staffs.length : 0;
         return (
-            <div style={{ leftPadding: 5 }}>
+            <ContainerDiv>
                 {`部门-组别 (${staffCount})`}
                 {groups.length > 0 &&
                     <ul className='list-group list-group-hover'>
@@ -153,7 +157,7 @@ class StaffList extends Component {
                 }
                 <StaffContextMenu dispatch={dispatch} contextMenuId={STAFF_CONTEXTMENU_ID} />
                 <OtherStaffContextMenu dispatch={dispatch} contextMenuId={OTHER_STAFF_CONTEXTMENU_ID} />
-            </div>
+            </ContainerDiv>
         );
     }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {customerActions} from  '../actions';
 
 class CustomerList extends Component {
 
@@ -19,6 +20,7 @@ class CustomerList extends Component {
 
     componentDidMount(){
         console.log('dddd');
+        customerActions.initize();
     }
 
 

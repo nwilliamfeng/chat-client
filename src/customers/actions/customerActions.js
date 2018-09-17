@@ -14,6 +14,8 @@ export const customerActions = {
     fetchCustomerList,
 
     fetchCustomerRelationMappingList,
+
+    initize,
   
 }
 
@@ -44,6 +46,10 @@ function fetchCustomerRelationMappingList() {
     }
 }
 
+
+function initize(){
+   customerService.initize();
+}
 
  
 
