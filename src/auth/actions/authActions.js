@@ -1,8 +1,11 @@
 import { constants } from '../constants';
 import { authService, heartWatchService } from '../api';
 import { history, util, appSettings, appContext } from '../../util';
+import {systemActions} from '../../system/actions';
 import Staff from '../../models/staff';
 import AuthHelper from '../authHelper'
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 /**
  * 授权Action工厂实例
@@ -48,7 +51,7 @@ function login(userName, userPassword, appKey) {
             appContext.currentStaff = staff;
             appSettings.appKey = appKey;
             appSettings.save();
-            heartWatchService.start(staff.StaffId, staff.Token, ip, appKey, (reconnectCount) => {
+            heartWatchService.start(staff.StaffId, staff.Token, ip, appKey, reconnectCount => {
                 dispatch({ type: constants.CLIENT_LOST_HEART, reconnectCount });
             });
             dispatch({ type: constants.LOGIN_SUCCESS, staff });//如果登录成功发布用户信息
@@ -68,8 +71,7 @@ function logout() {
         const { staffId, token, ip, appKey } = appContext.getStaffParams();
         const { RetCode, Message } = await authService.logout(staffId, token, ip, appKey);
         if (RetCode !== 1) {
-            alert(Message);
-
+            dispatch( systemActions.notifyError(Message));
         }
         appContext.clear();//清除缓存
         heartWatchService.stop();

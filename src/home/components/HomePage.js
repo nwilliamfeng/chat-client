@@ -7,7 +7,9 @@ import BackgroundImg from '../../assets/imgs/background.jpg';
 import { ChatPage, ChatList } from '../../chat/components';
 import { CompositList } from '../../customers/components';
 import styled from 'styled-components';
+import Alert from 'react-s-alert';
 require('../../assets/styles/scrollbar.css');
+
 
 
 
@@ -71,7 +73,7 @@ const SearchBoxContainer = styled.div`
    margin:20px 5px 0px 20px;
 `;
 
-const DetailContainer =styled.div`
+const DetailContainer = styled.div`
     padding-left:250px;
     z-index:0;
     background: #F5F5F5;
@@ -79,7 +81,7 @@ const DetailContainer =styled.div`
     height: 100vh;
 `;
 
-const ChatContainer =styled.div`
+const ChatContainer = styled.div`
    float: left;
     width:65%;
     margin-left:0px;
@@ -89,7 +91,7 @@ const ChatContainer =styled.div`
     
 `;
 
-const ExtendContainer =styled.div`
+const ExtendContainer = styled.div`
     float: left;
     width:35%;
     background:pink;
@@ -101,7 +103,7 @@ const ExtendContainer =styled.div`
     height: 100%;
 `;
 
-const MainRegion=styled.div`
+const MainRegion = styled.div`
     padding-left:60px;
     z-index:1;
     background: white;
@@ -112,11 +114,33 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            modalIsOpen:false,
+        }
+    }
+
+    openModal = () => {
+        this.setState({ modalIsOpen: true });
+    }
+
+    afterOpenModal = () => {
+        // references are now sync'd and can be accessed.
+        this.subtitle.style.color = '#f00';
+    }
+
+    closeModal = () => {
+        this.setState({ modalIsOpen: false });
     }
 
 
     render() {
-        const { page } = this.props;
+        const { page,error } = this.props;
+        if(error!=null){
+            Alert.success('Test message stackslide effect!', {
+                position: 'top-right',
+                effect: 'stackslide'
+              });
+        }
         return (
             <div>
                 <Background img={BackgroundImg} />
@@ -157,7 +181,7 @@ class HomePage extends Component {
 
                     </MainRegion>
                 </div>
-
+                <Alert stack={true} timeout={3000} />
             </div>
 
         );
@@ -166,7 +190,9 @@ class HomePage extends Component {
 
 
 function mapStateToProps(state) {
-    return state.home;
+    const states = state.home;
+    const {error} =state.system;
+    return {...states,error};
 }
 
 

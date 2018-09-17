@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faCheckCircle, faTimesCircle, faClock } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 
- 
 /**
  * 获取图标数据
  * @param {*} state 
@@ -22,11 +21,6 @@ const getIconData = state => {
             return faTimesCircle;
     }
 }
-
-const Div = styled.div`
-    margin-left:30px;
-    padding-top:25px;
-`;
 
 const Icon = styled(FontAwesomeIcon)`
     border-radius:30px;
@@ -68,7 +62,7 @@ const Icon = styled(FontAwesomeIcon)`
  */
 export const StaffStateIcon = ({ state }) => {
     const icon = getIconData(state);
-    return <Div><Icon icon={icon} state={state} /></Div>
+    return  <Icon icon={icon} state={state} /> 
 }
 
 StaffStateIcon.prototype = {

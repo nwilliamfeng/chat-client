@@ -5,41 +5,42 @@ class CustomerList extends Component {
 
     constructor(props) {
         super(props);
+      console.log('sdf');
     }
- 
-    renderItems(){
-        let result =[];
-        for(let i=0;i<200;i++){
-            result.push(<div>{'abc'+i}</div>);
+
+    renderItems() {
+        let result = [];
+        for (let i = 0; i < 200; i++) {
+            result.push(<div>{'abc' + i}</div>);
         }
         return result;
     }
-  
+
+
+    componentDidMount(){
+        console.log('dddd');
+    }
+
 
     render() {
-        console.log('do render chatlist');
+        console.log('do render customerlist');
         return (
 
-            
 
-                <div  >
-                   {this.renderItems()}
-                </div>
-            
+
+            <div  >
+                {this.renderItems()}
+            </div>
+
 
         );
     }
 }
 
 function mapStateToProps(state) {
-    const { chats, selectedChat } = state.chat;
-
-    return {
-        chats,
-        selectedChat,
-
-
-    }
+   
+    return state.customer;
+      
 }
 
 

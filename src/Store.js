@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {authReducer} from './auth/reducers';
 import {customerReducer} from './customers/reducers';
 import {staffReducer} from './staff/reducers';
+import {systemReducer} from './system/reducers';
 import {configurationReducer} from './configuration/reducers';
 import {chatReducer,historyMessageReducer,offlineMessageReducer} from './chat/reducers';
 import {homeReducer} from './home/reducers'
@@ -44,6 +45,8 @@ const reducer = combineReducers({
   offlineMessage:offlineMessageReducer,
 
   home:homeReducer,
+
+  system:systemReducer,
 });
 
 

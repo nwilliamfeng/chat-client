@@ -1,5 +1,7 @@
 import { util } from '../../util';
 import { customerServiceUrls as serviceUrls } from './customerServiceUrls';
+import {appContext} from '../../util';
+import Rx from 'rx';
 
 
 /**
@@ -8,8 +10,8 @@ import { customerServiceUrls as serviceUrls } from './customerServiceUrls';
 class CustomerService {
 
     constructor() {
-        //customerid in company : 2D805092B1447AFD;
-        //customerid in home :BA34565DB69EB411 
+       this._relationMappingList=[];
+       this._isInitized=false;
     }
 
     /**
@@ -44,6 +46,29 @@ class CustomerService {
     }
 
 
+    initize(){
+        if(this._isInitized){
+            return;
+        }
+        this._isInitized=true;
+        const source = Rx.Observable
+            .interval(5000 /* ms */)
+            .timeInterval();
+        this._subscription = source.subscribe(
+           async() => {
+                if (appContext.currentStaff != null) {
+                  const {StaffId,}
+                   this._relationMappingList = await getRelationMappingListByKey();
+                }
+               
+            },
+            (err) => {
+                console.log('Error: ' + err);
+            },
+            () => {
+                console.log('Completed');
+            });
+    }
 
 
 }

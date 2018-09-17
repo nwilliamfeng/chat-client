@@ -18,7 +18,7 @@ export const customerActions = {
 }
 
 /**
- * 获取客户列表action
+ * 获取分配的客户列表action
  */
 function fetchCustomerList() {
     return async dispatch => {
@@ -31,10 +31,11 @@ function fetchCustomerList() {
     }
 }
 
-
+/**
+ * 获取客户列表
+ */
 function fetchCustomerRelationMappingList() {
     return async dispatch => {
-        const ip = util.getIpAddress();
         const staff = appContext.currentStaff;
         const { RetCode, Message, Data } = await customerService.getRelationMappingListByKey(staff.StaffId,  appContext.appKeys[0]);
         if (RetCode === 1) {

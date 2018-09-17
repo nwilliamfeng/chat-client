@@ -35,7 +35,7 @@ const getTooltip = page => {
     }
 }
 
-const Header = styled.li`
+const Li = styled.li`
     color: ${props=>props.isSelect? 'rgb(57, 206, 57)'  :  'grey' };
     width: 100%;
     padding-top: 5px;
@@ -53,7 +53,7 @@ export const PageHeader = ({ isSelect, page, onClick }) => {
 
     const handleClick = () => onClick(page);
 
-    return (<Header title={getTooltip(page)} isSelect={isSelect} onClick={handleClick} > <FontAwesomeIcon icon={getIcon(isSelect, page)} /> </Header>)
+    return (<Li title={getTooltip(page)} isSelect={isSelect} onClick={handleClick} > <FontAwesomeIcon icon={getIcon(isSelect, page)} /> </Li>)
 }
 
 PageHeader.prototype = {
