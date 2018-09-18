@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 const Div=styled.div`
     padding:5px;
-    width:100%;
-    background-color:aliceblue;
+    width:100vh;
+    background-color:lightgray;
 `;
 
 export const ExpandPanel=({title})=>{

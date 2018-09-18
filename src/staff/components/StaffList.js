@@ -9,6 +9,9 @@ import { StaffContextMenu } from './StaffContextMenu';
 import { isEqual, groupBy } from 'lodash';
 import styled from 'styled-components';
 import {ExpandPanel} from '../../controls';
+import Rx from 'rx';
+import { loginStates } from '../../auth/constants';
+import { staffActions } from '../actions';
 require('../../assets/styles/li.css');
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
@@ -31,8 +34,7 @@ const StaffLi = styled.li`
     padding:5px 10px;
     outline:none;
     text-align:left;
-     
-    margin-left:-85px;
+    margin-left:-35px;
     &:hover{
         background-color: #DEDBDA;
     };
@@ -42,6 +44,9 @@ const StaffLi = styled.li`
     color: gray;
   `;
 
+const StaffGroupDiv=styled.div`
+    margin-left:-40px;
+`;
 
 /**
  * 客服名称span
@@ -111,12 +116,12 @@ const StaffItem = ({ data }) => {
 const StaffGroup = ({ staffs }) => {
     const groupName =staffs[0].GroupName;
     return (
-        <div>
+        <StaffGroupDiv>
            { groupName && <ExpandPanel title={ staffs[0].GroupName}/> }
             <StaffUl>
                 {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
             </StaffUl>
-        </div>
+        </StaffGroupDiv>
     )
 }
 
@@ -137,7 +142,7 @@ export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
 }
 
 const ContainerDiv=styled.div`
-   padding-left:5px;
+   
 `;
 
 class StaffList extends Component {
@@ -151,6 +156,50 @@ class StaffList extends Component {
         return !isEqual(this.props.staffs, nextProps.staffs); //如果是客服列表相同则跳过
     }
 
+    componentDidMount() {
+        const { loginState } = this.props;
+        if (loginState != null && loginState === loginStates.LOGGED_IN) {
+            this.subscribeStaffList();
+        }
+    }
+
+    componentWillUpdate() {
+        const { loginState } = this.props;
+        if (loginState != null && loginState === loginStates.LOGGED_OUT) {
+            if (this.subscription != null) {
+                this.subscription.dispose();
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.subscription != null) {
+            this.subscription.dispose();
+        }
+    }
+
+    subscribeStaffList = () => {
+        const source = Rx.Observable
+            .interval(3000 /* ms */)
+            .timeInterval();
+        this.subscription = source.subscribe(
+            () => {
+                if (appContext.currentStaff != null) {
+                    const { dispatch } = this.props;
+                    dispatch(staffActions.fetchStaffList());
+                }
+                else {
+                    this.subscription.dispose();
+                }
+            },
+            (err) => {
+                console.log('Error: ' + err);
+            },
+            () => {
+                console.log('Completed');
+            });
+    }
+
 
     render() {
         const { staffs, dispatch } = this.props;
@@ -158,7 +207,7 @@ class StaffList extends Component {
         const staffCount = staffs ? staffs.length : 0;
         return (
             <ContainerDiv>
-                {`部门-组别 (${staffCount})`}
+                <ExpandPanel title={`部门-组别 (${staffCount})`}/>
                 {groups.length > 0 &&
                     <GroupUl>
                         {groups.map(group => <StaffGroup staffs={group} />)}
@@ -175,7 +224,8 @@ class StaffList extends Component {
 
 const mapStateToProps = state => {
     const { staffs } = state.staff;
-    return { staffs };
+    const {loginState}=state.auth;
+    return { staffs,loginState };
 }
 
 
