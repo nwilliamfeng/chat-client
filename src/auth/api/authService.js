@@ -48,6 +48,7 @@ class AuthService {
      */
     async logout(staffId, token, ip, appKey) {
         const url = serviceUrls.URL_LOGOUT;
+        
         return await util.fetchWithPost(url, { staffId, token, ip, appKey });
     }
 

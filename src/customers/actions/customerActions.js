@@ -15,8 +15,7 @@ export const customerActions = {
 
     fetchCustomerRelationMappingList,
 
-    initize,
-  
+
 }
 
 /**
@@ -30,6 +29,9 @@ function fetchCustomerList() {
         if (RetCode === 1) {
             dispatch({ type: constants.Get_CUSTOMER_LIST_SUCCESS, customers: Data });
         }
+        else{
+            console.log(Message);
+        }
     }
 }
 
@@ -39,18 +41,22 @@ function fetchCustomerList() {
 function fetchCustomerRelationMappingList() {
     return async dispatch => {
         const staff = appContext.currentStaff;
-        const { RetCode, Message, Data } = await customerService.getRelationMappingListByKey(staff.StaffId,  appContext.appKeys[0]);
+        if(staff==null){
+            return;
+        }
+        const {StaffId,AppKey} =staff;
+        const { RetCode, Message, Data } = await customerService.getRelationMappingListByKey(StaffId,AppKey);
         if (RetCode === 1) {
-            dispatch({ type: constants.Get_CUSTOMER_RELATION_MAPPING_SUCCESS, customers: Data });
+            dispatch({ type: constants.Get_CUSTOMER_RELATION_MAPPING_SUCCESS, items: Data });
+        }
+        else{
+            console.log(Message);
         }
     }
 }
 
 
-function initize(){
-   customerService.initize();
-}
-
+ 
  
 
 

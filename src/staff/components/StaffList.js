@@ -8,6 +8,7 @@ import { faStar as fastar2 } from '@fortawesome/free-regular-svg-icons';
 import { StaffContextMenu } from './StaffContextMenu';
 import { isEqual, groupBy } from 'lodash';
 import styled from 'styled-components';
+import {ExpandPanel} from '../../controls';
 require('../../assets/styles/li.css');
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
@@ -17,7 +18,11 @@ const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
  * staff自定义ul
  */
 const StaffUl = styled.ul`
+   list-style: none;
+   width:100vh;
   `;
+
+const GroupUl=styled(StaffUl)``;
 
 /**
  * staff自定义li
@@ -25,6 +30,9 @@ const StaffUl = styled.ul`
 const StaffLi = styled.li`
     padding:5px 10px;
     outline:none;
+    text-align:left;
+     
+    margin-left:-85px;
     &:hover{
         background-color: #DEDBDA;
     };
@@ -101,10 +109,11 @@ const StaffItem = ({ data }) => {
  * @param {*} param0 
  */
 const StaffGroup = ({ staffs }) => {
+    const groupName =staffs[0].GroupName;
     return (
         <div>
-            {staffs[0].GroupName}
-            <StaffUl className='list-group'>
+           { groupName && <ExpandPanel title={ staffs[0].GroupName}/> }
+            <StaffUl>
                 {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
             </StaffUl>
         </div>
@@ -151,9 +160,9 @@ class StaffList extends Component {
             <ContainerDiv>
                 {`部门-组别 (${staffCount})`}
                 {groups.length > 0 &&
-                    <ul className='list-group list-group-hover'>
+                    <GroupUl>
                         {groups.map(group => <StaffGroup staffs={group} />)}
-                    </ul>
+                    </GroupUl>
                 }
                 <StaffContextMenu dispatch={dispatch} contextMenuId={STAFF_CONTEXTMENU_ID} />
                 <OtherStaffContextMenu dispatch={dispatch} contextMenuId={OTHER_STAFF_CONTEXTMENU_ID} />

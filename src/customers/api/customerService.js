@@ -10,8 +10,6 @@ import Rx from 'rx';
 class CustomerService {
 
     constructor() {
-       this._relationMappingList=[];
-       this._isInitized=false;
     }
 
     /**
@@ -46,34 +44,7 @@ class CustomerService {
     }
 
 
-    initize(){
-        if(this._isInitized){
-            return;
-        }
-        this._isInitized=true;
-        const source = Rx.Observable
-            .interval(5000 /* ms */)
-            .timeInterval();
-        this._subscription = source.subscribe(
-           async() => {
-                if (appContext.currentStaff != null) {
-                  const {StaffId,AppKey}=appContext.currentStaff;
-                  const {RetCode,Message,Data}= await customerService.getRelationMappingListByKey(StaffId,AppKey);
-                  if(RetCode==1){
-                      console.log(Data);
-                      this._relationMappingList= Data;
-                  }
-             
-                }
-               
-            },
-            (err) => {
-                console.log('Error: ' + err);
-            },
-            () => {
-                console.log('Completed');
-            });
-    }
+    
 
 
 }

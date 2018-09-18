@@ -1,37 +1,81 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
-import {customerActions} from  '../actions';
+import { customerActions } from '../actions';
+import { appContext } from '../../util';
+import Rx from 'rx';
+import { isEqual } from 'lodash';
+
+
+const CustomerLi=styled.li`
+    padding:2px;
+`;
+
+const Customer = ({value}) => {
+    const { CustomerAvataUrl,CustomerName } = value;
+    return (
+    <CustomerLi>
+        <span style={{ backgroundImage: `url${CustomerAvataUrl}` }} />
+        <span>{CustomerName}</span>
+    </CustomerLi>)
+}
 
 class CustomerList extends Component {
 
     constructor(props) {
         super(props);
-      console.log('sdf');
     }
 
-    renderItems() {
-        let result = [];
-        for (let i = 0; i < 200; i++) {
-            result.push(<div>{'abc' + i}</div>);
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return !isEqual(this.props.relationMappingList, nextProps.relationMappingList);
+    }
+
+
+    componentDidMount() {
+        if (appContext.currentStaff != null) {
+            this.subscribeRelationMappingList();
         }
-        return result;
     }
 
+    componentWillUnmount() {
+        this.subscription.dispose();
+    }
 
-    componentDidMount(){
-        console.log('dddd');
-        customerActions.initize();
+    subscribeRelationMappingList = () => {
+        const source = Rx.Observable
+            .interval(5000 /* ms */)
+            .timeInterval();
+        this.subscription = source.subscribe(
+            () => {
+                if (appContext.currentStaff != null) {
+                    const { dispatch } = this.props;
+                    dispatch(customerActions.fetchCustomerRelationMappingList());
+                }
+                else {
+                    this.subscription.dispose();
+                }
+            },
+            (err) => {
+                console.log('Error: ' + err);
+            },
+            () => {
+                console.log('Completed');
+            });
     }
 
 
     render() {
         console.log('do render customerlist');
+        const { relationMappingList } = this.props;
         return (
 
 
 
-            <div  >
-                {this.renderItems()}
+            <div>
+                {relationMappingList &&
+                    <ul>
+                        {relationMappingList.map(customer=> <Customer value={customer}/>)}
+                    </ul>}
             </div>
 
 
@@ -39,13 +83,10 @@ class CustomerList extends Component {
     }
 }
 
-function mapStateToProps(state) {
-   
-    return state.customer;
-      
+const mapStateToProps = state => {
+    const { relationMappingList } = state.customer;
+    return {relationMappingList};
 }
-
-
 
 const page = connect(mapStateToProps, null)(CustomerList);
 

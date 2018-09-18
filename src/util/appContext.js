@@ -56,6 +56,7 @@ class AppContext {
 
     clear() {
         localStorage.removeItem(AppContext.name);
+        this._staff=null;
     }
 }
 

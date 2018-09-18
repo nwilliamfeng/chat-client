@@ -12,6 +12,11 @@ export const customerReducer = (state = initState, action) => {
         customers: action.customers,
       };
 
+      case constants.Get_CUSTOMER_RELATION_MAPPING_SUCCESS:
+      return{
+        ...state,
+        relationMappingList:action.items,
+      }
      
 
     default:
