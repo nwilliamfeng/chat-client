@@ -48,8 +48,7 @@ class StaffProfile extends Component {
 
     render() {
         const { user, dispatch } = this.props;
-        if(user!=null)
-        console.log(user.AvataUrl);
+
         return (
             <div>
                 <ContextMenuTrigger id={STAFF_CONTEXTMENU_ID}>

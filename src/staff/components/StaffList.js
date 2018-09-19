@@ -8,11 +8,11 @@ import { faStar as fastar2 } from '@fortawesome/free-regular-svg-icons';
 import { StaffContextMenu } from './StaffContextMenu';
 import { isEqual, groupBy } from 'lodash';
 import styled from 'styled-components';
-import {ExpandPanel} from '../../controls';
+import { ExpandPanel } from '../../controls';
 import Rx from 'rx';
 import { loginStates } from '../../auth/constants';
 import { staffActions } from '../actions';
-require('../../assets/styles/li.css');
+
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
 
@@ -25,7 +25,7 @@ const StaffUl = styled.ul`
    width:100vh;
   `;
 
-const GroupUl=styled(StaffUl)``;
+const GroupUl = styled(StaffUl)``;
 
 /**
  * staff自定义li
@@ -34,7 +34,8 @@ const StaffLi = styled.li`
     padding:5px 10px;
     outline:none;
     text-align:left;
-    margin-left:-35px;
+    margin-left:${props=>props.hasGroup?'-5px':'-45px'} ;
+
     &:hover{
         background-color: #DEDBDA;
     };
@@ -44,7 +45,7 @@ const StaffLi = styled.li`
     color: gray;
   `;
 
-const StaffGroupDiv=styled.div`
+const StaffGroupDiv = styled.div`
     margin-left:-40px;
 `;
 
@@ -97,10 +98,10 @@ const ChatCounter = ({ count }) => {
  * 客服项
  */
 const StaffItem = ({ data }) => {
-    const { StaffName, AssignedCustomerNumber, StaffId } = data;
+    const { StaffName, AssignedCustomerNumber, StaffId,GroupName } = data;
     const isSelf = StaffId === appContext.currentStaff.StaffId;
     return (
-        <StaffLi>
+        <StaffLi hasGroup={GroupName!=null}>
             <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ staffdata: JSON.stringify(data) }}>
                 <Avata icon={faUser} />
                 <StaffNameSpan title={StaffName} isSelf={isSelf}>{StaffName}</StaffNameSpan>
@@ -114,13 +115,17 @@ const StaffItem = ({ data }) => {
  * @param {*} param0 
  */
 const StaffGroup = ({ staffs }) => {
-    const groupName =staffs[0].GroupName;
+    const groupName = staffs[0].GroupName;
     return (
         <StaffGroupDiv>
-           { groupName && <ExpandPanel title={ staffs[0].GroupName}/> }
-            <StaffUl>
-                {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
-            </StaffUl>
+            {groupName &&
+                <ExpandPanel title={staffs[0].GroupName}>
+                    {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
+                </ExpandPanel>}
+            {groupName==null &&
+                <StaffUl>
+                    {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
+                </StaffUl>}
         </StaffGroupDiv>
     )
 }
@@ -141,7 +146,7 @@ export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
         </ContextMenu>)
 }
 
-const ContainerDiv=styled.div`
+const ContainerDiv = styled.div`
    
 `;
 
@@ -200,19 +205,18 @@ class StaffList extends Component {
             });
     }
 
-
     render() {
         const { staffs, dispatch } = this.props;
-        const groups = staffs ? Object.values(groupBy(staffs)) : [];
+        const groups = staffs ? Object.values(groupBy(staffs,'GroupName')) : [];
         const staffCount = staffs ? staffs.length : 0;
         return (
             <ContainerDiv>
-                <ExpandPanel title={`部门-组别 (${staffCount})`}/>
-                {groups.length > 0 &&
+                <ExpandPanel title={`部门-组别 (${staffCount})`} >
                     <GroupUl>
-                        {groups.map(group => <StaffGroup staffs={group} />)}
+                        {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupID}/>)}
                     </GroupUl>
-                }
+                </ExpandPanel>
+
                 <StaffContextMenu dispatch={dispatch} contextMenuId={STAFF_CONTEXTMENU_ID} />
                 <OtherStaffContextMenu dispatch={dispatch} contextMenuId={OTHER_STAFF_CONTEXTMENU_ID} />
             </ContainerDiv>
@@ -224,8 +228,8 @@ class StaffList extends Component {
 
 const mapStateToProps = state => {
     const { staffs } = state.staff;
-    const {loginState}=state.auth;
-    return { staffs,loginState };
+    const { loginState } = state.auth;
+    return { staffs, loginState };
 }
 
 

@@ -4,21 +4,108 @@ import { connect } from 'react-redux';
 import { customerActions } from '../actions';
 import { appContext } from '../../util';
 import Rx from 'rx';
-import { isEqual } from 'lodash';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+// import { StaffContextMenu } from './StaffContextMenu';
+import { isEqual, groupBy } from 'lodash';
+import { ExpandPanel } from '../../controls';
+const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 
 
-const CustomerLi=styled.li`
-    padding:2px;
+
+
+const CustomerUl = styled.ul`
+   list-style: none;
+   width:100vh;
+  `;
+
+const GroupUl = styled(CustomerUl)``;
+
+const AvatarSpan = styled.span`
+    cursor:pointer;
+    background-image:${props => {
+        const url = props.AvataUrl;
+        return `url(${url})`;
+    }};
+    background-size:  100% 100% ;
+    height:24px;
+    vertical-align:middle;
+    width: 24px;
+    border-radius:3px;
+    background-repeat:no-repeat;
+    background-size:cover;
+    margin-right:5px;
+    display:inline-block;
 `;
 
-const Customer = ({value}) => {
-    const { CustomerAvataUrl,CustomerName } = value;
+
+const CustomerLi = styled.li`
+    padding:5px 10px;
+    outline:none;
+    text-align:left;
+    margin-left:${props => props.hasGroup ? '-5px' : '-45px'} ;
+
+    &:hover{
+        background-color: #DEDBDA;
+    };
+
+    color: gray;
+  `;
+
+const CustomerGroupDiv = styled.div`
+    margin-left:-40px;
+`;
+
+
+const CustomerNameSpan = styled.span`
+   
+     max-width: 75px;
+     width:75px;
+     vertical-align:middle;
+     display:inline-block;
+     overflow:hidden;
+     white-space:nowrap;
+     text-overflow:ellipsis;
+     cursor:default;
+     margin-left:10px;
+     margin-right:10px;
+     &:hover{
+         color:black;
+     };
+`;
+
+const Customer = ({ value }) => {
+    const { CustomerAvataUrl, CustomerName, GroupName } = value;
     return (
-    <CustomerLi>
-        <span style={{ backgroundImage: `url${CustomerAvataUrl}` }} />
-        <span>{CustomerName}</span>
-    </CustomerLi>)
+        <CustomerLi >
+            <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ data: JSON.stringify(value) }}>
+                <AvatarSpan AvataUrl={CustomerAvataUrl} />
+
+                <CustomerNameSpan>{CustomerName}</CustomerNameSpan>
+
+            </ContextMenuTrigger>
+        </CustomerLi>)
 }
+
+const CustomerGroup = ({ customers }) => {
+    const groupName = customers[0].GroupName;
+    return (
+        <CustomerGroupDiv>
+            {groupName &&
+                <ExpandPanel title={customers[0].GroupName}>
+                    {customers.map(item => <Customer key={item.StaffId} data={item} />)}
+                </ExpandPanel>}
+            {groupName == null &&
+                <CustomerUl>
+                    {customers.map(item => <Customer key={item.StaffId} data={item} />)}
+                </CustomerUl>}
+        </CustomerGroupDiv>
+    )
+}
+
+
+
+
+
 
 class CustomerList extends Component {
 
@@ -67,16 +154,20 @@ class CustomerList extends Component {
     render() {
         console.log('do render customerlist');
         const { relationMappingList } = this.props;
+        console.log(relationMappingList);
         return (
 
 
 
-            <div>
+            <ExpandPanel title>
+                <div>
                 {relationMappingList &&
                     <ul>
-                        {relationMappingList.map(customer=> <Customer value={customer}/>)}
+                        {relationMappingList.map(customer => <Customer value={customer} />)}
                     </ul>}
-            </div>
+                </div>
+             
+            </ExpandPanel>
 
 
         );
@@ -85,7 +176,7 @@ class CustomerList extends Component {
 
 const mapStateToProps = state => {
     const { relationMappingList } = state.customer;
-    return {relationMappingList};
+    return { relationMappingList };
 }
 
 const page = connect(mapStateToProps, null)(CustomerList);

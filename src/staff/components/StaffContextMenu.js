@@ -17,26 +17,26 @@ export const StaffContextMenu = ({contextMenuId, dispatch }) => {
         return { fontWeight: appContext.currentStaff.StaffState === staffState ? 'bold' : 'normal' };
     }
 
-    const onChangeStaffState = (e, data) => dispatch(authActions.changeStaffState(data.newStaffSate));
+    const handleChangeStaffState = (e, data) => dispatch(authActions.changeStaffState(data.newStaffSate));
 
-    const onLogout = () => dispatch(authActions.logout());
+    const handleLogout = () => dispatch(authActions.logout());
  
 
     return (
     <ContextMenu id={contextMenuId}>
-        <MenuItem onClick={onChangeStaffState} data={{ newStaffSate: staffStateValues.ONLINE }}>
+        <MenuItem onClick={handleChangeStaffState} data={{ newStaffSate: staffStateValues.ONLINE }}>
             <span style={getStaffStateStyle(staffStateValues.ONLINE)}>在线</span>
         </MenuItem>
-        <MenuItem onClick={onChangeStaffState} data={{ newStaffSate: staffStateValues.LEAVE }}>
+        <MenuItem onClick={handleChangeStaffState} data={{ newStaffSate: staffStateValues.LEAVE }}>
             <span style={getStaffStateStyle(staffStateValues.LEAVE)}>离开</span>
         </MenuItem>
-        <MenuItem onClick={onChangeStaffState} data={{ newStaffSate: staffStateValues.TRANSFER }}>
+        <MenuItem onClick={handleChangeStaffState} data={{ newStaffSate: staffStateValues.TRANSFER }}>
             <span style={getStaffStateStyle(staffStateValues.TRANSFER)}>转接</span>
         </MenuItem>
         <MenuItem divider />
         <AutoReplyMenu />
         <MenuItem divider />
-        <MenuItem onClick={onLogout}>注销</MenuItem>
+        <MenuItem onClick={handleLogout}>注销</MenuItem>
     </ContextMenu>)
 
 }
