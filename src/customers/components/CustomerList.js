@@ -102,7 +102,18 @@ const CustomerGroup = ({ customers }) => {
     )
 }
 
+const ProudctCategory = ({ customers }) => {
+    const productName = customers[0].ProductName;
+    return (
+        <CustomerGroupDiv>
 
+            <ExpandPanel title={productName}>
+                {customers.map(item => <Customer key={item.CustomerId} data={item} />)}
+            </ExpandPanel>
+
+        </CustomerGroupDiv>
+    )
+}
 
 
 
@@ -154,6 +165,7 @@ class CustomerList extends Component {
     render() {
         console.log('do render customerlist');
         const { relationMappingList } = this.props;
+        const categories = relationMappingList ? Object.values(groupBy(relationMappingList, 'ProductName')) : [];
         console.log(relationMappingList);
         return (
 
@@ -161,12 +173,12 @@ class CustomerList extends Component {
 
             <ExpandPanel title>
                 <div>
-                {relationMappingList &&
-                    <ul>
-                        {relationMappingList.map(customer => <Customer value={customer} />)}
-                    </ul>}
+                    {relationMappingList &&
+                        <ul>
+                            {categories.map(category => <ProudctCategory customers={category} />)}
+                        </ul>}
                 </div>
-             
+
             </ExpandPanel>
 
 
