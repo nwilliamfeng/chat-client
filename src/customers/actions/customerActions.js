@@ -9,10 +9,13 @@ import {   util,  appContext } from '../../util';
 export const customerActions = {
 
     /**
-     * 获取客户列表
+     * 获取分配客户列表
      */
     fetchCustomerList,
 
+    /**
+     * 获取客户关系列表
+     */
     fetchCustomerRelationMappingList,
 
 

@@ -22,6 +22,15 @@ const Arrow = styled.span`
     margin-right:10px;
 `;
 
+const Count =styled.span`
+    border-radius:24px;
+    margin-left:10px;
+    margin-right:10px;
+    padding:1px 6px;
+    background:gray;
+    color:white;
+`;
+
 /**
  * 可折叠面板
  * @param {*} param0 
@@ -42,7 +51,7 @@ export class ExpandPanel extends Component {
 
     render() {
         const { isExpand } = this.state;
-        const { children, title } = this.props;
+        const { children, title,count } = this.props;
         return (
             <div>
                 <Div onDoubleClick={this.handleDoubleClick}>
@@ -50,10 +59,10 @@ export class ExpandPanel extends Component {
                         <FontAwesomeIcon icon={isExpand === true ? arrowDown : arrowRight} size='xs' />
                     </Arrow>
                     <Label>{title}</Label>
+                    {count && <Count>{count}</Count>}
                 </Div>
                 {isExpand===true && children}
             </div>
-
         )
     }
 }

@@ -5,11 +5,21 @@ import { customerActions } from '../actions';
 import { appContext } from '../../util';
 import Rx from 'rx';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-// import { StaffContextMenu } from './StaffContextMenu';
 import { isEqual, groupBy } from 'lodash';
 import { ExpandPanel } from '../../controls';
 const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 
+
+const CustomerContextMenu = ({ dispatch }) => {
+    const handleOpenChatClick = (e, data, target) => {
+        const customer = JSON.parse(target.getAttribute('customerdata'));
+        alert(customer.CustomerName);
+    }
+    return (
+        <ContextMenu id={CUSTOMER_CONTEXTMENU_ID}>
+            <MenuItem onClick={handleOpenChatClick}>发起聊天</MenuItem>
+        </ContextMenu>)
+}
 
 
 
@@ -18,10 +28,8 @@ const CustomerUl = styled.ul`
    width:100vh;
   `;
 
-const GroupUl = styled(CustomerUl)``;
-
 const AvatarSpan = styled.span`
-    cursor:pointer;
+
     background-image:${props => {
         const url = props.AvataUrl;
         return `url(${url})`;
@@ -30,7 +38,7 @@ const AvatarSpan = styled.span`
     height:24px;
     vertical-align:middle;
     width: 24px;
-    border-radius:3px;
+    border-radius:2px;
     background-repeat:no-repeat;
     background-size:cover;
     margin-right:5px;
@@ -42,7 +50,7 @@ const CustomerLi = styled.li`
     padding:5px 10px;
     outline:none;
     text-align:left;
-    margin-left:${props => props.hasGroup ? '-5px' : '-45px'} ;
+    /* margin-left:${props => props.hasGroup ? '-5px' : '-45px'} ; */
 
     &:hover{
         background-color: #DEDBDA;
@@ -51,15 +59,23 @@ const CustomerLi = styled.li`
     color: gray;
   `;
 
-const CustomerGroupDiv = styled.div`
+const DepartmentDiv = styled.div`
+    margin-left:-35px;
+`;
+
+const CategoryDiv = styled.div`
     margin-left:-40px;
+`;
+
+const MyCustomersDiv = styled.div`
+    margin-left:5px;
 `;
 
 
 const CustomerNameSpan = styled.span`
-   
      max-width: 75px;
      width:75px;
+     color:black;
      vertical-align:middle;
      display:inline-block;
      overflow:hidden;
@@ -68,54 +84,75 @@ const CustomerNameSpan = styled.span`
      cursor:default;
      margin-left:10px;
      margin-right:10px;
-     &:hover{
-         color:black;
-     };
+    
 `;
 
-const Customer = ({ value }) => {
-    const { CustomerAvataUrl, CustomerName, GroupName } = value;
+/**
+ * 客户项
+ * @param {*} param0 
+ */
+const Customer = ({ data }) => {
+    const { CustomerAvataUrl, CustomerName } = data;
     return (
-        <CustomerLi >
-            <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ data: JSON.stringify(value) }}>
+        <CustomerLi title={CustomerName}>
+            <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ customerdata: JSON.stringify(data) }}>
                 <AvatarSpan AvataUrl={CustomerAvataUrl} />
-
-                <CustomerNameSpan>{CustomerName}</CustomerNameSpan>
-
+                <CustomerNameSpan >{CustomerName}</CustomerNameSpan>
             </ContextMenuTrigger>
         </CustomerLi>)
 }
 
-const CustomerGroup = ({ customers }) => {
-    const groupName = customers[0].GroupName;
+/**
+ * 部门
+ * @param {*} param0 
+ */
+const Department = ({ customers }) => {
+    const department = customers[0].DepartmentName;
     return (
-        <CustomerGroupDiv>
-            {groupName &&
-                <ExpandPanel title={customers[0].GroupName}>
+        <DepartmentDiv>
+            {department &&
+                <ExpandPanel title={customers[0].GroupName} count={customers.length}>
                     {customers.map(item => <Customer key={item.StaffId} data={item} />)}
                 </ExpandPanel>}
-            {groupName == null &&
+            {department == null &&
                 <CustomerUl>
                     {customers.map(item => <Customer key={item.StaffId} data={item} />)}
                 </CustomerUl>}
-        </CustomerGroupDiv>
+        </DepartmentDiv>
     )
 }
 
-const ProudctCategory = ({ customers }) => {
-    const productName = customers[0].ProductName;
+/**
+ * 我的客户
+ * @param {*} param0 
+ */
+const MyCustomers = ({ customers }) => {
+
     return (
-        <CustomerGroupDiv>
-
-            <ExpandPanel title={productName}>
-                {customers.map(item => <Customer key={item.CustomerId} data={item} />)}
+        <MyCustomersDiv>
+            <ExpandPanel title={'我的客户'} count={customers.length}>
+                {customers.map(customer => <Customer key={customer.CustomerId} data={customer} />)}
             </ExpandPanel>
-
-        </CustomerGroupDiv>
+        </MyCustomersDiv>
     )
 }
 
-
+/**
+ * 产品大类
+ * @param {*} param0 
+ */
+const Category = ({ customers }) => {
+    const productName = customers[0].ProductName;
+    const departments = Object.values(groupBy(customers, 'DepartmentName'));
+    return (
+        <CategoryDiv key={productName}>
+            <ExpandPanel title={productName} count={customers.length}>
+                <MyCustomers customers={customers} />
+                {departments && !departments.some(x => x.some(y => y.DepartmentName == null)) && departments.map(department => <Department key={department[0].DepartmentName} customers={department} />)}
+            </ExpandPanel>
+        </CategoryDiv>
+    )
+}
 
 
 class CustomerList extends Component {
@@ -131,7 +168,15 @@ class CustomerList extends Component {
 
     componentDidMount() {
         if (appContext.currentStaff != null) {
+            this.loadCustomers();
             this.subscribeRelationMappingList();
+        }
+    }
+
+    loadCustomers=()=>{
+        if (appContext.currentStaff != null) {
+            const { dispatch } = this.props;
+            dispatch(customerActions.fetchCustomerRelationMappingList());
         }
     }
 
@@ -145,11 +190,8 @@ class CustomerList extends Component {
             .timeInterval();
         this.subscription = source.subscribe(
             () => {
-                if (appContext.currentStaff != null) {
-                    const { dispatch } = this.props;
-                    dispatch(customerActions.fetchCustomerRelationMappingList());
-                }
-                else {
+                   this.loadCustomers();
+                if(appContext.currentStaff==null) {
                     this.subscription.dispose();
                 }
             },
@@ -163,28 +205,18 @@ class CustomerList extends Component {
 
 
     render() {
-        console.log('do render customerlist');
-        const { relationMappingList } = this.props;
+        const { relationMappingList, dispatch } = this.props;
         const categories = relationMappingList ? Object.values(groupBy(relationMappingList, 'ProductName')) : [];
-        console.log(relationMappingList);
+      
         return (
-
-
-
-            <ExpandPanel title>
-                <div>
-                    {relationMappingList &&
-                        <ul>
-                            {categories.map(category => <ProudctCategory customers={category} />)}
-                        </ul>}
-                </div>
-
-            </ExpandPanel>
-
-
-        );
-    }
+            <div>
+                {categories && <ul> {categories.map(category => <Category customers={category} key={category[0].ProductName}/>)} </ul>}
+                <CustomerContextMenu dispatch={dispatch} contextMenuId={CUSTOMER_CONTEXTMENU_ID} />
+            </div>)
+    };
 }
+
+
 
 const mapStateToProps = state => {
     const { relationMappingList } = state.customer;
@@ -194,6 +226,6 @@ const mapStateToProps = state => {
 const page = connect(mapStateToProps, null)(CustomerList);
 
 /**
- * CustomerList实例
+ * 客户列表
  */
 export { page as CustomerList };

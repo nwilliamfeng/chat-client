@@ -47,7 +47,7 @@ class AssignCustomerList extends Component {
 
     handleOpenChat= customer=> {
         const {dispatch} =this.props;
-        dispatch(chatActions.openCustomerChat(customer));
+        dispatch(chatActions.openAssignedCustomerChat(customer));
      }
 
     sortCustomerList(customers) {

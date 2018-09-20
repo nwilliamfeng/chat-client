@@ -6,8 +6,8 @@ export const chatReducer = (state = {}, action) => {
     case constants.OPEN_CHAT:
       return {
         ...state,
-        selectedChat: action.selectedChat,
-        chats: action.chats,
+        chats:[...state.chats ,action.newChat],
+      
       };
 
     case constants.CLOSE_CHAT:

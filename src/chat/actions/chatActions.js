@@ -10,9 +10,14 @@ import {  appContext } from '../../util';
 export const chatActions = {
 
     /**
-     * 开始打开会话
+     * 打开已分配的客户会话
      */
-    openCustomerChat,
+    openAssignedCustomerChat,
+
+    /**
+     * 打开自己客户会话
+     */
+    openMyCustomerChat,
  
     /**
      * 初始化
@@ -64,6 +69,12 @@ function closeAllChats(){
     }
 }
 
+function openMyCustomerChat(customer){
+    return async dispatch => {
+        const newChat =await chatService.createChat(customer);
+        dispatch({type:constants.OPEN_CHAT,newChat});    
+    }
+}
  
 /**
  * 关闭指定的会话
@@ -102,7 +113,7 @@ function activeChatPage(channelId,page){
 /**
  * 开始打开客户会话action
  */
-function openCustomerChat(customer) {
+function openAssignedCustomerChat(customer) {
     return async dispatch => {
         const newChat =await chatService.createChat(customer);
         dispatch({type:constants.OPEN_CHAT,selectedChat:newChat,chats:chatService.chats});    

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { appContext } from '../../util';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faStar } from '@fortawesome/free-solid-svg-icons';
+import {  faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as fastar2 } from '@fortawesome/free-regular-svg-icons';
 import { StaffContextMenu } from './StaffContextMenu';
 import { isEqual, groupBy } from 'lodash';
@@ -12,21 +12,20 @@ import { ExpandPanel } from '../../controls';
 import Rx from 'rx';
 import { loginStates } from '../../auth/constants';
 import { staffActions } from '../actions';
-
+import AvatarImg from '../../assets/imgs/avatar.png';
 const STAFF_CONTEXTMENU_ID = 'SELF_STAFF_CONTEXTMENU_ID';
 const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID';
-
+ 
 
 /**
  * staff自定义ul
  */
-const StaffUl = styled.ul`
+const GroupUl = styled.ul`
    list-style: none;
    width:100vh;
   `;
 
-const GroupUl = styled(StaffUl)``;
-
+ 
 /**
  * staff自定义li
  */
@@ -34,19 +33,17 @@ const StaffLi = styled.li`
     padding:5px 10px;
     outline:none;
     text-align:left;
-    margin-left:${props=>props.hasGroup?'-5px':'-45px'} ;
+    margin-left:${props => props.hasGroup ? '0px' : '-40px'} ;
 
     &:hover{
         background-color: #DEDBDA;
     };
-    &:hover ${Avata} {
-        color: orangered; 
-    }
+   
     color: gray;
   `;
 
 const StaffGroupDiv = styled.div`
-    margin-left:-40px;
+    margin-left:-35px;
 `;
 
 /**
@@ -75,10 +72,7 @@ const Star = styled(FontAwesomeIcon)`
     text-align:right;
 `;
 
-const Avata = styled(FontAwesomeIcon)`
-   
-`;
-
+ 
 /**
  * 会话数组件
  * @param {*} param0 
@@ -94,17 +88,37 @@ const ChatCounter = ({ count }) => {
     return result;
 }
 
+
+const AvatarSpan = styled.span`
+
+      background-image:${props => 
+    {
+        const url =props.avataUrl? props.avataUrl: AvatarImg;
+        return `url(${url})`;
+    }};
+    background-size:  100% 100% ;
+    height:24px;
+    vertical-align:middle;
+    width: 24px;
+    border-radius:2px;
+    background-repeat:no-repeat;
+    background-size:cover;
+    margin-right:5px;
+    display:inline-block;
+`;
+
+
 /**
- * 客服项
+ * 客服
  */
-const StaffItem = ({ data }) => {
-    const { StaffName, AssignedCustomerNumber, StaffId,GroupName } = data;
+const Staff = ({ data }) => {
+    const { StaffName, AssignedCustomerNumber, StaffId, GroupName ,AvataUrl} = data;
     const isSelf = StaffId === appContext.currentStaff.StaffId;
     return (
-        <StaffLi hasGroup={GroupName!=null}>
-            <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ staffdata: JSON.stringify(data) }}>
-                <Avata icon={faUser} />
-                <StaffNameSpan title={StaffName} isSelf={isSelf}>{StaffName}</StaffNameSpan>
+        <StaffLi hasGroup={GroupName != null} title={StaffName}>
+            <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ 'staffjson': JSON.stringify(data) }}>
+                <AvatarSpan avataUrl={AvataUrl} />
+                <StaffNameSpan  isSelf={isSelf}>{StaffName}</StaffNameSpan>
                 <ChatCounter count={AssignedCustomerNumber} />
             </ContextMenuTrigger>
         </StaffLi>)
@@ -116,16 +130,13 @@ const StaffItem = ({ data }) => {
  */
 const StaffGroup = ({ staffs }) => {
     const groupName = staffs[0].GroupName;
+
     return (
-        <StaffGroupDiv>
+        <StaffGroupDiv key={groupName}>
             {groupName &&
-                <ExpandPanel title={staffs[0].GroupName}>
-                    {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
+                <ExpandPanel title={staffs[0].GroupName} count={staffs.length}>
+                    {staffs.map(item => <Staff key={item.StaffId} data={item} />)}
                 </ExpandPanel>}
-            {groupName==null &&
-                <StaffUl>
-                    {staffs.map(item => <StaffItem key={item.StaffId} data={item} />)}
-                </StaffUl>}
         </StaffGroupDiv>
     )
 }
@@ -135,8 +146,8 @@ const StaffGroup = ({ staffs }) => {
  * @param {*} param0 
  */
 export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
-    const handleContextMenuClick = ({ target }) => {
-        const staff = JSON.parse(target.getAttribute('staffdata'));
+    const handleContextMenuClick = (e,data,target ) => {      
+        const staff = JSON.parse(target.getAttribute('staffjson'));
         alert(staff.StaffName);
     }
     return (
@@ -147,7 +158,6 @@ export const OtherStaffContextMenu = ({ contextMenuId, dispatch }) => {
 }
 
 const ContainerDiv = styled.div`
-   
 `;
 
 class StaffList extends Component {
@@ -156,7 +166,6 @@ class StaffList extends Component {
         super(props);
     }
 
-
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return !isEqual(this.props.staffs, nextProps.staffs); //如果是客服列表相同则跳过
     }
@@ -164,6 +173,7 @@ class StaffList extends Component {
     componentDidMount() {
         const { loginState } = this.props;
         if (loginState != null && loginState === loginStates.LOGGED_IN) {
+            this.loadStaffs();
             this.subscribeStaffList();
         }
     }
@@ -183,21 +193,25 @@ class StaffList extends Component {
         }
     }
 
+    loadStaffs=()=>{
+        if (appContext.currentStaff != null) {
+            const { dispatch } = this.props;
+            dispatch(staffActions.fetchStaffList());
+        }
+    }
+
     subscribeStaffList = () => {
         const source = Rx.Observable
             .interval(3000 /* ms */)
             .timeInterval();
         this.subscription = source.subscribe(
             () => {
-                if (appContext.currentStaff != null) {
-                    const { dispatch } = this.props;
-                    dispatch(staffActions.fetchStaffList());
-                }
-                else {
+                this.loadStaffs();
+                if(appContext.currentStaff==null) {
                     this.subscription.dispose();
                 }
             },
-            (err) => {
+            err => {
                 console.log('Error: ' + err);
             },
             () => {
@@ -207,14 +221,20 @@ class StaffList extends Component {
 
     render() {
         const { staffs, dispatch } = this.props;
-        const groups = staffs ? Object.values(groupBy(staffs,'GroupName')) : [];
+        const groups = staffs ? Object.values(groupBy(staffs.filter(x => x.GroupName), 'GroupName')) : null;
+        const noGroupStaffs = staffs ? staffs.filter(x => x.GroupName == null) : null;
         const staffCount = staffs ? staffs.length : 0;
         return (
             <ContainerDiv>
-                <ExpandPanel title={`部门-组别 (${staffCount})`} >
-                    <GroupUl>
-                        {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupID}/>)}
-                    </GroupUl>
+                <ExpandPanel title={'部门-组别'} count={staffCount}>
+                    {noGroupStaffs &&
+                        <GroupUl>
+                            {noGroupStaffs.map(staff => <Staff data={staff} key={staff.StaffId} />)}
+                        </GroupUl>}
+                    {groups &&
+                        <GroupUl>
+                            {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupId} />)}
+                        </GroupUl>}
                 </ExpandPanel>
 
                 <StaffContextMenu dispatch={dispatch} contextMenuId={STAFF_CONTEXTMENU_ID} />
