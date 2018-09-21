@@ -19,7 +19,7 @@ const Label =styled.label`
 
 
 const Arrow = styled.span`  
-    margin-right:10px;
+    margin-right:${props=>props.isExpand? '7px':'10px'};
 `;
 
 const Count =styled.span`
@@ -38,24 +38,33 @@ const Count =styled.span`
 export class ExpandPanel extends Component {
     constructor(props) {
         super(props);
+        const {isExpand,panelId}=props;
+        console.log(props);
         this.state = {
-            isExpand: false,//是否展开状态
+            isExpand,//是否展开状态
+            panelId,
         }
     }
 
     handleDoubleClick = () => {
-        const {isExpand} =this.state;
-        this.setState({isExpand:!isExpand});
+        const {panelId, isExpand} =this.state;
+        const nwValue=!isExpand;
+        this.setState({isExpand:nwValue});
+        const {expandHandle} =this.props;
+        if(expandHandle!=null){
+            expandHandle(panelId, nwValue);
+        }
     }
 
 
     render() {
         const { isExpand } = this.state;
+        console.log("render? "+isExpand);
         const { children, title,count } = this.props;
         return (
             <div>
                 <Div onDoubleClick={this.handleDoubleClick}>
-                    <Arrow onClick={this.handleDoubleClick}>
+                    <Arrow onClick={this.handleDoubleClick} isExpand={isExpand}>
                         <FontAwesomeIcon icon={isExpand === true ? arrowDown : arrowRight} size='xs' />
                     </Arrow>
                     <Label>{title}</Label>

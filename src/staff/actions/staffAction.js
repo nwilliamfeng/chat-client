@@ -14,7 +14,7 @@ export const staffActions = {
      */
     fetchStaffList,
 
-    
+    changeExpandState,
 }
 
  
@@ -28,6 +28,12 @@ function fetchStaffList() {
         if (RetCode === 1) {
             dispatch({ type: constants.Get_STAFF_LIST_SUCCESS, staffs: Data });
         }
+    }
+}
+
+function changeExpandState(panelId,isExpand){
+    return dispatch=>{
+        dispatch({type:constants.EXPAND_STATE_CHANGE,panelId,isExpand});
     }
 }
 

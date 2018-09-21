@@ -17,7 +17,7 @@ export const chatActions = {
     /**
      * 打开自己客户会话
      */
-    openMyCustomerChat,
+    chatWithMyCustomer,
  
     /**
      * 初始化
@@ -69,8 +69,9 @@ function closeAllChats(){
     }
 }
 
-function openMyCustomerChat(customer){
+function chatWithMyCustomer(customer){
     return async dispatch => {
+        //todo-- 这里需要chat服务类实现业务逻辑
         const newChat =await chatService.createChat(customer);
         dispatch({type:constants.OPEN_CHAT,newChat});    
     }

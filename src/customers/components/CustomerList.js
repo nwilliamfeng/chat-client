@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { customerActions } from '../actions';
+import {chatActions} from '../../chat/actions';
 import { appContext } from '../../util';
 import Rx from 'rx';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
@@ -13,15 +14,14 @@ const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
 const CustomerContextMenu = ({ dispatch }) => {
     const handleOpenChatClick = (e, data, target) => {
         const customer = JSON.parse(target.getAttribute('customerdata'));
-        alert(customer.CustomerName);
+        //alert(customer.CustomerName);
+        dispatch(chatActions.chatWithMyCustomer(customer));
     }
     return (
         <ContextMenu id={CUSTOMER_CONTEXTMENU_ID}>
             <MenuItem onClick={handleOpenChatClick}>发起聊天</MenuItem>
         </ContextMenu>)
 }
-
-
 
 const CustomerUl = styled.ul`
    list-style: none;
@@ -67,9 +67,6 @@ const CategoryDiv = styled.div`
     margin-left:-40px;
 `;
 
-const MyCustomersDiv = styled.div`
-    margin-left:5px;
-`;
 
 
 const CustomerNameSpan = styled.span`
@@ -122,6 +119,8 @@ const Department = ({ customers }) => {
     )
 }
 
+
+
 /**
  * 我的客户
  * @param {*} param0 
@@ -129,11 +128,11 @@ const Department = ({ customers }) => {
 const MyCustomers = ({ customers }) => {
 
     return (
-        <MyCustomersDiv>
-            <ExpandPanel title={'我的客户'} count={customers.length}>
-                {customers.map(customer => <Customer key={customer.CustomerId} data={customer} />)}
-            </ExpandPanel>
-        </MyCustomersDiv>
+
+        <ExpandPanel title={'我的客户'} count={customers.length}>
+            {customers.map(customer => <Customer key={customer.CustomerId} data={customer} />)}
+        </ExpandPanel>
+
     )
 }
 
@@ -173,7 +172,7 @@ class CustomerList extends Component {
         }
     }
 
-    loadCustomers=()=>{
+    loadCustomers = () => {
         if (appContext.currentStaff != null) {
             const { dispatch } = this.props;
             dispatch(customerActions.fetchCustomerRelationMappingList());
@@ -190,8 +189,8 @@ class CustomerList extends Component {
             .timeInterval();
         this.subscription = source.subscribe(
             () => {
-                   this.loadCustomers();
-                if(appContext.currentStaff==null) {
+                this.loadCustomers();
+                if (appContext.currentStaff == null) {
                     this.subscription.dispose();
                 }
             },
@@ -207,10 +206,10 @@ class CustomerList extends Component {
     render() {
         const { relationMappingList, dispatch } = this.props;
         const categories = relationMappingList ? Object.values(groupBy(relationMappingList, 'ProductName')) : [];
-      
+
         return (
             <div>
-                {categories && <ul> {categories.map(category => <Category customers={category} key={category[0].ProductName}/>)} </ul>}
+                {categories && <ul> {categories.map(category => <Category customers={category} key={category[0].ProductName} />)} </ul>}
                 <CustomerContextMenu dispatch={dispatch} contextMenuId={CUSTOMER_CONTEXTMENU_ID} />
             </div>)
     };

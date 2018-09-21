@@ -1,4 +1,4 @@
-
+import {uniqueId} from 'lodash';
 //import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 
 
@@ -14,11 +14,9 @@ class ChatService {
     async createChat(customer,otherparm=null){
         const newChat ={
             customer, //当前的客户
-            channelId:this._chats.length+1, //对应的频道Id
-        
-           // messages:[], //持有的消息集合
-         //   historyMessages:[],//历史消息集合
-
+            channelId:uniqueId('chat_'), //对应的频道Id
+            beginTime:Date.now(),
+            endTime:null,
         };
         this._chats.push(newChat);
         return newChat;

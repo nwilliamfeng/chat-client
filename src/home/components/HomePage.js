@@ -70,7 +70,7 @@ const NavibarContainer = styled.div`
  * 搜索框容器
  */
 const SearchBoxContainer = styled.div`
-   margin:20px 5px 0px 20px;
+   margin:12px 5px 0px 20px;
 `;
 
 const DetailContainer = styled.div`

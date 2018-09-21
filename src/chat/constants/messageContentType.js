@@ -1,3 +1,6 @@
+/**
+ * 消息内容类型
+ */
 export const messageContentType={
 
     UNKONWN:0,

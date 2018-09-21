@@ -1,5 +1,5 @@
 import { constants } from '../constants';
-import { messageService } from '../api';
+import { messageService,historyMessageService } from '../api';
 import {  appContext } from '../../util';
 import { dateUtil } from '../../util/date';
  
@@ -25,7 +25,7 @@ function getHistoryMessages(customerId){
     //appkey, customerID, DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd"), 1,1, 1, 50
     const startTime=dateUtil.dateFormat( dateUtil.substactDays(7),'yyyy-MM-dd');
     return async dispatch =>{
-      const historyResult= await messageService.getMessagesByCustomerId(customerId,startTime,1,1,1,10,appContext.appKeys[0]);
+      const historyResult= await historyMessageService.getMessagesByCustomerId(customerId,startTime,1,1,1,10,appContext.appKeys[0]);
       dispatch({type:constants.LOAD_HISTORY_MESSAGE,historyResult});
     }
 }
@@ -39,7 +39,7 @@ function getRecentMessages(channelId,pageIdx=1){
     const startTime=dateUtil.dateFormat( dateUtil.substactDays(7),'yyyy-MM-dd');
     const sortOrder=0;//按时间升序
     return async dispatch =>{
-      const data= await messageService.getMessagesByCustomerId(channelId,startTime,1,sortOrder,pageIdx,10,appContext.appKeys[0]);
+      const data= await historyMessageService.getMessagesByCustomerId(channelId,startTime,1,sortOrder,pageIdx,10,appContext.appKeys[0]);
       dispatch({type:constants.LOAD_OFFLINE_MESSAGE,data});
     }
 }

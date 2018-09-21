@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { chatActions } from '../actions';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader';
+import {isEqual} from 'lodash';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
  
 
@@ -13,8 +14,7 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const { chats } = nextProps;
-        return chats != null;
+        return !isEqual(this.props.chats,nextProps.chats);
     }
 
     handleCloseChat = (e, data, target) => {
@@ -68,18 +68,12 @@ class ChatList extends Component {
         dispatch(chatActions.selectChat(chat));
     }
 
-    isSelectedChat(chat) {
+    isSelectedChat=chat=> {
         const { selectedChat } = this.props;
         return selectedChat != null && selectedChat.channelId === chat.channelId;
     }
 
-    renderItems(){
-        let result =[];
-        for(let i=0;i<200;i++){
-            result.push(<div style={{padding:5,color:'pink'}}>{'this is chat no:'+i}</div>);
-        }
-        return result;
-    }
+    
 
     render() {
         console.log('do render chatlist');
@@ -88,8 +82,8 @@ class ChatList extends Component {
 
             <div  >
 
-                {this.renderItems()}
-                    {/* {chats &&
+                
+                    {chats &&
                         <ul className="list-group list-group-hover" style={{ background: 'transparent' }}>
                             {chats.map((item) => (
                                 <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)} />
@@ -101,7 +95,7 @@ class ChatList extends Component {
                         <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
                         <MenuItem divider />
                         <MenuItem onClick={this.handleCloseChat}>关闭</MenuItem>
-                    </ContextMenu> */}
+                    </ContextMenu>
 
                
             </div>
@@ -126,6 +120,6 @@ function mapStateToProps(state) {
 const page = connect(mapStateToProps, null)(ChatList);
 
 /**
- * ChatList实例
+ * 会话列表
  */
 export { page as ChatList };

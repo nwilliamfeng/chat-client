@@ -1,12 +1,12 @@
 import { constants } from '../constants';
 
-export const chatReducer = (state = {}, action) => {
+export const chatReducer = (state = {chats:[]}, action) => {
   switch (action.type) {
 
     case constants.OPEN_CHAT:
       return {
         ...state,
-        chats:[...state.chats ,action.newChat],
+        chats:[action.newChat,...state.chats],
       
       };
 
