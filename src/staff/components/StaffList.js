@@ -34,7 +34,7 @@ const StaffLi = styled.li`
     outline:none;
     text-align:left;
     margin-left:${props => props.hasGroup ? '0px' : '-40px'} ;
-
+    padding-left:${props => props.hasGroup ? '15px' : '10px'} ;
     &:hover{
         background-color: #DEDBDA;
     };
@@ -43,12 +43,10 @@ const StaffLi = styled.li`
   `;
 
 const StaffGroupDiv = styled.div`
-    margin-left:-40px;   
+    margin-left:-40px;     
 `;
 
-const Panel = styled(ExpandPanel)`
-    margin-left: 5px;
-`;
+ 
 
 /**
  * 客服名称span
@@ -131,15 +129,15 @@ const Staff = ({ data }) => {
  * 客服组
  * @param {*} param0 
  */
-const StaffGroup = ({ staffs }) => {
+const StaffGroup = ({ staffs ,isExpand,panelId,expandHandle}) => {
     const groupName = staffs[0].GroupName;
 
     return (
         <StaffGroupDiv key={groupName}>
             {groupName &&
-                <Panel title={staffs[0].GroupName} count={staffs.length}>
+                <ExpandPanel title={staffs[0].GroupName} count={staffs.length} isChild={true} isExpand={isExpand} panelId={panelId} expandHandle={expandHandle}>
                     {staffs.map(item => <Staff key={item.StaffId} data={item} />)}
-                </Panel>}
+                </ExpandPanel>}
         </StaffGroupDiv>
     )
 }
@@ -252,7 +250,7 @@ class StaffList extends Component {
                         </GroupUl>}
                     {groups &&
                         <GroupUl>
-                            {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupId} />)}
+                            {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupId}  isExpand={this.getExpandState('staffGroup_'+group[0].GroupId)}  expandHandle={this.handleExpandState} panelId={'staffGroup_'+ group[0].GroupId}/>)}
                         </GroupUl>}
                 </ExpandPanel>
 

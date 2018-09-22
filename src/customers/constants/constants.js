@@ -11,6 +11,11 @@ export const constants={
 
  
     Get_CUSTOMER_RELATION_MAPPING_SUCCESS:'Get_CUSTOMER_RELATION_MAPPING_SUCCESS',
+
+      /**
+     * ui状态
+     */
+    CUSTOMER_EXPAND_STATE_CHANGE:'CUSTOMER_EXPAND_STATE_CHANGE',
     
 }
 

@@ -13,7 +13,7 @@ export const staffReducer = (state = initState, action) => {
         staffs: action.staffs,
       };
 
-    case constants.EXPAND_STATE_CHANGE:
+    case constants.STAFF_EXPAND_STATE_CHANGE:
       let {expandStates}=state;
       let exist=expandStates.find(x=>x.panelId===action.panelId);
       if(exist==null){

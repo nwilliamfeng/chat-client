@@ -12,7 +12,10 @@ export const constants={
     Get_STAFF_LIST_SUCCESS:'Get_STAFF_LIST_SUCCESS',
 
 
-    EXPAND_STATE_CHANGE:'EXPAND_STATE_CHANGE',
+    /**
+     * ui状态
+     */
+    STAFF_EXPAND_STATE_CHANGE:'STAFF_EXPAND_STATE_CHANGE',
 
     
 }

@@ -33,7 +33,7 @@ function fetchStaffList() {
 
 function changeExpandState(panelId,isExpand){
     return dispatch=>{
-        dispatch({type:constants.EXPAND_STATE_CHANGE,panelId,isExpand});
+        dispatch({type:constants.STAFF_EXPAND_STATE_CHANGE,panelId,isExpand});
     }
 }
 

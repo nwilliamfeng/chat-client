@@ -7,14 +7,15 @@ import { faChevronRight as arrowRight, faChevronDown as arrowDown } from '@forta
 const Div = styled.div`
     padding:1px 5px;
     width:100vh;
+    padding-left:${props=>props.isChild? '10px':'5px'};
     &:hover{
         color: orangered;
-        background-color:lightgray;
+        background-color:#DEDBDA;
     }
 `;
 
 const Label =styled.label`
-    margin-top:2px;
+    margin-top:1px;
 `;
 
 
@@ -23,12 +24,14 @@ const Arrow = styled.span`
 `;
 
 const Count =styled.span`
-    border-radius:24px;
+    border-radius:32px;
     margin-left:10px;
     margin-right:10px;
-    padding:1px 6px;
+    padding:1px 4px;
     background:gray;
     color:white;
+    font-size:10px;
+    vertical-align:middle;
 `;
 
 /**
@@ -60,10 +63,10 @@ export class ExpandPanel extends Component {
     render() {
         const { isExpand } = this.state;
         console.log("render? "+isExpand);
-        const { children, title,count } = this.props;
+        const { children, title,count,isChild } = this.props;
         return (
             <div>
-                <Div onDoubleClick={this.handleDoubleClick}>
+                <Div onDoubleClick={this.handleDoubleClick} isChild={isChild}>
                     <Arrow onClick={this.handleDoubleClick} isExpand={isExpand}>
                         <FontAwesomeIcon icon={isExpand === true ? arrowDown : arrowRight} size='xs' />
                     </Arrow>

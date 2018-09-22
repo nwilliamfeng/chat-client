@@ -18,7 +18,10 @@ export const customerActions = {
      */
     fetchCustomerRelationMappingList,
 
-
+    /**
+     * 更改面板状态
+     */
+    changeExpandState,
 }
 
 /**
@@ -59,7 +62,11 @@ function fetchCustomerRelationMappingList() {
 }
 
 
- 
+function changeExpandState(panelId,isExpand){
+    return dispatch=>{
+        dispatch({type:constants.CUSTOMER_EXPAND_STATE_CHANGE,panelId,isExpand});
+    }
+}
  
 
 
