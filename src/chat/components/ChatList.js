@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { chatActions } from '../actions';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import { ChatHeader } from './ChatHeader';
-import {isEqual} from 'lodash';
+import { isEqual } from 'lodash';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
- 
+
+
+const ListUl = styled.ul`
+   list-style: none;
+   width:100vh;
+   background-color:transparent;
+  `;
+
 
 class ChatList extends Component {
 
@@ -14,7 +22,7 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return !isEqual(this.props.chats,nextProps.chats);
+        return !isEqual(this.props.chats, nextProps.chats);
     }
 
     handleCloseChat = (e, data, target) => {
@@ -68,36 +76,31 @@ class ChatList extends Component {
         dispatch(chatActions.selectChat(chat));
     }
 
-    isSelectedChat=chat=> {
+    isSelectedChat = chat => {
         const { selectedChat } = this.props;
         return selectedChat != null && selectedChat.channelId === chat.channelId;
     }
 
-    
+
 
     render() {
         console.log('do render chatlist');
         const { chats } = this.props;
         return (
-
             <div  >
+                {chats &&
+                    <ListUl>
+                        {chats.map((item) => (
+                            <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)} />
+                        ))}
+                    </ListUl>
+                }
 
-                
-                    {chats &&
-                        <ul className="list-group list-group-hover" style={{ background: 'transparent' }}>
-                            {chats.map((item) => (
-                                <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)} />
-                            ))}
-                        </ul>
-                    }
-
-                    <ContextMenu id={CHAT_LIST_CONTEXTMENU_ID}>
-                        <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
-                        <MenuItem divider />
-                        <MenuItem onClick={this.handleCloseChat}>关闭</MenuItem>
-                    </ContextMenu>
-
-               
+                <ContextMenu id={CHAT_LIST_CONTEXTMENU_ID}>
+                    <MenuItem onClick={this.handleContextMenuClick}>转接</MenuItem>
+                    <MenuItem divider />
+                    <MenuItem onClick={this.handleCloseChat}>关闭</MenuItem>
+                </ContextMenu>
             </div>
 
         );

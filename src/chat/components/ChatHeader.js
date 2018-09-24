@@ -1,8 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
-require('../../assets/styles/li.css');
+//require('../../assets/styles/li.css');
 
+
+const HeaderLi = styled.li`
+    padding:0px;
+    outline:none;
+    text-align:left;
+    margin-left:-40px;
+    &:hover{
+        background-color: #DEDBDA;
+    };
+    
+  `;
 
 const headerStyle = {
     display: 'table-cell',
@@ -128,7 +140,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
         onSelectChat(chat);
     }
     return (
-        <li style={liStyle} className='list-group-item' onClick={onClick}>
+        <HeaderLi  onClick={onClick}>
             <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={getAttributes(chat)}>
                 <div style={getChatStyle(isSelected)}>
                     <div style={headerStyle}>
@@ -148,6 +160,6 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
                 
                 </div>
             </ContextMenuTrigger>
-        </li>
+        </HeaderLi>
     )
 }
