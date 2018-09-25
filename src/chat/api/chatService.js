@@ -12,13 +12,17 @@ class ChatService {
     }
 
     async createChat(customer,otherparm=null){
+        const exist =this._chats.find(x=> x.customer.CustomerId===customer.CustomerId);
+        if(exist!=null){
+            return exist;
+        }
+
         const newChat ={
             customer, //当前的客户
             channelId:uniqueId('chat_'), //对应的频道Id
-            beginTime:Date.now(),
-            endTime:null,
-        };
+        };        
         this._chats.push(newChat);
+        
         return newChat;
     }
    

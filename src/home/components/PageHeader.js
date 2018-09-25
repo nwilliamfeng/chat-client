@@ -18,7 +18,7 @@ const getIcon = (isSelect, page) => {
     }
 }
 
-getIcon.prototype = {
+getIcon.propTypes = {
     isSelect: PropTypes.bool.isRequired,
     page: PropTypes.oneOf([pageType.CHAT, pageType.CUSTOMER_LIST]).isRequired,
 }
@@ -56,7 +56,7 @@ export const PageHeader = ({ isSelect, page, onClick }) => {
     return (<Li title={getTooltip(page)} isSelect={isSelect} onClick={handleClick} > <FontAwesomeIcon icon={getIcon(isSelect, page)} /> </Li>)
 }
 
-PageHeader.prototype = {
+PageHeader.propTypes = {
     isSelect: PropTypes.bool.isRequired,
     page: PropTypes.oneOf([pageType.CHAT, pageType.CUSTOMER_LIST]).isRequired,
     onClick: PropTypes.func.isRequired,

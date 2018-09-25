@@ -22,7 +22,16 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return !isEqual(this.props.chats, nextProps.chats);
+        if( !isEqual(this.props.chats, nextProps.chats)){
+            return true;
+        }
+        if( !isEqual(this.props.selectedChat,nextProps.selectedChat)){
+            return true;
+        }
+        //todo-- 任何会话收到消息都得更新
+
+        return false;
+
     }
 
     handleCloseChat = (e, data, target) => {
@@ -48,7 +57,6 @@ class ChatList extends Component {
             return;
         }
 
-
         let idx = chats.indexOf(selectedChat) + (next === true ? 1 : -1);
         if (idx < 0) {
             idx = chats.length - 1;
@@ -65,8 +73,6 @@ class ChatList extends Component {
         dispatch(chatActions.initChats());
     }
 
-
-
     handleSelectChat = chat => {
         const { dispatch, selectedChat } = this.props;
         //如果是同一个会话则返回
@@ -81,13 +87,11 @@ class ChatList extends Component {
         return selectedChat != null && selectedChat.channelId === chat.channelId;
     }
 
-
-
     render() {
         console.log('do render chatlist');
         const { chats } = this.props;
         return (
-            <div  >
+            <div>
                 {chats &&
                     <ListUl>
                         {chats.map((item) => (
@@ -102,19 +106,15 @@ class ChatList extends Component {
                     <MenuItem onClick={this.handleCloseChat}>关闭</MenuItem>
                 </ContextMenu>
             </div>
-
         );
     }
 }
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
-
     return {
         chats,
         selectedChat,
-
-
     }
 }
 

@@ -46,7 +46,7 @@ const StaffGroupDiv = styled.div`
     margin-left:-40px;     
 `;
 
- 
+
 
 /**
  * 客服名称span
@@ -116,20 +116,20 @@ const Staff = ({ data }) => {
     const { StaffName, AssignedCustomerNumber, StaffId, GroupName, AvataUrl } = data;
     const isSelf = StaffId === appContext.currentStaff.StaffId;
     return (
-        <StaffLi hasGroup={GroupName != null} title={StaffName}>
-            <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ 'staffjson': JSON.stringify(data) }}>
+        <ContextMenuTrigger id={isSelf ? STAFF_CONTEXTMENU_ID : OTHER_STAFF_CONTEXTMENU_ID} attributes={{ 'staffjson': JSON.stringify(data) }}>
+            <StaffLi hasGroup={GroupName != null} title={StaffName}>
                 <AvatarSpan avataUrl={AvataUrl} />
                 <StaffNameSpan isSelf={isSelf}>{StaffName}</StaffNameSpan>
                 <ChatCounter count={AssignedCustomerNumber} />
-            </ContextMenuTrigger>
-        </StaffLi>)
+            </StaffLi>
+        </ContextMenuTrigger>)
 }
 
 /**
  * 客服组
  * @param {*} param0 
  */
-const StaffGroup = ({ staffs ,isExpand,panelId,expandHandle}) => {
+const StaffGroup = ({ staffs, isExpand, panelId, expandHandle }) => {
     const groupName = staffs[0].GroupName;
 
     return (
@@ -221,9 +221,9 @@ class StaffList extends Component {
     }
 
     handleExpandState = (panelId, isExpand) => {
-       
-        const {dispatch} =this.props;
-        dispatch(staffActions.changeExpandState(panelId,isExpand));
+
+        const { dispatch } = this.props;
+        dispatch(staffActions.changeExpandState(panelId, isExpand));
     }
 
     getExpandState = panelId => {
@@ -243,14 +243,14 @@ class StaffList extends Component {
         const staffCount = staffs ? staffs.length : 0;
         return (
             <ContainerDiv>
-                <ExpandPanel title={'部门-组别'} count={staffCount} isExpand={this.getExpandState('staffRoot')}  expandHandle={this.handleExpandState} panelId={'staffRoot'}>
+                <ExpandPanel title={'部门-组别'} count={staffCount} isExpand={this.getExpandState('staffRoot')} expandHandle={this.handleExpandState} panelId={'staffRoot'}>
                     {noGroupStaffs &&
                         <GroupUl>
                             {noGroupStaffs.map(staff => <Staff data={staff} key={staff.StaffId} />)}
                         </GroupUl>}
                     {groups &&
                         <GroupUl>
-                            {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupId}  isExpand={this.getExpandState('staffGroup_'+group[0].GroupId)}  expandHandle={this.handleExpandState} panelId={'staffGroup_'+ group[0].GroupId}/>)}
+                            {groups.map(group => <StaffGroup staffs={group} key={group[0].GroupId} isExpand={this.getExpandState('staffGroup_' + group[0].GroupId)} expandHandle={this.handleExpandState} panelId={'staffGroup_' + group[0].GroupId} />)}
                         </GroupUl>}
                 </ExpandPanel>
 

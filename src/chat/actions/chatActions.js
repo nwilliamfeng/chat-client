@@ -1,4 +1,4 @@
-import { constants } from '../constants';
+import { constants, chatOpenMode } from '../constants';
 import { chatService } from '../api';
 import {  appContext } from '../../util';
  
@@ -73,7 +73,7 @@ function chatWithMyCustomer(customer){
     return async dispatch => {
         //todo-- 这里需要chat服务类实现业务逻辑
         const newChat =await chatService.createChat(customer);
-        dispatch({type:constants.OPEN_CHAT,newChat});    
+        dispatch({type:constants.OPEN_CHAT,newChat,openMode:chatOpenMode.ByStaff});    
     }
 }
  

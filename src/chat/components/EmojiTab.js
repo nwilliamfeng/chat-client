@@ -46,7 +46,7 @@ const Emoji = ({ emojiKey, onSelect }) => {
     )
 }
 
-Emoji.prototype={
+Emoji.propTypes={
     emojiKey:PropTypes.string.isRequired,
     onSelect:PropTypes.func.isRequired,
 }
@@ -71,7 +71,7 @@ const EmojiRow = ({ rowIdx, cols, onSelect }) => {
     )
 }
 
-EmojiRow.prototype={
+EmojiRow.propTypes={
     rowIdx: PropTypes.number.isRequired,
     cols:PropTypes.number.isRequired,
     onSelect:PropTypes.func.isRequired,
@@ -100,7 +100,7 @@ const EmojiTable = ({ close, onSelect }) => {
     return result;
 }
 
-EmojiTable.prototype={
+EmojiTable.propTypes={
     close:PropTypes.func.isRequired,
     onSelect:PropTypes.func.isRequired,
 }
@@ -129,7 +129,7 @@ export const EmojiPanel = ({ onSelect }) => {
 }
 
 
-EmojiPanel.prototype={
+EmojiPanel.propTypes={
     onSelect: PropTypes.func.isRequired,
 }
 

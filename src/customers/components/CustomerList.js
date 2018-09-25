@@ -95,12 +95,12 @@ const CustomerNameSpan = styled.span`
 const Customer = ({ data }) => {
     const { CustomerAvataUrl, CustomerName } = data;
     return (
-        <CustomerLi title={CustomerName}>
-            <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ customerdata: JSON.stringify(data) }}>
+        <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ customerdata: JSON.stringify(data) }}>
+            <CustomerLi title={CustomerName}>
                 <AvatarSpan AvataUrl={CustomerAvataUrl} />
                 <CustomerNameSpan >{CustomerName}</CustomerNameSpan>
-            </ContextMenuTrigger>
-        </CustomerLi>)
+            </CustomerLi>
+        </ContextMenuTrigger>)
 }
 
 /**
@@ -129,13 +129,13 @@ const Department = ({ customers }) => {
  * 我的客户
  * @param {*} param0 
  */
-const MyCustomers = ({ customers,expandHandle,checkExpandHandle }) => {
-    const productName = customers[0].ProductName;    
-    const myCustomersKey='myCustomers_'+productName;
-    const isExpand=checkExpandHandle? checkExpandHandle(myCustomersKey):false; 
+const MyCustomers = ({ customers, expandHandle, checkExpandHandle }) => {
+    const productName = customers[0].ProductName;
+    const myCustomersKey = 'myCustomers_' + productName;
+    const isExpand = checkExpandHandle ? checkExpandHandle(myCustomersKey) : false;
     return (
 
-        <ExpandPanel title={'我的客户'} count={customers.length} isChild={true}  isExpand={isExpand} expandHandle={expandHandle} panelId={myCustomersKey}>
+        <ExpandPanel title={'我的客户'} count={customers.length} isChild={true} isExpand={isExpand} expandHandle={expandHandle} panelId={myCustomersKey}>
             {customers.map(customer => <Customer key={customer.CustomerId} data={customer} />)}
         </ExpandPanel>
 
@@ -146,16 +146,16 @@ const MyCustomers = ({ customers,expandHandle,checkExpandHandle }) => {
  * 产品大类
  * @param {*} param0 
  */
-const Category = ({ customers,expandHandle,checkExpandHandle }) => {
+const Category = ({ customers, expandHandle, checkExpandHandle }) => {
     const productName = customers[0].ProductName;
-    const productKey='category_'+productName;
-    const isExpand=checkExpandHandle? checkExpandHandle(productKey):false; 
-  
+    const productKey = 'category_' + productName;
+    const isExpand = checkExpandHandle ? checkExpandHandle(productKey) : false;
+
     const departments = Object.values(groupBy(customers, 'DepartmentName'));
     return (
         <CategoryDiv key={productName} >
             <ExpandPanel title={productName} count={customers.length} isExpand={isExpand} expandHandle={expandHandle} panelId={productKey}>
-                <MyCustomers customers={customers} checkExpandHandle={checkExpandHandle} expandHandle={expandHandle}  />
+                <MyCustomers customers={customers} checkExpandHandle={checkExpandHandle} expandHandle={expandHandle} />
                 {departments && !departments.some(x => x.some(y => y.DepartmentName == null)) && departments.map(department => <Department key={department[0].DepartmentName} customers={department} />)}
             </ExpandPanel>
         </CategoryDiv>
@@ -235,7 +235,7 @@ class CustomerList extends Component {
             <div>
                 {categories &&
                     <ul>
-                        {categories.map(category => <Category customers={category} key={category[0].ProductName} expandHandle={this.handleExpandState} checkExpandHandle={this.getExpandState}/>)}
+                        {categories.map(category => <Category customers={category} key={category[0].ProductName} expandHandle={this.handleExpandState} checkExpandHandle={this.getExpandState} />)}
                     </ul>}
                 <CustomerContextMenu dispatch={dispatch} contextMenuId={CUSTOMER_CONTEXTMENU_ID} />
             </div>)

@@ -1,4 +1,6 @@
-import { constants } from '../constants';
+import { constants, pageType } from '../constants';
+import {constants as chatConstants , chatOpenMode} from '../../chat/constants';
+ 
 
 const sizeContext = {
   chatWidth: 0,
@@ -18,6 +20,14 @@ export const homeReducer = (state = {}, action) => {
     //   ...state,
     //   chatWidth: sizeContext.chatWidth,
     // };
+
+    case chatConstants.OPEN_CHAT:
+       if(action.openMode===chatOpenMode.ByStaff){
+        return {
+          ...state,
+          page: pageType.CHAT,
+        };
+       }
 
     case constants.PAGE_SELECT:
       return {

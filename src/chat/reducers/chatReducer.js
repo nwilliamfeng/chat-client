@@ -1,14 +1,26 @@
 import { constants } from '../constants';
 
-export const chatReducer = (state = {chats:[]}, action) => {
+export const chatReducer = (state = { chats: [], selectedChat: null }, action) => {
   switch (action.type) {
 
     case constants.OPEN_CHAT:
-      return {
-        ...state,
-        chats:[action.newChat,...state.chats],
-      
-      };
+      const { newChat } = action;
+      const { chats } = state;
+      const exist = chats.find(x => x.customer.CustomerId === newChat.customer.CustomerId);
+      if (exist == null) {
+        return {
+          ...state,
+          chats: [newChat, ...state.chats],
+          selectedChat: newChat,
+        };
+      }
+      else {
+        return {
+          ...state,
+          selectedChat: exist,
+        };
+      }
+
 
     case constants.CLOSE_CHAT:
       return {
@@ -21,7 +33,7 @@ export const chatReducer = (state = {chats:[]}, action) => {
 
     case constants.SELECT_CHAT:
       return {
-        chats: [...action.chats],
+        ...state,
         selectedChat: action.selectedChat,
       }
 

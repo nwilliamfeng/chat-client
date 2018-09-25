@@ -40,7 +40,7 @@ export const Toolbar = ({onSelectEmoji,onSelectImage}) => {
     </div>)
 }
 
-Toolbar.prototype={
+Toolbar.propTypes={
     onSelectEmoji:PropTypes.func.isRequired,
     onSelectImage:PropTypes.func.isRequired,
 }

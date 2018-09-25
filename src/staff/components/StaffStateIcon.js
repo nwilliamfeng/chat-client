@@ -65,7 +65,7 @@ export const StaffStateIcon = ({ state }) => {
     return  <Icon icon={icon} state={state} /> 
 }
 
-StaffStateIcon.prototype = {
+StaffStateIcon.propTypes = {
     state: PropTypes.oneOf([staffStateValues.LEAVE, staffStateValues.OFFLINE, staffStateValues.ONLINE, staffStateValues.TRANSFER]),
 }
 
