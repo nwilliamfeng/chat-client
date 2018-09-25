@@ -213,7 +213,6 @@ class CustomerList extends Component {
 
     getExpandState = panelId => {
         const { expandStates } = this.props;
-        console.log(expandStates);
         const state = expandStates.find(x => x.panelId === panelId);
         if (state == null) {
             return false;

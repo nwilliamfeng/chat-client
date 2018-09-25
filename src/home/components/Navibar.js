@@ -76,20 +76,17 @@ class Navibar extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { selectPage: '' };
-        this.activatePage = this.activatePage.bind(this);
     }
 
 
-    activatePage(page) {
-        this.setState({ selectPage: page });
+    activatePage = page => {
         const { dispatch } = this.props;
         dispatch(homeActions.changePage(page));
     }
 
-    isSelectPage(page) {
-        const { selectPage } = this.state;
-        return page === selectPage;
+    isSelectPage = p => {
+        const { page } = this.props;
+        return p === page;
     }
 
     componentDidMount() {

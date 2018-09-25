@@ -43,7 +43,6 @@ export class ExpandPanel extends Component {
     constructor(props) {
         super(props);
         const {isExpand,panelId}=props;
-        console.log(props);
         this.state = {
             isExpand,//是否展开状态
             panelId,
