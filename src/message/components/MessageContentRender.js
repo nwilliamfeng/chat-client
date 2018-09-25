@@ -1,5 +1,5 @@
 import React from 'react';
-import {defaultEmojiMapping} from '../defaultEmojiMapping';
+import {defaultEmojiMapping} from '../../util/defaultEmojiMapping';
 import {  util } from '../../util';
 import File_Txt_Img from '../../assets/imgs/txt.png';
 import File_Word_Img from '../../assets/imgs/word.png';

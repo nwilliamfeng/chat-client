@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { defaultEmojiMapping } from '../defaultEmojiMapping';
+import { defaultEmojiMapping } from '../../util/defaultEmojiMapping';
 import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState,  CompositeDecorator } from "draft-js";
 import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
 import { appSettings } from '../../util';

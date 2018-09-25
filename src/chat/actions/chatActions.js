@@ -84,15 +84,10 @@ function chatWithMyCustomer(customer){
 function closeChat(chat){
     return async dispatch=>{
         await chatService.closeChat(chat);
-        let selectedChat =null;
-        if(chatService.chats.length>0){
-            selectedChat =chatService.chats[0];
-        }
         dispatch(
             {
                 type:constants.CLOSE_CHAT,
-                chats:chatService.chats,
-                selectedChat,
+                deletedChat:chat,
             });
     }
 }

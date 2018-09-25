@@ -1,4 +1,4 @@
-import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
+import { serviceUrls } from './serviceUrls';
 import { util } from '../../util';
 
 

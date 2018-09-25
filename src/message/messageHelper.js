@@ -1,4 +1,4 @@
-import { messageContentType } from './constants';
+import { messageContentType } from '../message/constants';
  
 
 export default class MessageHelper {

@@ -32,6 +32,7 @@ const Count =styled.span`
     color:white;
     font-size:10px;
     vertical-align:middle;
+    cursor:pointer;
 `;
 
 /**
@@ -62,7 +63,6 @@ export class ExpandPanel extends Component {
 
     render() {
         const { isExpand } = this.state;
-        console.log("render? "+isExpand);
         const { children, title,count,isChild } = this.props;
         return (
             <div>

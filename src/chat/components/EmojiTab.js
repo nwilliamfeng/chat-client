@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes  from 'prop-types';
-import { defaultEmojiMapping } from '../defaultEmojiMapping';
+import { defaultEmojiMapping } from '../../util/defaultEmojiMapping';
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmile as farSmile } from '@fortawesome/free-regular-svg-icons';

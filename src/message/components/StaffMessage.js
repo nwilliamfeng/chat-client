@@ -2,11 +2,10 @@ import React  from 'react';
 import { messageContentType } from '../constants';
 import { messageContentRender } from './MessageContentRender';
 import MessageHelper from '../messageHelper';
-import { chatWindow } from '../chatRegionHelper';
+import { chatWindow } from '../../util/chatRegionHelper';
 import ImageZoom from 'react-medium-image-zoom';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID,MSGLST_CONTEXTMENU_FILE_ID } from './MessageList';
-import  Staff_Avatar_Img  from '../../assets/imgs/staff.jpg';
 require('../../assets/styles/bubble.css');
 
 

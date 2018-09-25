@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { chatActions, messageActions } from '../actions';
-import { MessageList } from './MessageList';
+import styled from 'styled-components';
+import { messageActions } from '../../message/actions';
+import { MessageList } from '../../message/components';
 
- 
+const TitleDiv=styled.div`
+    border-bottom:1px solid #E7E7E7;
+    margin-bottom:10px;
+    padding:20px 0px 0px 25px;
+`;
 
 class Chat extends Component {
 
@@ -27,9 +32,9 @@ class Chat extends Component {
             <div >
                 {selectedChat &&
                     <div  >
-                        <div style={{borderBottom:'1px solid #E7E7E7',marginBottom:10,paddingLeft:25,paddingTop:20}}>
+                        <TitleDiv>
                             <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
-                        </div>
+                        </TitleDiv>
 
                         <MessageList selectedChat={selectedChat} />
                     </div>}
@@ -48,6 +53,6 @@ function mapStateToProps(state) {
 const page = connect(mapStateToProps, null)(Chat);
 
 /**
- * Chatå®žä¾‹
+ * 聊天页
  */
 export { page as Chat };

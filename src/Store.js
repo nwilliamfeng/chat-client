@@ -4,7 +4,8 @@ import {customerReducer} from './customers/reducers';
 import {staffReducer} from './staff/reducers';
 import {systemReducer} from './system/reducers';
 import {configurationReducer} from './configuration/reducers';
-import {chatReducer,historyMessageReducer,offlineMessageReducer} from './chat/reducers';
+import {chatReducer} from './chat/reducers';
+import {historyMessageReducer,offlineMessageReducer} from './message/reducers';
 import {homeReducer} from './home/reducers'
 import thunkMiddleware from 'redux-thunk'; 
  

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import sizeMe from 'react-sizeme';
 import { Chat } from './Chat';
-import {chatWindow} from '../chatRegionHelper'
+import {chatWindow} from '../../util/chatRegionHelper'
 
 class ChatContainer extends Component {
 

@@ -109,17 +109,7 @@ class MessageList extends React.Component {
         }
     }
 
-    renderMessages() {
-        const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        return (
-            <div >
-                {arr.map((x) => (
-                    <p>{'asdfasfaf' + x}</p>
-                ))}
-            </div>
-        )
-    }
-
+   
     render() {
         const { offlineMessageData } = this.props;
         return (
@@ -136,8 +126,7 @@ class MessageList extends React.Component {
                             ))}
                         </ul>
                     }
-                    {this.renderMessages()}
-
+              
                     <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
                       
                         <MenuItem onClick={this.handleDownloadFile}>下载图片</MenuItem>
@@ -165,6 +154,6 @@ function mapStateToProps(state) {
 const page = connect(mapStateToProps, null)(MessageList);
 
 /**
- * MessageList??
+ * 消息列表
  */
 export { page as MessageList }; 

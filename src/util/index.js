@@ -1,12 +1,14 @@
 import {netUtil} from './net';
 import {promiseUtil} from './promise';
 import {dateUtil} from './date';
+
  
 
 export * from './history';
 export * from './appSettings';
 export * from './appContext';
- 
+export * from './defaultEmojiMapping';
+export * from './chatRegionHelper'; 
 
 
 export const util={
