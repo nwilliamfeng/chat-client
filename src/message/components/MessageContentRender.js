@@ -72,8 +72,16 @@ class MessageContentRender {
      * 返回指定时间的呈现结果
      * @param {string} csharpTime 
      */
-    renderSendTime(csharpTime) {
-        const time = new Date(Date.parse(util.csharpDateFormat(csharpTime)));
+    // renderSendTime(csharpTime) {
+    //     const time = new Date(Date.parse(util.csharpDateFormat(csharpTime)));
+        
+    //     if (time.getTime()>=util.today().getTime()) {
+    //         return '[' + util.dateFormat(time, 'hh:mm:ss') + ']';
+    //     }
+    //     return '[' + util.dateFormat(time, 'M月d日 hh:mm:ss') + ']';
+    // }
+
+    renderSendTime(time) {
         
         if (time.getTime()>=util.today().getTime()) {
             return '[' + util.dateFormat(time, 'hh:mm:ss') + ']';

@@ -1,7 +1,6 @@
 import { constants } from '../constants';
 
 
-
 const offlineMessageContext = {
   messages: [],
   totalItemCount: 0,
@@ -9,17 +8,22 @@ const offlineMessageContext = {
   currentPageIndex: 0,
 }
 
-export const offlineMessageReducer = (state = {}, action) => {
+export const offlineMessageReducer = (state = {offlineMessages:[],pageIdx:-1,pageCount:0}, action) => {
+  
   switch (action.type) {
 
-
     case constants.LOAD_OFFLINE_MESSAGE:
-      updateOfflineMessage(action.data);
-
-      return {
-        ...state,
-        offlineMessageData: Object.assign({}, offlineMessageContext),
-      };
+     const {Results,TotalItemCount,PageSize,CurrentPageIndex}=action.data;
+      if(Results.length>0 && !state.offlineMessages.some(x=>x.MsgId===Results[0].MsgId))
+      {
+        return {
+          ...state,
+          pageIdx:CurrentPageIndex,
+          pageCount:(TotalItemCount / PageSize).toFixed(0),
+          offlineMessages:[...Results, ...state.offlineMessages],
+        };
+      }
+      return state;
 
     case constants.CLOSE_CHAT: //如果关闭会话则当前的历史消息清空
       offlineMessageContext.messages = [];

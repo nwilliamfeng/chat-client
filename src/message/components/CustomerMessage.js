@@ -3,6 +3,8 @@ import { messageContentType } from '../constants';
 import { messageContentRender } from './MessageContentRender';
 import ImageZoom from 'react-medium-image-zoom';
 import MessageHelper from '../messageHelper';
+
+
 require('../../assets/styles/bubble.css');
 
 

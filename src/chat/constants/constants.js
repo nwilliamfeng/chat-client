@@ -28,9 +28,6 @@ export const constants = {
 
     ACTIVE_CHAT_PAGE :'ACTIVE_CHAT_PAGE',
 
- 
-
-
     /**
      * 文件上传
      */

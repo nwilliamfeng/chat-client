@@ -1,6 +1,7 @@
 import {netUtil} from './net';
 import {promiseUtil} from './promise';
 import {dateUtil} from './date';
+import { mathEx } from './math';
 
  
 
@@ -9,6 +10,7 @@ export * from './appSettings';
 export * from './appContext';
 export * from './defaultEmojiMapping';
 export * from './chatRegionHelper'; 
+export * from './math';
 
 
 export const util={
@@ -19,4 +21,5 @@ export const util={
     dateFormat:dateUtil.dateFormat,
     csharpDateFormat:dateUtil.cSharpDateFormat,
     today:dateUtil.today,
+    guid:mathEx.guid,
 }

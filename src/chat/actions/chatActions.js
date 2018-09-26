@@ -87,7 +87,7 @@ function closeChat(chat){
         dispatch(
             {
                 type:constants.CLOSE_CHAT,
-                deletedChat:chat,
+                removeId:chat.channelId,
             });
     }
 }

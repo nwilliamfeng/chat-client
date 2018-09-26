@@ -1,5 +1,5 @@
 import { constants } from '../constants';
-import {remove} from 'lodash';
+import { findIndex } from 'lodash';
 
 export const chatReducer = (state = { chats: [], selectedChat: null }, action) => {
   const { chats } = state;
@@ -7,7 +7,7 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
 
     case constants.OPEN_CHAT:
       const { newChat } = action;
-    
+
       const exist = chats.find(x => x.customer.CustomerId === newChat.customer.CustomerId);
       if (exist == null) {
         return {
@@ -25,13 +25,19 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
 
 
     case constants.CLOSE_CHAT:
-      const  deletedChat  =action.deletedChat;
-      console.log(chats);?????
-      const existChats=remove(chats,x=>x.channelId===deletedChat.channelId);
+      const { removeId } = action;
+      const idx = findIndex(chats, x => x.channelId === removeId);
+      if (idx < 0) {
+        return state;
+      }
+      const nwChats=[
+        ...chats.slice(0, idx),
+        ...chats.slice(idx + 1)
+      ];
       return {
         ...state,
-        chats:existChats, 
-        selectedChat: existChats.length>0?existChats[0]:null,
+        chats: nwChats,
+        selectedChat: nwChats.length > 0 ? nwChats[0] : null,
       };
 
     case constants.CLOSE_ALL_CHATS:
@@ -48,9 +54,6 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
         ...state,
         selectedChat: action.selectedChat,
       }
-
-
-
 
     default:
       return state;
