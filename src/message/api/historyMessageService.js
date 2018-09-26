@@ -40,6 +40,7 @@ class HisotryMessageService {
 
      offlineMsgCache=[];
 
+    
      
     async getMessagesByChannelId(channelId, startTime, type, sort, index, pageSize, appKey) {
 
@@ -66,18 +67,20 @@ class HisotryMessageService {
             for (let i = 0; i < 10; i++) {
                 const id=util.guid();
                 const isStaff=i%2===0;
+                const num=this.offlineMsgCache.length*10+ i;
                 const msg =  {
                     ChannelID: channelId,
                     MsgId: id,
                     AvataUrl:isStaff?appContext.currentStaff.AvataUrl:  'https://avator.eastmoney.com/qface/8247513267045400/120',
                     SenderName:isStaff?appContext.currentStaff.StaffName:'客户',
                     Sender:isStaff?appContext.currentStaff.StaffId :'customer',
-                    MessageContent: isStaff? i+'来自于客户的消息：'+Date.now():i+'来自于客服的消息：'+Date.now(),
+                    MessageContent: isStaff? num+'来自于客户的消息：'+Date.now():num+'来自于客服的消息：'+Date.now(),
                     SendTime:new Date(),
                 };
+                if(num<34)
                 res.Data.Results.push(msg);
             }
-
+            res.Data.Results.reverse();
             res.Data.CurrentPageIndex=index;
             res.Data.PageSize=10;
             res.Data.TotalItemCount=34;

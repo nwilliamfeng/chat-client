@@ -15,7 +15,7 @@ class Chat extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state={needScrollOfflineMsgs:false, msgListHeight:0};
     }
 
     
@@ -43,7 +43,7 @@ class Chat extends Component {
         }
     }
 
-    handleOfflineMessagesScroll = value => {
+    handleOfflineMessagesScroll = (value,scrollbar) => {
      
         const { scrollHeight, top } = value;
         if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
@@ -56,16 +56,16 @@ class Chat extends Component {
             }
         }
         else {
-            // const { needScroll, currHeight } = this.state;
-            // if (currHeight !== scrollHeight) {
-            //     this.setState({ currHeight: scrollHeight });
-            // }
-            // if (needScroll === true) {
-            //     const { scrollbars } = this.refs;
+            const { needScrollOfflineMsgs, msgListHeight } = this.state;
+            if (msgListHeight !== scrollHeight) {
+                this.setState({ msgListHeight: scrollHeight });
+            }
+            if (needScrollOfflineMsgs === true) {
+                const { scrollbars } = this.refs;
 
-            //     scrollbars.scrollTop(scrollHeight - currHeight);
-            //     this.setState({ needScroll: false });
-            // }
+                scrollbars.scrollTop(scrollHeight - msgListHeight);
+                this.setState({ needScrollOfflineMsgs: false });
+            }
         }
     }
 

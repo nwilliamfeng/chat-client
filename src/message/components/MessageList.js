@@ -40,14 +40,18 @@ const isSelfMessage = message => {
 
 
 export const MessageList = ({messages,scrollHandle}) => {
+
+    let scrollbar=null
+
     const handleScrollFrame=value=>{
         if(scrollHandle!=null){
-            scrollHandle(value);
+            scrollHandle(value,scrollbar);
         }
     }
+    
     return (
         <Scrollbars style={{ width: '100%', height: 'calc(80vh - 80px)' }}
-           
+            ref={ el => scrollbar = el }
             onScrollFrame={handleScrollFrame} >
             <div style={{ padding: 5 }} >
                 {messages &&
