@@ -63,9 +63,7 @@ export const MessageList = ({ messages }) => {
             <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
                 <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
             </ContextMenu>
-            <ContextMenu id={MSGLST_CONTEXTMENU_TEXT_MSG_ID}>
-
-            </ContextMenu>
+             
         </OuterDiv>
     )
 }
