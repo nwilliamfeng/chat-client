@@ -49,7 +49,7 @@ const avatarContainerStyle = {
 const avatarStyle = {
     width: 42,
     height: 42,
-    marginTop: 30,
+    marginTop: 5,
 }
 
 const sendTimeStyle = {

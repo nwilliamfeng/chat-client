@@ -1,4 +1,6 @@
 import { constants } from '../constants';
+import {constants as chatConstants} from '../../chat/constants';
+import {constants as authConstants} from '../../auth/constants'
 
 
 const offlineMessageContext = {
@@ -8,19 +10,31 @@ const offlineMessageContext = {
   currentPageIndex: 0,
 }
 
-export const offlineMessageReducer = (state = {offlineMessages:[],pageIdx:-1,pageCount:0}, action) => {
-  
+/**
+ * 离线消息reducer
+ * @param {*} state 
+ * @param {*} action 
+ */
+export const offlineMessageReducer = (state = { offlineMessages: [], pageIdx: -1, pageCount: 0 }, action) => {
+
   switch (action.type) {
+    case authConstants.LOGOUT:   
+    case chatConstants.SELECT_CHAT:
+      return{
+        ...state,
+        offlineMessages: [], 
+        pageIdx: -1, 
+        pageCount: 0 ,
+      }
 
     case constants.LOAD_OFFLINE_MESSAGE:
-     const {Results,TotalItemCount,PageSize,CurrentPageIndex}=action.data;
-      if(Results.length>0 && !state.offlineMessages.some(x=>x.MsgId===Results[0].MsgId))
-      {
+      const { Results, TotalItemCount, PageSize, CurrentPageIndex } = action.data;
+      if (Results.length > 0 && !state.offlineMessages.some(x => x.MsgId === Results[0].MsgId)) {
         return {
           ...state,
-          pageIdx:CurrentPageIndex,
-          pageCount:(TotalItemCount / PageSize).toFixed(0),
-          offlineMessages:[...Results, ...state.offlineMessages],
+          pageIdx: CurrentPageIndex,
+          pageCount: (TotalItemCount / PageSize).toFixed(0),
+          offlineMessages: [...Results, ...state.offlineMessages],
         };
       }
       return state;

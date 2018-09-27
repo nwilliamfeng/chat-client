@@ -1,5 +1,6 @@
 import { constants } from '../constants';
 import { findIndex } from 'lodash';
+import {constants as authConstants} from '../../auth/constants';
 
 export const chatReducer = (state = { chats: [], selectedChat: null }, action) => {
   const { chats } = state;
@@ -40,8 +41,9 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
         selectedChat: nwChats.length > 0 ? nwChats[0] : null,
       };
 
+    case authConstants.LOGOUT:
     case constants.CLOSE_ALL_CHATS:
-      return {};
+      return { chats: [], selectedChat: null };
 
     case constants.SELECT_CHAT:
       return {

@@ -14,7 +14,7 @@ const containerStyle = {
     display: 'block',
     clear: 'right',
     textAlign: 'right',
-
+    paddingTop:8,
 }
 
 const avatarContainerStyle = {

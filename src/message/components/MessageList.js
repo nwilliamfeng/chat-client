@@ -1,10 +1,15 @@
 import React from 'react';
 import { appContext } from '../../util';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { CustomerMessage } from './CustomerMessage';
 import { StaffMessage } from './StaffMessage';
 import { ContextMenu, MenuItem } from "react-contextmenu";
-import { Scrollbars } from 'react-custom-scrollbars';
+
+
+const OuterDiv = styled.div`
+    padding:5px;
+`;
 
 /**
  * 图片消息快捷菜单Id
@@ -38,139 +43,36 @@ const isSelfMessage = message => {
     return message.Sender === appContext.currentStaff.StaffId;
 }
 
-
-export const MessageList = ({messages,scrollHandle}) => {
-
-    let scrollbar=null
-
-    const handleScrollFrame=value=>{
-        if(scrollHandle!=null){
-            scrollHandle(value,scrollbar);
-        }
-    }
-    
+/**
+ * 消息列表无状态组件
+ * @param {*} param0 
+ */
+export const MessageList = ({ messages }) => {
     return (
-        <Scrollbars style={{ width: '100%', height: 'calc(80vh - 80px)' }}
-            ref={ el => scrollbar = el }
-            onScrollFrame={handleScrollFrame} >
-            <div style={{ padding: 5 }} >
-                {messages &&
-                    <ul className="list-group">
-                        {messages.map(msg => (
-                            isSelfMessage(msg) ?
-                                <StaffMessage key={msg.MsgId} message={msg} props={this.props} /> : <CustomerMessage key={msg.MsgId} message={msg} />
-                        ))}
-                    </ul>
-                }
+        <OuterDiv >
+            {messages &&
+                <div>
+                    {
+                        messages.map(msg => isSelfMessage(msg) ? <StaffMessage key={msg.MsgId} message={msg} props={this.props} /> : <CustomerMessage key={msg.MsgId} message={msg} />)
+                    }
+                </div>
+            }
+            <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
+                <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
+            </ContextMenu>
+            <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
+                <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
+            </ContextMenu>
+            <ContextMenu id={MSGLST_CONTEXTMENU_TEXT_MSG_ID}>
 
-                <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
-
-                    <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
-                </ContextMenu>
-                <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
-                    <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
-                </ContextMenu>
-                <ContextMenu id={MSGLST_CONTEXTMENU_TEXT_MSG_ID}>
-
-                </ContextMenu>
-            </div>
-        </Scrollbars>)
-
+            </ContextMenu>
+        </OuterDiv>
+    )
 }
 
-MessageList.propTypes={
-    messages:PropTypes.array.isRequired,
-    scrollHandle:PropTypes.func,
+MessageList.propTypes = {
+    messages: PropTypes.array.isRequired,
 }
-
-// class MessageList2 extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.state = { selectedChat: props.selectedChat, page: 0, pageCount: 0, currHeight: 0, needScroll: false };
-
-//     }
-
-//     handleScrollFrame = value => {
-//         if (scrollHandle != null) {
-//             scrollHandle(value);
-//         }
-//         // const { scrollHeight, top } = value;
-//         // if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
-//         //     const { selectedChat, page, pageCount } = this.state;
-
-//         //     const { dispatch } = this.props;
-//         //     if (page < pageCount) {
-//         //         dispatch(messageActions.getRecentMessages(selectedChat.customer.CustomerId, page + 1));
-//         //     }
-//         // }
-//         // else {
-//         //     const { needScroll, currHeight } = this.state;
-//         //     if (currHeight !== scrollHeight) {
-//         //         this.setState({ currHeight: scrollHeight });
-//         //     }
-//         //     if (needScroll === true) {
-//         //         const { scrollbars } = this.refs;
-
-//         //         scrollbars.scrollTop(scrollHeight - currHeight);
-//         //         this.setState({ needScroll: false });
-//         //     }
-//         // }
-//     }
-
-//     // componentDidUpdate(prevProps, prevState) {
-//     //     const { offlineMessageData } = this.props;
-
-//     //     if (offlineMessageData != null) {
-//     //         const { page } = this.state;
-//     //         const { currentPageIndex, totalItemCount, pageSize } = offlineMessageData;
-//     //         if (page !== currentPageIndex) {
-//     //             const pageCount = (totalItemCount / pageSize).toFixed(0);
-
-//     //             const { scrollbars } = this.refs;
-//     //             this.setState({ page: currentPageIndex, pageCount, needScroll: true, });
-//     //             scrollbars.scrollToBottom();
-
-//     //             scrollbars.scrollTop(50);
-//     //         }
-//     //     }
-//     // }
-
-
-//     render() {
-//         return (
-
-//             <Scrollbars style={{ width: '100%', height: 'calc(80vh - 80px)' }}
-//                 ref="scrollbars"
-//                 onScrollFrame={this.handleScrollFrame} >
-//                 <div style={{ padding: 5 }} >
-//                     {messages &&
-//                         <ul className="list-group">
-//                             {messages.map((msg) => (
-//                                 this.isSelfMessage(msg) ?
-//                                     <StaffMessage key={msg.MsgId} message={msg} props={this.props} /> : <CustomerMessage key={msg.MsgId} message={msg} />
-//                             ))}
-//                         </ul>
-//                     }
-
-//                     <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
-
-//                         <MenuItem onClick={this.handleDownloadFile}>下载图片</MenuItem>
-//                     </ContextMenu>
-//                     <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
-//                         <MenuItem onClick={this.handleDownloadFile}>下载文件</MenuItem>
-//                     </ContextMenu>
-//                     <ContextMenu id={MSGLST_CONTEXTMENU_TEXT_MSG_ID}>
-
-//                     </ContextMenu>
-//                 </div>
-//             </Scrollbars>
-
-
-//         );
-//     }
-// }
-
 
 
 
