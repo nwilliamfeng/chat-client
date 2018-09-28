@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { CustomerList } from '../../customers/components';
 import { StaffList } from '../../staff/components';
-import ChatContainer from './ChatContainer';
 import { SearchBox } from '../../search/components';
 import { ChatList } from './ChatList';
 import { InputBox  } from './InputBox';
+import sizeMe from 'react-sizeme';
+import { Chat } from './Chat';
+import {chatWindow} from '../../util/chatRegionHelper'
 
 require('../../assets/styles/grid.css');
 require('../../assets/styles/ul.css');
@@ -67,7 +69,26 @@ const initSize = {
     navibarInitPaneWidth: 250,
 }
 
-class ChatPage extends Component {
+
+const setChat=Component=>class extends React.Component{
+    constructor(props){
+        super(props);
+    }
+
+    render() {
+        const { width } = this.props.size;
+        chatWindow.width=width;
+        return (
+            <div style={{ height: 'calc(100% - 80px)' }}>
+                <Component {...this.props}/>
+            </div>
+        );
+    }
+}
+ 
+const ChatContainer =sizeMe({ monitorHeight: true })(setChat(Chat));
+
+export  class ChatPage extends Component {
 
     constructor(props) {
         super(props);
@@ -97,7 +118,7 @@ class ChatPage extends Component {
                     {/* <div className="col-offset-chat"    > */}
                         <div   >
                             <div style={{ height: '80vh'}}>
-                                <ChatContainer />
+                                <ChatContainer/>
                             </div>
                             <div style={inputBoxDivStyle}>                        
                                 <InputBox/>                               
@@ -123,10 +144,4 @@ class ChatPage extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    const { selectedChat } = state.chat;
-    return { selectedChat };
-}
-
-const page = connect(mapStateToProps)(ChatPage);
-export { page as ChatPage }; 
+ 

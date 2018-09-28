@@ -1,12 +1,37 @@
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
+ /**
+  * 重新实现方法，更改cursor
+  * @param {*} param0 
+  */
+ function renderThumbVerticalDefault({ style, ...props }) {
+    const finalStyle = {
+        ...style,
+        cursor: 'default', //此处将pointer改成default
+        borderRadius: 'inherit',
+        backgroundColor: 'rgba(0,0,0,.2)'
+    };
+    return <div style={finalStyle} {...props} />;
+}
+
+
+
+Scrollbars.defaultProps = {
+    ...Scrollbars.defaultProps,
+    
+    renderThumbVertical: renderThumbVerticalDefault,//指定新的renderThumbVerticalDefault
+    
+};
  
 export  class Scrollbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = { autoHide: true };
+      
     }
+
+   
 
     handleMouseEnter = () => {
         this.setState({ autoHide: false });

@@ -6,12 +6,23 @@ import { messageActions } from '../../message/actions';
 import { MessageList } from '../../message/components';
 import {Scrollbar} from '../../controls'
 
+/**
+ * 标题div
+ */
 const TitleDiv = styled.div`
     border-bottom:1px solid #E7E7E7;
     margin-bottom:10px;
-    padding:20px 0px 0px 25px;
+    padding:18px 0px 3px 25px;
 `;
 
+/**
+ * 滚动条样式
+ */
+const scrollbarStyle={
+    width: '100%', 
+    height: 'calc(80vh - 80px)',
+    cursor:'default',
+}
  
 
 
@@ -70,8 +81,6 @@ class Chat extends Component {
     render() {
         console.log('render chat');
         const { selectedChat, messages } = this.props;
-
-
         return (
 
             <div >
@@ -80,7 +89,7 @@ class Chat extends Component {
                         <TitleDiv>
                             <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
                         </TitleDiv>              
-                        <Scrollbar onScroll={this.handleScroll} ref='scrollbar' style={{ width: '100%', height: 'calc(80vh - 80px)' }}>
+                        <Scrollbar onScroll={this.handleScroll} ref='scrollbar' style={scrollbarStyle}>
                             <MessageList messages={messages} />
                         </Scrollbar>
 

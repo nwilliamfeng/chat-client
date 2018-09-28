@@ -1,6 +1,6 @@
 import { serviceUrls } from './serviceUrls';
 import { util, appContext } from '../../util';
-
+import {random} from 'lodash';
 
 
 class HisotryMessageService {
@@ -65,7 +65,7 @@ class HisotryMessageService {
             });
         if (res.RetCode === 1) {
             //todo-- 测试这里用假数据------------------------------
-           
+            const count =random(28,43);
             const str='自联邦公开市场委员会8月份召开会议以来所收到的信息表明，就业市场已继续增强，经济活动一直都在强劲上升。最近几个月以来，平均而言就业增长一直都很强劲，失业率一直保持在较低水平。家庭支出和商业固定投资一直都强劲增长。按12个月基础计算，整体通货膨胀与扣除粮食和能源以外项目的通货膨胀仍保持在接近于2%的水平';
             for (let i = 0; i < 10; i++) {
                 const id=util.guid();
@@ -86,13 +86,13 @@ class HisotryMessageService {
                 if(num % 3 ===0 ){
                     msg.MessageContent='{Url:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,FileName:logo2.png,ThumbUrl:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,UrlEnd:UrlEnd}'
                 }
-                if(num<34)
+                if(num<count)
                 res.Data.Results.push(msg);
             }
             res.Data.Results.reverse();
             res.Data.CurrentPageIndex=index;
             res.Data.PageSize=10;
-            res.Data.TotalItemCount=34;
+            res.Data.TotalItemCount=count;
             this.offlineMsgCache.push(res.Data);
             //-------------------------------------------------------
             return res.Data; //sample:TotalItemCount: 5, PageSize: 50, CurrentPageIndex: 1, Results:[]

@@ -22,16 +22,14 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if( !isEqual(this.props.chats, nextProps.chats)){
+        if (!isEqual(this.props.chats, nextProps.chats)) {
             return true;
         }
-        if( !isEqual(this.props.selectedChat,nextProps.selectedChat)){
+        if (!isEqual(this.props.selectedChat, nextProps.selectedChat)) {
             return true;
         }
         //todo-- 任何会话收到消息都得更新
-
         return false;
-
     }
 
     handleCloseChat = (e, data, target) => {
