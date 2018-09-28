@@ -1,4 +1,4 @@
-import {uniqueId} from 'lodash';
+import { uniqueId } from 'lodash';
 //import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 
 
@@ -8,42 +8,45 @@ import {uniqueId} from 'lodash';
 class ChatService {
 
     constructor() {
-        this._chats =[];
+        this._chats = []; //会话集合
+       
     }
 
-    async createChat(customer,otherparm=null){
-        const exist =this._chats.find(x=> x.customer.CustomerId===customer.CustomerId);
-        if(exist!=null){
+
+
+    async createChat(customer, otherparm = null) {
+        const exist = this._chats.find(x => x.customer.CustomerId === customer.CustomerId);
+        if (exist != null) {
             return exist;
         }
 
-        const newChat ={
+        const newChat = {
             customer, //当前的客户
-            channelId:uniqueId('chat_'), //对应的频道Id
-        };        
+            channelId: uniqueId('chat_'), //对应的频道Id
+        };
         this._chats.push(newChat);
-        
+
         return newChat;
     }
-   
+
     /** 
      * 关闭所有的会话
      */
-    async closeAllChats(){
+    async closeAllChats() {
         //todo, 执行关闭chat
-        this._chats=[];
+        this._chats = [];
     }
 
     /**
      * 关闭指定的会话
      * @param {*} chat 
      */
-    async closeChat(chat){
-        const idx =this._chats.findIndex((item)=>{
-            return item.channelId===chat.channelId;
+    async closeChat(chat) {
+        const idx = this._chats.findIndex((item) => {
+            return item.channelId === chat.channelId;
         });
-        if(idx>-1){
-            this._chats.splice(idx,1);
+        if (idx > -1) {
+            this._chats.splice(idx, 1);
         }
     }
 
@@ -51,9 +54,9 @@ class ChatService {
      * 返回指定channelid的会话索引号
      * @param {string} channelId 
      */
-    getChatIndex(channelId){
-        return this._chats.findIndex((item)=>{
-            return item.channelId===channelId;
+    getChatIndex(channelId) {
+        return this._chats.findIndex((item) => {
+            return item.channelId === channelId;
         });
     }
 
@@ -61,19 +64,21 @@ class ChatService {
      * 返回指定channelId的会话
      * @param {string} channelId 
      */
-    getChat(channelId){
-        const idx =this.getChatIndex(channelId);
-        return idx>-1? this._chats[idx]:null;
+    getChat(channelId) {
+        const idx = this.getChatIndex(channelId);
+        return idx > -1 ? this._chats[idx] : null;
     }
+
+    
 
     /**
      * 返回所有会话
      */
-    get chats(){
+    get chats() {
         return this._chats;
     }
-    
-    
+
+
 }
 
 /**

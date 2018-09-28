@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { chatActions } from '../actions';
-import { ContextMenu, MenuItem } from "react-contextmenu";
+import { ContextMenu, MenuItem } from 'react-contextmenu';
+import {appContext} from '../../util/';
 import { ChatHeader } from './ChatHeader';
 import { isEqual } from 'lodash';
+import  Rx from 'rx';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 
 
@@ -18,9 +20,41 @@ const ListUl = styled.ul`
 class ChatList extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);   
     }
 
+    componentWillUnmount() {
+        if (this.subscription != null) {
+            this.subscription.dispose();
+        }
+        document.removeEventListener("keydown", this.handleKeydown, false);
+    }
+
+    /**
+     * 订阅
+     */
+    subscribe = () => {
+        const source = Rx.Observable
+            .interval(1000 /* ms */)
+            .timeInterval();
+        this.subscription = source.subscribe(
+            () => {
+                
+                if (appContext.currentStaff == null) {
+                    this.subscription.dispose();
+                }
+                else{
+                    
+                }
+            },
+            err => {
+                console.log('Error: ' + err);
+            },
+            () => {
+                console.log('Completed');
+            });
+    }
+    
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (!isEqual(this.props.chats, nextProps.chats)) {
             return true;
@@ -66,6 +100,7 @@ class ChatList extends Component {
     }
 
     componentDidMount() {
+        this.subscribe();
         document.addEventListener("keydown", this.handleKeydown, false);
         const { dispatch } = this.props;
         dispatch(chatActions.initChats());
@@ -86,7 +121,7 @@ class ChatList extends Component {
     }
 
     render() {
-        console.log('do render chatlist');
+         console.log('do render chatlist');
         const { chats } = this.props;
         return (
             <div>
@@ -115,8 +150,6 @@ function mapStateToProps(state) {
         selectedChat,
     }
 }
-
-
 
 const page = connect(mapStateToProps, null)(ChatList);
 

@@ -188,16 +188,18 @@ class StaffList extends Component {
         }
     }
 
-    componentWillUnmount() {
-        if (this.subscription != null) {
-            this.subscription.dispose();
-        }
-    }
+    
 
     loadStaffs = () => {
         if (appContext.currentStaff != null) {
             const { dispatch } = this.props;
             dispatch(staffActions.fetchStaffList());
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.subscription != null) {
+            this.subscription.dispose();
         }
     }
 

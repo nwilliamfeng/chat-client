@@ -31,8 +31,6 @@ export  class Scrollbar extends React.Component {
       
     }
 
-   
-
     handleMouseEnter = () => {
         this.setState({ autoHide: false });
     }

@@ -36,7 +36,7 @@ function getHistoryMessages(customer){
  * 返回指定频道id的离线消息
  * @param {string} channelId 
  */
-function getOfflineMessages(channelId,customer,pageIdx=1){
+function getOfflineMessages(channelId,customer,pageIdx=0){
     const startTime=dateUtil.dateFormat( dateUtil.substactDays(7),'yyyy-MM-dd');
     const sortOrder=0;//按时间升序
     return async dispatch =>{

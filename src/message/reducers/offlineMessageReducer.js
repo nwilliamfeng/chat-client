@@ -3,12 +3,6 @@ import {constants as chatConstants} from '../../chat/constants';
 import {constants as authConstants} from '../../auth/constants'
 
 
-const offlineMessageContext = {
-  messages: [],
-  totalItemCount: 0,
-  pageSize: 0,
-  currentPageIndex: 0,
-}
 
 /**
  * 离线消息reducer
@@ -33,20 +27,14 @@ export const offlineMessageReducer = (state = { offlineMessages: [], pageIdx: -1
         return {
           ...state,
           pageIdx: CurrentPageIndex,
-          pageCount: (TotalItemCount / PageSize).toFixed(0),
+          pageCount:Number.parseInt((TotalItemCount / PageSize).toFixed(0)),
           offlineMessages: [...Results, ...state.offlineMessages],
         };
       }
       return state;
 
     case constants.CLOSE_CHAT: //如果关闭会话则当前的历史消息清空
-      offlineMessageContext.messages = [];
-      offlineMessageContext.totalItemCount = 0;
-      offlineMessageContext.pageSize = 0;
-      offlineMessageContext.currentPageIndex = 0;
-      return {
-        offlineMessageData: Object.assign({}, offlineMessageContext),
-      };
+      return state;
 
     default:
       return state;
@@ -55,18 +43,4 @@ export const offlineMessageReducer = (state = { offlineMessages: [], pageIdx: -1
 }
 
 
-function updateOfflineMessage(data) {
-  const nwMsgs = data.Results;
-  nwMsgs.forEach(msg => {
-    const idx = offlineMessageContext.messages.findIndex(x => {
-      return x.MsgId === msg.MsgId
-    });
-    if (idx < 0) {
-      offlineMessageContext.messages.push(msg);
-    }
-  });
-  offlineMessageContext.messages = [...offlineMessageContext.messages];
-  offlineMessageContext.currentPageIndex = data.CurrentPageIndex;
-  offlineMessageContext.pageSize = data.PageSize;
-  offlineMessageContext.totalItemCount = data.TotalItemCount;
-}
+ 

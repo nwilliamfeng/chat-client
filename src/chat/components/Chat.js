@@ -4,7 +4,7 @@ import { isEqual } from 'lodash';
 import styled from 'styled-components';
 import { messageActions } from '../../message/actions';
 import { MessageList } from '../../message/components';
-import {Scrollbar} from '../../controls'
+import { Scrollbar } from '../../controls'
 
 /**
  * 标题div
@@ -18,22 +18,22 @@ const TitleDiv = styled.div`
 /**
  * 滚动条样式
  */
-const scrollbarStyle={
-    width: '100%', 
+const scrollbarStyle = {
+    width: '100%',
     height: 'calc(80vh - 80px)',
-    cursor:'default',
+    cursor: 'default',
 }
- 
 
+const initState = {
+    offlineMsgPageIdx: 0,
+}
 
 class Chat extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { needScrollOfflineMsgs: false, msgListHeight: 0  };
+        this.state = initState;
     }
-
-
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const { selectedChat, messages } = this.props;
@@ -44,38 +44,32 @@ class Chat extends Component {
         if (!isEqual(messages, nextProps.messages)) {
             return true;
         }
-
-        console.log('return false');
         return false;
     }
 
     componentDidUpdate(nextProps, nextState, nextContext) {
-        console.log('componentDidUpdate');
         const { dispatch, selectedChat, pageIdx, pageCount } = this.props;
-        
+
         if (selectedChat != null && !isEqual(selectedChat, nextProps.selectedChat)) {
+            this.setState({ offlineMsgPageIdx: 0 });
             dispatch(messageActions.getOfflineMessages(selectedChat.customer.CustomerId, selectedChat.customer));
         }
-        else if (pageIdx < pageCount) {
-            
-               this.refs. scrollbar.scrollTop(50);
-          
-
+        else if (pageCount > 0 && pageIdx < pageCount) {
+            this.refs.scrollbar.scrollTop(50);
         }
     }
 
     handleScroll = value => {
+
         const { top } = value;
         const { selectedChat, pageIdx, pageCount } = this.props;
         if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
             const { dispatch } = this.props;
-            if (pageIdx < pageCount) {
-                console.log('ready to get next msgs');
+            if (pageIdx >= 0 && pageIdx < pageCount) {
                 dispatch(messageActions.getOfflineMessages(selectedChat.customer.CustomerId, selectedChat.customer, pageIdx + 1));
             }
         }
     }
-
 
 
     render() {
@@ -88,7 +82,7 @@ class Chat extends Component {
                     <div >
                         <TitleDiv>
                             <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
-                        </TitleDiv>              
+                        </TitleDiv>
                         <Scrollbar onScroll={this.handleScroll} ref='scrollbar' style={scrollbarStyle}>
                             <MessageList messages={messages} />
                         </Scrollbar>
@@ -118,4 +112,3 @@ const page = connect(mapStateToProps, null)(Chat);
  */
 export { page as Chat };
 
- 
