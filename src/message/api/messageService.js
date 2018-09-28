@@ -35,11 +35,11 @@ class MessageService {
     }
 
      
-    async getMessagesByChannelId(channelId, startTime, type, sort, index, pageSize, appKey, customer) {
-       ???
-        const old = this._msgLstCache.find(x => x.CurrentPageIndex === index);
-        if (old != null) {
-            return old;
+    async getOfflineMessages(channelId, startTime, type, sort, index, pageSize, appKey, customer) {
+      ???
+        const exist = this._msgLstCache.find(x => x.channelId===channelId);
+        if (exist != null && exist.offlineMsgLoaded===true) {
+            return [];
         }
         const url = serviceUrls.URL_GET_MESSAGES_BY_CUSTOMER_ID;
         const res = await util.fetchWithPost(url,
