@@ -5,6 +5,8 @@ export const constants = {
 
     LOAD_OFFLINE_MESSAGE:'LOAD_RECENT_MESSAGE',
 
+    
+
     RECEIVE_MESSAGE:'RECEIVE_MESSAGE',
  
 }

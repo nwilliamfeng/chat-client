@@ -5,7 +5,7 @@ import {staffReducer} from './staff/reducers';
 import {systemReducer} from './system/reducers';
 import {configurationReducer} from './configuration/reducers';
 import {chatReducer} from './chat/reducers';
-import {historyMessageReducer,offlineMessageReducer} from './message/reducers';
+import {historyMessageReducer,messageReducer} from './message/reducers';
 import {homeReducer} from './home/reducers'
 import thunkMiddleware from 'redux-thunk'; 
  
@@ -43,7 +43,7 @@ const reducer = combineReducers({
   historyMessage:historyMessageReducer,
 
 
-  offlineMessage:offlineMessageReducer,
+  message:messageReducer,
 
   home:homeReducer,
 

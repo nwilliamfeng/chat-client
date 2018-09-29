@@ -1,3 +1,3 @@
  export * from './historyMessageReducer';
- export * from './offlineMessageReducer';
+ export * from './messageReducer';
  

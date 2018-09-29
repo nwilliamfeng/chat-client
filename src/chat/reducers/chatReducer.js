@@ -50,12 +50,7 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
         ...state,
         selectedChat: action.selectedChat,
       }
-
-    case constants.ACTIVE_CHAT_PAGE:
-      return {
-        ...state,
-        selectedChat: action.selectedChat,
-      }
+ 
 
     default:
       return state;

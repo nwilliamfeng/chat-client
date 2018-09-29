@@ -18,8 +18,8 @@ export const historyMessageReducer = (state = {}, action) => {
     //     historyResult: historyMessageContext,
     //   };
 
-    case constants.LOAD_OFFLINE_MESSAGE:
-      return state;
+    // case constants.LOAD_OFFLINE_MESSAGE:
+    //   return state;
       // updateCurrRecentMessage(action.data);
 
       // return {

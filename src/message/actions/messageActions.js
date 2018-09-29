@@ -1,5 +1,5 @@
 import { constants } from '../constants';
-import { messageService,historyMessageService } from '../api';
+ import { messageService,historyMessageService } from '../api';
 import {  appContext } from '../../util';
 import { dateUtil } from '../../util/date';
  
@@ -12,7 +12,7 @@ export const messageActions = {
      
     getHistoryMessages,
 
-    getOfflineMessages,
+    loadOfflineMessages,
 
 }
 
@@ -36,11 +36,15 @@ function getHistoryMessages(customer){
  * 返回指定频道id的离线消息
  * @param {string} channelId 
  */
-function getOfflineMessages(channelId,customer,pageIdx=0){
-    const startTime=dateUtil.dateFormat( dateUtil.substactDays(7),'yyyy-MM-dd');
-    const sortOrder=0;//按时间升序
+function loadOfflineMessages(chat,pageIdx=0){
+    const {channelId} =chat;
+ 
     return async dispatch =>{
-      const data= await historyMessageService.getMessagesByChannelId(channelId,startTime,1,sortOrder,pageIdx,10,appContext.appKeys[0],customer);
-      dispatch({type:constants.LOAD_OFFLINE_MESSAGE,data});
+      const {offlineMsgPageIdx,offlineMsgPageCount}= await messageService.loadOfflineMessages(chat,pageIdx);
+      dispatch({type:constants.LOAD_OFFLINE_MESSAGE,channelId,offlineMsgPageIdx,offlineMsgPageCount});
+      if(offlineMsgPageCount>0 && offlineMsgPageIdx<offlineMsgPageCount-1){
+        const messages =messageService.getChatMessages(channelId);
+        dispatch({type:constants.RECEIVE_MESSAGE,channelId,messages});
+      }
     }
 }

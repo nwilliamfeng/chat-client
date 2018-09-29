@@ -1,5 +1,6 @@
 import { constants, chatOpenMode } from '../constants';
 import { chatService } from '../api';
+import {messageService} from  '../../message/api';
 import {  appContext } from '../../util';
  
  
@@ -39,10 +40,7 @@ export const chatActions = {
      */
     selectChat,
 
-    /**
-     * 选中页面
-     */
-    activeChatPage,
+  
 
     
 }
@@ -55,10 +53,15 @@ function initChats(){
 }
 
 function selectChat(chat){
+    const {channelId} =chat;   
+    const {offlineMsgPageIdx , offlineMsgPageCount }= messageService.getChatOfflineMessageInfo(channelId);
+    const messages = messageService.getChatMessages(channelId);
     return {
         type:constants.SELECT_CHAT,
-        chats:chatService.chats,
         selectedChat:chat,
+        messages,
+        offlineMsgPageIdx , 
+        offlineMsgPageCount, 
     }
 }
 
@@ -73,7 +76,9 @@ function chatWithMyCustomer(customer){
     return async dispatch => {
         //todo-- 这里需要chat服务类实现业务逻辑
         const newChat =await chatService.createChat(customer);
-        dispatch({type:constants.OPEN_CHAT,newChat,openMode:chatOpenMode.ByStaff});    
+        messageService.loadOfflineMessages(newChat);
+        dispatch({type:constants.OPEN_CHAT,newChat,openMode:chatOpenMode.ByStaff});   
+        dispatch(selectChat(newChat));
     }
 }
  
@@ -83,27 +88,18 @@ function chatWithMyCustomer(customer){
  */
 function closeChat(chat){
     return async dispatch=>{
+        const {channelId} =chat;
         await chatService.closeChat(chat);
+        messageService.remove(channelId);
         dispatch(
             {
                 type:constants.CLOSE_CHAT,
-                removeId:chat.channelId,
+                removeId:channelId,
             });
     }
 }
 
-function activeChatPage(channelId,page){
-    const selectedChat =chatService.getChat( channelId);
-    
-        selectedChat.activePage=page;
-    
-
-    return {
-        type:constants.ACTIVE_CHAT_PAGE,
-        selectedChat:Object.assign({}, selectedChat),
-      
-    }
-}
+ 
 
 
 /**
@@ -111,8 +107,8 @@ function activeChatPage(channelId,page){
  */
 function openAssignedCustomerChat(customer) {
     return async dispatch => {
-        const newChat =await chatService.createChat(customer);
-        dispatch({type:constants.OPEN_CHAT,selectedChat:newChat,chats:chatService.chats});    
+        const newChat =await chatService.createChat(customer);   
+        dispatch({type:constants.OPEN_CHAT,selectedChat:newChat});    
     }
 }
 

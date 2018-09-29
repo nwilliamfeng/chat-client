@@ -24,15 +24,12 @@ const scrollbarStyle = {
     cursor: 'default',
 }
 
-const initState = {
-    offlineMsgPageIdx: 0,
-}
+
 
 class Chat extends Component {
 
     constructor(props) {
         super(props);
-        this.state = initState;
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -48,27 +45,26 @@ class Chat extends Component {
     }
 
     componentDidUpdate(nextProps, nextState, nextContext) {
-        const { dispatch, selectedChat, pageIdx, pageCount } = this.props;
+        const { dispatch, selectedChat, offlineMsgPageIdx,offlineMsgPageCount } = this.props;
 
-        if (selectedChat != null && !isEqual(selectedChat, nextProps.selectedChat)) {
-            this.setState({ offlineMsgPageIdx: 0 });
-            dispatch(messageActions.getOfflineMessages(selectedChat.customer.CustomerId, selectedChat.customer));
-        }
-        else if (pageCount > 0 && pageIdx < pageCount) {
-            this.refs.scrollbar.scrollTop(50);
-        }
+        // if (selectedChat != null && !isEqual(selectedChat, nextProps.selectedChat)) {
+        //     dispatch(messageActions.getOfflineMessages(selectedChat));
+        // }
+        // else if (offlineMsgPageCount > 0 && offlineMsgPageIdx< offlineMsgPageCount) {
+        //     this.refs.scrollbar.scrollTop(50);
+        // }
     }
 
     handleScroll = value => {
 
-        const { top } = value;
-        const { selectedChat, pageIdx, pageCount } = this.props;
-        if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
-            const { dispatch } = this.props;
-            if (pageIdx >= 0 && pageIdx < pageCount) {
-                dispatch(messageActions.getOfflineMessages(selectedChat.customer.CustomerId, selectedChat.customer, pageIdx + 1));
-            }
-        }
+        // const { top } = value;
+        // const { selectedChat, offlineMsgPageIdx,offlineMsgPageCount } = this.props;
+        // if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
+        //     const { dispatch } = this.props;
+        //     if (offlineMsgPageIdx >= 0 && offlineMsgPageIdx < offlineMsgPageCount) {
+        //         dispatch(messageActions.getOfflineMessages(selectedChat, offlineMsgPageIdx + 1));
+        //     }
+        // }
     }
 
 
@@ -96,12 +92,10 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
     const { selectedChat } = state.chat;
-    const { offlineMessages, pageIdx, pageCount } = state.offlineMessage;
-    //todo,后面置入messages
-    const messages = [...offlineMessages];
-
+    const { messages, offlineMsgPageIdx, offlineMsgPageCount } = state.message;
+    
     //todo 添加消息reducer
-    return { selectedChat, messages, pageIdx, pageCount };
+    return { selectedChat, messages, offlineMsgPageIdx, offlineMsgPageCount };
 }
 
 
