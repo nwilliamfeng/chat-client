@@ -89,10 +89,12 @@ const HeaderDiv=styled.div`
  * 会话列表项
  * @param {*} param0 
  */
-export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
+export const ChatHeader = ({ chat,messages, onSelectChat, isSelected }) => {
 
     const {customer} =chat;
     const {CustomerName,CustomerAvataUrl} =customer;
+    const unreadMsgs= messages.filter(x=>x.isUnread===true);
+    const showUnreadBubble=unreadMsgs.length>0;
     const onClick = () =>  onSelectChat(chat);
     return (
         <HeaderLi onClick={onClick}>
@@ -101,7 +103,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
                     <TableCellDiv>
                         <AvatarDiv>
                             <AvatarImg alt=''  src={CustomerAvataUrl} />
-                            <MsgCountDiv>{9}</MsgCountDiv>
+                            {showUnreadBubble && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
                         </AvatarDiv>
                     </TableCellDiv>
                     <TopTableCellDiv>
@@ -119,6 +121,8 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
 
 ChatHeader.propTypes={
     chat:PropTypes.object.isRequired,
+    messages:PropTypes.array.isRequired,
     onSelectChat:PropTypes.func.isRequired,
-
+    isSelected:PropTypes.bool,
+    
 }

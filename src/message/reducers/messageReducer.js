@@ -6,6 +6,7 @@ const initState = {
   offlineMsgPageIdx: -1,
   offlineMsgPageCount: 0,
   channelId: null,
+  messages:[],
 }
 
 /**
@@ -35,7 +36,7 @@ export const messageReducer = (state = initState, action) => {
       return {
         ...state,
         channelId,
-        messages: action.messages,
+        messages: action.messages?action.messages:[],
       }
 
     case constants.LOAD_OFFLINE_MESSAGE:
@@ -55,7 +56,10 @@ export const messageReducer = (state = initState, action) => {
       };
 
     default:
-      return state;
+      return {
+        ...state,
+        ...initState,
+      };
   }
 
 }

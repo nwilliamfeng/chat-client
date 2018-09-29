@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { chatActions } from '../actions';
 import { ContextMenu, MenuItem } from 'react-contextmenu';
-import {appContext} from '../../util/';
+import { appContext } from '../../util/';
 import { ChatHeader } from './ChatHeader';
 import { isEqual } from 'lodash';
-import  Rx from 'rx';
+import Rx from 'rx';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
 
 
@@ -20,7 +20,7 @@ const ListUl = styled.ul`
 class ChatList extends Component {
 
     constructor(props) {
-        super(props);   
+        super(props);
     }
 
     componentWillUnmount() {
@@ -39,12 +39,12 @@ class ChatList extends Component {
             .timeInterval();
         this.subscription = source.subscribe(
             () => {
-                
+
                 if (appContext.currentStaff == null) {
                     this.subscription.dispose();
                 }
-                else{
-                    
+                else {
+
                 }
             },
             err => {
@@ -54,12 +54,15 @@ class ChatList extends Component {
                 console.log('Completed');
             });
     }
-    
+
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (!isEqual(this.props.chats, nextProps.chats)) {
             return true;
         }
         if (!isEqual(this.props.selectedChat, nextProps.selectedChat)) {
+            return true;
+        }
+        if (!isEqual(this.props.messages, nextProps.messages)) {
             return true;
         }
         //todo-- 任何会话收到消息都得更新
@@ -121,14 +124,19 @@ class ChatList extends Component {
     }
 
     render() {
-         console.log('do render chatlist');
-        const { chats } = this.props;
+        console.log('do render chatlist');
+        const { chats, messages } = this.props;
         return (
             <div>
                 {chats &&
                     <ListUl>
-                        {chats.map((item) => (
-                            <ChatHeader key={item.channelId} chat={item} onSelectChat={this.handleSelectChat} isSelected={this.isSelectedChat(item)} />
+                        {chats.map(chat => (
+                            <ChatHeader
+                                key={chat.channelId}
+                                chat={chat}
+                                messages={messages}
+                                onSelectChat={this.handleSelectChat}
+                                isSelected={this.isSelectedChat(chat)} />
                         ))}
                     </ListUl>
                 }
@@ -145,9 +153,11 @@ class ChatList extends Component {
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
+    const { messages } = state.message;
     return {
         chats,
         selectedChat,
+        messages,
     }
 }
 

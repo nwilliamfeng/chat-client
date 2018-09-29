@@ -55,6 +55,20 @@ class MessageService {
         return { offlineMsgPageIdx, offlineMsgPageCount };
     }
 
+    readMessages(unreadMsgs){
+        if(unreadMsgs==null || unreadMsgs.length==0){
+            return;
+        }
+        let item =this._msgLstCache.find(x=>x.channelId=== unreadMsgs[0].ChannelId);
+        if(item!=null){
+            item.msgs.forEach(x => {
+                if(unreadMsgs.some(m=>m.MsgId===x.MsgId)){
+                    x.isUnread=false;
+                }
+            });
+        }
+    }
+
 
     loadOfflineMessages(chat, index=0) {
         const pageSize = 10;
@@ -80,6 +94,7 @@ class MessageService {
             const start = random(3, 40);
             const end = random(41, str.length - 1);
             const msg = {
+                isUnread:index===0?true:false,
                 ChannelID: channelId,
                 MsgId: id,
                 AvataUrl: isStaff ? appContext.currentStaff.AvataUrl : 'https://avator.eastmoney.com/qface/8247513267045400/120',
