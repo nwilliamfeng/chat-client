@@ -23,37 +23,37 @@ export const messageReducer = (state = initState, action) => {
         ...initState,
       }
 
-    case chatConstants.SELECT_CHAT:
+    // case chatConstants.SELECT_CHAT:
 
-      return {
-        ...state,
-        messages:messages?messages:[],
-        offlineMsgPageIdx,
-        offlineMsgPageCount,
-      }
+    //   return {
+    //     ...state,
+    //     messages:messages?messages:[],
+    //     offlineMsgPageIdx,
+    //     offlineMsgPageCount,
+    //   }
 
-    case constants.RECEIVE_MESSAGE:
-      return {
-        ...state,
-        channelId,
-        messages: action.messages?action.messages:[],
-      }
+    // case constants.RECEIVE_MESSAGE:
+    //   return {
+    //     ...state,
+    //     channelId,
+    //     messages: action.messages?action.messages:[],
+    //   }
 
-    case constants.LOAD_OFFLINE_MESSAGE:
-      const { offlineMsgPageCount, offlineMsgPageIdx, channelId } = action;
-      return {
-        ...state,
-        offlineMsgPageIdx,
-        offlineMsgPageCount,
-        channelId,
-      };
+    // case constants.LOAD_OFFLINE_MESSAGE:
+    //   const { offlineMsgPageCount, offlineMsgPageIdx, channelId } = action;
+    //   return {
+    //     ...state,
+    //     offlineMsgPageIdx,
+    //     offlineMsgPageCount,
+    //     channelId,
+    //   };
 
 
-    case chatConstants.CLOSE_CHAT: //如果关闭会话则当前的历史消息清空
-      return {
-        ...state,
-        ...initState,
-      };
+    // case chatConstants.CLOSE_CHAT: //如果关闭会话则当前的历史消息清空
+    //   return {
+    //     ...state,
+    //     ...initState,
+    //   };
 
     default:
       return {

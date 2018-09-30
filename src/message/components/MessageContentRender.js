@@ -1,11 +1,16 @@
 import React from 'react';
 import {defaultEmojiMapping} from '../../util/defaultEmojiMapping';
+import styled from 'styled-components';
 import {  util } from '../../util';
 import File_Txt_Img from '../../assets/imgs/txt.png';
 import File_Word_Img from '../../assets/imgs/word.png';
 import File_Unknown_Img from '../../assets/imgs/unknown.png';
 require('../../assets/styles/bubble.css');
 
+const EmojiImg =styled.img`
+    width:${props=>props.isSmallEmoji===true?'14px':'24px'};
+    margin-top:${props=>props.isSmallEmoji===true?'-2px':'0px'};
+`;
 
 /**
  * 消息内容呈现类
@@ -33,11 +38,12 @@ class MessageContentRender {
     }
 
 
+
     /**
      * 解析消息内容项，包括文本，表情
      * @param {*} item 
      */
-     _renderMsgContentItem(item){
+     _renderMsgContentItem(item,isSmallEmoji=false){
         if(item==null){
             return <div></div>
         } 
@@ -45,7 +51,7 @@ class MessageContentRender {
         if(isEmoji){
             const emoji =defaultEmojiMapping.getEmoji(item);
             if(emoji!==null){
-                return <img src={emoji.imgSrc}/>
+                return <EmojiImg src={emoji.imgSrc} isSmallEmoji={isSmallEmoji}/>
             }                
         }     
         return  item;
@@ -57,12 +63,12 @@ class MessageContentRender {
      * 呈现普通消息内容，包括普通文本消息、表情符号，暂时不解析图片
      * @param {*} msgContent 
      */
-     renderTextContent(msgContent) {
+     renderTextContent(msgContent,isSmallEmoji=false) {
         const items= defaultEmojiMapping.splitWithEmojis(msgContent);
         return (
             <div>
                  {items.map((item) => (
-                     this._renderMsgContentItem(item)
+                     this._renderMsgContentItem(item,isSmallEmoji)
                  ))}
             </div>
         )

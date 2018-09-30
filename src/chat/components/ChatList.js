@@ -125,7 +125,7 @@ class ChatList extends Component {
 
     render() {
         console.log('do render chatlist');
-        const { chats, messages } = this.props;
+        const { chats } = this.props;
         return (
             <div>
                 {chats &&
@@ -134,7 +134,6 @@ class ChatList extends Component {
                             <ChatHeader
                                 key={chat.channelId}
                                 chat={chat}
-                                messages={messages}
                                 onSelectChat={this.handleSelectChat}
                                 isSelected={this.isSelectedChat(chat)} />
                         ))}
@@ -153,11 +152,9 @@ class ChatList extends Component {
 
 function mapStateToProps(state) {
     const { chats, selectedChat } = state.chat;
-    const { messages } = state.message;
     return {
         chats,
         selectedChat,
-        messages,
     }
 }
 

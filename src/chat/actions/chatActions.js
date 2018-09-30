@@ -53,15 +53,11 @@ function initChats(){
 }
 
 function selectChat(chat){
-    const {channelId} =chat;   
-    const {offlineMsgPageIdx , offlineMsgPageCount }= messageService.getChatOfflineMessageInfo(channelId);
-    const messages = messageService.getChatMessages(channelId);
+  
     return {
         type:constants.SELECT_CHAT,
         selectedChat:chat,
-        messages,
-        offlineMsgPageIdx , 
-        offlineMsgPageCount, 
+ 
     }
 }
 
@@ -90,7 +86,6 @@ function closeChat(chat){
     return async dispatch=>{
         const {channelId} =chat;
         await chatService.closeChat(chat);
-        messageService.remove(channelId);
         dispatch(
             {
                 type:constants.CLOSE_CHAT,

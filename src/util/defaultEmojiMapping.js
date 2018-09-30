@@ -24,6 +24,9 @@ class DefaultEmojiMapping {
 
 
     splitWithEmojis(str) {
+        if(str==null){
+            return [];
+        }
         const reg = /(?:\[\:)(.+?)(?:\])/gm; //正则，找到表情内容
 
         let ecs = this.getEmojiContents(reg, str);

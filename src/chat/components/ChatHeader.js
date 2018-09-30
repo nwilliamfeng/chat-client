@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
+import { messageContentRender } from '../../message/components';
+import MessageHelper from '../../message/messageHelper';
+import { messageContentType } from '../../message/constants';
+import { appContext,util } from '../../util'
+import { dateUtil } from '../../util/date';
 
 const HeaderLi = styled.li`
     padding:0px;
@@ -24,7 +29,7 @@ const TopTableCellDiv = styled(TableCellDiv)`
     cursor:default;
 `;
 
-const MsgDiv=styled.div`
+const MsgDiv = styled.div`
     font-size:12px;
     color: gray;
     width:120px;
@@ -34,14 +39,14 @@ const MsgDiv=styled.div`
     white-space:nowrap;
 `;
 
-const TitleDiv=styled.div`
+const TitleDiv = styled.div`
     width:100px;
     text-overflow:ellipsis;
     overflow:hidden;
     white-space:nowrap;
 `;
 
-const TimeDiv=styled.div`
+const TimeDiv = styled.div`
     font-size:12px;
     width:50px;
     color: gray;
@@ -49,7 +54,7 @@ const TimeDiv=styled.div`
     padding-right:5px;
 `;
 
-const MsgCountDiv=styled.div`
+const MsgCountDiv = styled.div`
     height:14px;
     min-width:14px;
     border-radius:60px;
@@ -62,7 +67,7 @@ const MsgCountDiv=styled.div`
     cursor:default;
 `;
 
-const AvatarDiv=styled.div`
+const AvatarDiv = styled.div`
     margin-left:3px;
     margin-right:10px;
     vertical-align:center;
@@ -73,45 +78,75 @@ const AvatarDiv=styled.div`
     color: white;
 `;
 
-const AvatarImg=styled.img`
+const AvatarImg = styled.img`
     height:36px;
     width:36px;
     margin-bottom:4px;
     border-radius:3px;
 `;
 
-const HeaderDiv=styled.div`
+const HeaderDiv = styled.div`
     padding: 11px 8px 10px 8px;
-    background-color:${props=>props.isSelected?'#C4C4C5' : 'transparent'};
+    background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
 `;
+
+const LastMessage = ({ message }) => {
+    const { SenderName, MessageContent } = message;
+    const contentType = MessageHelper.getMessageContentType(MessageContent);
+    const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：';
+    if (message == null) {
+        return <div></div>
+    }
+    return (
+        <div>
+            {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
+                <TableCellDiv>
+                    {sender}
+                </TableCellDiv>
+                <TableCellDiv>
+                    {messageContentRender.renderTextContent(MessageContent,true)}
+                </TableCellDiv>
+            </MsgDiv>}
+            {contentType === messageContentType.File && <MsgDiv title={`${SenderName}：文件`}>
+                {`${sender}文件`}
+            </MsgDiv>}
+            {contentType === messageContentType.Picture && <MsgDiv title={`${SenderName}：图片`}>
+                {`${sender}图片`}
+            </MsgDiv>}
+        </div>
+    )
+}
+
 
 /**
  * 会话列表项
  * @param {*} param0 
  */
-export const ChatHeader = ({ chat,messages, onSelectChat, isSelected }) => {
+export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
 
-    const {customer} =chat;
-    const {CustomerName,CustomerAvataUrl} =customer;
-    const unreadMsgs= messages.filter(x=>x.isUnread===true);
-    const showUnreadBubble=unreadMsgs.length>0;
-    const onClick = () =>  onSelectChat(chat);
+    const { customer, messages } = chat;
+    const { CustomerName, CustomerAvataUrl } = customer;
+    const unreadMsgs = messages.filter(x => x.isUnread === true);
+    const lastMsg = messages[messages.length - 1];
+    const time =lastMsg?util.dateFormat(lastMsg.SendTime,'hh:mm:ss'):'';
+    const containUnread = unreadMsgs.length > 0;
+    const onClick = () => onSelectChat(chat);
     return (
         <HeaderLi onClick={onClick}>
             <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={{ chatdata: JSON.stringify(chat) }}>
                 <HeaderDiv isSelected={isSelected}>
                     <TableCellDiv>
                         <AvatarDiv>
-                            <AvatarImg alt=''  src={CustomerAvataUrl} />
-                            {showUnreadBubble && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
+                            <AvatarImg alt='' src={CustomerAvataUrl} />
+                            {containUnread && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
                         </AvatarDiv>
                     </TableCellDiv>
                     <TopTableCellDiv>
                         <TitleDiv> {CustomerName}</TitleDiv>
-                        <MsgDiv> {'的俺的沙发大幅拉开飞机阿斯顿发福利阿斯顿发送到付款阿斯顿发生发动机发大发'}</MsgDiv>
+                        <LastMessage message={lastMsg} />
                     </TopTableCellDiv>
                     <TopTableCellDiv>
-                        <TimeDiv> {'18/12/23'}</TimeDiv>
+                        {containUnread && <TimeDiv> {time}</TimeDiv>}
                     </TopTableCellDiv>
                 </HeaderDiv>
             </ContextMenuTrigger>
@@ -119,10 +154,10 @@ export const ChatHeader = ({ chat,messages, onSelectChat, isSelected }) => {
     )
 }
 
-ChatHeader.propTypes={
-    chat:PropTypes.object.isRequired,
-    messages:PropTypes.array.isRequired,
-    onSelectChat:PropTypes.func.isRequired,
-    isSelected:PropTypes.bool,
-    
+ChatHeader.propTypes = {
+    chat: PropTypes.object.isRequired,
+    messages: PropTypes.array.isRequired,
+    onSelectChat: PropTypes.func.isRequired,
+    isSelected: PropTypes.bool,
+
 }

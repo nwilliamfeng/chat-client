@@ -14,7 +14,7 @@ class ChatService {
 
 
 
-    async createChat(customer, otherparm = null) {
+    async createChat(customer ) {
         const exist = this._chats.find(x => x.customer.CustomerId === customer.CustomerId);
         if (exist != null) {
             return exist;
@@ -23,6 +23,9 @@ class ChatService {
         const newChat = {
             customer, //当前的客户
             channelId: uniqueId('chat_'), //对应的频道Id
+            offlineMsgPageCount:0,
+            offlineMsgPageIdx:-1,
+            messages:[],
         };
         this._chats.push(newChat);
 
