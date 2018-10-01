@@ -1,4 +1,5 @@
 import { uniqueId } from 'lodash';
+import {messageService} from '../../message/api';
 //import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
 
 
@@ -51,6 +52,11 @@ class ChatService {
         if (idx > -1) {
             this._chats.splice(idx, 1);
         }
+    }
+
+    async loadMoreOfflineMessages(chat){
+        const {offlineMsgPageIdx} =chat;
+      await  messageService.loadOfflineMessages(chat,offlineMsgPageIdx+1);
     }
 
     /**

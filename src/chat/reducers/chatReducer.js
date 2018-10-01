@@ -1,6 +1,6 @@
 import { constants } from '../constants';
 import { findIndex } from 'lodash';
-import {constants as authConstants} from '../../auth/constants';
+import { constants as authConstants } from '../../auth/constants';
 
 export const chatReducer = (state = { chats: [], selectedChat: null }, action) => {
   const { chats } = state;
@@ -24,6 +24,12 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
         };
       }
 
+    case constants.LOAD_MORE_OFFLINE_MESSAGES:
+      return {
+        ...state,
+        
+      }
+
 
     case constants.CLOSE_CHAT:
       const { removeId } = action;
@@ -31,7 +37,7 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
       if (idx < 0) {
         return state;
       }
-      const nwChats=[
+      const nwChats = [
         ...chats.slice(0, idx),
         ...chats.slice(idx + 1)
       ];
@@ -50,7 +56,7 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
         ...state,
         selectedChat: action.selectedChat,
       }
- 
+
 
     default:
       return state;

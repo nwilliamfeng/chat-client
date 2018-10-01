@@ -20,7 +20,7 @@ const ListUl = styled.ul`
 class ChatList extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);  
     }
 
     componentWillUnmount() {
@@ -56,15 +56,14 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
+        console.log('shouldComponentUpdate chatlist');
         if (!isEqual(this.props.chats, nextProps.chats)) {
             return true;
         }
         if (!isEqual(this.props.selectedChat, nextProps.selectedChat)) {
             return true;
         }
-        if (!isEqual(this.props.messages, nextProps.messages)) {
-            return true;
-        }
+   
         //todo-- 任何会话收到消息都得更新
         return false;
     }

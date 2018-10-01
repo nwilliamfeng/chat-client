@@ -21,6 +21,8 @@ export const constants = {
 
     CLOSE_ALL_CHATS: 'CLOSE_ALL_CHATS',
 
+    LOAD_MORE_OFFLINE_MESSAGES:'LOAD_MORE_OFFLINE_MESSAGES',
+
     /**
      * 选中会话
      */

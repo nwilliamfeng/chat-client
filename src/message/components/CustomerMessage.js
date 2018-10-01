@@ -1,6 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 import { messageContentType } from '../constants';
-import { messageContentRender } from './MessageContentRender';
+import { messageContentRender, withMessageContent } from './MessageContentRender';
 import ImageZoom from 'react-medium-image-zoom';
 import MessageHelper from '../messageHelper';
 
@@ -64,49 +65,72 @@ const senderStyle = {
 }
 
 const bodyStyle = {
-    display: 'table-cell', 
+    display: 'table-cell',
 }
 
+const LeftBubbleDiv = styled.div`
+    position: relative;
+    padding: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: white;
+    display: inline-block;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+    max-width: 80%;
+    border: 1px solid #eee;
+    &:before{
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: -8px;
+        border-style: solid;
+        border-width: 5px 7px 5px 0;
+        border-color: transparent #eee;
+        width: 0;
+        z-index: 1;
+    };  
+    &:after{
+        content: "";
+    position: absolute;
+    top: 10px;
+    left: -6px;
+    border-style: solid;
+    border-width: 5px 7px 5px 0;
+    border-color: transparent white;
+    width: 0;
+    z-index: 1;
+    };
+`;
 
-const imgStyle = {
-    maxWidth: '60%',
-    maxHeight: '25%',
-    marginBottom: 15,
-    border: '1px solid #eee',
-    borderRadius: 5,
-} 
 
- 
-const contentStyle =  {
-    wordWrap: 'break-word',
-    maxWidth: '80%',
-    border: '1px solid #eee',
-} 
 
-const renderContent=(content)=> {
+const TextContent = withMessageContent(props => <LeftBubbleDiv>{props.children}</LeftBubbleDiv>);
+
+
+
+const renderContent = (content) => {
     const contentType = MessageHelper.getMessageContentType(content);
     switch (contentType) {
         case messageContentType.Text:
             return (
-                <div className='lbubble' style={contentStyle}>
-                    {content}
-                </div>
+                <TextContent content={content} />
             );
         case messageContentType.Picture:
             return (
                 <div>
                     <ImageZoom
                         image={{
-                            src: MessageHelper.getThumbImg(content),                         
+                            src: MessageHelper.getThumbImg(content),
                             style: { maxWidth: '180px' }
                         }}
                         zoomImage={{
-                            src: MessageHelper.getFullFileName(content),     
+                            src: MessageHelper.getFullFileName(content),
                         }}
                     />
                 </div>
             );
-        
+
         default:
             return (<div>{'无法识别的消息内容:' + content}</div>)
     }
@@ -114,7 +138,7 @@ const renderContent=(content)=> {
 
 
 export const CustomerMessage = ({ message }) => {
-    const { MessageContent,AvataUrl } = message;
+    const { MessageContent, AvataUrl } = message;
     return (
         <div className="louter"  >
             <div style={avatarContainerStyle}>

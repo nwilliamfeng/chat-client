@@ -104,7 +104,7 @@ const ExtendContainer = styled.div`
 `;
 
 const MainRegion = styled.div`
-    padding-left:60px;
+    margin-left:45px;
     z-index:1;
     background: white;
 `;

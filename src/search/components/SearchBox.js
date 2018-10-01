@@ -38,7 +38,7 @@ const iconStyle={
                  
                    <div className="form-group  right-inner-addon">
                        <i className="fa fa-search" aria-hidden="true" style={iconStyle}></i>
-                       <input type="search" className="form-control input-xs" placeholder="联系人" />                      
+                       <input type="search" className="form-control input-xs" placeholder="联系人" style={{height:28}}/>                      
                    </div>    
                    
             </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
-import { messageContentRender,WithMessageContent } from '../../message/components';
+import { withMessageContent } from '../../message/components';
 import MessageHelper from '../../message/messageHelper';
 import { messageContentType } from '../../message/constants';
 import { appContext, util } from '../../util'
@@ -50,9 +50,7 @@ const TxtContentDiv = styled.div`
     text-overflow:ellipsis;
     overflow:hidden;
     white-space:nowrap;
-    display: inline-block ;
-    max-width: 75px;
-     width:75px;
+   
 `;
 
 const TimeDiv = styled.div`
@@ -99,26 +97,21 @@ const HeaderDiv = styled.div`
     background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
 `;
 
-const TextMessageContent= WithMessageContent(()=> <TxtContentDiv/> );
- 
-//const DD=WithMessageContent(()=><div content={'ds'}></div>);
+const TextMessageContent = withMessageContent(props => <TxtContentDiv>{props.children}</TxtContentDiv>);
+
 
 const LastMessage = ({ message }) => {
     const { SenderName, MessageContent } = message;
     const contentType = MessageHelper.getMessageContentType(MessageContent);
     const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：';
+    const content = sender + MessageContent;
     if (message == null) {
         return <div></div>
     }
     return (
         <div>
             {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
-                 
-                  <span style={{ display: 'inline-block' }}>  {sender}</span>
-                  <TextMessageContent content={MessageContent}/>
-               
-                        {/* {messageContentRender.renderTextContent(MessageContent, true)} */}
-                 
+                <TextMessageContent content={content} emojiSize={12} />
             </MsgDiv>}
             {contentType === messageContentType.File && <MsgDiv title={`${SenderName}：文件`}>
                 {`${sender}文件`}

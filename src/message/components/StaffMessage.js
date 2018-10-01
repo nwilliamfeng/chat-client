@@ -1,6 +1,6 @@
 import React  from 'react';
 import { messageContentType } from '../constants';
-import { messageContentRender } from './MessageContentRender';
+import {messageContentRender, withMessageContent } from './MessageContentRender';
 import MessageHelper from '../messageHelper';
 import { chatWindow } from '../../util/chatRegionHelper';
 import ImageZoom from 'react-medium-image-zoom';
@@ -91,6 +91,7 @@ const fileLogoContainerStyle = {
     padding:5,
 }
 
+const TextContent =withMessageContent(props=><div>{props.children}</div>);
 
 
 const renderContent = (content) => {
@@ -108,7 +109,8 @@ const renderContent = (content) => {
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
                     <div className='rbubble' style={contentStyle(width)}>
-                        {messageContentRender.renderTextContent(content)} 
+                        {/* {messageContentRender.renderTextContent(content)}  */}
+                        <TextContent content={content}/>
                     </div>
                 </ContextMenuTrigger>
             );

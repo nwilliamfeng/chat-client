@@ -3,8 +3,6 @@ import { chatService } from '../api';
 import {messageService} from  '../../message/api';
 import {  appContext } from '../../util';
  
- 
-
 /**
  * 聊天Action工厂实例
  */
@@ -40,9 +38,11 @@ export const chatActions = {
      */
     selectChat,
 
-  
+    /**
+     * 加载更多的离线消息
+     */
+    loadMoreOfflineMessages,
 
-    
 }
 
 
@@ -53,7 +53,11 @@ function initChats(){
 }
 
 function selectChat(chat){
-  
+    if(chat!=null){
+        chat.messages.filter(msg=>msg.isUnread===true).forEach(msg => {
+            msg.isUnread=false;
+        });
+    }
     return {
         type:constants.SELECT_CHAT,
         selectedChat:chat,
@@ -73,8 +77,18 @@ function chatWithMyCustomer(customer){
         //todo-- 这里需要chat服务类实现业务逻辑
         const newChat =await chatService.createChat(customer);
         messageService.loadOfflineMessages(newChat);
+        newChat.messages.filter(msg=>msg.isUnread===true).forEach(msg => {
+            msg.isUnread=false;
+        });
         dispatch({type:constants.OPEN_CHAT,newChat,openMode:chatOpenMode.ByStaff});   
         dispatch(selectChat(newChat));
+    }
+}
+
+function loadMoreOfflineMessages(chat){
+    return async dispatch=>{
+        await chatService.loadMoreOfflineMessages(chat);
+        dispatch({type:constants.LOAD_MORE_OFFLINE_MESSAGES,chat});
     }
 }
  

@@ -8,18 +8,10 @@ import { defaultEmojiMapping } from '../../util/defaultEmojiMapping';
 require('../../assets/styles/bubble.css');
 
 const EmojiImg = styled.img`
-    width:${props => props.isSmall === true ? '14px' : '24px'};
-    margin-top:${props => props.isSmall === true ? '-2px' : '0px'};
+    width:${props => props.emojiSize ? `${props.emojiSize}px` : '24px'};
+    margin-top:${props => props.emojiSize ? '-2px' : '0px'};
 `;
 
-const TxtContentDiv = styled.div`
-    text-overflow:ellipsis;
-    overflow:hidden;
-    white-space:nowrap;
-    display: inline-block ;
-    max-width: 75px;
-     width:75px;
-`;
 
 /**
  * 消息内容呈现类
@@ -52,7 +44,7 @@ class MessageContentRender {
      * 解析消息内容项，包括文本，表情
      * @param {*} item 
      */
-    _renderMsgContentItem(item, isSmallEmoji = false) {
+    _renderMsgContentItem(item) {
         if (item == null) {
             return <span></span>
         }
@@ -62,7 +54,7 @@ class MessageContentRender {
             if (emoji !== null) {
                 const { imgSrc } = emoji;
 
-                return <EmojiImg src={imgSrc} isSmall={isSmallEmoji} />
+                return <EmojiImg src={imgSrc}/>
 
 
             }
@@ -76,14 +68,14 @@ class MessageContentRender {
      * 呈现普通消息内容，包括普通文本消息、表情符号，暂时不解析图片
      * @param {*} msgContent 
      */
-    renderTextContent(msgContent, isSmallEmoji = false) {
+    renderTextContent(msgContent) {
         const items = defaultEmojiMapping.splitWithEmojis(msgContent);
         return (
-            <TxtContentDiv>
+            <div>
                 {items.map((item) => (
-                    this._renderMsgContentItem(item, isSmallEmoji)
+                    this._renderMsgContentItem(item)
                 ))}
-            </TxtContentDiv>
+            </div>
         )
     }
 
@@ -112,7 +104,7 @@ class MessageContentRender {
 export const messageContentRender = new MessageContentRender();
 
 
-const MessageContentItem = ({item, isSmallEmoji}) => {
+const MessageContentItem = ({ item, emojiSize }) => {
     if (item == null) {
         return <span></span>
     }
@@ -121,31 +113,23 @@ const MessageContentItem = ({item, isSmallEmoji}) => {
         const emoji = defaultEmojiMapping.getEmoji(item);
         if (emoji !== null) {
             const { imgSrc } = emoji;
-
-            return <EmojiImg src={imgSrc} isSmall={isSmallEmoji} />
-
-
+            return <EmojiImg src={imgSrc} emojiSize={emojiSize} />
         }
     }
     return item;
 
 }
 
-export const WithMessageContent = (Component) =>  class extends React.Component {
-
-          
-        render() {
-            console.log(this.props);
-            return <div style={{width:200,height:300,background:'red'}}></div>
-        //     const {content} =this.props;
-        //     const items = defaultEmojiMapping.splitWithEmojis(content);
-        //   return  <Component>
-        //         {items.map(item => (
-        //             <MessageContentItem item={item} isSmallEmoji={true}/> 
-        //         ))}
-        //     </Component>
-        }
-   
+export const withMessageContent = (Component) => class extends React.Component {
+    render() {
+        const { content,emojiSize } = this.props;
+        const items = defaultEmojiMapping.splitWithEmojis(content);
+        return <Component>
+            {items.map(item =>
+                <MessageContentItem item={item} emojiSize={emojiSize} />
+            )}
+        </Component>
+    }
 
 }
 

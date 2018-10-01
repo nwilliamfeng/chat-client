@@ -109,7 +109,7 @@ class MessageService {
         if (offlineMsgPageIdx < 0) {
             return false;
         }
-        return (offlineMsgPageCount == 0 && offlineMsgPageIdx == 0) || (offlineMsgPageIdx == offlineMsgPageCount - 1);
+        return (offlineMsgPageCount === 0 && offlineMsgPageIdx === 0) || (offlineMsgPageIdx === offlineMsgPageCount - 1);
     }
 
     updateMessagesRead(unreadMsgs){
@@ -139,7 +139,7 @@ class MessageService {
         return result;
     }
 
-    loadOfflineMessages(chat, index = 0) {
+    async loadOfflineMessages(chat, index = 0) {
         const pageSize = 10;
         if (chat == null || this.isOfflineMessageLoaded(chat)) {
             return;
@@ -149,11 +149,12 @@ class MessageService {
 
 
         //todo-- 测试这里用假数据------------------------------
-        const count = offlineMsgPageCount === 0 ? random(3, 34) : offlineMsgPageCount;
+        const count = offlineMsgPageCount === 0 ? random(3, 34) : offlineMsgPageCount*pageSize;
 
-        const rd =random(0,9);
-        const str =this._getMsgs()[ rd] ;
+       
         for (let i = 0; i < 10; i++) {
+            const rd =random(0,9);
+            const str =this._getMsgs()[ rd] ;
             const id = util.guid();
             const isStaff = i % 2 === 0 && rd % 2===0;
             const num = index * 10 + i;
@@ -174,7 +175,9 @@ class MessageService {
             // if (num % 3 === 0 && rd>8) {
             //     msg.MessageContent = '{Url:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,FileName:logo2.png,ThumbUrl:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,UrlEnd:UrlEnd}'
             // }
+            console.log('iterator: '+num+'   '+count   );
             if (num < count) {
+                console.log('insert msg '+num+'   '+count   );
                 chat.messages = [msg, ...chat.messages];
             }
 
@@ -183,6 +186,8 @@ class MessageService {
         if (chat.offlineMsgPageCount === 0) {
             chat.offlineMsgPageCount = Number.parseInt((count / pageSize).toFixed(0));
         }
+        
+        console.log(chat);
     }
 
 }
