@@ -133,6 +133,9 @@ class MessageService {
         result.push('上面的例子中，wrapperComponent渲染接受后，我们就可以拿到WrappedComponent组件[:dai]的实例，进而实现调用[:dai]实例方法的操作(当然这样会在一定程度上是反模式的，不是非常的推荐)。');
         result.push('const [last] = [1, 3, 4, 5].slice(-1)');
         result.push('上面的例子非常简单，但足以说明问题。我们可以看见函数HOC返回了新的组件(WrapperComponent)，这个组件原封不动的返回作为参数的组件(也就是被包裹的组件:WrappedComponent)，并将传给它的参数(props)全部传递给被包裹的组件(WrappedComponent)。这么看起来好像并没有什么作用，其实属性代理的作用还是非常强大的');
+        
+       
+       
         return result;
     }
 
@@ -165,12 +168,12 @@ class MessageService {
                 MessageContent:`(${num}): ${str}`,
                 SendTime: new Date(Date.now() - num * 10000),
             };
-            if (num % 2 === 0 && rd>4 && isStaff) {
-                msg.MessageContent = '{Url:http://61.129.129.189:7480/ZrhdWZaXSB/1e4670f4-6753-4736-a397-346fa21dcfb120180401210453921.docx,FileName:test.docx,ThumbUrl:,UrlEnd:UrlEnd}';
-            }
-            if (num % 3 === 0 && rd>8) {
-                msg.MessageContent = '{Url:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,FileName:logo2.png,ThumbUrl:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,UrlEnd:UrlEnd}'
-            }
+            // if (num % 2 === 0 && rd>4 && isStaff) {
+            //     msg.MessageContent = '{Url:http://61.129.129.189:7480/ZrhdWZaXSB/1e4670f4-6753-4736-a397-346fa21dcfb120180401210453921.docx,FileName:test.docx,ThumbUrl:,UrlEnd:UrlEnd}';
+            // }
+            // if (num % 3 === 0 && rd>8) {
+            //     msg.MessageContent = '{Url:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,FileName:logo2.png,ThumbUrl:http://61.129.129.189:7480/ZrhdWZaXSB/a12abba937274dd5ab71bad4f929136clogo2.png,UrlEnd:UrlEnd}'
+            // }
             if (num < count) {
                 chat.messages = [msg, ...chat.messages];
             }

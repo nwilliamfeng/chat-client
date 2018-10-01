@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
-import { messageContentRender } from '../../message/components';
+import { messageContentRender,WithMessageContent } from '../../message/components';
 import MessageHelper from '../../message/messageHelper';
 import { messageContentType } from '../../message/constants';
-import { appContext,util } from '../../util'
-import { dateUtil } from '../../util/date';
+import { appContext, util } from '../../util'
+
 
 const HeaderLi = styled.li`
     padding:0px;
@@ -44,6 +44,15 @@ const TitleDiv = styled.div`
     text-overflow:ellipsis;
     overflow:hidden;
     white-space:nowrap;
+`;
+
+const TxtContentDiv = styled.div`
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+    display: inline-block ;
+    max-width: 75px;
+     width:75px;
 `;
 
 const TimeDiv = styled.div`
@@ -90,6 +99,10 @@ const HeaderDiv = styled.div`
     background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
 `;
 
+const TextMessageContent= WithMessageContent(()=> <TxtContentDiv/> );
+ 
+//const DD=WithMessageContent(()=><div content={'ds'}></div>);
+
 const LastMessage = ({ message }) => {
     const { SenderName, MessageContent } = message;
     const contentType = MessageHelper.getMessageContentType(MessageContent);
@@ -100,12 +113,12 @@ const LastMessage = ({ message }) => {
     return (
         <div>
             {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
-                <TableCellDiv>
-                    {sender}
-                </TableCellDiv>
-                <TableCellDiv>
-                    {messageContentRender.renderTextContent(MessageContent,true)}
-                </TableCellDiv>
+                 
+                  <span style={{ display: 'inline-block' }}>  {sender}</span>
+                  <TextMessageContent content={MessageContent}/>
+               
+                        {/* {messageContentRender.renderTextContent(MessageContent, true)} */}
+                 
             </MsgDiv>}
             {contentType === messageContentType.File && <MsgDiv title={`${SenderName}：文件`}>
                 {`${sender}文件`}
@@ -128,7 +141,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
     const { CustomerName, CustomerAvataUrl } = customer;
     const unreadMsgs = messages.filter(x => x.isUnread === true);
     const lastMsg = messages[messages.length - 1];
-    const time =lastMsg?util.dateFormat(lastMsg.SendTime,'hh:mm:ss'):'';
+    const time = lastMsg ? util.dateFormat(lastMsg.SendTime, 'hh:mm:ss') : '';
     const containUnread = unreadMsgs.length > 0;
     const onClick = () => onSelectChat(chat);
     return (
