@@ -5,8 +5,9 @@ import { faChevronRight as arrowRight, faChevronDown as arrowDown } from '@forta
 
 
 const Div = styled.div`
-    padding:1px 5px;
+    padding:3px 5px 1px 5px;
     width:100vh;
+    height:28px;
     padding-left:${props=>props.isChild? '10px':'5px'};
     &:hover{
         color: orangered;
@@ -14,8 +15,10 @@ const Div = styled.div`
     }
 `;
 
-const Label =styled.label`
-    margin-top:1px;
+const HeaderSpan =styled.span`
+     
+    cursor:default;
+   
 `;
 
 
@@ -69,7 +72,7 @@ export class ExpandPanel extends Component {
                     <Arrow onClick={this.handleDoubleClick} isExpand={isExpand}>
                         <FontAwesomeIcon icon={isExpand === true ? arrowDown : arrowRight} size='xs' />
                     </Arrow>
-                    <Label>{title}</Label>
+                    <HeaderSpan>{title}</HeaderSpan>
                     {count && <Count>{count}</Count>}
                 </Div>
                 {isExpand===true && children}

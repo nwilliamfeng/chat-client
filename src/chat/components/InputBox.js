@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { defaultEmojiMapping } from '../../util/defaultEmojiMapping';
-import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState,  CompositeDecorator } from "draft-js";
+import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState, CompositeDecorator } from "draft-js";
 import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
-import { appSettings } from '../../util';
-import { fileActions } from '../actions';
-import {Toolbar} from './Toolbar';
+import { appSettings,appContext } from '../../util';
+import {chatActions, fileActions } from '../actions';
+import { Toolbar } from './Toolbar';
 require('../../assets/styles/button.css');
 require('../../assets/styles/scrollbar.css');
 require('../../assets/styles/input-box.css');
@@ -41,11 +41,11 @@ const Media = props => {
 
 //样式集
 const styles = {
-   
+
   buttons: {
     marginBottom: 10,
   },
-  
+
   editor: {
     cursor: 'text',
     minHeight: 80,
@@ -200,19 +200,25 @@ class InputBox extends Component {
    * 采用图文分开发送
    */
   onSendWithAutoSplitMode = () => {
-    const { auth } = this.props;
-    if (auth == null) {
+    if (appContext.currentStaff==null){
       return;
     }
-    const { ImUserId, RefreshToken } = auth.user; //这里临时写
+    const { dispatch,selectedChat } = this.props;
+    if(selectedChat==null){
+      return;
+    }
+    const {channelId} =selectedChat;
+    const { ImUserId, RefreshToken } = appContext.currentStaff; //这里临时写
+    
+
     this.getSendContent().filter(content => !(content == null || content.trim() == '')).forEach(content => {
       if (regexs.base64Content.exec(content) != null) {
         console.log("image!!");
-        const { dispatch } = this.props;
+        
         dispatch(fileActions.uploadImage('myimg', content, ImUserId, RefreshToken));
       }
       else {
-        console.log("this is not a image"  );
+        dispatch(chatActions.sendMessage(channelId,content));
       }
     });
   }
@@ -250,9 +256,9 @@ class InputBox extends Component {
 
   render() {
     return (
-      <div style={styles.root}>
-        <Toolbar onSelectEmoji={this.onSelectEmoji} onSelectImage={this.onSelectImage}/>
-        <div className='scollContainer editor-container'>
+      <div>
+        <Toolbar onSelectEmoji={this.onSelectEmoji} onSelectImage={this.onSelectImage} />
+        <div className='scollContainer editor-container' >
           <div style={styles.editor} onClick={this.focus} style={styles.editor} >
             <Editor
               blockRendererFn={mediaBlockRenderer}
@@ -264,13 +270,21 @@ class InputBox extends Component {
             />
           </div>
         </div>
-        <button className='send-msg-btn' onClick={this.onSend}>{'发送'}</button>
+        <div style={{ paddingRight: 10, paddingBottom: 10, paddingTop: 10 }}>
+
+          <button className='send-msg-btn pull-right' onClick={this.onSend}>{'发送'}</button>
+
+        </div>
+
       </div>
     );
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => {
+  const { selectedChat } = state.chat;
+  return { selectedChat }
+};
 
 const page = connect(mapStateToProps, null)(InputBox);
 

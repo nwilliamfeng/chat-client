@@ -28,6 +28,12 @@ export const constants = {
      */
     SELECT_CHAT: 'SELECT_CHAT',
 
+
+    /**
+     * 发送消息
+     */
+    SEND_MESSAGE:'SEND_MESSAGE',
+
     
 
     /**

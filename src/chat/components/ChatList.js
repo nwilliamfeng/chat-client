@@ -56,7 +56,7 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log('shouldComponentUpdate chatlist');
+       
         if (!isEqual(this.props.chats, nextProps.chats)) {
             return true;
         }
@@ -71,7 +71,7 @@ class ChatList extends Component {
     handleCloseChat = (e, data, target) => {
         const chat = JSON.parse(target.getAttribute('chatdata'));
         const { dispatch } = this.props;
-        dispatch(chatActions.closeChat(chat));
+        dispatch(chatActions.closeChat(chat.channelId));
     }
 
     handleKeydown = event => {
@@ -98,7 +98,7 @@ class ChatList extends Component {
         else if (idx >= chats.length) {
             idx = 0;
         }
-        dispatch(chatActions.selectChat(chats[idx]));
+        dispatch(chatActions.selectChat(chats[idx].channelId));
     }
 
     componentDidMount() {
@@ -108,13 +108,13 @@ class ChatList extends Component {
         dispatch(chatActions.initChats());
     }
 
-    handleSelectChat = chat => {
+    handleSelectChat = channelId => {
         const { dispatch, selectedChat } = this.props;
         //如果是同一个会话则返回
-        if (selectedChat != null && selectedChat.channelId === chat.channelId) {
+        if (selectedChat != null && selectedChat.channelId === channelId) {
             return;
         }
-        dispatch(chatActions.selectChat(chat));
+        dispatch(chatActions.selectChat(channelId));
     }
 
     isSelectedChat = chat => {

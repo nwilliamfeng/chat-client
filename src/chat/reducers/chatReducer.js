@@ -2,19 +2,31 @@ import { constants } from '../constants';
 import { findIndex } from 'lodash';
 import { constants as authConstants } from '../../auth/constants';
 
+const replaceItem=(chats,chat)=>{
+  const uidx = findIndex(chats, x => x.channelId === chat.channelId);
+  if (uidx < 0) {
+    return chats;
+  }
+  const result = [
+    ...chats.slice(0, uidx),
+    chat,
+    ...chats.slice(uidx + 1),
+  ];
+
+  return result;
+}
+
 export const chatReducer = (state = { chats: [], selectedChat: null }, action) => {
   const { chats } = state;
   switch (action.type) {
 
     case constants.OPEN_CHAT:
-      const { newChat } = action;
-
+      const newChat = action.newChat;
       const exist = chats.find(x => x.customer.CustomerId === newChat.customer.CustomerId);
       if (exist == null) {
         return {
           ...state,
           chats: [newChat, ...chats],
-          selectedChat: newChat,
         };
       }
       else {
@@ -27,7 +39,9 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
     case constants.LOAD_MORE_OFFLINE_MESSAGES:
       return {
         ...state,
-        
+        chats: replaceItem(chats,action.chat),
+        selectedChat: action.chat,
+
       }
 
 
@@ -52,11 +66,30 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
       return { chats: [], selectedChat: null };
 
     case constants.SELECT_CHAT:
-      return {
-        ...state,
-        selectedChat: action.selectedChat,
+      const selectedChat = action.selectedChat;
+      const existChat = chats.find(x => x.channelId === selectedChat.channelId);
+      if (existChat.messages.some(x => x.isUnread)) {
+       
+        return {
+          ...state,
+          chats: replaceItem(chats,selectedChat),
+          selectedChat: selectedChat,
+
+        }
+      }
+      else {
+        return {
+          ...state,
+          selectedChat: existChat,
+        }
       }
 
+    case constants.SEND_MESSAGE:
+    return{
+      ...state,
+      chats:replaceItem(chats,action.chat),
+      selectedChat:action.chat,
+    }
 
     default:
       return state;

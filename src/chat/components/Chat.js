@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import styled from 'styled-components';
-import { messageActions } from '../../message/actions';
 import { MessageList } from '../../message/components';
 import { Scrollbar } from '../../controls'
 import { chatActions } from '../actions';
@@ -34,16 +33,18 @@ class Chat extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const { selectedChat, messages } = this.props;
+        const { selectedChat } = this.props;
 
+        if(selectedChat==null && nextProps.selectedChat==null){
+            return false;
+        }
         if (!isEqual(nextProps.selectedChat, selectedChat)) {
             return true;
         }
-        if (!isEqual(messages, nextProps.messages)) {
-            return true;
-        }
+
         return false;
     }
+
 
     componentDidUpdate(nextProps, nextState, nextContext) {
         const {  selectedChat } = this.props;
@@ -51,12 +52,9 @@ class Chat extends Component {
             return;
         }
 
-        const {offlineMsgPageCount,offlineMsgPageIdx} =selectedChat;
-        // if (selectedChat != null && !isEqual(selectedChat, nextProps.selectedChat)) {
-        //     dispatch(messageActions.getOfflineMessages(selectedChat));
-        // }
-        // else 
-        if (offlineMsgPageCount > 0 && offlineMsgPageIdx< offlineMsgPageCount) {
+        const {offlineMsgTotalCount,offlineMsgPageSize,offlineMsgPageIdx} =selectedChat;
+
+        if (this.canLoadMoreOfflineMsg()) {
             this.refs.scrollbar.scrollTop(50);
         }
     }
@@ -68,13 +66,19 @@ class Chat extends Component {
         if(selectedChat==null){
             return;
         }
-        const {offlineMsgPageIdx,offlineMsgPageCount}=selectedChat;
+        const {offlineMsgPageIdx,offlineMsgTotalCount,offlineMsgPageSize}=selectedChat;
         if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
             const { dispatch } = this.props;
-            if (offlineMsgPageIdx >= 0 && offlineMsgPageIdx < offlineMsgPageCount) {
-                dispatch(chatActions.loadMoreOfflineMessages(selectedChat));
+            if (this.canLoadMoreOfflineMsg()) {
+                dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
             }
         }
+    }
+
+    canLoadMoreOfflineMsg=()=>{
+        const {offlineMsgTotalCount,offlineMsgPageSize,offlineMsgPageIdx} =this.props.selectedChat;
+
+        return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx+1) * offlineMsgPageSize <offlineMsgTotalCount) ;
     }
 
 
@@ -103,10 +107,9 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
     const { selectedChat } = state.chat;
-    const { messages, offlineMsgPageIdx, offlineMsgPageCount } = state.message;
     
     //todo 添加消息reducer
-    return { selectedChat, messages, offlineMsgPageIdx, offlineMsgPageCount };
+    return { selectedChat };
 }
 
 

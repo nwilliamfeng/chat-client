@@ -101,13 +101,14 @@ const TextMessageContent = withMessageContent(props => <TxtContentDiv>{props.chi
 
 
 const LastMessage = ({ message }) => {
+    if (message == null) {
+        return <div></div>
+    }
     const { SenderName, MessageContent } = message;
     const contentType = MessageHelper.getMessageContentType(MessageContent);
     const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：';
     const content = sender + MessageContent;
-    if (message == null) {
-        return <div></div>
-    }
+   
     return (
         <div>
             {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
@@ -130,13 +131,13 @@ const LastMessage = ({ message }) => {
  */
 export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
 
-    const { customer, messages } = chat;
+    const { customer, messages,channelId } = chat;
     const { CustomerName, CustomerAvataUrl } = customer;
     const unreadMsgs = messages.filter(x => x.isUnread === true);
     const lastMsg = messages[messages.length - 1];
     const time = lastMsg ? util.dateFormat(lastMsg.SendTime, 'hh:mm:ss') : '';
     const containUnread = unreadMsgs.length > 0;
-    const onClick = () => onSelectChat(chat);
+    const onClick = () => onSelectChat(channelId);
     return (
         <HeaderLi onClick={onClick}>
             <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={{ chatdata: JSON.stringify(chat) }}>
@@ -152,7 +153,7 @@ export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
                         <LastMessage message={lastMsg} />
                     </TopTableCellDiv>
                     <TopTableCellDiv>
-                        {containUnread && <TimeDiv> {time}</TimeDiv>}
+                        {lastMsg!=null && <TimeDiv> {time}</TimeDiv>}
                     </TopTableCellDiv>
                 </HeaderDiv>
             </ContextMenuTrigger>

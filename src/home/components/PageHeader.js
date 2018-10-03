@@ -29,7 +29,7 @@ const getTooltip = page => {
         case pageType.CHAT:
             return '消息';
         case pageType.CUSTOMER_LIST:
-            return '其他';
+            return '客户';
         default:
             return null;
     }

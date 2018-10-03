@@ -43,6 +43,11 @@ export const chatActions = {
      */
     loadMoreOfflineMessages,
 
+    /**
+     * 发送消息
+     */
+    sendMessage,
+
 }
 
 
@@ -52,12 +57,9 @@ function initChats(){
    }
 }
 
-function selectChat(chat){
-    if(chat!=null){
-        chat.messages.filter(msg=>msg.isUnread===true).forEach(msg => {
-            msg.isUnread=false;
-        });
-    }
+function selectChat(channelId){
+    const chat =chatService.selectChat(channelId);
+    
     return {
         type:constants.SELECT_CHAT,
         selectedChat:chat,
@@ -76,18 +78,21 @@ function chatWithMyCustomer(customer){
     return async dispatch => {
         //todo-- 这里需要chat服务类实现业务逻辑
         const newChat =await chatService.createChat(customer);
-        messageService.loadOfflineMessages(newChat);
-        newChat.messages.filter(msg=>msg.isUnread===true).forEach(msg => {
-            msg.isUnread=false;
-        });
+        
+        // newChat.messages.filter(msg=>msg.isUnread===true).forEach(msg => {
+        //     msg.isUnread=false;
+        // });
         dispatch({type:constants.OPEN_CHAT,newChat,openMode:chatOpenMode.ByStaff});   
-        dispatch(selectChat(newChat));
+       
+            dispatch(selectChat(newChat.channelId));
+    
+       
     }
 }
 
-function loadMoreOfflineMessages(chat){
+function loadMoreOfflineMessages(channelId){
     return async dispatch=>{
-        await chatService.loadMoreOfflineMessages(chat);
+        const chat =await chatService.loadMoreOfflineMessages(channelId);
         dispatch({type:constants.LOAD_MORE_OFFLINE_MESSAGES,chat});
     }
 }
@@ -96,10 +101,10 @@ function loadMoreOfflineMessages(chat){
  * 关闭指定的会话
  * @param {*} chat 
  */
-function closeChat(chat){
+function closeChat(channelId){
     return async dispatch=>{
-        const {channelId} =chat;
-        await chatService.closeChat(chat);
+        
+        await chatService.closeChat(channelId);
         dispatch(
             {
                 type:constants.CLOSE_CHAT,
@@ -108,7 +113,19 @@ function closeChat(chat){
     }
 }
 
- 
+function sendMessage(channelId ,messageContent){
+    return async dispatch=>{
+        
+        const chat=await chatService.sendMessage(channelId,messageContent);
+        dispatch(
+            {
+                type:constants.SEND_MESSAGE,
+                chat,
+            });
+    }
+}
+
+
 
 
 /**

@@ -35,13 +35,12 @@ const searchBoxDivStyle = {
 
 //输入框容器样式
 const inputBoxDivStyle={
-    height: '20vh',   
+    height: '22vh',   
     width: '100%', 
     padding: 10, 
     background:'white',
     borderTopStyle:'solid',
     borderWidth:1, 
-    paddingTop:10,
     borderColor:'lightGrey',
    
 }
@@ -117,7 +116,7 @@ export  class ChatPage extends Component {
 
                     {/* <div className="col-offset-chat"    > */}
                         <div   >
-                            <div style={{ height: '80vh'}}>
+                            <div style={{ height: '78vh'}}>
                                 <ChatContainer/>
                             </div>
                             <div style={inputBoxDivStyle}>                        
