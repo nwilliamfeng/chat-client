@@ -11,6 +11,11 @@
     "/staff": {
       "target": "http://imapitest.eastmoney.com:2021/",
       "ws": true
+    },
+    "/robot": {
+      "target": "http://www.tuling123.com/",
+      "changeOrigin":true,
+      "ws": true
     }
   },
   "dependencies": {

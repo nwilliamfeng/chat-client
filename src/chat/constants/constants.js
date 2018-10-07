@@ -1,6 +1,6 @@
 export const constants = {
 
-    INIT_CHATS: 'INIT_CHATS',
+   
 
     /**
      * 进行会话
@@ -42,4 +42,6 @@ export const constants = {
     UPLOAD_IMAGE:'UPLOAD_IMAGE',
 
     UPLOAD_FILE:'UPLOAD_FILE',
+
+    UPDATE_CHAT_LIST_MOCK:'UPDATE_CHAT_LIST_MOCK',
 }

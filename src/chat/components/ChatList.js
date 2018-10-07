@@ -35,7 +35,7 @@ class ChatList extends Component {
      */
     subscribe = () => {
         const source = Rx.Observable
-            .interval(1000 /* ms */)
+            .interval(5000 /* ms */)
             .timeInterval();
         this.subscription = source.subscribe(
             () => {
@@ -44,7 +44,8 @@ class ChatList extends Component {
                     this.subscription.dispose();
                 }
                 else {
-
+                    const {dispatch}=this.props;
+                    dispatch(chatActions.updateChatListMock()); 
                 }
             },
             err => {
@@ -56,7 +57,7 @@ class ChatList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-       
+
         if (!isEqual(this.props.chats, nextProps.chats)) {
             return true;
         }
@@ -104,8 +105,6 @@ class ChatList extends Component {
     componentDidMount() {
         this.subscribe();
         document.addEventListener("keydown", this.handleKeydown, false);
-        const { dispatch } = this.props;
-        dispatch(chatActions.initChats());
     }
 
     handleSelectChat = channelId => {

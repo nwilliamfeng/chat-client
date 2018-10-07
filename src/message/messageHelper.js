@@ -7,6 +7,10 @@ export default class MessageHelper {
      * @param {string} msgContent 
      */
     static getMessageContentType(msgContent) {
+        if(msgContent==null){
+            return messageContentType.UNKONWN;
+        }
+        msgContent=msgContent.toString();
         if (msgContent.startsWith('{Url:http://') && msgContent.endsWith(',UrlEnd:UrlEnd}')) {
             if (msgContent.indexOf(',ThumbUrl:') > 0) {
                 return MessageHelper.getThumbImg(msgContent).length > 0 ? messageContentType.Picture : messageContentType.File;

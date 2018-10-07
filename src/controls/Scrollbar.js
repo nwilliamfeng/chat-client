@@ -43,6 +43,10 @@ export  class Scrollbar extends React.Component {
         this.refs.scrollbar.scrollTop(offSet);
     }
 
+    scrollToBottom=()=>{
+        this.refs.scrollbar.scrollToBottom();
+    }
+
 
     handleScrollFrame = value => {
 

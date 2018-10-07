@@ -91,6 +91,21 @@ export const chatReducer = (state = { chats: [], selectedChat: null }, action) =
       selectedChat:action.chat,
     }
 
+    case constants.UPDATE_CHAT_LIST_MOCK:
+    const uChats=[...action.chats];
+    let oChats=state.chats;
+    uChats.forEach(x=>{
+       const uexist=state.chats.find(y=>y.channelId===x.channelId);
+       if(uexist!=null && uexist.messages.length!==x.messages.length){
+          oChats=replaceItem(oChats,x);
+       }
+    });
+    return{
+      ...state,
+      chats:[...oChats],
+      selectedChat:oChats.find(x=>x.channelId===state.selectedChat.channelId),
+    }
+
     default:
       return state;
   }

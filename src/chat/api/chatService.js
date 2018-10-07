@@ -1,7 +1,7 @@
 import { uniqueId } from 'lodash';
 import { messageService } from '../../message/api';
 //import { chatServiceUrls as serviceUrls } from './chatServiceUrls';
-
+import {customerMsgService} from './customerMessageMockService';
 
 /**
  * 客户聊天服务类
@@ -10,7 +10,8 @@ class ChatService {
 
     constructor() {
         this._chats = []; //会话集合
-
+        this._selectedChannelId=null;
+        customerMsgService.start();
     }
 
 
@@ -97,6 +98,7 @@ class ChatService {
             chat.messages.filter(msg => msg.isUnread === true).forEach(msg => {
                 msg.isUnread = false;
             });
+            this._selectedChannelId=channelId;
             return {...chat};
         }
         return null;
