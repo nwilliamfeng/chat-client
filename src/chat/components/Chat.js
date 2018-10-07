@@ -13,6 +13,7 @@ const TitleDiv = styled.div`
     border-bottom:1px solid #E7E7E7;
     margin-bottom:0px;
     padding:16px 0px 6px 25px;
+    height:61px;
 `;
 
 
@@ -21,7 +22,7 @@ const TitleDiv = styled.div`
  */
 const scrollbarStyle = {
     width: '100%',
-    height: 'calc(80vh - 76px)',
+    height: 'calc(80vh - 77px)',
     cursor: 'default',
 }
 
@@ -91,7 +92,7 @@ class Chat extends Component {
             <div >
                 {selectedChat &&
                     <div >
-                        <TitleDiv className='row'>
+                        <TitleDiv>
                             <div className='col-md-10'>
                                 <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
                             </div>
