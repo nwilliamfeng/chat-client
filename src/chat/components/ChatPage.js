@@ -39,7 +39,7 @@ const setChat = Component => class extends React.Component {
         const { width } = this.props.size;
         chatWindow.width = width;
         return (
-            <div style={{ height: 'calc(100% - 80px)' }}>
+            <div style={{ height: 'calc(100% - 61px)' }}>
                 <Component {...this.props} />
             </div>
         );

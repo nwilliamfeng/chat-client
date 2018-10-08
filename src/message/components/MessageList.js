@@ -11,6 +11,14 @@ const OuterDiv = styled.div`
     padding:5px;
 `;
 
+const InnerDiv=styled.div`
+    padding-left:${props=>props.paddingLeft?props.paddingLeft+'px':'0px'};
+    padding-top:${props=>props.paddingTop?props.paddingTop+'px':'0px'};
+    padding-right:${props=>props.paddingRight?props.paddingRight+'px':'0px'};
+    padding-bottom:${props=>props.paddingBottom?props.paddingBottom+'px':'0px'};
+    height:100%;
+`;
+
 /**
  * 图片消息快捷菜单Id
  */
@@ -47,15 +55,15 @@ const isSelfMessage = message => {
  * 消息列表无状态组件
  * @param {*} param0 
  */
-export const MessageList = ({ messages }) => {
+export const MessageList = ({ messages,paddingTop,paddingRight,paddingBottom,paddingLeft }) => {
     return (
         <OuterDiv >
             {messages &&
-                <div>
+                <InnerDiv paddingBottom={paddingBottom} paddingLeft={paddingLeft} paddingRight={paddingRight} paddingTop={paddingTop}>
                     {
                         messages.map(msg => isSelfMessage(msg) ? <StaffMessage key={msg.MsgId} message={msg} props={this.props} /> : <CustomerMessage key={msg.MsgId} message={msg} />)
                     }
-                </div>
+                </InnerDiv>
             }
             <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
                 <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
@@ -70,6 +78,10 @@ export const MessageList = ({ messages }) => {
 
 MessageList.propTypes = {
     messages: PropTypes.array.isRequired,
+    paddingTop:PropTypes.number,
+    paddingLeft:PropTypes.number,
+    paddingBottom:PropTypes.number,
+    paddingRight:PropTypes.number,
 }
 
 

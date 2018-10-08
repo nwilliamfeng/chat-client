@@ -10,7 +10,7 @@
    
     border-radius: 12px; 
     background-color: transparent;
-    display: none;
+    display:none;
     
 }
 
@@ -25,5 +25,5 @@
    overflow:hidden;height:whatever px;
 } 
 
-.scollContainer { overflow:hidden;height:whatever px; }
+.scollContainer { overflow:hidden;height:whatever px;}
 .scollContainer:hover { overflow-y:auto; }

@@ -3,30 +3,22 @@ import { connect } from 'react-redux';
 import { isEqual } from 'lodash';
 import styled from 'styled-components';
 import { MessageList } from '../../message/components';
-import { Scrollbar } from '../../controls'
-import { chatActions } from '../actions';
+require('../../assets/styles/scrollbar.css');
 
 /**
  * 标题div
  */
 const TitleDiv = styled.div`
     border-bottom:1px solid #E7E7E7;
-    margin-bottom:0px;
     padding:16px 0px 6px 25px;
     height:61px;
 `;
 
-
-/**
- * 滚动条样式
- */
-const scrollbarStyle = {
-    width: '100%',
-    height: 'calc(80vh - 77px)',
-    cursor: 'default',
-}
-
-
+const MessageListContainer = styled.div`
+    overflow-y: hidden;
+    height:100%;
+    position:absolute;
+`;
 
 class Chat extends Component {
 
@@ -53,27 +45,32 @@ class Chat extends Component {
             return;
         }
 
-        if (this.canLoadMoreOfflineMsg()) {
-            this.refs.scrollbar.scrollTop(50);
-        }
-        else {
-            this.refs.scrollbar.scrollToBottom();
-        }
+        // if (this.canLoadMoreOfflineMsg()) {
+        //     //   this.refs.scrollbar.scrollTop(50);
+        // }
+        // else {
+            this.scrollToBottom();
+            //  this.refs.scrollbar.scrollToBottom();
+       // }
+    }
+
+    scrollToBottom = () => {
+        this.messageContainer.scrollIntoView();
     }
 
     handleScroll = value => {
 
-        const { top } = value;
-        const { selectedChat } = this.props;
-        if (selectedChat == null) {
-            return;
-        }
-        if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
-            const { dispatch } = this.props;
-            if (this.canLoadMoreOfflineMsg()) {
-                dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
-            }
-        }
+        // const { top } = value;
+        // const { selectedChat } = this.props;
+        // if (selectedChat == null) {
+        //     return;
+        // }
+        // if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
+        //     const { dispatch } = this.props;
+        //     if (this.canLoadMoreOfflineMsg()) {
+        //         dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
+        //     }
+        // }
     }
 
     canLoadMoreOfflineMsg = () => {
@@ -93,20 +90,26 @@ class Chat extends Component {
                 {selectedChat &&
                     <div >
                         <TitleDiv>
-                            <div className='col-md-10'>
-                                <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
+                            <div className='col-md-10' style={{paddingLeft:0}}>
+                                <p style={{ fontSize: 20}}>{selectedChat.customer.CustomerName}</p>
                             </div>
                             <div className='col-md-2'>
                                 <button className='pull-right' >{'更多'}</button>
                             </div>
 
                         </TitleDiv>
-                        <Scrollbar onScroll={this.handleScroll} ref='scrollbar' style={scrollbarStyle}>
+                        {/* <Scrollbar onScroll={this.handleScroll} ref='scrollbar' style={scrollbarStyle}>
                             <MessageList messages={messages} />
-                        </Scrollbar>
-
+                        </Scrollbar> */}
+                        <MessageListContainer className='scollContainer'  >
+                            <MessageList messages={messages} paddingTop={5} paddingRight={5} />
+                            <div style={{ float:"left", clear: "both" ,width:15 }}
+             ref={(el) => { this.messageContainer = el; }}>
+        </div>
+                        </MessageListContainer>
+                       
                     </div>}
-
+                   
             </div>
         );
     }
