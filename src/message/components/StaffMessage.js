@@ -109,7 +109,6 @@ const renderContent = (content) => {
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
                     <div className='rbubble' style={contentStyle(width)}>
-                        {/* {messageContentRender.renderTextContent(content)}  */}
                         <TextContent content={content}/>
                     </div>
                 </ContextMenuTrigger>

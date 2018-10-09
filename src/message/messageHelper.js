@@ -10,6 +10,9 @@ export default class MessageHelper {
         if(msgContent==null){
             return messageContentType.UNKONWN;
         }
+        if(typeof msgContent!=='string'){
+            return messageContentType.System;
+        }
         msgContent=msgContent.toString();
         if (msgContent.startsWith('{Url:http://') && msgContent.endsWith(',UrlEnd:UrlEnd}')) {
             if (msgContent.indexOf(',ThumbUrl:') > 0) {

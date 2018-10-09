@@ -3,8 +3,7 @@ import { messageService } from '../../message/api';
 import { chatService } from './chatService';
 import { appContext,util } from '../../util';
 import Rx from 'rx';
-import {chatActions} from '../actions';
-
+ 
 
 class CustomerMessageMockService {
 

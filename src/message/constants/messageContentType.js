@@ -13,4 +13,9 @@ export const messageContentType={
 
     Audio:4,
 
+    /**
+     * 系统消息
+     */
+    System:5,
+
 }

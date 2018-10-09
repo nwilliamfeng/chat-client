@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { isEqual } from 'lodash';
-import styled from 'styled-components';
-import { MessageList } from '../../message/components';
-require('../../assets/styles/scrollbar.css');
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { isEqual } from 'lodash'
+import {chatActions} from '../actions'
+import styled from 'styled-components'
+import { MessageList } from '../../message/components'
+require('../../assets/styles/scrollbar.css')
 
 /**
  * 标题div
@@ -24,6 +25,7 @@ class Chat extends Component {
 
     constructor(props) {
         super(props);
+        this.state={autoScroll:true,};
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -44,14 +46,16 @@ class Chat extends Component {
         if (selectedChat == null) {
             return;
         }
-
-        // if (this.canLoadMoreOfflineMsg()) {
-        //     //   this.refs.scrollbar.scrollTop(50);
-        // }
-        // else {
+        const {autoScroll}=this.state;
+       
+        if(autoScroll){
             this.scrollToBottom();
-            //  this.refs.scrollbar.scrollToBottom();
-       // }
+            
+        }else{
+            this.setState({autoScroll:true});
+        }
+
+   
     }
 
     scrollToBottom = () => {
@@ -79,6 +83,26 @@ class Chat extends Component {
         return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
     }
 
+    getMessages = () => {
+        const { selectedChat, dispatch } = this.props;
+        let messages = selectedChat ? selectedChat.messages : [];
+        const onClick = () => {
+            if (this.canLoadMoreOfflineMsg()) {
+                dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
+                this.setState({autoScroll:false});
+            }
+        };
+        if (this.canLoadMoreOfflineMsg()) {
+            const sysMsg = {
+                MessageContent: { content: '点击加载更多', color: 'blue',onClick },
+                SendTime: new Date(),
+
+            }
+            messages = [sysMsg, ...messages];
+        }
+        return messages;
+    }
+
 
     render() {
         console.log('render chat');
@@ -90,8 +114,8 @@ class Chat extends Component {
                 {selectedChat &&
                     <div >
                         <TitleDiv>
-                            <div className='col-md-10' style={{paddingLeft:0}}>
-                                <p style={{ fontSize: 20}}>{selectedChat.customer.CustomerName}</p>
+                            <div className='col-md-10' style={{ paddingLeft: 0 }}>
+                                <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
                             </div>
                             <div className='col-md-2'>
                                 <button className='pull-right' >{'更多'}</button>
@@ -102,14 +126,14 @@ class Chat extends Component {
                             <MessageList messages={messages} />
                         </Scrollbar> */}
                         <MessageListContainer className='scollContainer'  >
-                            <MessageList messages={messages} paddingTop={5} paddingRight={5} />
-                            <div style={{ float:"left", clear: "both" ,width:15 }}
-             ref={(el) => { this.messageContainer = el; }}>
-        </div>
+                            <MessageList messages={this.getMessages()} paddingTop={5} paddingRight={5} />
+                            <div style={{ float: "left", clear: "both" }}
+                                ref={(el) => { this.messageContainer = el; }}>
+                            </div>
                         </MessageListContainer>
-                       
+
                     </div>}
-                   
+
             </div>
         );
     }

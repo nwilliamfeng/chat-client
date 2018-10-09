@@ -38,47 +38,7 @@ class MessageContentRender {
 
     }
 
-
-
-    /**
-     * 解析消息内容项，包括文本，表情
-     * @param {*} item 
-     */
-    _renderMsgContentItem(item) {
-        if (item == null) {
-            return <span></span>
-        }
-        const isEmoji = item.startsWith('[:');
-        if (isEmoji) {
-            const emoji = defaultEmojiMapping.getEmoji(item);
-            if (emoji !== null) {
-                const { imgSrc } = emoji;
-
-                return <EmojiImg src={imgSrc}/>
-
-
-            }
-        }
-        return item;
-
-    }
-
-
-    /**
-     * 呈现普通消息内容，包括普通文本消息、表情符号，暂时不解析图片
-     * @param {*} msgContent 
-     */
-    renderTextContent(msgContent) {
-        const items = defaultEmojiMapping.splitWithEmojis(msgContent);
-        return (
-            <div>
-                {items.map((item) => (
-                    this._renderMsgContentItem(item)
-                ))}
-            </div>
-        )
-    }
-
+ 
     /**
      * 返回指定时间的呈现结果
      * @param {string} csharpTime 
