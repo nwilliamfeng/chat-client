@@ -22,14 +22,6 @@ const InputBoxDiv=styled.div`
 `;
 
 
-
-const initSize = {
-    heightOffset: 83,
-    customerListWidth: 300,
-    navibarInitPaneWidth: 250,
-}
-
-
 const setChat = Component => class extends React.Component {
     constructor(props) {
         super(props);

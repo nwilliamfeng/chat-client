@@ -1,5 +1,7 @@
-import React from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import styled from 'styled-components'
+require('../assets/styles/scrollbar.css')
 
 //  /**
 //   * 重新实现方法，更改cursor
@@ -19,16 +21,16 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 // Scrollbars.defaultProps = {
 //     ...Scrollbars.defaultProps,
-    
+
 //     renderThumbVertical: renderThumbVerticalDefault,//指定新的renderThumbVerticalDefault
-    
+
 // };
- 
+
 // export  class Scrollbar extends React.Component {
 //     constructor(props) {
 //         super(props);
 //         this.state = { autoHide: true };
-      
+
 //     }
 
 //     handleMouseEnter = () => {
@@ -69,7 +71,53 @@ import { Scrollbars } from 'react-custom-scrollbars';
 // }
 
 
- 
-export const withScroll=control=>class extends React.Component{
-    
+const OutContainer = styled.div`
+    overflow-y: hidden;
+    height:100%;
+    position:absolute;
+`;
+
+
+export const withScroll = InnerComponent => class extends React.Component {
+
+    _handleScroll = e => {
+        // const { top } = ReactDOM.findDOMNode(this.scrollDiv).getBoundingClientRect();
+        // const scrollHeight = ReactDOM.findDOMNode(this.refs.container).scrollHeight;
+        // if (top > scrollHeight)
+        //     console.log('ddd!!');
+
+    }
+
+    //componentDidMount() {
+    // const list = ReactDOM.findDOMNode(this.refs.container);
+    // list.addEventListener('scroll', this._handleScroll);
+    // }
+
+    //  componentWillUnmount() {
+    // const list = ReactDOM.findDOMNode(this.refs.container);
+    // list.removeEventListener('scroll', this._handleScroll);
+    //  }
+
+    componentDidUpdate(nextProps, nextState, nextContext) {
+        const { autoScroll } = this.props;
+        if (autoScroll) {
+            this.scrollToBottom();
+        }
+    }
+
+    scrollToBottom = () => {
+        this.scrollDiv.scrollIntoView();
+    }
+
+
+    render() {
+        console.log(this.props)
+        return (<OutContainer className='scollContainer' ref='container' >
+            <InnerComponent {...this.props} />
+            <div style={{ float: "left", clear: "both" }}
+                ref={(el) => { this.scrollDiv = el; }}>
+            </div>
+        </OutContainer>
+        )
+    }
 } 

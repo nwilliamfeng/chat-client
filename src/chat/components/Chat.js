@@ -5,6 +5,7 @@ import { isEqual } from 'lodash'
 import { chatActions } from '../actions'
 import styled from 'styled-components'
 import { MessageList } from '../../message/components'
+import { withScroll } from '../../controls'
 require('../../assets/styles/scrollbar.css')
 
 /**
@@ -22,11 +23,17 @@ const MessageListContainer = styled.div`
     position:absolute;
 `;
 
+/**
+ * 消息列表滚动条
+ */
+const Scrollbar = withScroll(props => <MessageList {...props} />);
+
+
 class Chat extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { autoScroll: true, };  
+        this.state = { autoScroll: true, };
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -41,23 +48,23 @@ class Chat extends Component {
         return false;
     }
 
-    _handleScroll=e=> {
+    //     _handleScroll=e=> {
 
-      const { top} = ReactDOM.findDOMNode(this.messageContainer).getBoundingClientRect();
-      const scrollHeight =ReactDOM.findDOMNode(this.refs.msgListContainer).scrollHeight;
-  if(top>scrollHeight)
-    console.log('ddd!!');
-      
-    }
+    //       const { top} = ReactDOM.findDOMNode(this.messageContainer).getBoundingClientRect();
+    //       const scrollHeight =ReactDOM.findDOMNode(this.refs.msgListContainer).scrollHeight;
+    //   if(top>scrollHeight)
+    //     console.log('ddd!!');
 
-    componentDidMount() {
-        const list = ReactDOM.findDOMNode(this.refs.msgListContainer);
-        list.addEventListener('scroll', this._handleScroll);
-    }
-    componentWillUnmount() {
-        const list = ReactDOM.findDOMNode(this.refs.msgListContainer);
-        list.removeEventListener('scroll', this._handleScroll);
-    }
+    //     }
+
+    //     componentDidMount() {
+    //         const list = ReactDOM.findDOMNode(this.refs.msgListContainer);
+    //         list.addEventListener('scroll', this._handleScroll);
+    //     }
+    //     componentWillUnmount() {
+    //         const list = ReactDOM.findDOMNode(this.refs.msgListContainer);
+    //         list.removeEventListener('scroll', this._handleScroll);
+    //     }
 
 
     componentDidUpdate(nextProps, nextState, nextContext) {
@@ -65,21 +72,23 @@ class Chat extends Component {
         if (selectedChat == null) {
             return;
         }
-        const { autoScroll } = this.state;
+        //  const { autoScroll } = this.state;
 
-        if (autoScroll) {
-            this.scrollToBottom();
+        // if (autoScroll) {
+        //     this.scrollToBottom();
 
-        } else {
-            this.setState({ autoScroll: true });
-        }
+        // } else {
+        //     this.setState({ autoScroll: true });
+        // }
 
 
     }
 
-    scrollToBottom = () => {
-        this.messageContainer.scrollIntoView();
-    }
+
+
+    // scrollToBottom = () => {
+    //     this.messageContainer.scrollIntoView();
+    // }
 
     handleScroll = value => {
 
@@ -122,15 +131,34 @@ class Chat extends Component {
         return messages;
     }
 
+    // render() {
+    //     console.log('render chat');
+    //     const { selectedChat } = this.props;
+    //     return (
+    //         <div>
+    //             {selectedChat && <TitleDiv>
+    //                 <div className='col-md-10' style={{ paddingLeft: 0 }}>
+    //                     <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
+    //                 </div>
+    //                 <div className='col-md-2'>
+    //                     <button className='pull-right' >{'更多'}</button>
+    //                 </div>
+    //             </TitleDiv>}
+    //             <MessageListContainer className='scollContainer' ref='msgListContainer'   >
+    //                 {selectedChat && <MessageList messages={this.getMessages()} paddingTop={5} paddingRight={5} />}
+    //                     <div style={{ float: "left", clear: "both" }}
+    //                         ref={(el) => { this.messageContainer = el; }}>
+    //                     </div>
+    //             </MessageListContainer>
+    //         </div>
+    //     );
+    // }
 
     render() {
         console.log('render chat');
         const { selectedChat } = this.props;
         return (
-
-            <div >
-
-
+            <div>
                 {selectedChat && <TitleDiv>
                     <div className='col-md-10' style={{ paddingLeft: 0 }}>
                         <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
@@ -138,17 +166,9 @@ class Chat extends Component {
                     <div className='col-md-2'>
                         <button className='pull-right' >{'更多'}</button>
                     </div>
-
                 </TitleDiv>}
 
-                <MessageListContainer className='scollContainer' ref='msgListContainer'   >
-                    {selectedChat && <MessageList messages={this.getMessages()} paddingTop={5} paddingRight={5} />}
-                        <div style={{ float: "left", clear: "both" }}
-                            ref={(el) => { this.messageContainer = el; }}>
-                        </div>
-                </MessageListContainer>
-
-
+                {selectedChat && <Scrollbar messages={this.getMessages()} paddingTop={5} paddingRight={5} />}
 
             </div>
         );
