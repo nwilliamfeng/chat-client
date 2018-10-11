@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import {isEqual} from 'lodash'
 require('../assets/styles/scrollbar.css')
 
 //  /**
@@ -75,28 +76,52 @@ const OutContainer = styled.div`
     overflow-y: hidden;
     height:100%;
     position:absolute;
+    width:100%;
 `;
 
+ 
 
 export const withScroll = InnerComponent => class extends React.Component {
 
-    _handleScroll = e => {
-        // const { top } = ReactDOM.findDOMNode(this.scrollDiv).getBoundingClientRect();
-        // const scrollHeight = ReactDOM.findDOMNode(this.refs.container).scrollHeight;
-        // if (top > scrollHeight)
-        //     console.log('ddd!!');
-
+    constructor(props){
+        super(props);
+        this.state={topOffset:0,isTop:false}; 
     }
 
-    //componentDidMount() {
-    // const list = ReactDOM.findDOMNode(this.refs.container);
-    // list.addEventListener('scroll', this._handleScroll);
-    // }
+    _handleScroll = e => {
+        const { top } = ReactDOM.findDOMNode(this.scrollDiv).getBoundingClientRect();
+        const scrollHeight = ReactDOM.findDOMNode(this.refs.container).scrollHeight;
+        const {topOffset,isTop}=this.state;
+        if (top > scrollHeight){
+            
+           
+            if(topOffset<top && !isTop){
+                console.log(top);
+                this.setState({isTop:true});
+            }
+        }
+        else{
+            this.setState({isTop:false});
+        }
+        this.setState({topOffset:top});
+    }
 
-    //  componentWillUnmount() {
-    // const list = ReactDOM.findDOMNode(this.refs.container);
-    // list.removeEventListener('scroll', this._handleScroll);
-    //  }
+    shouldComponentUpdate(nextProps,nextState,nextContext){
+        if(!isEqual(this.props,nextProps)){
+            return true;
+        }
+        return false;
+    }
+
+    componentDidMount() {
+        const list = ReactDOM.findDOMNode(this.refs.container);
+        list.addEventListener('scroll', this._handleScroll);
+    }
+
+    componentWillUnmount() {
+        const list = ReactDOM.findDOMNode(this.refs.container);
+        list.removeEventListener('scroll', this._handleScroll);
+    }
 
     componentDidUpdate(nextProps, nextState, nextContext) {
         const { autoScroll } = this.props;
@@ -111,10 +136,10 @@ export const withScroll = InnerComponent => class extends React.Component {
 
 
     render() {
-        console.log(this.props)
+        console.log('render scroll');
         return (<OutContainer className='scollContainer' ref='container' >
             <InnerComponent {...this.props} />
-            <div style={{ float: "left", clear: "both" }}
+            <div style={{ float: "left", clear: "both",width:0 }}
                 ref={(el) => { this.scrollDiv = el; }}>
             </div>
         </OutContainer>

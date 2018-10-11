@@ -81,6 +81,7 @@ class Chat extends Component {
         //     this.setState({ autoScroll: true });
         // }
 
+        
 
     }
 
@@ -106,6 +107,9 @@ class Chat extends Component {
     }
 
     canLoadMoreOfflineMsg = () => {
+        if(this.props.selectedChat==null){
+            return false;
+        }
         const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = this.props.selectedChat;
 
         return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
@@ -117,7 +121,7 @@ class Chat extends Component {
         const onClick = () => {
             if (this.canLoadMoreOfflineMsg()) {
                 dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
-                this.setState({ autoScroll: false });
+              //  this.setState({ autoScroll: false });
             }
         };
         if (this.canLoadMoreOfflineMsg()) {
@@ -157,6 +161,7 @@ class Chat extends Component {
     render() {
         console.log('render chat');
         const { selectedChat } = this.props;
+        const autoScroll =!this.canLoadMoreOfflineMsg();
         return (
             <div>
                 {selectedChat && <TitleDiv>
@@ -168,7 +173,7 @@ class Chat extends Component {
                     </div>
                 </TitleDiv>}
 
-                {selectedChat && <Scrollbar messages={this.getMessages()} paddingTop={5} paddingRight={5} />}
+                {selectedChat && <Scrollbar messages={this.getMessages()} paddingTop={5} paddingRight={5} autoScroll={autoScroll}/>}
 
             </div>
         );
