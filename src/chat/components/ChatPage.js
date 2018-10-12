@@ -11,7 +11,7 @@ require('../../assets/styles/ul.css')
 require('../../assets/styles/scrollbar.css')
 
 
-const InputBoxDiv=styled.div`
+const InputBoxDiv = styled.div`
     height: 22vh;
     width: 100%;
     padding: 10px;
@@ -21,6 +21,9 @@ const InputBoxDiv=styled.div`
     border-color: lightGrey;
 `;
 
+const ChatContainerDiv = styled.div`
+    height:78vh;
+`;
 
 const setChat = Component => class extends React.Component {
     constructor(props) {
@@ -44,24 +47,23 @@ export class ChatPage extends Component {
 
     constructor(props) {
         super(props);
-      
+
 
     }
 
 
     render() {
         return (
-            <div >
 
-                <div   >
-                    <div style={{ height: '78vh' }}>
-                        <ChatContainer />
-                    </div>
-                    <InputBoxDiv>
-                        <InputBox />
-                    </InputBoxDiv>
-                </div>
+            <div>
+                <ChatContainerDiv>
+                    <ChatContainer />
+                </ChatContainerDiv>
+                <InputBoxDiv>
+                    <InputBox />
+                </InputBoxDiv>
             </div>
+
         );
     }
 }
