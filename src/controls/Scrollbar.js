@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { isEqual } from 'lodash'
+import Rx from 'rx'
 require('../assets/styles/scrollbar.css')
 
 
@@ -13,81 +15,115 @@ const OutContainer = styled.div`
     width:100%;
 `;
 
-const ScrollDiv = styled.div`
-    float: left;
-    clear: both;
-    width: 0px; 
-`;
+// const ScrollDiv = styled.div`
+//     float: left;
+//     clear: both;
+//     width: 0px; 
+// `;
 
 
 /**
  * 支持垂直滚动
- * @param {*} InnerComponent 
  */
-export const withScroll = InnerComponent => class extends React.Component {
+export const withScroll = InnerComponent => {
+    class InnerScrollBar extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { topOffset: 0, isTop: false };
-    }
+        constructor(props) {
+            super(props);
+            this.state = { topOffset: 0, isTop: false };  
+        }
 
-    _handleScroll = e => {
-        const { top } = ReactDOM.findDOMNode(this.scrollDiv).getBoundingClientRect();
-        const scrollHeight = ReactDOM.findDOMNode(this.container).scrollHeight;
-        const { topOffset, isTop } = this.state;
-        if (top > scrollHeight) {
+        updateTopState=()=>{
+            const { top } = ReactDOM.findDOMNode(this.scrollDiv).getBoundingClientRect();
+            const scrollHeight = ReactDOM.findDOMNode(this.container).scrollHeight;
+            const { topOffset, isTop } = this.state;
+            if (top > scrollHeight) {
+                if (topOffset < top && !isTop) {
+                    this.setState({ isTop: true });
+                }
+            }
+            else {
+                this.setState({ isTop: false });
+            }
+            this.setState({ topOffset: top });
+        }
 
+        handleScroll = e => {
+          this.updateTopState();
+        }
 
-            if (topOffset < top && !isTop) {
-                console.log(top);
-                this.setState({ isTop: true });
+        shouldComponentUpdate(nextProps, nextState, nextContext) {
+            return !isEqual(this.props, nextProps)         
+        }
+
+        componentDidMount() {
+            const list = ReactDOM.findDOMNode(this.container);
+            list.addEventListener('scroll', this.handleScroll);
+            this.checkIfScrollToBottom();
+        }
+
+        componentWillMount() {
+            this.handleWheel$ = new Rx.Subject();
+            this.handleWheel$.throttle(500).subscribe(this.handleWheel);
+        }
+
+        componentWillUnmount() {
+            const list = ReactDOM.findDOMNode(this.container);
+            list.removeEventListener('scroll', this.handleScroll);
+            this.handleWheel$.dispose();
+        }
+
+        componentDidUpdate(nextProps, nextState, nextContext) {
+            this.checkIfScrollToBottom();
+
+        }
+
+        checkIfScrollToBottom = () => {
+            const { autoScrollBottom } = this.props;
+            if (autoScrollBottom !== true) {
+               this.setState({isTop:true});
+               return;
+            }
+            if (this.scrollDiv != null) {
+                try {
+                    this.scrollDiv.scrollIntoView(true);
+                }
+                catch (error) {
+                    console.log(`scrollToBottom raise error: ${error}`);
+                }
             }
         }
-        else {
-            this.setState({ isTop: false });
+
+        handleWheel = e => {
+            if(e.deltaY>0){ //下滚不处理
+                return;
+            }
+            const { isTop } = this.state;
+            const { onScrollTop } = this.props;
+            if (isTop === true && onScrollTop != null) {
+                onScrollTop();
+            }
         }
-        this.setState({ topOffset: top });
-    }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (!isEqual(this.props, nextProps)) {
-            return true;
-        }
-        return false;
-    }
 
-    componentDidMount() {
-        const list = ReactDOM.findDOMNode(this.container);
-        list.addEventListener('scroll', this._handleScroll);
-    }
-
-    componentWillUnmount() {
-        const list = ReactDOM.findDOMNode(this.container);
-        list.removeEventListener('scroll', this._handleScroll);
-    }
-
-    componentDidUpdate(nextProps, nextState, nextContext) {
-        const { autoScroll } = this.props;
-        if (autoScroll) {
-            this.scrollToBottom();
+        render() {
+            console.log('render scroll');
+            return (
+                <OutContainer className='scollContainer' ref={el => this.container = el} onWheel={e => this.handleWheel$.onNext(e)}>
+                    <InnerComponent {...this.props} />
+                    {/* 注意这里必须是react自己的dom element如果用自定义的element则在滚动时会抛出 _this.scrollDiv.scrollIntoView is not a function */}
+                    <div ref={el => this.scrollDiv = el} />
+                </OutContainer>
+            )
         }
     }
 
-    scrollToBottom = () => {
-        if (this.scrollDiv != null) {
-            this.scrollDiv.scrollIntoView();
-        }
+    InnerScrollBar.propTypes = {
+        autoScrollBottom: PropTypes.bool,
+        onScrollTop: PropTypes.func.isRequired,
+
     }
 
+    return InnerScrollBar;
 
-    render() {
-        console.log('render scroll');
-        return (
-            <OutContainer className='scollContainer' ref={el => this.container = el} >
-                <InnerComponent {...this.props} />
-                <ScrollDiv ref={el => this.scrollDiv = el} />
-
-            </OutContainer>
-        )
-    }
-} 
+}

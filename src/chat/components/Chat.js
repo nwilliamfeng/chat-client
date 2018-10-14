@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import { chatActions } from '../actions'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import { MessageList } from '../../message/components'
 import { withScroll } from '../../controls'
 require('../../assets/styles/scrollbar.css')
@@ -33,7 +32,7 @@ class Chat extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { autoScroll: true, };
+        this.state={isOfflineMessageLoaded:true}; this.componentWillReceiveProps
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -48,120 +47,75 @@ class Chat extends Component {
         return false;
     }
 
-    //     _handleScroll=e=> {
-
-    //       const { top} = ReactDOM.findDOMNode(this.messageContainer).getBoundingClientRect();
-    //       const scrollHeight =ReactDOM.findDOMNode(this.refs.msgListContainer).scrollHeight;
-    //   if(top>scrollHeight)
-    //     console.log('ddd!!');
-
-    //     }
-
-    //     componentDidMount() {
-    //         const list = ReactDOM.findDOMNode(this.refs.msgListContainer);
-    //         list.addEventListener('scroll', this._handleScroll);
-    //     }
-    //     componentWillUnmount() {
-    //         const list = ReactDOM.findDOMNode(this.refs.msgListContainer);
-    //         list.removeEventListener('scroll', this._handleScroll);
-    //     }
-
+    componentWillReceiveProps(nextProps, nextContext){
+        console.log(nextProps);
+        const { selectedChat } = nextProps;
+        if(selectedChat==null){
+            return;
+        }
+        const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = selectedChat;
+       
+        if( offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount)){
+            this.setState({isOfflineMessageLoaded:false});
+        }
+    }
 
     componentDidUpdate(nextProps, nextState, nextContext) {
         const { selectedChat } = this.props;
-        if (selectedChat == null) {
-            return;
+        if (selectedChat == null ) {
+            return ;
         }
-        //  const { autoScroll } = this.state;
-
-        // if (autoScroll) {
-        //     this.scrollToBottom();
-
-        // } else {
-        //     this.setState({ autoScroll: true });
-        // }
-
         
-
-    }
-
-
-
-    // scrollToBottom = () => {
-    //     this.messageContainer.scrollIntoView();
-    // }
-
-    handleScroll = value => {
-
-        // const { top } = value;
-        // const { selectedChat } = this.props;
-        // if (selectedChat == null) {
-        //     return;
-        // }
-        // if (top === 0) { //如果滚动到顶部，则触发历史消息加载      
-        //     const { dispatch } = this.props;
-        //     if (this.canLoadMoreOfflineMsg()) {
-        //         dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
-        //     }
-        // }
-    }
-
-    canLoadMoreOfflineMsg = () => {
-        if(this.props.selectedChat==null){
-            return false;
-        }
         const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = this.props.selectedChat;
 
-        return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
+        if( offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize >= offlineMsgTotalCount)){
+            this.setState({isOfflineMessageLoaded:true});
+        }
+        console.log('do componentDidUpdate');
+    }
+
+
+    canLoadMoreOfflineMsg = () => {
+        const {isOfflineMessageLoaded} =this.state;
+        return isOfflineMessageLoaded===false;
+        // if (this.props.selectedChat == null) {
+        //     return false;
+        // }
+        // const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = this.props.selectedChat;
+
+        // return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
     }
 
     getMessages = () => {
-        const { selectedChat, dispatch } = this.props;
+        const { selectedChat } = this.props;
         let messages = selectedChat ? selectedChat.messages : [];
-        const onClick = () => {
-            if (this.canLoadMoreOfflineMsg()) {
-                dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
-              //  this.setState({ autoScroll: false });
-            }
-        };
+        // const onClick = () => {
+        //     if (this.canLoadMoreOfflineMsg()) {
+        //         dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
+        //     }
+        // };
+        //可以通过创建systemmessage并传入加载回调方法,此处未使用
+        
         if (this.canLoadMoreOfflineMsg()) {
-            const sysMsg = {
-                MessageContent: { content: '点击加载更多', color: 'blue', onClick },
-                SendTime: new Date(),
-
-            }
+            const sysMsg = { MessageContent: { content: '还有未读的消息，请鼠标向上滚动进行加载。' }, SendTime: new Date(),}
             messages = [sysMsg, ...messages];
         }
         return messages;
     }
 
-    // render() {
-    //     console.log('render chat');
-    //     const { selectedChat } = this.props;
-    //     return (
-    //         <div>
-    //             {selectedChat && <TitleDiv>
-    //                 <div className='col-md-10' style={{ paddingLeft: 0 }}>
-    //                     <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
-    //                 </div>
-    //                 <div className='col-md-2'>
-    //                     <button className='pull-right' >{'更多'}</button>
-    //                 </div>
-    //             </TitleDiv>}
-    //             <MessageListContainer className='scollContainer' ref='msgListContainer'   >
-    //                 {selectedChat && <MessageList messages={this.getMessages()} paddingTop={5} paddingRight={5} />}
-    //                     <div style={{ float: "left", clear: "both" }}
-    //                         ref={(el) => { this.messageContainer = el; }}>
-    //                     </div>
-    //             </MessageListContainer>
-    //         </div>
-    //     );
-    // }
+    handleScrollTop = () => {
+        const { dispatch,selectedChat } = this.props;
+        if (this.canLoadMoreOfflineMsg()) {
+            dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
+        }
+    }
+
+ 
 
     render() {
         console.log('render chat');
         const { selectedChat } = this.props;
-        const autoScroll =!this.canLoadMoreOfflineMsg();
+        const autoScroll = !this.canLoadMoreOfflineMsg();
         return (
             <div>
                 {selectedChat && <TitleDiv>
@@ -173,7 +127,8 @@ class Chat extends Component {
                     </div>
                 </TitleDiv>}
 
-                {selectedChat && <Scrollbar messages={this.getMessages()} paddingTop={5} paddingRight={5} autoScroll={autoScroll}/>}
+                {selectedChat && 
+                <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScroll} />}
 
             </div>
         );
@@ -182,8 +137,6 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
     const { selectedChat } = state.chat;
-
-    //todo 添加消息reducer
     return { selectedChat };
 }
 
@@ -191,7 +144,7 @@ function mapStateToProps(state) {
 const page = connect(mapStateToProps, null)(Chat);
 
 /**
- * 聊天页
+ * 聊天组件
  */
 export { page as Chat };
 

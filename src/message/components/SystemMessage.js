@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const Span=styled.div`
     padding:3px 5px;
-    color: ${props=>props.color?props.color:'black'};
+    color: ${props=>props.color?props.color:'gray'};
     text-align:center;
     cursor:default;
 `;
