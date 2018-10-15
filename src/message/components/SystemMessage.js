@@ -7,6 +7,7 @@ const Span=styled.div`
     color: ${props=>props.color?props.color:'gray'};
     text-align:center;
     cursor:default;
+    font-size:12px;
 `;
 
 const containerStyle = {

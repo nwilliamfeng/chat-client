@@ -85,7 +85,7 @@ class MessageService {
         const { customer, channelId } = chat;
 
         if (chat.offlineMsgTotalCount == 0) {
-            chat.offlineMsgTotalCount = random(4,23);//todo-- 测试这里用假数据------------------------------
+            chat.offlineMsgTotalCount = random(24,53);//todo-- 测试这里用假数据------------------------------
         }
 
 

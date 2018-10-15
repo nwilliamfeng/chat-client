@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import { chatActions } from '../actions'
-import styled, { injectGlobal } from 'styled-components'
+import styled from 'styled-components'
 import { MessageList } from '../../message/components'
 import { withScroll } from '../../controls'
 require('../../assets/styles/scrollbar.css')
@@ -32,7 +32,7 @@ class Chat extends Component {
 
     constructor(props) {
         super(props);
-        this.state={isOfflineMessageLoaded:true}; this.componentWillReceiveProps
+        this.state = { autoScrollBottom: true };
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -47,75 +47,65 @@ class Chat extends Component {
         return false;
     }
 
-    componentWillReceiveProps(nextProps, nextContext){
-        console.log(nextProps);
+    componentWillReceiveProps(nextProps, nextContext) {
         const { selectedChat } = nextProps;
-        if(selectedChat==null){
+        if (selectedChat == null) {
             return;
         }
-        const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = selectedChat;
-       
-        if( offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount)){
-            this.setState({isOfflineMessageLoaded:false});
+        if (this.canLoadMoreOfflineMsg(selectedChat)) {
+            this.setState({ autoScrollBottom: false });
         }
     }
 
     componentDidUpdate(nextProps, nextState, nextContext) {
         const { selectedChat } = this.props;
-        if (selectedChat == null ) {
-            return ;
+        if (selectedChat == null) {
+            return;
         }
-        
         const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = this.props.selectedChat;
-
-        if( offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize >= offlineMsgTotalCount)){
-            this.setState({isOfflineMessageLoaded:true});
+        if (offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize >= offlineMsgTotalCount)) {
+            this.setState({ autoScrollBottom: true });
         }
         console.log('do componentDidUpdate');
     }
 
-
-    canLoadMoreOfflineMsg = () => {
-        const {isOfflineMessageLoaded} =this.state;
-        return isOfflineMessageLoaded===false;
-        // if (this.props.selectedChat == null) {
-        //     return false;
-        // }
-        // const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = this.props.selectedChat;
-
-        // return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
+    canLoadMoreOfflineMsg = chat => {
+        if (chat == null) {
+            return false;
+        }
+        const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = chat;
+        return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
     }
 
     getMessages = () => {
         const { selectedChat } = this.props;
         let messages = selectedChat ? selectedChat.messages : [];
-        // const onClick = () => {
-        //     if (this.canLoadMoreOfflineMsg()) {
-        //         dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
-        //     }
-        // };
-        //可以通过创建systemmessage并传入加载回调方法,此处未使用
-        
-        if (this.canLoadMoreOfflineMsg()) {
-            const sysMsg = { MessageContent: { content: '还有未读的消息，请鼠标向上滚动进行加载。' }, SendTime: new Date(),}
-            messages = [sysMsg, ...messages];
+
+        const { autoScrollBottom } = this.state;
+        if (!autoScrollBottom) {
+            if (this.canLoadMoreOfflineMsg(selectedChat)) {
+                const sysMsg = { MessageContent: { content: '还有未读的消息，请鼠标向上滚动进行加载。' }, SendTime: new Date(), }
+                messages = [sysMsg, ...messages];
+            }
         }
         return messages;
     }
 
     handleScrollTop = () => {
-        const { dispatch,selectedChat } = this.props;
-        if (this.canLoadMoreOfflineMsg()) {
+        console.log('handleScrollTop');
+        const { dispatch, selectedChat } = this.props;
+        if (this.canLoadMoreOfflineMsg(selectedChat)) {
+            console.log('handleScrollTop2');
             dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
         }
     }
 
- 
+
 
     render() {
         console.log('render chat');
         const { selectedChat } = this.props;
-        const autoScroll = !this.canLoadMoreOfflineMsg();
+        const { autoScrollBottom } = this.state;
         return (
             <div>
                 {selectedChat && <TitleDiv>
@@ -127,8 +117,8 @@ class Chat extends Component {
                     </div>
                 </TitleDiv>}
 
-                {selectedChat && 
-                <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScroll} />}
+                {selectedChat &&
+                    <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScrollBottom} />}
 
             </div>
         );
