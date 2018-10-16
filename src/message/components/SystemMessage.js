@@ -1,23 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const Span = styled.span`
+    background:lightgray;       
+    align-self:center;
+    border-radius:3px;
+    cursor:default;
+    padding:3px 5px;
+    color: ${props => props.color ? props.color : 'white'};
+    font-size:12px;
+`;
 
- 
 
 const Div = styled.div`
-    background:lightgray;    
-    border-radius:3px;
-    text-align:center;
-    margin-left:30%;
-    margin-right:30%;
-    padding:3px 5px;
+    display:flex;
+    flex-direction:column; 
     margin-bottom:10px;
     margin-top:10px;
-    color: ${props => props.color ? props.color : 'white'};
-    cursor:default;
-    display:inline-block;
-    font-size:12px;
-   
 `;
 
 export const SystemMessage = ({ content, onClick, color }) => {
@@ -28,8 +27,10 @@ export const SystemMessage = ({ content, onClick, color }) => {
         }
     }
     return (
-        <Div color={color} onClick={handleClick}>{content}</Div>
-       
+        <Div color={color} onClick={handleClick}>
+            <Span>{content}</Span>
+        </Div>
+
     )
 }
 
