@@ -1,41 +1,35 @@
-import React  from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 
-const Span=styled.div`
-    padding:3px 5px;
-    color: ${props=>props.color?props.color:'gray'};
-    text-align:center;
-    cursor:default;
-    font-size:12px;
-`;
-
-const containerStyle = {
-    display: 'block',
-    clear: 'right',
-    textAlign: 'right',
-    paddingTop:8,
-}
  
 
-
-
-
-const bodyStyle = {
-    float: 'right',
-    clear: 'left',
-}
-
-
-export const SystemMessage = ({ content ,onClick,color}) => {
+const Div = styled.div`
+    background:lightgray;    
+    border-radius:3px;
+    text-align:center;
+    margin-left:30%;
+    margin-right:30%;
+    padding:3px 5px;
+    margin-bottom:10px;
+    margin-top:10px;
+    color: ${props => props.color ? props.color : 'white'};
+    cursor:default;
+    display:inline-block;
+    font-size:12px;
    
-    const handleClick=()=>{
-        if(onClick!=null){
+`;
+
+export const SystemMessage = ({ content, onClick, color }) => {
+
+    const handleClick = () => {
+        if (onClick != null) {
             onClick();
         }
     }
     return (
-        <Span color={color} onClick={handleClick}>{content}</Span>
+        <Div color={color} onClick={handleClick}>{content}</Div>
+       
     )
 }
 

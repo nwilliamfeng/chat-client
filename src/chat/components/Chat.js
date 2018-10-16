@@ -5,6 +5,7 @@ import { chatActions } from '../actions'
 import styled from 'styled-components'
 import { MessageList } from '../../message/components'
 import { withScroll } from '../../controls'
+import MessageHelper from '../../message/messageHelper'
 require('../../assets/styles/scrollbar.css')
 
 /**
@@ -80,11 +81,10 @@ class Chat extends Component {
     getMessages = () => {
         const { selectedChat } = this.props;
         let messages = selectedChat ? selectedChat.messages : [];
-
         const { autoScrollBottom } = this.state;
         if (!autoScrollBottom) {
             if (this.canLoadMoreOfflineMsg(selectedChat)) {
-                const sysMsg = { MessageContent: { content: '还有未读的消息，请鼠标向上滚动进行加载。' }, SendTime: new Date(), }
+                const sysMsg = MessageHelper.createSystemMessage('还有未读的消息，请鼠标向上滚动进行加载。');
                 messages = [sysMsg, ...messages];
             }
         }
@@ -99,7 +99,6 @@ class Chat extends Component {
             dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
         }
     }
-
 
 
     render() {

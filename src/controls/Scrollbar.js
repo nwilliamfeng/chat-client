@@ -6,8 +6,6 @@ import { isEqual } from 'lodash'
 import Rx from 'rx'
 require('../assets/styles/scrollbar.css')
 
-
-
 const OutContainer = styled.div`
     overflow-y: hidden;
     height:100%;

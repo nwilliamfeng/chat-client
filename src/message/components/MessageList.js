@@ -63,7 +63,7 @@ const renderMessage = msg => {
     
     if (MessageHelper.getMessageContentType(MessageContent)=== messageContentType.System) {
         const {content ,onClick,color} =MessageContent;
-        return (<SystemMessage content={content} onClick={onClick} color={color}/>)
+        return (<SystemMessage key={msg.MsgId} content={content} onClick={onClick} color={color}/>)
     }
     return(<CustomerMessage key={msg.MsgId} message={msg} />)
 }

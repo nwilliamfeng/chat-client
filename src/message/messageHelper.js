@@ -1,7 +1,16 @@
-import { messageContentType } from '../message/constants';
+import { messageContentType } from '../message/constants'
+import {util} from '../util'
  
 
 export default class MessageHelper {
+
+
+    static createSystemMessage(msgContent){
+        const id =util.guid();
+        return {MsgId:id, MessageContent: { content: msgContent }, SendTime: new Date(), };
+    }
+
+
     /**
      * 返回指定的消息内容对应的类型
      * @param {string} msgContent 
