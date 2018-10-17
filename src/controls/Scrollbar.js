@@ -35,7 +35,7 @@ export const withScroll = InnerComponent => {
             const { top } = ReactDOM.findDOMNode(this.scrollDiv).getBoundingClientRect();
             const scrollHeight = ReactDOM.findDOMNode(this.container).scrollHeight;
             const { topOffset, isTop } = this.state;
-            if (top > scrollHeight) {
+            if (top > (scrollHeight -150)) {   //部分场景是无论怎么滚动top始终小于scrollheight，此处减去预设偏移量，修复该问题       
                 if (topOffset < top && !isTop) {
                     this.setState({ isTop: true });
                 }
@@ -47,7 +47,7 @@ export const withScroll = InnerComponent => {
         }
 
         handleScroll = e => {
-          this.updateTopState();
+           this.updateTopState();
         }
 
         shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -79,7 +79,7 @@ export const withScroll = InnerComponent => {
         checkIfScrollToBottom = () => {
             const { autoScrollBottom } = this.props;
             if (autoScrollBottom !== true) {
-               this.setState({isTop:true});
+              // this.setState({isTop:true});
                return;
             }
             if (this.scrollDiv != null) {
@@ -101,6 +101,7 @@ export const withScroll = InnerComponent => {
             if (isTop === true && onScrollTop != null) {
                 onScrollTop();
             }
+
         }
 
 
