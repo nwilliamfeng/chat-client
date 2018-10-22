@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import { chatActions } from '../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faEllipsisH} from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { MessageList } from '../../message/components'
 import Popup from "reactjs-popup"
@@ -22,7 +22,7 @@ const TitleDiv = styled.div`
 
 const MoreButton = styled.button`
  
-     font-size: 17px;
+     font-size: 14px;
      display: block;
      background-color: transparent;
      color: gray;
@@ -33,12 +33,31 @@ const MoreButton = styled.button`
      };
 `;
 
+const SettingMenu = styled.div`
+    width: 150px;   
+    display: flex;
+    flex-direction: column;
+    background: #2A2A2A;
+    color: gray;
+`;
+
+const SettingMenuItem = styled.div`  
+    cursor: pointer;
+    padding-left: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+    &:hover {   
+        background: #2F3134;
+    }
+`;
+
+
 const popupContentStyle = {
     padding: "0px",
     border: "none",
     width: 150,
     backgroundColor: 'transparent',
-    marginTop: -20
+
 };
 
 const MessageListContainer = styled.div`
@@ -114,21 +133,24 @@ class Chat extends Component {
                         <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
                     </div>
                     <div className='col-md-2'>
-                        <Popup
-                            trigger={() => (<MoreButton title='更多' className='pull-right' ><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>)}
-                            position="right bottom"
-                            on="click"
-                            closeOnDocumentClick
-                            mouseLeaveDelay={300}
-                            mouseEnterDelay={0}
-                            contentStyle={popupContentStyle}
-                            arrow={false} >
-                            {/* <SettingMenu>
-                                <SettingMenuItem>帮助</SettingMenuItem>
-                                <SettingMenuItem>设置</SettingMenuItem>
-                            </SettingMenu> */}
+                        <div className='pull-right'>
+                            <Popup
+                                trigger={() => (<MoreButton title='更多'  ><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>)}
+                                position="right top"
+                                on="click"
+                                closeOnDocumentClick
+                                mouseLeaveDelay={300}
+                                mouseEnterDelay={0}
+                                contentStyle={popupContentStyle}
+                                arrow={false} >
+                                <SettingMenu>
+                                    <SettingMenuItem>置顶</SettingMenuItem>
+                                    <SettingMenuItem>历史消息</SettingMenuItem>
+                                </SettingMenu>
 
-                        </Popup>
+                            </Popup>
+                        </div>
+
                     </div>
                 </TitleDiv>}
 

@@ -27,8 +27,8 @@ const ContainerTop = styled.div`
 
 
 const SettingButton = styled.button`
-     padding: 20px;
-     padding-top: 30px;
+     padding: 0px;
+     margin: 40px 20px 10px 20px;
      font-size: 23px;
      display: block;
      background-color: transparent;
@@ -48,8 +48,7 @@ const NavUl = styled.ul`
 `;
 
 const SettingMenu = styled.div`
-    width: 150px;
-    
+    width: 150px;   
     display: flex;
     flex-direction: column;
     background: #2A2A2A;
@@ -60,12 +59,10 @@ const SettingMenuItem = styled.div`
     cursor: pointer;
     padding-left: 25px;
     padding-top: 10px;
-    padding-bottom: 10px;
-     
+    padding-bottom: 10px;    
     &:hover {   
         background: #2F3134;
     }
-
 `;
 
 
