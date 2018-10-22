@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import { chatActions } from '../actions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faEllipsisH} from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { MessageList } from '../../message/components'
+import Popup from "reactjs-popup"
 import { withScroll } from '../../controls'
 import MessageHelper from '../../message/messageHelper'
 require('../../assets/styles/scrollbar.css')
@@ -16,6 +19,27 @@ const TitleDiv = styled.div`
     padding:16px 0px 6px 25px;
     height:61px;
 `;
+
+const MoreButton = styled.button`
+ 
+     font-size: 17px;
+     display: block;
+     background-color: transparent;
+     color: gray;
+     border: none;
+     outline: none;
+     &:hover{
+        color: green;
+     };
+`;
+
+const popupContentStyle = {
+    padding: "0px",
+    border: "none",
+    width: 150,
+    backgroundColor: 'transparent',
+    marginTop: -20
+};
 
 const MessageListContainer = styled.div`
     overflow-y: hidden;
@@ -90,7 +114,21 @@ class Chat extends Component {
                         <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
                     </div>
                     <div className='col-md-2'>
-                        <button className='pull-right' >{'更多'}</button>
+                        <Popup
+                            trigger={() => (<MoreButton title='更多' className='pull-right' ><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>)}
+                            position="right bottom"
+                            on="click"
+                            closeOnDocumentClick
+                            mouseLeaveDelay={300}
+                            mouseEnterDelay={0}
+                            contentStyle={popupContentStyle}
+                            arrow={false} >
+                            {/* <SettingMenu>
+                                <SettingMenuItem>帮助</SettingMenuItem>
+                                <SettingMenuItem>设置</SettingMenuItem>
+                            </SettingMenu> */}
+
+                        </Popup>
                     </div>
                 </TitleDiv>}
 

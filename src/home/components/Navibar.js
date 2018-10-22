@@ -9,9 +9,6 @@ import { PageHeader } from './PageHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-
-
-
 const popupContentStyle = {
     padding: "0px",
     border: "none",
