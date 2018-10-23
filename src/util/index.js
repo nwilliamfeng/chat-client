@@ -9,12 +9,10 @@ export * from './history';
 export * from './appSettings';
 export * from './appContext';
 export * from './defaultEmojiMapping';
-export * from './chatRegionHelper'; 
 export * from './math';
 
 
-export const util={
-  
+export const util={ 
     fetchWithPost:promiseUtil.fetchWithPost,
     sleep:promiseUtil.sleep,
     getIpAddress :netUtil.getIpAddress,

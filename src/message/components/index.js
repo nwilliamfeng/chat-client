@@ -1,2 +1,2 @@
-export * from './MessageList';
-export * from './MessageContentRender';
+export * from './MessageList'
+export * from './MessageContentRender'

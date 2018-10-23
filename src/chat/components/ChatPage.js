@@ -3,7 +3,7 @@ import { InputBox } from './InputBox'
 import styled from 'styled-components'
 import sizeMe from 'react-sizeme'
 import { Chat } from './Chat'
-import { chatWindow } from '../../util/chatRegionHelper'
+
 
 require('../../assets/styles/grid.css')
 require('../../assets/styles/ul.css')
@@ -31,8 +31,6 @@ const setChat = Component => class extends React.Component {
     }
 
     render() {
-        const { width } = this.props.size;
-        chatWindow.width = width;
         return (
             <div style={{ height: 'calc(100% - 61px)' }}>
                 <Component {...this.props} />

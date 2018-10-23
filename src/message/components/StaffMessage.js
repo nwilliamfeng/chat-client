@@ -1,58 +1,55 @@
-import React  from 'react';
-import { messageContentType } from '../constants';
-import {messageContentRender, withMessageContent } from './MessageContentRender';
-import MessageHelper from '../messageHelper';
-import { chatWindow } from '../../util/chatRegionHelper';
-import ImageZoom from 'react-medium-image-zoom';
-import { ContextMenuTrigger } from "react-contextmenu";
-import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID,MSGLST_CONTEXTMENU_FILE_ID } from './MessageList';
-require('../../assets/styles/bubble.css');
+import React from 'react'
+import { messageContentType } from '../constants'
+import { messageContentRender, withMessageContent } from './MessageContentRender'
+import MessageHelper from '../messageHelper'
+import ImageZoom from 'react-medium-image-zoom'
+import { ContextMenuTrigger } from "react-contextmenu"
+import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID, MSGLST_CONTEXTMENU_FILE_ID } from './MessageList'
+import styled from 'styled-components'
+import {MessageTime,MessageSender} from './Parts'
+require('../../assets/styles/bubble.css')
+
+
+/**
+ * 容器Div
+ */
+const Container = styled.div`
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    text-align: right;
+    padding-top: 8px;`
+
+/**
+ * 头像容器
+ */
+const AvataContainer = styled.div`          
+    padding-left: 15px;`
+
+/**
+ * 头像
+ */
+const Avata = styled.img`
+    width: 42px;
+    height: 42px;
+    margin-top: 5px;`
+
+ 
+
+
+ 
 
 
 
-const containerStyle = {
-    display: 'block',
-    clear: 'right',
-    textAlign: 'right',
-    paddingTop:8,
-}
-
-const avatarContainerStyle = {
-    float: 'right',
-    paddingLeft: 15,
-}
-
-const avatarStyle = {
-    width: 42,
-    height: 42,
-    marginTop: 5,
-}
-
-
-const sendTimeStyle = {
-    color: 'gray',
-    fontSize: 12,
-}
-
-const senderStyle = {
-    color: 'blue',
-    marginLeft: 10,
-    fontSize: 12,
-}
-
-const bodyStyle = {
-    float: 'right',
-    clear: 'left',
-}
-
-const contentStyle = (width) => ({
-    maxWidth: width,
+const contentStyle = {
     wordWrap: 'break-word',
     marginBottom: 20,
     textAlign: 'left',
     border: '1px solid #eee',
+    marginLeft: 50,
+}
 
-})
+
 
 const file_contentStyle = {
     marginBottom: 20,
@@ -75,27 +72,26 @@ const imgStyle = {
 const fileNameStyle = {
     display: 'table-cell',
     wordWrap: 'break-word',
-    textAlign:'top',
+    textAlign: 'top',
     width: 150,
-    
+
     verticalAlign: 'text-top',
     maxWidth: 150,
-  //  textOverflow: 'ellipsis',
-   // overflow: 'hidden',
- //   whiteSpace: 'nowrap',
+    //  textOverflow: 'ellipsis',
+    // overflow: 'hidden',
+    //   whiteSpace: 'nowrap',
 }
 
 
 const fileLogoContainerStyle = {
-    display: 'table-cell', 
-    padding:5,
+    display: 'table-cell',
+    padding: 5,
 }
 
-const TextContent =withMessageContent(props=><div>{props.children}</div>);
+const TextContent = withMessageContent(props => <div>{props.children}</div>);
 
 
 const renderContent = (content) => {
-    const width = chatWindow.width * 0.6;
     const contentType = MessageHelper.getMessageContentType(content);
     //下载文件
     const downloadFile = () => {
@@ -103,13 +99,13 @@ const renderContent = (content) => {
         window.open(url);
     }
 
- 
+
     switch (contentType) {
         case messageContentType.Text: //处理普通文本消息
             return (
                 <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
-                    <div className='rbubble' style={contentStyle(width)}>
-                        <TextContent content={content}/>
+                    <div className='rbubble' style={contentStyle}>
+                        <TextContent content={content} />
                     </div>
                 </ContextMenuTrigger>
             );
@@ -152,20 +148,17 @@ const renderContent = (content) => {
 
 
 export const StaffMessage = ({ message }) => {
-    const { MessageContent,AvataUrl } = message;
-
+    const { MessageContent, AvataUrl, SendTime, SenderName } = message;
     return (
-        <div style={containerStyle}  >
-            <div style={avatarContainerStyle}>
-                <img style={avatarStyle} src={AvataUrl} />
-            </div>
-            <div style={bodyStyle}>
-                <div>
-                    <span style={sendTimeStyle}>{messageContentRender.renderSendTime(message.SendTime)}<span style={senderStyle}>{message.SenderName}</span></span>
-                </div>
+        <Container>
+            <AvataContainer>
+                <Avata src={AvataUrl}/>
+            </AvataContainer>
+            <div>
+                <span><MessageTime value={SendTime}/><MessageSender color='blue'>{SenderName}</MessageSender></span>
                 {renderContent(MessageContent)}
             </div>
-        </div>
+        </Container>
     )
 }
 

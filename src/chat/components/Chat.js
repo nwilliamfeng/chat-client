@@ -60,12 +60,6 @@ const popupContentStyle = {
 
 };
 
-const MessageListContainer = styled.div`
-    overflow-y: hidden;
-    height:100%;
-    position:absolute;
-`;
-
 /**
  * 消息列表滚动条
  */
@@ -155,7 +149,7 @@ class Chat extends Component {
                 </TitleDiv>}
 
                 {selectedChat &&
-                    <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScrollBottom} />}
+                <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScrollBottom} /> }
             </div>
         );
     }
