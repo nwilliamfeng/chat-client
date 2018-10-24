@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { defaultEmojiMapping } from '../../util/defaultEmojiMapping';
-import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState, CompositeDecorator } from "draft-js";
-import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js';
-import { appSettings,appContext } from '../../util';
-import {chatActions, fileActions } from '../actions';
-import { Toolbar } from './Toolbar';
-require('../../assets/styles/button.css');
-require('../../assets/styles/scrollbar.css');
-require('../../assets/styles/input-box.css');
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { defaultEmojiMapping } from '../../util/defaultEmojiMapping'
+import { AtomicBlockUtils, Modifier, Editor, EditorState, ContentState, CompositeDecorator } from "draft-js"
+import { getDefaultKeyBinding, KeyBindingUtil } from 'draft-js'
+import { appSettings,appContext } from '../../util'
+import {chatActions, fileActions } from '../actions'
+import { Toolbar } from './Toolbar'
+require('../../assets/styles/button.css')
+require('../../assets/styles/scrollbar.css')
+require('../../assets/styles/input-box.css')
 
 /**
  * 返回指定的contentBlock是否属于非文本类型

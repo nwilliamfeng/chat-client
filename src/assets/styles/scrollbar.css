@@ -1,8 +1,8 @@
 .scollContainer::-webkit-scrollbar     
 
 {  
-    width: 8px;  
-    height:6px;   
+    width: 6px;  
+    height:4px;   
     
 }  
 .scollContainer::-webkit-scrollbar-track 

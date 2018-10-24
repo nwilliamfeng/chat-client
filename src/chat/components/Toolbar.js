@@ -16,6 +16,7 @@ const styles = {
    
     toolbar: {
         padding: 5,
+        paddingLeft:0,
     },
   
 };

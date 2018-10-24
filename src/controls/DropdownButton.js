@@ -37,18 +37,18 @@ const popupContentStyle = (hOffset, vOffset) => {
 
 const MenuItem=({onClick,title})=> <MenuItemDiv onClick={onClick}>{title}</MenuItemDiv>
 
-export const DropdownButton = ({ icon, title, style, showInTop = false, hOffset = 0, vOffset = 0,menuItems }) => <Popup
-    trigger={() => (<button title={title} style={style}><FontAwesomeIcon icon={icon} /></button>)}
-    position={showInTop === true ? "right top" : "right bottom"}
+export const DropdownButton =Button=> ({ showInBottom = false, hOffset = 0, vOffset = 0,menuItems }) => <Popup
+    trigger={() => (<Button/>)}
+    position={showInBottom === false ? "right top" : "right bottom"}
     on="click"
     closeOnDocumentClick
     mouseLeaveDelay={300}
     mouseEnterDelay={0}
     contentStyle={popupContentStyle(hOffset,vOffset)}
     arrow={false} >
-    <Menu>
-        {menuItems.Map(x=><MenuItem {...x}/>)}
+    {menuItems && <Menu>
+        {menuItems.map(x=><MenuItem {...x}/>)}
 
-    </Menu>
+    </Menu>}
 
 </Popup>

@@ -14,7 +14,7 @@ require('../../assets/styles/scrollbar.css')
 const InputBoxDiv = styled.div`
     height: 22vh;
     width: 100%;
-    padding: 10px;
+    padding: 3px 25px;
     background: white;
     border-top-style:solid; 
     border-width: 1px;
@@ -23,6 +23,7 @@ const InputBoxDiv = styled.div`
 
 const ChatContainerDiv = styled.div`
     height:78vh;
+    padding:0px 3px;
 `;
 
 const setChat = Component => class extends React.Component {

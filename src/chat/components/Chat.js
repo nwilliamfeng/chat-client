@@ -9,6 +9,7 @@ import { MessageList } from '../../message/components'
 import Popup from "reactjs-popup"
 import { withScroll } from '../../controls'
 import MessageHelper from '../../message/messageHelper'
+import {DropdownButton} from '../../controls'
 require('../../assets/styles/scrollbar.css')
 
 /**
@@ -17,11 +18,9 @@ require('../../assets/styles/scrollbar.css')
 const TitleDiv = styled.div`
     border-bottom:1px solid #E7E7E7;
     padding:16px 0px 6px 25px;
-    height:61px;
-`;
+    height:61px;`
 
 const MoreButton = styled.button`
- 
      font-size: 14px;
      display: block;
      background-color: transparent;
@@ -30,16 +29,14 @@ const MoreButton = styled.button`
      outline: none;
      &:hover{
         color: green;
-     };
-`;
+     };`
 
 const SettingMenu = styled.div`
     width: 150px;   
     display: flex;
     flex-direction: column;
     background: #2A2A2A;
-    color: gray;
-`;
+    color: gray;`
 
 const SettingMenuItem = styled.div`  
     cursor: pointer;
@@ -48,23 +45,21 @@ const SettingMenuItem = styled.div`
     padding-bottom: 10px;    
     &:hover {   
         background: #2F3134;
-    }
-`;
-
+    }`
 
 const popupContentStyle = {
     padding: "0px",
     border: "none",
     width: 150,
     backgroundColor: 'transparent',
-
-};
+}
 
 /**
  * 消息列表滚动条
  */
 const Scrollbar = withScroll(props => <MessageList {...props} />);
 
+const MoreDropdownButton=DropdownButton(props=><MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
 
 class Chat extends Component {
 
@@ -115,6 +110,16 @@ class Chat extends Component {
         }
     }
 
+    handleStickClick=()=>{
+        alert('stick');
+    }
+
+    handleHistoryClick=()=>{
+        alert('history');
+    }
+
+    getMenuItems=()=> [{title:'置顶',onClick:this.handleStickClick}, {title:'历史消息',onClick:this.handleHistoryClick}]
+
 
     render() {
         console.log('render chat');
@@ -128,7 +133,9 @@ class Chat extends Component {
                     </div>
                     <div className='col-md-2'>
                         <div className='pull-right'>
-                            <Popup
+                        <MoreDropdownButton title='更多'
+                        menuItems={this.getMenuItems()}/>
+                            {/* <Popup
                                 trigger={() => (<MoreButton title='更多'  ><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>)}
                                 position="right top"
                                 on="click"
@@ -142,7 +149,7 @@ class Chat extends Component {
                                     <SettingMenuItem>历史消息</SettingMenuItem>
                                 </SettingMenu>
 
-                            </Popup>
+                            </Popup> */}
                         </div>
 
                     </div>
