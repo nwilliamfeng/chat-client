@@ -30,34 +30,15 @@ const MoreButton = styled.button`
         color: green;
      };`
 
-const SettingMenu = styled.div`
-    width: 150px;   
-    display: flex;
-    flex-direction: column;
-    background: #2A2A2A;
-    color: gray;`
-
-const SettingMenuItem = styled.div`  
-    cursor: pointer;
-    padding-left: 25px;
-    padding-top: 10px;
-    padding-bottom: 10px;    
-    &:hover {   
-        background: #2F3134;
-    }`
-
-const popupContentStyle = {
-    padding: "0px",
-    border: "none",
-    width: 150,
-    backgroundColor: 'transparent',
-}
 
 /**
  * 消息列表滚动条
  */
 const Scrollbar = withScroll(props => <MessageList {...props} />);
 
+/**
+ * 更多下拉框按钮
+ */
 const MoreDropdownButton = dropdownButton(props => <MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
 
 class Chat extends Component {

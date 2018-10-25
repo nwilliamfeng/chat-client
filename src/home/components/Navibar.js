@@ -19,15 +19,15 @@ const popupContentStyle = {
 };
 
 
-const Container = styled.div`height: 100%; `;
+const Container = styled.div`height: 100%; `
 
 const ContainerTop = styled.div` 
     width: 100%;
-    height: calc(100% - 100px);
-`;
+    height: calc(100% - 100px);`
 
 
-const SettingButton = styled.button`
+
+const Button = styled.button`
      padding: 0px;
      margin: 40px 20px 10px 20px;
      font-size: 23px;
@@ -40,6 +40,9 @@ const SettingButton = styled.button`
         color: white;
      };
 `;
+
+
+const SettingButton= dropdownButton(props=><Button {...props}><FontAwesomeIcon icon={faBars}/></Button>)
 
 const NavUl = styled.ul`
     list-style: none;

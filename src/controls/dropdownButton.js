@@ -30,25 +30,34 @@ const popupContentStyle = (hOffset, vOffset) => {
         border: "none",
         width: 150,
         backgroundColor: 'transparent',
-        marginTop: vOffset?vOffset:0,
-        marginLeft:hOffset?hOffset:0,
+        marginTop: vOffset ? vOffset : 0,
+        marginLeft: hOffset ? hOffset : 0,
     }
 }
 
-const MenuItem=({onClick,title})=> <MenuItemDiv onClick={onClick}>{title}</MenuItemDiv>
+const MenuItem = ({ onClick, title }) => <MenuItemDiv onClick={onClick}>{title}</MenuItemDiv>
 
-export const dropdownButton =Button=> ({ showInBottom = false, hOffset = 0, vOffset = 0,menuItems }) => <Popup
-    trigger={() => (<Button/>)}
-    position={showInBottom === false ? "right top" : "right bottom"}
-    on="click"
-    closeOnDocumentClick
-    mouseLeaveDelay={300}
-    mouseEnterDelay={0}
-    contentStyle={popupContentStyle(hOffset,vOffset)}
-    arrow={false} >
-    {menuItems && <Menu>
-        {menuItems.map(x=><MenuItem {...x}/>)}
+/**
+ * 支持下拉框按钮
+ * @param {*} Button 
+ */
+export const dropdownButton = Button => class extends Component {
+    render() {
+        const { hOffset, vOffset, popOnTop, menuItems } = this.props;
+        return (<Popup
+            trigger={() => (<Button {...this.props} />)}
+            position={popOnTop === true ? "right bottom" : "right top"}
+            on="click"
+            closeOnDocumentClick
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            contentStyle={popupContentStyle(hOffset, vOffset)}
+            arrow={false} >
+            {menuItems && <Menu>
+                {menuItems.map(x => <MenuItem {...x} />)}
+            </Menu>}
+        </Popup>)
+    }
+}
 
-    </Menu>}
 
-</Popup>
