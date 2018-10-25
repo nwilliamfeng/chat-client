@@ -37,7 +37,7 @@ const popupContentStyle = (hOffset, vOffset) => {
 
 const MenuItem=({onClick,title})=> <MenuItemDiv onClick={onClick}>{title}</MenuItemDiv>
 
-export const DropdownButton =Button=> ({ showInBottom = false, hOffset = 0, vOffset = 0,menuItems }) => <Popup
+export const dropdownButton =Button=> ({ showInBottom = false, hOffset = 0, vOffset = 0,menuItems }) => <Popup
     trigger={() => (<Button/>)}
     position={showInBottom === false ? "right top" : "right bottom"}
     on="click"

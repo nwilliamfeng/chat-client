@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
-import Popup from "reactjs-popup";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import Popup from "reactjs-popup"
 import { homeActions } from '../actions'
-import { StaffProfile } from '../../staff/components';
-import { pageType } from '../constants';
-import { PageHeader } from './PageHeader';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { StaffProfile } from '../../staff/components'
+import { pageType } from '../constants'
+import { PageHeader } from './PageHeader'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
+import {dropdownButton} from '../../controls'
 
 const popupContentStyle = {
     padding: "0px",
@@ -99,7 +100,7 @@ class Navibar extends Component {
                     </NavUl>
                 </ContainerTop>
 
-                <Popup
+                {/* <Popup
                     trigger={() => (<SettingButton title='更多'><FontAwesomeIcon icon={faBars} /></SettingButton>)}
                     position="right bottom"
                     on="click"
@@ -113,7 +114,7 @@ class Navibar extends Component {
                         <SettingMenuItem>设置</SettingMenuItem>
                     </SettingMenu>
 
-                </Popup>
+                </Popup> */}
             </Container>);
     }
 }

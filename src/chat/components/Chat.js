@@ -6,10 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { MessageList } from '../../message/components'
-import Popup from "reactjs-popup"
 import { withScroll } from '../../controls'
 import MessageHelper from '../../message/messageHelper'
-import {DropdownButton} from '../../controls'
+import { dropdownButton } from '../../controls'
 require('../../assets/styles/scrollbar.css')
 
 /**
@@ -59,7 +58,7 @@ const popupContentStyle = {
  */
 const Scrollbar = withScroll(props => <MessageList {...props} />);
 
-const MoreDropdownButton=DropdownButton(props=><MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
+const MoreDropdownButton = dropdownButton(props => <MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
 
 class Chat extends Component {
 
@@ -110,15 +109,15 @@ class Chat extends Component {
         }
     }
 
-    handleStickClick=()=>{
+    handleStickClick = () => {
         alert('stick');
     }
 
-    handleHistoryClick=()=>{
+    handleHistoryClick = () => {
         alert('history');
     }
 
-    getMenuItems=()=> [{title:'置顶',onClick:this.handleStickClick}, {title:'历史消息',onClick:this.handleHistoryClick}]
+    getMenuItems = () => [{ title: '置顶', onClick: this.handleStickClick }, { title: '历史消息', onClick: this.handleHistoryClick }]
 
 
     render() {
@@ -133,30 +132,13 @@ class Chat extends Component {
                     </div>
                     <div className='col-md-2'>
                         <div className='pull-right'>
-                        <MoreDropdownButton title='更多'
-                        menuItems={this.getMenuItems()}/>
-                            {/* <Popup
-                                trigger={() => (<MoreButton title='更多'  ><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>)}
-                                position="right top"
-                                on="click"
-                                closeOnDocumentClick
-                                mouseLeaveDelay={300}
-                                mouseEnterDelay={0}
-                                contentStyle={popupContentStyle}
-                                arrow={false} >
-                                <SettingMenu>
-                                    <SettingMenuItem>置顶</SettingMenuItem>
-                                    <SettingMenuItem>历史消息</SettingMenuItem>
-                                </SettingMenu>
-
-                            </Popup> */}
+                            <MoreDropdownButton title='更多' menuItems={this.getMenuItems()} />
                         </div>
-
                     </div>
                 </TitleDiv>}
 
                 {selectedChat &&
-                <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScrollBottom} /> }
+                    <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScrollBottom} />}
             </div>
         );
     }
