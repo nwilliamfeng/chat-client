@@ -1,6 +1,6 @@
 import React from 'react'
 import { messageContentType } from '../constants'
-import { messageContentRender, renderTextContent, renderImageContent } from './MessageContentRender'
+import { messageContentRender, renderTextContent2, renderImageContent } from './MessageContentRender'
 import MessageHelper from '../messageHelper'
 import ImageZoom from 'react-medium-image-zoom'
 import { ContextMenuTrigger } from "react-contextmenu"
@@ -34,6 +34,13 @@ const contentStyle = {
     marginLeft: 50,
 }
 
+const TextContentDiv=styled.div`
+    word-wrap: break-word;
+    margin-bottom: 20px;
+    text-align: left;
+    border: 1px solid #eee;
+    margin-left: 50px;
+`
 
 
 const file_contentStyle = {
@@ -45,14 +52,7 @@ const file_contentStyle = {
 
 }
 
-const imgStyle = {
-    // maxWidth: width,
-    // maxHeight: '25%',
-    // marginBottom: 15,
-    // border: '1px solid #eee',
-    // borderRadius: 5,
-    padding: 10,
-}
+ 
 
 const ImageDiv=styled.div`padding:10px;`
 
@@ -76,7 +76,7 @@ const fileLogoContainerStyle = {
     padding: 5,
 }
 
-const TextContent = renderTextContent(props => <div {...props}/>)
+const TextContent = renderTextContent2(props => <TextContentDiv {...props}/>)
 
 
 const ImgContent =renderImageContent(props=><ImageDiv {...props}/>);
@@ -94,11 +94,12 @@ const renderContent = (content) => {
     switch (contentType) {
         case messageContentType.Text: //处理普通文本消息
             return (
-                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
-                    <div className='rbubble' style={contentStyle}>
-                        <TextContent content={content} />
-                    </div>
-                </ContextMenuTrigger>
+                // <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
+                //     <div className='rbubble' style={contentStyle}>
+                //         <TextContent content={content} />
+                //     </div>
+                // </ContextMenuTrigger>
+                <TextContent content={content} className='rbubble'/>
             );
         case messageContentType.Picture: //处理图片消息
             return (<ImgContent content={content}/>

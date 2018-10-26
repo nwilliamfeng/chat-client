@@ -43,7 +43,7 @@ class MessageContentRender {
     }
 
 
-   
+
 
     renderSendTime(time) {
 
@@ -85,10 +85,20 @@ export const renderTextContent = Component => props => {
     </Component>
 }
 
+export const renderTextContent2 = Component => props => {
+    const { content, emojiSize } = props;
+    const items = defaultEmojiMapping.splitWithEmojis(content);
+    return <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
+        <Component {...props}>
+            {items.map((item, index) => <MessageContentItem item={item} emojiSize={emojiSize} key={index} />)}
+        </Component>
+    </ContextMenuTrigger>
+}
+
 export const renderImageContent = Component => props => {
-    const {content} = props
+    const { content } = props
     return <ContextMenuTrigger id={MSGLST_CONTEXTMENU_IMAGE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
-        <Component>
+        <Component {...props}>
             <ImageZoom
                 image={{
                     src: MessageHelper.getThumbImg(content),
