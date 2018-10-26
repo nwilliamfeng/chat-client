@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import Popup from "reactjs-popup"
-
+import Popup, { propTypes } from "reactjs-popup"
+import PropTypes from 'prop-types'
 
 const Menu = styled.div`
     width: 150px;   
@@ -35,29 +33,54 @@ const popupContentStyle = (hOffset, vOffset) => {
     }
 }
 
-const MenuItem = ({ onClick, title }) => <MenuItemDiv onClick={onClick}>{title}</MenuItemDiv>
+/**
+ * 菜单项
+ * @param {*} param0 
+ */
+const MenuItem = ({ onClick, title, afterClick }) => {
+    const handleClick = () => {
+        if (onClick != null) {
+            onClick()
+        }
+        if (afterClick != null) {
+            afterClick()
+        }
+    }
+    return <MenuItemDiv onClick={handleClick}>{title}</MenuItemDiv>
+}
 
 /**
  * 支持下拉框按钮
  * @param {*} Button 
- */
-export const dropdownButton = Button => class extends Component {
-    render() {
-        const { hOffset, vOffset, popOnTop, menuItems } = this.props;
-        return (<Popup
-            trigger={() => (<Button {...this.props} />)}
-            position={popOnTop === true ? "right bottom" : "right top"}
-            on="click"
-            closeOnDocumentClick
-            mouseLeaveDelay={300}
-            mouseEnterDelay={0}
-            contentStyle={popupContentStyle(hOffset, vOffset)}
-            arrow={false} >
-            {menuItems && <Menu>
-                {menuItems.map(x => <MenuItem {...x} />)}
-            </Menu>}
-        </Popup>)
+*/
+export const dropdownButton = Button => {
+    class DropDown extends Component {
+        afterItemClick = () => this.popup.closePopup()
+        render() {
+            const { hOffset, vOffset, popOnTop, menuItems } = this.props
+            return <Popup
+                trigger={() => (<Button {...this.props} />)}
+                position={popOnTop === true ? "right bottom" : "right top"}
+                ref={el => this.popup = el}
+                closeOnDocumentClick
+                mouseLeaveDelay={300}
+                mouseEnterDelay={0}
+                contentStyle={popupContentStyle(hOffset, vOffset)}
+                arrow={false} >
+                {menuItems && <Menu>
+                    {menuItems.map(x => <MenuItem {...x} afterClick={this.afterItemClick} />)}
+                </Menu>}
+            </Popup>
+        }
+
     }
+    DropDown.prototypes = {
+        menuItems: PropTypes.array.isRequired, //要显示的菜单项集合
+        popOnTop: PropTypes.bool, //是否在顶部弹出
+        hOffset:PropTypes.number, //菜单项弹出的水平偏移量
+        vOffset:PropTypes.number, //菜单项弹出的垂直偏移量
+    }
+    return DropDown
 }
 
 

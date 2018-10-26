@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Popup from "reactjs-popup"
 import { homeActions } from '../actions'
 import { StaffProfile } from '../../staff/components'
 import { pageType } from '../constants'
@@ -10,22 +9,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import {dropdownButton} from '../../controls'
 
-const popupContentStyle = {
-    padding: "0px",
-    border: "none",
-    width: 150,
-    backgroundColor: 'transparent',
-    marginTop: -20
-};
-
-
 const Container = styled.div`height: 100%; `
 
 const ContainerTop = styled.div` 
     width: 100%;
     height: calc(100% - 100px);`
-
-
 
 const Button = styled.button`
      padding: 0px;
@@ -41,7 +29,6 @@ const Button = styled.button`
      };
 `;
 
-
 const SettingButton= dropdownButton(props=><Button {...props}><FontAwesomeIcon icon={faBars}/></Button>)
 
 const NavUl = styled.ul`
@@ -51,31 +38,11 @@ const NavUl = styled.ul`
     overflow: auto;
 `;
 
-const SettingMenu = styled.div`
-    width: 150px;   
-    display: flex;
-    flex-direction: column;
-    background: #2A2A2A;
-    color: gray;
-`;
-
-const SettingMenuItem = styled.div`  
-    cursor: pointer;
-    padding-left: 25px;
-    padding-top: 10px;
-    padding-bottom: 10px;    
-    &:hover {   
-        background: #2F3134;
-    }
-`;
-
-
 class Navibar extends Component {
 
     constructor(props) {
         super(props);
     }
-
 
     activatePage = page => {
         const { dispatch } = this.props;
@@ -91,8 +58,18 @@ class Navibar extends Component {
         this.activatePage(pageType.CHAT);
     }
 
-    render() {
+    handleHelpClick = () => {
+        alert('help');
+    }
 
+    handleSettingClick = () => {
+        alert('setting');
+    }
+
+    getMenuItems = () => [{ title: '帮助', onClick: this.handleHelpClick }, { title: '设置', onClick: this.handleSettingClick }]
+
+
+    render() {
         return (
             <Container>
                 <ContainerTop>
@@ -102,22 +79,7 @@ class Navibar extends Component {
                         <PageHeader isSelect={this.isSelectPage(pageType.CUSTOMER_LIST)} page={pageType.CUSTOMER_LIST} onClick={this.activatePage} />
                     </NavUl>
                 </ContainerTop>
-
-                {/* <Popup
-                    trigger={() => (<SettingButton title='更多'><FontAwesomeIcon icon={faBars} /></SettingButton>)}
-                    position="right bottom"
-                    on="click"
-                    closeOnDocumentClick
-                    mouseLeaveDelay={300}
-                    mouseEnterDelay={0}
-                    contentStyle={popupContentStyle}
-                    arrow={false} >
-                    <SettingMenu>
-                        <SettingMenuItem>帮助</SettingMenuItem>
-                        <SettingMenuItem>设置</SettingMenuItem>
-                    </SettingMenu>
-
-                </Popup> */}
+                <SettingButton popOnTop={true} vOffset={-10} menuItems={this.getMenuItems()} title='更多'/>             
             </Container>);
     }
 }
@@ -126,7 +88,6 @@ class Navibar extends Component {
 function mapStateToProps(state) {
     return state.home;
 }
-
 
 const page = connect(mapStateToProps)(Navibar);
 

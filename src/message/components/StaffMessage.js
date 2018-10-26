@@ -4,7 +4,7 @@ import { messageContentRender, withMessageContent } from './MessageContentRender
 import MessageHelper from '../messageHelper'
 import ImageZoom from 'react-medium-image-zoom'
 import { ContextMenuTrigger } from "react-contextmenu"
-import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID, MSGLST_CONTEXTMENU_FILE_ID } from './MessageList'
+import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID, MSGLST_CONTEXTMENU_FILE_ID } from './withMessageList'
 import styled from 'styled-components'
 import {MessageTime,MessageSender} from './Parts'
 require('../../assets/styles/bubble.css')

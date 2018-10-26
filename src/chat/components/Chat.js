@@ -5,7 +5,7 @@ import { chatActions } from '../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import { MessageList } from '../../message/components'
+import { withMessageList } from '../../message/components'
 import { withScroll } from '../../controls'
 import MessageHelper from '../../message/messageHelper'
 import { dropdownButton } from '../../controls'
@@ -30,11 +30,11 @@ const MoreButton = styled.button`
         color: green;
      };`
 
+const MsgDiv = styled.div`padding:15px;`
 
-/**
- * 消息列表滚动条
- */
-const Scrollbar = withScroll(props => <MessageList {...props} />);
+const MessageList = withMessageList(props => <MsgDiv {...props} />)
+ 
+const MessageRegion = withScroll(props => <MessageList {...props} />)
 
 /**
  * 更多下拉框按钮
@@ -117,9 +117,7 @@ class Chat extends Component {
                         </div>
                     </div>
                 </TitleDiv>}
-
-                {selectedChat &&
-                    <Scrollbar messages={this.getMessages()} onScrollTop={this.handleScrollTop} paddingTop={5} paddingRight={5} autoScrollBottom={autoScrollBottom} />}
+                {selectedChat && <MessageRegion messages={this.getMessages()} onScrollTop={this.handleScrollTop} autoScrollBottom={autoScrollBottom} />}
             </div>
         );
     }

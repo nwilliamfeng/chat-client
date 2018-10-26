@@ -14,13 +14,7 @@ const OuterDiv = styled.div`
     padding:5px;
 `;
 
-const InnerDiv = styled.div`
-    padding-left:${props => props.paddingLeft ? props.paddingLeft + 'px' : '0px'};
-    padding-top:${props => props.paddingTop ? props.paddingTop + 'px' : '0px'};
-    padding-right:${props => props.paddingRight ? props.paddingRight + 'px' : '0px'};
-    padding-bottom:${props => props.paddingBottom ? props.paddingBottom + 'px' : '0px'};
-    height:100%;
-`;
+ 
 
 /**
  * 图片消息快捷菜单Id
@@ -72,15 +66,43 @@ const renderMessage = msg => {
  * 消息列表无状态组件
  * @param {*} param0 
  */
-export const MessageList = ({ messages, paddingTop, paddingRight, paddingBottom, paddingLeft }) => {
+// export const MessageList = ({ messages, paddingTop, paddingRight, paddingBottom, paddingLeft }) => {
+//     return (
+//         <OuterDiv >
+//             {messages &&
+//                 <InnerDiv paddingBottom={paddingBottom} paddingLeft={paddingLeft} paddingRight={paddingRight} paddingTop={paddingTop}>
+//                     {
+//                         messages.map(msg => renderMessage(msg))
+//                     }
+//                 </InnerDiv>
+//             }
+//             <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
+//                 <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
+//             </ContextMenu>
+//             <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
+//                 <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
+//             </ContextMenu>
+
+//         </OuterDiv>
+//     )
+// }
+
+// MessageList.propTypes = {
+//     messages: PropTypes.array.isRequired,
+//     paddingTop: PropTypes.number,
+//     paddingLeft: PropTypes.number,
+//     paddingBottom: PropTypes.number,
+//     paddingRight: PropTypes.number,
+// }
+
+export const withMessageList =Component=>props=> {
+    const {messages} =props;
     return (
         <OuterDiv >
             {messages &&
-                <InnerDiv paddingBottom={paddingBottom} paddingLeft={paddingLeft} paddingRight={paddingRight} paddingTop={paddingTop}>
-                    {
-                        messages.map(msg => renderMessage(msg))
-                    }
-                </InnerDiv>
+                <Component {...props}>
+                    { messages.map(msg => renderMessage(msg))}
+                </Component>
             }
             <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
                 <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
@@ -92,14 +114,4 @@ export const MessageList = ({ messages, paddingTop, paddingRight, paddingBottom,
         </OuterDiv>
     )
 }
-
-MessageList.propTypes = {
-    messages: PropTypes.array.isRequired,
-    paddingTop: PropTypes.number,
-    paddingLeft: PropTypes.number,
-    paddingBottom: PropTypes.number,
-    paddingRight: PropTypes.number,
-}
-
-
 

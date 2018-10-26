@@ -5,12 +5,6 @@ import sizeMe from 'react-sizeme'
 import { Chat } from './Chat'
 
 
-require('../../assets/styles/grid.css')
-require('../../assets/styles/ul.css')
-
-require('../../assets/styles/scrollbar.css')
-
-
 const InputBoxDiv = styled.div`
     height: 22vh;
     width: 100%;
@@ -26,19 +20,10 @@ const ChatContainerDiv = styled.div`
     padding:0px 3px;
 `;
 
-const setChat = Component => class extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div style={{ height: 'calc(100% - 61px)' }}>
-                <Component {...this.props} />
-            </div>
-        );
-    }
-}
+const setChat = Component => props =>
+    <div style={{ height: 'calc(100% - 61px)' }}>
+        <Component {...props} />
+    </div>
 
 const ChatContainer = sizeMe({ monitorHeight: true })(setChat(Chat));
 
