@@ -1,138 +1,44 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { isEqual } from 'lodash'
-import { chatActions } from '../actions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import { InputBox } from './InputBox'
 import styled from 'styled-components'
-import { withMessageList } from '../../message/components'
-import { withScroll } from '../../controls'
-import MessageHelper from '../../message/messageHelper'
-import { dropdownButton } from '../../controls'
-require('../../assets/styles/scrollbar.css')
+import sizeMe from 'react-sizeme'
+import { ChatMessageList } from './ChatMessageList'
+import { ChatHeader } from './ChatHeader'
 
-/**
- * 标题div
- */
-const TitleDiv = styled.div`
-    border-bottom:1px solid #E7E7E7;
-    padding:16px 0px 6px 25px;
-    height:61px;`
+const InputDiv = styled.div`
+    height: 22vh;
+    width: 100%;
+    padding: 3px 25px;
+    background: white;
+    border-top-style:solid; 
+    border-width: 1px;
+    border-color: lightGrey;`
 
-const MoreButton = styled.button`
-     font-size: 14px;
-     display: block;
-     background-color: transparent;
-     color: gray;
-     border: none;
-     outline: none;
-     &:hover{
-        color: green;
-     };`
+const OutputDiv = styled.div`
+    height:78vh;`
 
-const MsgDiv = styled.div`padding:15px;`
+const OutputInnerDiv = styled.div`
+    height: calc(100% - 61px);`
 
-const MessageList = withMessageList(props => <MsgDiv {...props} />)
- 
-const MessageRegion = withScroll(props => <MessageList {...props} />)
+const MsgDiv = styled.div`  
+    margin:0px -3px;`
 
-/**
- * 更多下拉框按钮
- */
-const MoreDropdownButton = dropdownButton(props => <MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
-
-class Chat extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = { autoScrollBottom: true };
-    }
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const { selectedChat } = this.props;
-        if (selectedChat == null && nextProps.selectedChat == null) {
-            return false;
-        }
-        if (!isEqual(nextProps.selectedChat, selectedChat)) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    componentDidUpdate(nextProps, nextState, nextContext) {
-        this.setState({ autoScrollBottom: true });
-        console.log('do componentDidUpdate');
-    }
-
-    canLoadMoreOfflineMsg = () => {
-        const { selectedChat } = this.props;
-        const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = selectedChat;
-        return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount);
-    }
-
-
-    getMessages = () => {
-        const { selectedChat } = this.props;
-        let messages = selectedChat ? selectedChat.messages : [];
-        const sysContent = this.canLoadMoreOfflineMsg() ? '还有未读的消息，请鼠标向上滚动进行加载' : '没有更多的了~';
-        const sysMsg = MessageHelper.createSystemMessage(sysContent);
-        return [sysMsg, ...messages];
-    }
-
-    handleScrollTop = () => {
-        console.log('on scroll top');
-        const { dispatch, selectedChat } = this.props;
-        if (this.canLoadMoreOfflineMsg()) {
-            dispatch(chatActions.loadMoreOfflineMessages(selectedChat.channelId));
-            this.setState({ autoScrollBottom: false });
-        }
-    }
-
-    handleStickClick = () => {
-        alert('stick');
-    }
-
-    handleHistoryClick = () => {
-        alert('history');
-    }
-
-    getMenuItems = () => [{ title: '置顶', onClick: this.handleStickClick }, { title: '历史消息', onClick: this.handleHistoryClick }]
-
-
-    render() {
-        console.log('render chat');
-        const { selectedChat } = this.props;
-        const { autoScrollBottom } = this.state;
-        return (
-            <div>
-                {selectedChat && <TitleDiv>
-                    <div className='col-md-10' style={{ paddingLeft: 0 }}>
-                        <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
-                    </div>
-                    <div className='col-md-2'>
-                        <div className='pull-right'>
-                            <MoreDropdownButton title='更多' menuItems={this.getMenuItems()} />
-                        </div>
-                    </div>
-                </TitleDiv>}
-                {selectedChat && <MessageRegion messages={this.getMessages()} onScrollTop={this.handleScrollTop} autoScrollBottom={autoScrollBottom} />}
-            </div>
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    const { selectedChat } = state.chat;
-    return { selectedChat };
-}
-
-
-const page = connect(mapStateToProps, null)(Chat);
+const Output = sizeMe({ monitorHeight: true })(props =>
+    <OutputInnerDiv>
+        <ChatHeader {...props} />
+        <MsgDiv>
+            <ChatMessageList {...props} />
+        </MsgDiv>
+    </OutputInnerDiv>);
 
 /**
  * 聊天组件
  */
-export { page as Chat };
-
+export const Chat = () => <div>
+    <OutputDiv>
+        <Output />
+    </OutputDiv>
+    <InputDiv>
+        <InputBox />
+    </InputDiv>
+</div>

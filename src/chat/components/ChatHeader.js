@@ -1,170 +1,91 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { ContextMenuTrigger } from "react-contextmenu";
-import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
-import { withMessageContent } from '../../message/components';
-import MessageHelper from '../../message/messageHelper';
-import { messageContentType } from '../../message/constants';
-import { appContext, util } from '../../util'
-
-
-const HeaderLi = styled.li`
-    padding:0px;
-    outline:none;
-    text-align:left;
-    margin-left:-40px;
-    &:hover{
-        background-color: #DEDBDA;
-    };  
-`;
-
-const TableCellDiv = styled.div`
-    display:table-cell;
-`;
-
-const TopTableCellDiv = styled(TableCellDiv)`
-    font-size:14px;
-    vertical-align:top;
-    cursor:default;
-`;
-
-const MsgDiv = styled.div`
-    font-size:12px;
-    color: gray;
-    width:120px;
-    margin-top:5px;
-    text-overflow:ellipsis;
-    overflow:hidden;
-    white-space:nowrap;
-`;
-
-const TitleDiv = styled.div`
-    width:100px;
-    text-overflow:ellipsis;
-    overflow:hidden;
-    white-space:nowrap;
-`;
-
-const TxtContentDiv = styled.div`
-    text-overflow:ellipsis;
-    overflow:hidden;
-    white-space:nowrap;
-   
-`;
-
-const TimeDiv = styled.div`
-    font-size:12px;
-    width:50px;
-    color: gray;
-    text-align:right;
-    padding-right:5px;
-`;
-
-const MsgCountDiv = styled.div`
-    height:14px;
-    min-width:14px;
-    border-radius:60px;
-    background:red;
-    padding:1px;
-    position:absolute;
-    margin-top:-48px;
-    margin-left:30px;
-    font-size:8px;
-    cursor:default;
-`;
-
-const AvatarDiv = styled.div`
-    margin-left:3px;
-    margin-right:10px;
-    vertical-align:center;
-    text-align:center;   
-    font-size:24px;  
-    width:40px;
-    height:40px;
-    color: white;
-`;
-
-const AvatarImg = styled.img`
-    height:36px;
-    width:36px;
-    margin-bottom:4px;
-    border-radius:3px;
-`;
-
-const HeaderDiv = styled.div`
-    padding: 11px 8px 10px 8px;
-    background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
-`;
-
-const TextMessageContent = withMessageContent(props => <TxtContentDiv>{props.children}</TxtContentDiv>);
-
-
-const LastMessage = ({ message }) => {
-    if (message == null) {
-        return <div></div>
-    }
-    const { SenderName, MessageContent } = message;
-    const contentType = MessageHelper.getMessageContentType(MessageContent);
-    const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：';
-    const content = sender + MessageContent;
-   
-    return (
-        <div>
-            {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
-                <TextMessageContent content={content} emojiSize={12} />
-            </MsgDiv>}
-            {contentType === messageContentType.File && <MsgDiv title={`${SenderName}：文件`}>
-                {`${sender}文件`}
-            </MsgDiv>}
-            {contentType === messageContentType.Picture && <MsgDiv title={`${SenderName}：图片`}>
-                {`${sender}图片`}
-            </MsgDiv>}
-        </div>
-    )
-}
-
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { isEqual } from 'lodash'
+import { chatActions } from '../actions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+import styled from 'styled-components'
+import { dropdownButton } from '../../controls'
+require('../../assets/styles/scrollbar.css')
 
 /**
- * 会话列表项
- * @param {*} param0 
+ * 标题div
  */
-export const ChatHeader = ({ chat, onSelectChat, isSelected }) => {
+const TitleDiv = styled.div`
+    border-bottom:1px solid #E7E7E7;
+    padding:16px 0px 6px 25px;
+    height:61px;`
 
-    const { customer, messages,channelId } = chat;
-    const { CustomerName, CustomerAvataUrl } = customer;
-    const unreadMsgs = messages.filter(x => x.isUnread === true);
-    const lastMsg = messages[messages.length - 1];
-    const time = lastMsg ? util.dateFormat(lastMsg.SendTime, 'hh:mm:ss') : '';
-    const containUnread = unreadMsgs.length > 0;
-    const onClick = () => onSelectChat(channelId);
-    return (
-        <HeaderLi onClick={onClick}>
-            <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={{ chatdata: JSON.stringify(chat) }}>
-                <HeaderDiv isSelected={isSelected}>
-                    <TableCellDiv>
-                        <AvatarDiv>
-                            <AvatarImg alt='' src={CustomerAvataUrl} />
-                            {containUnread && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
-                        </AvatarDiv>
-                    </TableCellDiv>
-                    <TopTableCellDiv>
-                        <TitleDiv> {CustomerName}</TitleDiv>
-                        <LastMessage message={lastMsg} />
-                    </TopTableCellDiv>
-                    <TopTableCellDiv>
-                        {lastMsg!=null && <TimeDiv> {time}</TimeDiv>}
-                    </TopTableCellDiv>
-                </HeaderDiv>
-            </ContextMenuTrigger>
-        </HeaderLi>
-    )
+const MoreButton = styled.button`
+     font-size: 14px;
+     display: block;
+     background-color: transparent;
+     color: gray;
+     border: none;
+     outline: none;
+     &:hover{
+        color: green;
+     };`
+
+/**
+ * 更多下拉框按钮
+ */
+const MoreDropdownButton = dropdownButton(props => <MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
+
+class ChatHeader extends Component {
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const { selectedChat } = this.props;
+        if (selectedChat == null && nextProps.selectedChat == null) {
+            return false;
+        }
+        if (selectedChat == null || nextProps.selectedChat == null) {
+            return true;
+        }
+        if (!isEqual(nextProps.selectedChat.customer, selectedChat.customer)) {
+            return true;
+        }
+        return false;
+    }
+
+    handleStickClick = () => {
+        alert('stick');
+    }
+
+    handleHistoryClick = () => {
+        alert('history');
+    }
+
+    getMenuItems = () => [{ title: '置顶', onClick: this.handleStickClick }, { title: '历史消息', onClick: this.handleHistoryClick }]
+
+    render() {
+        console.log('render chatHeader');
+        const { selectedChat } = this.props;
+        return <div>
+            {selectedChat && <TitleDiv>
+                <div className='col-md-10' style={{ paddingLeft: 0 }}>
+                    <p style={{ fontSize: 20 }}>{selectedChat.customer.CustomerName}</p>
+                </div>
+                <div className='col-md-2'>
+                    <div className='pull-right'>
+                        <MoreDropdownButton title='更多' menuItems={this.getMenuItems()} />
+                    </div>
+                </div>
+            </TitleDiv>}
+        </div>
+    }
 }
 
-ChatHeader.propTypes = {
-    chat: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
-    onSelectChat: PropTypes.func.isRequired,
-    isSelected: PropTypes.bool,
-
+function mapStateToProps(state) {
+    const { selectedChat } = state.chat;
+    return { selectedChat };
 }
+
+
+const page = connect(mapStateToProps, null)(ChatHeader);
+
+/**
+ * 聊天组件的台头
+ */
+export { page as ChatHeader };
+

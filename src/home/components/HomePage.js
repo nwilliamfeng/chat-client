@@ -4,7 +4,7 @@ import { Navibar } from './Navibar';
 import { pageType } from '../constants';
 import { SearchBox } from '../../search/components';
 import BackgroundImg from '../../assets/imgs/background.jpg';
-import { ChatPage, ChatList } from '../../chat/components';
+import { Chat, ChatList } from '../../chat/components';
 import { CompositList } from '../../customers/components';
 import styled from 'styled-components';
 import Alert from 'react-s-alert';
@@ -163,7 +163,7 @@ class HomePage extends Component {
 
                             <DetailContainer>
                                 <ChatContainer >
-                                    <ChatPage />
+                                    <Chat />
                                 </ChatContainer>
                                 <ExtendContainer >
                                     {/* <div style={customerDivStyle}>

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { chatActions } from '../actions';
 import { ContextMenu, MenuItem } from 'react-contextmenu';
 import { appContext } from '../../util/';
-import { ChatHeader } from './ChatHeader';
+import { ChatListItem } from './ChatListItem';
 import { isEqual } from 'lodash';
 import Rx from 'rx';
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID';
@@ -129,7 +129,7 @@ class ChatList extends Component {
                 {chats &&
                     <ListUl>
                         {chats.map(chat => (
-                            <ChatHeader
+                            <ChatListItem
                                 key={chat.channelId}
                                 chat={chat}
                                 onSelectChat={this.handleSelectChat}

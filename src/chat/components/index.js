@@ -1,4 +1,4 @@
 export * from './ChatList';
+export  * from './ChatMessageList';
 export  * from './Chat';
-export  * from './ChatPage';
 export * from './InputBox';
