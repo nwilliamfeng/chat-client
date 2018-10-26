@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { messageContentType } from '../constants';
-import {  withMessageContent } from './MessageContentRender';
+import {  renderTextContent } from './MessageContentRender';
 import ImageZoom from 'react-medium-image-zoom';
 import MessageHelper from '../messageHelper';
 import {MessageTime,MessageSender} from './Parts'
@@ -68,7 +68,7 @@ const LeftBubbleDiv = styled.div`
 
 
 
-const TextContent = withMessageContent(props => <LeftBubbleDiv>{props.children}</LeftBubbleDiv>);
+const TextContent = renderTextContent(props => <LeftBubbleDiv>{props.children}</LeftBubbleDiv>);
 
 
 

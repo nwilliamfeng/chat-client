@@ -23,3 +23,14 @@ export const MessageTime = ({ value }) => {
 export const MessageSender = styled.span`
     color: ${props=>props.color?props.color:'gray'} ;
     font-size: 12px;`
+
+
+/**
+ * 头像
+ */
+export const Avata = styled.img`
+    width: 42px;
+    height: 42px;
+    margin-top: 5px;`
+
+ 

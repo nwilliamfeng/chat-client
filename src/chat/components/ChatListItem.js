@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ContextMenuTrigger } from "react-contextmenu";
 import { CHAT_LIST_CONTEXTMENU_ID } from './ChatList';
-import { withMessageContent } from '../../message/components';
+import { renderTextContent } from '../../message/components';
 import MessageHelper from '../../message/messageHelper';
 import { messageContentType } from '../../message/constants';
 import { appContext, util } from '../../util'
@@ -97,7 +97,7 @@ const HeaderDiv = styled.div`
     background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
 `;
 
-const TextMessageContent = withMessageContent(props => <TxtContentDiv>{props.children}</TxtContentDiv>);
+const TextMessageContent = renderTextContent(props => <TxtContentDiv>{props.children}</TxtContentDiv>);
 
 
 const LastMessage = ({ message }) => {

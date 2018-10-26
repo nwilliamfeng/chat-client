@@ -1,12 +1,12 @@
 import React from 'react'
 import { messageContentType } from '../constants'
-import { messageContentRender, withMessageContent } from './MessageContentRender'
+import { messageContentRender, renderTextContent, renderImageContent } from './MessageContentRender'
 import MessageHelper from '../messageHelper'
 import ImageZoom from 'react-medium-image-zoom'
 import { ContextMenuTrigger } from "react-contextmenu"
 import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID, MSGLST_CONTEXTMENU_FILE_ID } from './withMessageList'
 import styled from 'styled-components'
-import {MessageTime,MessageSender} from './Parts'
+import {MessageTime,MessageSender,Avata} from './Parts'
 require('../../assets/styles/bubble.css')
 
 
@@ -23,22 +23,7 @@ const Container = styled.div`
 /**
  * 头像容器
  */
-const AvataContainer = styled.div`          
-    padding-left: 15px;`
-
-/**
- * 头像
- */
-const Avata = styled.img`
-    width: 42px;
-    height: 42px;
-    margin-top: 5px;`
-
- 
-
-
- 
-
+const AvataContainer = styled.div`padding-left: 15px;`
 
 
 const contentStyle = {
@@ -69,6 +54,9 @@ const imgStyle = {
     padding: 10,
 }
 
+const ImageDiv=styled.div`padding:10px;`
+
+
 const fileNameStyle = {
     display: 'table-cell',
     wordWrap: 'break-word',
@@ -88,7 +76,10 @@ const fileLogoContainerStyle = {
     padding: 5,
 }
 
-const TextContent = withMessageContent(props => <div>{props.children}</div>);
+const TextContent = renderTextContent(props => <div {...props}/>)
+
+
+const ImgContent =renderImageContent(props=><ImageDiv {...props}/>);
 
 
 const renderContent = (content) => {
@@ -110,21 +101,8 @@ const renderContent = (content) => {
                 </ContextMenuTrigger>
             );
         case messageContentType.Picture: //处理图片消息
-            return (
-
-                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_IMAGE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
-                    <div style={imgStyle}>
-                        <ImageZoom
-                            image={{
-                                src: MessageHelper.getThumbImg(content),
-                                style: { maxWidth: '180px' }
-                            }}
-                            zoomImage={{
-                                src: MessageHelper.getFullFileName(content),
-                            }}
-                        />
-                    </div>
-                </ContextMenuTrigger>
+            return (<ImgContent content={content}/>
+ 
 
             );
         case messageContentType.File: //处理文本消息
@@ -144,8 +122,6 @@ const renderContent = (content) => {
             return (<div>{'无法识别的消息内容:' + content}</div>)
     }
 }
-
-
 
 export const StaffMessage = ({ message }) => {
     const { MessageContent, AvataUrl, SendTime, SenderName } = message;

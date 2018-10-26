@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight as arrowRight, faChevronDown as arrowDown } from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight as arrowRight, faChevronDown as arrowDown } from '@fortawesome/free-solid-svg-icons'
 
 
 const Div = styled.div`
@@ -12,19 +12,14 @@ const Div = styled.div`
     &:hover{
         color: orangered;
         background-color:#DEDBDA;
-    }
-`;
+    }`
 
-const HeaderSpan =styled.span`
-     
-    cursor:default;
-   
-`;
+const HeaderSpan =styled.span`    
+    cursor:default; `
 
 
 const Arrow = styled.span`  
-    margin-right:${props=>props.isExpand? '7px':'10px'};
-`;
+    margin-right:${props=>props.isExpand? '7px':'10px'};`
 
 const Count =styled.span`
     border-radius:32px;
@@ -35,8 +30,7 @@ const Count =styled.span`
     color:white;
     font-size:10px;
     vertical-align:middle;
-    cursor:pointer;
-`;
+    cursor:pointer;`
 
 /**
  * 可折叠面板

@@ -61,7 +61,7 @@ class ChatMessageList extends Component {
     }
 
     render() {
-        console.log('render chat');
+        console.log('render chatMessagelist');
         const { selectedChat } = this.props;
         const { autoScrollBottom } = this.state;
         return (

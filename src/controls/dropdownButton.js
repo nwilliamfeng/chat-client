@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Popup, { propTypes } from "reactjs-popup"
+import Popup from "reactjs-popup"
 import PropTypes from 'prop-types'
 
 const Menu = styled.div`
