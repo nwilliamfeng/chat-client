@@ -4,17 +4,20 @@ import { messageContentType } from '../constants'
 import { renderTextContent } from './renderTextContent'
 import { renderImageContent } from './renderImgContent'
 import MessageHelper from '../messageHelper'
-import { MessageTime, MessageSender } from './Parts'
+import { MessageTime, MessageSender,Avata } from './Parts'
 require('../../assets/styles/bubble.css')
 
 const AvataContainer = styled.div`
     display:table-cell;
     padding-right:15px;`
+    
 
-const Avata = styled.img`
-    width: 42px;
-    height: 42px;
-    margin-top: 5px;`
+// const Avata = styled.img`
+//     width: 42px;
+//     height: 42px;
+//     margin-top: 5px;`
+
+const CAvata =styled(Avata)`margin-top: 30px;`
 
 const ContentContainer=styled.div`display:table-cell;`
 
@@ -61,7 +64,7 @@ export const CustomerMessage = ({ message }) => {
     return (
         <div className="louter"  >
             <AvataContainer>
-                <Avata  src={AvataUrl} />
+                <CAvata  src={AvataUrl} />
             </AvataContainer>
             <ContentContainer>
                 <div>

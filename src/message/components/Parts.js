@@ -40,6 +40,7 @@ export const MessageSender = styled.span`
 export const Avata = styled.img`
     width: 42px;
     height: 42px;
+    border-radius:6px;
     margin-top: 5px;`
 
  

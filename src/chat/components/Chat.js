@@ -29,7 +29,7 @@ const Output = sizeMe({ monitorHeight: true })(props =>
         <MsgDiv>
             <ChatMessageList {...props} />
         </MsgDiv>
-    </OutputInnerDiv>);
+    </OutputInnerDiv>)
 
 /**
  * 聊天组件

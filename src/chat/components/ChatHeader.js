@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
-import { chatActions } from '../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
@@ -30,37 +29,34 @@ const MoreButton = styled.button`
 /**
  * 更多下拉框按钮
  */
-const MoreDropdownButton = dropdownButton(props => <MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>);
+const MoreDropdownButton = dropdownButton(props => <MoreButton {...props}><FontAwesomeIcon icon={faEllipsisH} /></MoreButton>)
 
 class ChatHeader extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const { selectedChat } = this.props;
         if (selectedChat == null && nextProps.selectedChat == null) {
-            return false;
+            return false
         }
         if (selectedChat == null || nextProps.selectedChat == null) {
-            return true;
+            return true
         }
-        if (!isEqual(nextProps.selectedChat.customer, selectedChat.customer)) {
-            return true;
-        }
-        return false;
+        return !isEqual(nextProps.selectedChat.customer, selectedChat.customer) 
     }
 
     handleStickClick = () => {
-        alert('stick');
+        alert('stick')
     }
 
     handleHistoryClick = () => {
-        alert('history');
+        alert('history')
     }
 
     getMenuItems = () => [{ title: '置顶', onClick: this.handleStickClick }, { title: '历史消息', onClick: this.handleHistoryClick }]
 
     render() {
-        console.log('render chatHeader');
-        const { selectedChat } = this.props;
+        console.log('render chatHeader')
+        const { selectedChat } = this.props
         return <div>
             {selectedChat && <TitleDiv>
                 <div className='col-md-10' style={{ paddingLeft: 0 }}>
@@ -77,15 +73,15 @@ class ChatHeader extends Component {
 }
 
 function mapStateToProps(state) {
-    const { selectedChat } = state.chat;
-    return { selectedChat };
+    const { selectedChat } = state.chat
+    return { selectedChat }
 }
 
 
-const page = connect(mapStateToProps, null)(ChatHeader);
+const page = connect(mapStateToProps, null)(ChatHeader)
 
 /**
  * 聊天组件的台头
  */
-export { page as ChatHeader };
+export { page as ChatHeader }
 

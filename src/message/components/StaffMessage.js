@@ -35,10 +35,11 @@ const TextContent = renderTextContent(props => <TextContentDiv {...props} />)
 const ImgContent = renderImageContent(props => <div {...props} />)
 
 const FileDiv = styled.div`
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align: left;
     border: 1px solid #eee;
     padding: 10px;
+    background:white;
     cursor: pointer;`
 
 const FileContent = renderFileContent(props => <FileDiv {...props} />)
@@ -48,8 +49,8 @@ const FileContent = renderFileContent(props => <FileDiv {...props} />)
  * @param {*} param0 
  */
 export const StaffMessage = ({ message }) => {
-    const { MessageContent, AvataUrl, SendTime, SenderName } = message;
-    const contentType = MessageHelper.getMessageContentType(MessageContent);
+    const { MessageContent, AvataUrl, SendTime, SenderName } = message
+    const contentType = MessageHelper.getMessageContentType(MessageContent)
     return <Container>
         <AvataContainer>
             <Avata src={AvataUrl} />
