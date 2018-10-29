@@ -97,7 +97,7 @@ const HeaderDiv = styled.div`
     background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
 `;
 
-const TextMessageContent = renderTextContent(props => <TxtContentDiv>{props.children}</TxtContentDiv>);
+const TextMessageContent = renderTextContent(props => <TxtContentDiv {...props}/>);
 
 
 const LastMessage = ({ message }) => {

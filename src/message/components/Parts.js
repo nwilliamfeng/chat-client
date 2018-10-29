@@ -1,6 +1,6 @@
-import React from 'react';
-import { messageContentRender } from './MessageContentRender';
-import styled from 'styled-components';
+import React from 'react'
+import { util } from '../../util'
+import styled from 'styled-components'
 
 
 const TimeSpan = styled.span`
@@ -8,12 +8,21 @@ const TimeSpan = styled.span`
     margin: 0px 5px;
     font-size:12px;`
 
+
+const getSendTime=time=> {
+
+    if (time.getTime() >= util.today().getTime()) {
+        return '[' + util.dateFormat(time, 'hh:mm:ss') + ']'
+    }
+    return '[' + util.dateFormat(time, 'M月d日 hh:mm:ss') + ']'
+}
+
 /**
  * 消息发送时间
  * @param {string} param0 
  */
 export const MessageTime = ({ value }) => {
-    const time = messageContentRender.renderSendTime(value);
+    const time = getSendTime(value)
     return <TimeSpan>{time}</TimeSpan>
 }
 

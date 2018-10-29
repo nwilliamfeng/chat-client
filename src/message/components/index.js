@@ -1,2 +1,2 @@
 export * from './withMessageList'
-export * from './MessageContentRender'
+export * from './renderTextContent'

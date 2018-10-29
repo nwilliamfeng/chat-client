@@ -71,7 +71,6 @@ class CustomerMessageMockService {
                         }
                         console.log('ready to receive customer msg');
                     }
-                    return;
                     const arr = chat.messages.filter(x => x.SenderName === appContext.currentStaff.StaffName);
                     const msgContent=await this.receiveMessage(arr.length>0?arr[arr.length - 1]:'请回答我的问题！');
                    

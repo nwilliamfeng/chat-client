@@ -1,14 +1,12 @@
 import React from 'react'
 import { messageContentType } from '../constants'
-import { messageContentRender, renderTextContent2, renderImageContent } from './MessageContentRender'
+import { renderTextContent } from './renderTextContent'
+import { renderFileContent } from './renderFileContent'
+import { renderImageContent } from './renderImgContent'
 import MessageHelper from '../messageHelper'
-import ImageZoom from 'react-medium-image-zoom'
-import { ContextMenuTrigger } from "react-contextmenu"
-import { MSGLST_CONTEXTMENU_IMAGE_ID, MSGLST_CONTEXTMENU_TEXT_MSG_ID, MSGLST_CONTEXTMENU_FILE_ID } from './withMessageList'
 import styled from 'styled-components'
-import {MessageTime,MessageSender,Avata} from './Parts'
+import { MessageTime, MessageSender, Avata } from './Parts'
 require('../../assets/styles/bubble.css')
-
 
 /**
  * 容器Div
@@ -25,118 +23,45 @@ const Container = styled.div`
  */
 const AvataContainer = styled.div`padding-left: 15px;`
 
-
-const contentStyle = {
-    wordWrap: 'break-word',
-    marginBottom: 20,
-    textAlign: 'left',
-    border: '1px solid #eee',
-    marginLeft: 50,
-}
-
-const TextContentDiv=styled.div`
+const TextContentDiv = styled.div`
     word-wrap: break-word;
     margin-bottom: 20px;
     text-align: left;
     border: 1px solid #eee;
-    margin-left: 50px;
-`
+    margin-left: 50px;`
 
+const TextContent = renderTextContent(props => <TextContentDiv {...props} />)
 
-const file_contentStyle = {
-    marginBottom: 20,
-    textAlign: 'left',
-    border: '1px solid #eee',
-    padding: 10,
-    cursor: 'pointer',
+const ImgContent = renderImageContent(props => <div {...props} />)
 
-}
+const FileDiv = styled.div`
+    margin-bottom: 20px;
+    text-align: left;
+    border: 1px solid #eee;
+    padding: 10px;
+    cursor: pointer;`
 
- 
+const FileContent = renderFileContent(props => <FileDiv {...props} />)
 
-const ImageDiv=styled.div`padding:10px;`
-
-
-const fileNameStyle = {
-    display: 'table-cell',
-    wordWrap: 'break-word',
-    textAlign: 'top',
-    width: 150,
-
-    verticalAlign: 'text-top',
-    maxWidth: 150,
-    //  textOverflow: 'ellipsis',
-    // overflow: 'hidden',
-    //   whiteSpace: 'nowrap',
-}
-
-
-const fileLogoContainerStyle = {
-    display: 'table-cell',
-    padding: 5,
-}
-
-const TextContent = renderTextContent2(props => <TextContentDiv {...props}/>)
-
-
-const ImgContent =renderImageContent(props=><ImageDiv {...props}/>);
-
-
-const renderContent = (content) => {
-    const contentType = MessageHelper.getMessageContentType(content);
-    //下载文件
-    const downloadFile = () => {
-        const url = MessageHelper.getFullFileName(content);
-        window.open(url);
-    }
-
-
-    switch (contentType) {
-        case messageContentType.Text: //处理普通文本消息
-            return (
-                // <ContextMenuTrigger id={MSGLST_CONTEXTMENU_TEXT_MSG_ID} attributes={{ content: content }}>
-                //     <div className='rbubble' style={contentStyle}>
-                //         <TextContent content={content} />
-                //     </div>
-                // </ContextMenuTrigger>
-                <TextContent content={content} className='rbubble'/>
-            );
-        case messageContentType.Picture: //处理图片消息
-            return (<ImgContent content={content}/>
- 
-
-            );
-        case messageContentType.File: //处理文本消息
-            return (
-                <ContextMenuTrigger id={MSGLST_CONTEXTMENU_FILE_ID} attributes={{ url: MessageHelper.getFullFileName(content) }}>
-                    <div className='rbubble_file' style={file_contentStyle} onClick={downloadFile}>
-                        <div style={fileNameStyle}>
-                            {MessageHelper.getFileName(content)}
-                        </div>
-                        <div style={fileLogoContainerStyle}>
-                            <img src={messageContentRender.getFileImgSrc(MessageHelper.getFileName(content))} alt=''></img>
-                        </div>
-                    </div>
-                </ContextMenuTrigger>
-            );
-        default:
-            return (<div>{'无法识别的消息内容:' + content}</div>)
-    }
-}
-
+/**
+ * 客服消息
+ * @param {*} param0 
+ */
 export const StaffMessage = ({ message }) => {
     const { MessageContent, AvataUrl, SendTime, SenderName } = message;
-    return (
-        <Container>
-            <AvataContainer>
-                <Avata src={AvataUrl}/>
-            </AvataContainer>
-            <div>
-                <span><MessageTime value={SendTime}/><MessageSender color='blue'>{SenderName}</MessageSender></span>
-                {renderContent(MessageContent)}
-            </div>
-        </Container>
-    )
+    const contentType = MessageHelper.getMessageContentType(MessageContent);
+    return <Container>
+        <AvataContainer>
+            <Avata src={AvataUrl} />
+        </AvataContainer>
+        <div>
+            <span><MessageTime value={SendTime} /><MessageSender color='blue'>{SenderName}</MessageSender></span>
+            {contentType === messageContentType.Text && <TextContent content={MessageContent} className='rbubble' />}
+            {contentType === messageContentType.Picture && <ImgContent content={MessageContent} />}
+            {contentType === messageContentType.File && <FileContent content={MessageContent} className='rbubble' />}
+        </div>
+    </Container>
+
 }
 
 

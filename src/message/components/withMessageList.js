@@ -8,13 +8,13 @@ import { SystemMessage } from './SystemMessage';
 import { ContextMenu, MenuItem } from "react-contextmenu";
 import MessageHelper from '../messageHelper'
 import { messageContentType } from '../constants'
- 
+
 
 const OuterDiv = styled.div`
     padding:5px;
 `;
 
- 
+
 
 /**
  * 图片消息快捷菜单Id
@@ -51,67 +51,31 @@ const isSelfMessage = message => {
 
 const renderMessage = msg => {
     if (isSelfMessage(msg)) {
-        return(<StaffMessage key={msg.MsgId} message={msg} />);
+        return (<StaffMessage key={msg.MsgId} message={msg} />);
     }
     const { MessageContent } = msg;
-    
-    if (MessageHelper.getMessageContentType(MessageContent)=== messageContentType.System) {
-        const {content ,onClick,color} =MessageContent;
-        return (<SystemMessage key={msg.MsgId} content={content} onClick={onClick} color={color}/>)
+
+    if (MessageHelper.getMessageContentType(MessageContent) === messageContentType.System) {
+        const { content, onClick, color } = MessageContent;
+        return (<SystemMessage key={msg.MsgId} content={content} onClick={onClick} color={color} />)
     }
-    return(<CustomerMessage key={msg.MsgId} message={msg} />)
+    return (<CustomerMessage key={msg.MsgId} message={msg} />)
 }
 
 /**
  * 消息列表无状态组件
  * @param {*} param0 
  */
-// export const MessageList = ({ messages, paddingTop, paddingRight, paddingBottom, paddingLeft }) => {
-//     return (
-//         <OuterDiv >
-//             {messages &&
-//                 <InnerDiv paddingBottom={paddingBottom} paddingLeft={paddingLeft} paddingRight={paddingRight} paddingTop={paddingTop}>
-//                     {
-//                         messages.map(msg => renderMessage(msg))
-//                     }
-//                 </InnerDiv>
-//             }
-//             <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
-//                 <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
-//             </ContextMenu>
-//             <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
-//                 <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
-//             </ContextMenu>
-
-//         </OuterDiv>
-//     )
-// }
-
-// MessageList.propTypes = {
-//     messages: PropTypes.array.isRequired,
-//     paddingTop: PropTypes.number,
-//     paddingLeft: PropTypes.number,
-//     paddingBottom: PropTypes.number,
-//     paddingRight: PropTypes.number,
-// }
-
-export const withMessageList =Component=>props=> {
-    const {messages} =props;
-    return (
-        <OuterDiv >
-            {messages &&
-                <Component {...props}>
-                    { messages.map(msg => renderMessage(msg))}
-                </Component>
-            }
-            <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
-                <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
-            </ContextMenu>
-            <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
-                <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
-            </ContextMenu>
-
-        </OuterDiv>
-    )
+export const withMessageList = Component => props => {
+    const { messages } = props;
+    return <OuterDiv >
+        {messages && <Component {...props}>{messages.map(msg => renderMessage(msg))}</Component>}
+        <ContextMenu id={MSGLST_CONTEXTMENU_IMAGE_ID}>
+            <MenuItem onClick={handleDownloadFile}>下载图片</MenuItem>
+        </ContextMenu>
+        <ContextMenu id={MSGLST_CONTEXTMENU_FILE_ID}>
+            <MenuItem onClick={handleDownloadFile}>下载文件</MenuItem>
+        </ContextMenu>
+    </OuterDiv>
 }
 

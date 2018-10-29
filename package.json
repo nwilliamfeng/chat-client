@@ -14,7 +14,7 @@
     },
     "/robot": {
       "target": "http://www.tuling123.com/",
-      "changeOrigin":true,
+      "changeOrigin": true,
       "ws": true
     }
   },
@@ -31,7 +31,6 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.1",
     "react-contextmenu": "^2.9.3",
-    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.5.1",
     "react-medium-image-zoom": "^3.0.14",
     "react-modal": "^3.5.1",
@@ -45,6 +44,7 @@
     "react-tooltip": "^3.8.4",
     "react-treeview": "^0.4.7",
     "reactjs-popup": "^1.2.0",
+    "recompose": "^0.30.0",
     "redux": "^3.7.2",
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",

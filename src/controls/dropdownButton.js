@@ -53,34 +53,31 @@ const MenuItem = ({ onClick, title, afterClick }) => {
  * 支持下拉框按钮
  * @param {*} Button 
 */
-export const dropdownButton = Button => {
-    class DropDown extends Component {
-        afterItemClick = () => this.popup.closePopup()
-        render() {
-            const { hOffset, vOffset, popOnTop, menuItems } = this.props
-            return <Popup
-                trigger={() => (<Button {...this.props} />)}
-                position={popOnTop === true ? "right bottom" : "right top"}
-                ref={el => this.popup = el}
-                closeOnDocumentClick
-                mouseLeaveDelay={300}
-                mouseEnterDelay={0}
-                contentStyle={popupContentStyle(hOffset, vOffset)}
-                arrow={false} >
-                {menuItems && <Menu>
-                    {menuItems.map(x => <MenuItem {...x} afterClick={this.afterItemClick} />)}
-                </Menu>}
-            </Popup>
-        }
-
-    }
-    DropDown.prototypes = {
+export const dropdownButton = Button => class extends Component {
+    static propTypes = {
         menuItems: PropTypes.array.isRequired, //要显示的菜单项集合
         popOnTop: PropTypes.bool, //是否在顶部弹出
-        hOffset:PropTypes.number, //菜单项弹出的水平偏移量
-        vOffset:PropTypes.number, //菜单项弹出的垂直偏移量
+        hOffset: PropTypes.number, //菜单项弹出的水平偏移量
+        vOffset: PropTypes.number, //菜单项弹出的垂直偏移量
     }
-    return DropDown
+
+    afterItemClick = () => this.popup.closePopup()
+    render() {
+        const { hOffset, vOffset, popOnTop, menuItems } = this.props
+        return <Popup
+            trigger={() => (<Button {...this.props} />)}
+            position={popOnTop === true ? "right bottom" : "right top"}
+            ref={el => this.popup = el}
+            closeOnDocumentClick
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            contentStyle={popupContentStyle(hOffset, vOffset)}
+            arrow={false} >
+            {menuItems && <Menu>
+                {menuItems.map(x => <MenuItem {...x} afterClick={this.afterItemClick} />)}
+            </Menu>}
+        </Popup>
+    }
 }
 
 
