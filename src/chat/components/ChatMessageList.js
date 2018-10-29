@@ -53,6 +53,9 @@ class ChatMessageList extends Component {
 
     canLoadMoreOfflineMsg = () => {
         const { selectedChat  } = this.props
+        if(selectedChat==null){
+            return false
+        }
         const { offlineMsgTotalCount, offlineMsgPageSize, offlineMsgPageIdx } = selectedChat
         return offlineMsgTotalCount > 0 && ((offlineMsgPageIdx + 1) * offlineMsgPageSize < offlineMsgTotalCount)
     }

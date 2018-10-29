@@ -74,7 +74,7 @@ export const dropdownButton = Button => class extends Component {
             contentStyle={popupContentStyle(hOffset, vOffset)}
             arrow={false} >
             {menuItems && <Menu>
-                {menuItems.map(x => <MenuItem {...x} afterClick={this.afterItemClick} />)}
+                {menuItems.map(x => <MenuItem {...x} afterClick={this.afterItemClick} key={x.title}/>)}
             </Menu>}
         </Popup>
     }
