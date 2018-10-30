@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { dropdownButton } from '../../controls'
-require('../../assets/styles/scrollbar.css')
 
 /**
  * 标题div

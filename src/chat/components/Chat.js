@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { InputBox } from './InputBox'
 import styled from 'styled-components'
 import sizeMe from 'react-sizeme'

@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Navibar } from './Navibar';
-import { pageType } from '../constants';
-import { SearchBox } from '../../search/components';
-import BackgroundImg from '../../assets/imgs/background.jpg';
-import { Chat, ChatList } from '../../chat/components';
-import { CompositList } from '../../customers/components';
-import styled from 'styled-components';
-import Alert from 'react-s-alert';
-require('../../assets/styles/scrollbar.css');
-
-
-
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Navibar } from './Navibar'
+import { pageType } from '../constants'
+import { SearchBox } from '../../search/components'
+import BackgroundImg from '../../assets/imgs/background.jpg'
+import { Chat, ChatList } from '../../chat/components'
+import { CompositList } from '../../customers/components'
+import styled from 'styled-components'
+import Alert from 'react-s-alert'
+import { withScroll } from '../../controls'
+import sizeMe from 'react-sizeme'
 
 /**
  * 背景板
@@ -28,8 +26,7 @@ const Background = styled.div`
         display:block;
         filter: blur(5px);
         float: left;
-        position: absolute;      
-`;
+        position: absolute; `
 
 /**
  * 列表区域
@@ -40,20 +37,18 @@ const ListRegion = styled.div`
     position:fixed;
     height:100%;
     z-index:2;
-    padding:5px 5px 0px 5px;
-`;
+    padding:5px 0px 0px 5px;`
 
 /**
  * 列表容器
  */
-const ListContainer = styled.div`
-    height: calc(100% - 72px );
-    position:  absolute;
-    padding-left: 10px;
-    
-    width: calc(100% - 7px);
-`;
+const ListContainerDiv = styled.div`
+    height: calc(100% - 56px);  
+    padding-left: 10px;`
 
+const ListContainer = withScroll(props => <div {...props} />)
+
+const ListContainerDivWithAutoSize = sizeMe({ monitorHeight: true })(props => <ListContainerDiv {...props} />)
 
 /**
  * 导航栏容器
@@ -63,23 +58,20 @@ const NavibarContainer = styled.div`
     background:#2A2D32;
     position:fixed;
     height:100%;
-    z-index:2;
-`;
+    z-index:2;`
 
 /**
  * 搜索框容器
  */
 const SearchBoxContainer = styled.div`
-   margin:12px 5px 0px 20px;
-`;
+   margin:12px 5px 0px 20px;`
 
 const DetailContainer = styled.div`
     padding-left:250px;
     z-index:0;
     background: #F5F5F5;
     overflow-y: hidden;
-    height: 100vh;
-`;
+    height: 100vh;`
 
 const ChatContainer = styled.div`
    float: left;
@@ -87,9 +79,7 @@ const ChatContainer = styled.div`
     margin-left:0px;
     margin-right:0px;
     padding-left:0px;
-    padding-right:0px;
-    
-`;
+    padding-right:0px;`
 
 const ExtendContainer = styled.div`
     float: left;
@@ -100,22 +90,20 @@ const ExtendContainer = styled.div`
     padding-left:5px;
     padding-right:5px;   
     border-left: lightgray solid 1px;
-    height: 100%;
-`;
+    height: 100%;`
 
 const MainRegion = styled.div`
     margin-left:45px;
     z-index:1;
-    background: white;
-`;
+    background: white;`
 
 
 class HomePage extends Component {
 
     constructor(props) {
-        super(props);
-        this.state={
-            modalIsOpen:false,
+        super(props)
+        this.state = {
+            modalIsOpen: false,
         }
     }
 
@@ -134,12 +122,12 @@ class HomePage extends Component {
 
 
     render() {
-        const { page,error } = this.props;
-        if(error!=null){
+        const { page, error } = this.props;
+        if (error != null) {
             Alert.success('Test message stackslide effect!', {
                 position: 'top-right',
                 effect: 'stackslide'
-              });
+            });
         }
         return (
             <div>
@@ -154,11 +142,12 @@ class HomePage extends Component {
                                 <SearchBoxContainer>
                                     <SearchBox />
                                 </SearchBoxContainer>
-                                <ListContainer className='scollContainer'>
-                                    {page === pageType.CHAT && <ChatList />}
-                                    {page === pageType.CUSTOMER_LIST && <CompositList />}
-                                </ListContainer>
-
+                                <ListContainerDivWithAutoSize isAbsolute={true}>
+                                    <ListContainer>
+                                        {page === pageType.CHAT && <ChatList />}
+                                        {page === pageType.CUSTOMER_LIST && <CompositList />}
+                                    </ListContainer>
+                                </ListContainerDivWithAutoSize>
                             </ListRegion>
 
                             <DetailContainer>
@@ -166,14 +155,6 @@ class HomePage extends Component {
                                     <Chat />
                                 </ChatContainer>
                                 <ExtendContainer >
-                                    {/* <div style={customerDivStyle}>
-                                        <p style={titleStyle}>客户列表</p>
-                                        <CustomerList />
-                                    </div>
-                                    <div style={staffDivStyle}>
-                                        <p style={titleStyle}>客服列表</p>
-                                        <StaffList />
-                                    </div> */}
                                 </ExtendContainer>
 
                             </DetailContainer>
@@ -191,8 +172,8 @@ class HomePage extends Component {
 
 function mapStateToProps(state) {
     const states = state.home;
-    const {error} =state.system;
-    return {...states,error};
+    const { error } = state.system;
+    return { ...states, error };
 }
 
 

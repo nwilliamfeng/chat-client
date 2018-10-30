@@ -7,7 +7,7 @@ import { withMessageList } from '../../message/components'
 import { withScroll } from '../../controls'
 import MessageHelper from '../../message/messageHelper'
 import {compose} from 'recompose'
-require('../../assets/styles/scrollbar.css')
+
 
 const MsgDiv = styled.div`padding:15px;`
 
@@ -87,7 +87,7 @@ class ChatMessageList extends Component {
         const { autoScrollBottom } = this.state
         return (
             <div>                
-                {selectedChat && <MessageListWithScroll messages={this.getMessages()} onScrollTop={this.handleScrollTop} autoScrollBottom={autoScrollBottom} />}
+                {selectedChat && <MessageListWithScroll messages={this.getMessages()} onScrollTop={this.handleScrollTop} autoScrollBottom={autoScrollBottom} isAbsolute={true}/>}
             </div>
         );
     }
@@ -97,7 +97,6 @@ function mapStateToProps(state) {
     const { selectedChat } = state.chat
     return { selectedChat }
 }
-
 
 const page = connect(mapStateToProps, null)(ChatMessageList)
 

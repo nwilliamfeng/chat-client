@@ -1,81 +1,97 @@
-import React from 'react';
-import PropTypes  from 'prop-types';
-import { defaultEmojiMapping } from '../../util/defaultEmojiMapping';
-import Popup from "reactjs-popup";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSmile as farSmile } from '@fortawesome/free-regular-svg-icons';
-require('../../assets/styles/button.css');
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { defaultEmojiMapping } from '../../util/defaultEmojiMapping'
+import Popup from "reactjs-popup"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSmile as farSmile } from '@fortawesome/free-regular-svg-icons'
 
+/**
+ * 表情类别按钮
+ */
+const EmojiCategoryButton = styled.button`
+    padding: 10px;    
+    border: 0px solid transparent;
+    background: white;
+    outline: none;`
 
 //样式
-const styles = {
-    emojiTab: {
-        padding: 0,
-        marginTop: -20,
-        width: 442,
-    },
+const emojiTabStyle = {
+    padding: 0,
+    marginTop: -20,
+    width: 442,
+}
 
-    emojiTabPanel: {
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 10,
-    },
+/**
+ * 表情按钮
+ */
+const EmojiButton = styled.button`
+    padding: 2px;    
+    border: 0px solid transparent;
+    background: transparent;
+    color: transparent;
+    outline: none;
+    &:hover{
+        color:white;
+        background-color:#F5F5F5;
+     };`
 
-    emojiTabHeader: {
-        background: '#F5F5F5',
-        padding: 0,
-        marginRight: -10,
-        marginLeft: -10,
-        marginTop: 10,
-    },
+const EmojiImg = styled.img`width:24px;`
 
-    emojiImg: {
-        width: 24,
-    }
-};
+const EmojiTabPanel = styled.div`
+    padding:10px 10px 0px 10px;`
 
+const EmojiTabHeader = styled.div`
+    background: #F5F5F5;
+    padding: 0px;
+    margin:10px -10px 0px -10px;`
 
 //绘制单个表情
 const Emoji = ({ emojiKey, onSelect }) => {
     const { imgSrc, description, character } = defaultEmojiMapping.getEmoji(emojiKey);
     const onClick = () => onSelect(character);
-    return (
-        <button key={emojiKey} className='emoji-btn' onClick={onClick}>
-            <img src={imgSrc} style={styles.emojiImg} title={description} />
-        </button>
-    )
+    return <EmojiButton key={emojiKey} onClick={onClick}>
+        <EmojiImg src={imgSrc} title={description} />
+    </EmojiButton>
 }
 
-Emoji.propTypes={
-    emojiKey:PropTypes.string.isRequired,
-    onSelect:PropTypes.func.isRequired,
+Emoji.propTypes = {
+    emojiKey: PropTypes.string.isRequired,
+    onSelect: PropTypes.func.isRequired,
 }
-
 
 //绘制表情行
 const EmojiRow = ({ rowIdx, cols, onSelect }) => {
-    const emojis = defaultEmojiMapping.getAllEmojis();
-    let arr = [];
+    const emojis = defaultEmojiMapping.getAllEmojis()
+    let arr = []
     for (let i = 0; i < cols; i++) {
-        const emoji = emojis[cols * rowIdx + i];
+        const emoji = emojis[cols * rowIdx + i]
         if (emoji != null) {
-            const { masks } = emoji;
-            arr.push(masks);
+            const { masks } = emoji
+            arr.push(masks)
         }
     }
-    return (
-        <div>
-            {arr.map(key => <Emoji key={key} emojiKey={key} onSelect={onSelect} />)}
-        </div>
-
-    )
+    return <div>
+        {arr.map(key => <Emoji key={key} emojiKey={key} onSelect={onSelect} />)}
+    </div>
 }
 
-EmojiRow.propTypes={
+EmojiRow.propTypes = {
     rowIdx: PropTypes.number.isRequired,
-    cols:PropTypes.number.isRequired,
-    onSelect:PropTypes.func.isRequired,
+    cols: PropTypes.number.isRequired,
+    onSelect: PropTypes.func.isRequired,
 }
+
+/**
+ * 弹出按钮
+ */
+const PopupLabel = styled.label`
+    cursor: pointer;
+    margin-right: 10px;
+    color: grey;
+    &:hover{
+        color: #259425;
+     };`
 
 /**
  * 表情table
@@ -83,26 +99,22 @@ EmojiRow.propTypes={
  */
 const EmojiTable = ({ close, onSelect }) => {
     const doSelect = key => {
-        close();
-        onSelect(key);
+        close()
+        onSelect(key)
     }
-    const emojis = defaultEmojiMapping.getAllEmojis();
-    const cols = 15;
-    const rows = Math.ceil(emojis.length / cols);
-    let result = [];
+    const emojis = defaultEmojiMapping.getAllEmojis()
+    const cols = 15
+    const rows = Math.ceil(emojis.length / cols)
+    let result = []
     for (let i = 0; i < rows; i++) {
-        result.push(
-            <div key={i}>
-                <EmojiRow rowIdx={i} cols={cols} onSelect={doSelect} />
-            </div>
-        );
+        result.push(<div key={i}><EmojiRow rowIdx={i} cols={cols} onSelect={doSelect}/></div>)
     }
-    return result;
+    return result
 }
 
-EmojiTable.propTypes={
-    close:PropTypes.func.isRequired,
-    onSelect:PropTypes.func.isRequired,
+EmojiTable.propTypes = {
+    close: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
 }
 
 /**
@@ -111,25 +123,22 @@ EmojiTable.propTypes={
  */
 export const EmojiPanel = ({ onSelect }) => {
     //todo-- 默认只加了qq表情，之后如有扩展需要实现button的style关联状态
-    return (<Popup
-        trigger={<label title='表情' className="label-toolbar"> <FontAwesomeIcon icon={farSmile} size='lg' /></label>}
+    return <Popup
+        trigger={<PopupLabel title='表情'> <FontAwesomeIcon icon={farSmile} size='lg' /></PopupLabel>}
         position='top center'
         closeOnDocumentClick
-        contentStyle={styles.emojiTab}
+        contentStyle={emojiTabStyle}
         offsetY={-20}>
-        {close => (
-            <div style={styles.emojiTabPanel}>
-                <EmojiTable close={close} onSelect={onSelect} />
-                <div style={styles.emojiTabHeader}>
-                    <button className='emoji-category-btn'>默认</button>
-                </div>
-            </div>
-        )}
-    </Popup>)
+        {close => <EmojiTabPanel>
+            <EmojiTable close={close} onSelect={onSelect} />
+            <EmojiTabHeader>
+                <EmojiCategoryButton >默认</EmojiCategoryButton>
+            </EmojiTabHeader>
+        </EmojiTabPanel>}
+    </Popup>
 }
 
-
-EmojiPanel.propTypes={
+EmojiPanel.propTypes = {
     onSelect: PropTypes.func.isRequired,
 }
 

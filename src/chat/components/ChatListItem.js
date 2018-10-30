@@ -59,7 +59,8 @@ const MsgCountDiv = styled.div`
     border-radius:60px;
     background:red;
     padding:1px;
-    position:absolute;
+    position:relative;
+    text-align:center;
     margin-top:-48px;
     margin-left:30px;
     font-size:8px;
@@ -92,10 +93,10 @@ const LastMessage = ({ message }) => {
     if (message == null) {
         return <div />
     }
-    const { SenderName, MessageContent } = message;
-    const contentType = MessageHelper.getMessageContentType(MessageContent);
-    const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：';
-    const content = sender + MessageContent;
+    const { SenderName, MessageContent } = message
+    const contentType = MessageHelper.getMessageContentType(MessageContent)
+    const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：'
+    const content = sender + MessageContent
     return <div>
         {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
             <TextMessageContent content={content} emojiSize={12} />
@@ -103,7 +104,6 @@ const LastMessage = ({ message }) => {
         {contentType === messageContentType.File && <MsgDiv title={`${SenderName}：文件`}> {`${sender}文件`}  </MsgDiv>}
         {contentType === messageContentType.Picture && <MsgDiv title={`${SenderName}：图片`}> {`${sender}图片`} </MsgDiv>}
     </div>
-
 }
 
 
@@ -112,7 +112,6 @@ const LastMessage = ({ message }) => {
  * @param {*} param0 
  */
 export const ChatListItem = ({ chat, onSelectChat, isSelected }) => {
-
     const { customer, messages, channelId } = chat
     const { CustomerName, CustomerAvataUrl } = customer
     const unreadMsgs = messages.filter(x => x.isUnread === true)
