@@ -6,7 +6,7 @@ import { renderImageContent } from './renderImgContent'
 import MessageHelper from '../messageHelper'
 import styled from 'styled-components'
 import { MessageTime, MessageSender, Avata } from './Parts'
-require('../../assets/styles/bubble.css')
+ 
 
 /**
  * 容器Div
@@ -54,11 +54,17 @@ const ImgContent = renderImageContent(props => <div {...props} />)
 
 const FileDiv = styled.div`
     margin-bottom: 10px;
-    text-align: left;
+    text-align:left;
     border: 1px solid #eee;
     padding: 10px;
     background:white;
     cursor: pointer;`
+
+const ContentDiv=styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+`
 
 const FileContent = renderFileContent(props => <FileDiv {...props} />)
 
@@ -73,12 +79,12 @@ export const StaffMessage = ({ message }) => {
         <AvataContainer>
             <Avata src={AvataUrl} />
         </AvataContainer>
-        <div>
+        <ContentDiv>
             <span><MessageTime value={SendTime} /><MessageSender color='blue'>{SenderName}</MessageSender></span>
             {contentType === messageContentType.Text && <TextContent content={MessageContent} />}
             {contentType === messageContentType.Picture && <ImgContent content={MessageContent} />}
             {contentType === messageContentType.File && <FileContent content={MessageContent} />}
-        </div>
+        </ContentDiv>
     </Container>
 
 }
