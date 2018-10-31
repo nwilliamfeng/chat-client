@@ -86,9 +86,15 @@ const HeaderDiv = styled.div`
     padding: 11px 8px 10px 8px;
     background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};`
 
+/**
+ * 文本消息内容
+ */
 const TextMessageContent = renderTextContent(props => <TxtContentDiv {...props} />)
 
-
+/**
+ * 显示最后一条消息
+ * @param {*} param0 
+ */
 const LastMessage = ({ message }) => {
     if (message == null) {
         return <div />

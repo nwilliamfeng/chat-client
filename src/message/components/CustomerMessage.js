@@ -4,22 +4,15 @@ import { messageContentType } from '../constants'
 import { renderTextContent } from './renderTextContent'
 import { renderImageContent } from './renderImgContent'
 import MessageHelper from '../messageHelper'
-import { MessageTime, MessageSender,Avata } from './Parts'
-require('../../assets/styles/bubble.css')
+import { MessageTime, MessageSender, Avata } from './Parts'
 
 const AvataContainer = styled.div`
     display:table-cell;
     padding-right:15px;`
-    
 
-// const Avata = styled.img`
-//     width: 42px;
-//     height: 42px;
-//     margin-top: 5px;`
+const CAvata = styled(Avata)`margin-top: 30px;`
 
-const CAvata =styled(Avata)`margin-top: 30px;`
-
-const ContentContainer=styled.div`display:table-cell;`
+const ContentContainer = styled.div`display:table-cell;`
 
 const LeftBubbleDiv = styled.div`
     position: relative;
@@ -44,37 +37,43 @@ const LeftBubbleDiv = styled.div`
     };  
     &:after{
         content: "";
-    position: absolute;
-    top: 10px;
-    left: -6px;
-    border-style: solid;
-    border-width: 5px 7px 5px 0;
-    border-color: transparent white;
-    width: 0;
-    z-index: 1;
+        position: absolute;
+        top: 10px;
+        left: -6px;
+        border-style: solid;
+        border-width: 5px 7px 5px 0;
+        border-color: transparent white;
+        width: 0;
+        z-index: 1;
+    };
+    &:hover{
+        background:transparent;
     };`
 
-const TextContent = renderTextContent(props => <LeftBubbleDiv {...props} />);
+const Container = styled.div`
+    display: block;
+    clear: right;/*clear float right*/
+    margin-right: 60px;`
+
+const TextContent = renderTextContent(props => <LeftBubbleDiv {...props} />)
 
 const ImgContent = renderImageContent(props => <div {...props} />)
 
 export const CustomerMessage = ({ message }) => {
     const { MessageContent, AvataUrl, SenderName, SendTime } = message;
     const contentType = MessageHelper.getMessageContentType(MessageContent);
-    return (
-        <div className="louter"  >
-            <AvataContainer>
-                <CAvata  src={AvataUrl} />
-            </AvataContainer>
-            <ContentContainer>
-                <div>
-                    <span><MessageSender>{SenderName}</MessageSender><MessageTime value={SendTime} /></span>
-                </div>
-                {contentType===messageContentType.Text && <TextContent content={MessageContent} />}
-                {contentType===messageContentType.Picture && <ImgContent content={MessageContent} />}
-            </ContentContainer>
-        </div>
-    )
+    return <Container>
+        <AvataContainer>
+            <CAvata src={AvataUrl} />
+        </AvataContainer>
+        <ContentContainer>
+            <div>
+                <span><MessageSender>{SenderName}</MessageSender><MessageTime value={SendTime} /></span>
+            </div>
+            {contentType === messageContentType.Text && <TextContent content={MessageContent} />}
+            {contentType === messageContentType.Picture && <ImgContent content={MessageContent} />}
+        </ContentContainer>
+    </Container>
 }
 
 

@@ -25,10 +25,28 @@ const AvataContainer = styled.div`padding-left: 15px;`
 
 const TextContentDiv = styled.div`
     word-wrap: break-word;
-    margin-bottom: 20px;
     text-align: left;
-    border: 1px solid #eee;
-    margin-left: 50px;`
+    border: 1px solid #eee;     
+    position: relative;
+    padding: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    
+    background: #9EEA6A;
+    &:after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        right: -7px;
+        border-style: solid;
+        border-width: 5px 0 5px 7px;
+        border-color: transparent lightgreen;
+        width:0px;
+        z-index: 1;
+    }
+    &:hover{
+        background:#98E165;
+    } `
 
 const TextContent = renderTextContent(props => <TextContentDiv {...props} />)
 
@@ -57,9 +75,9 @@ export const StaffMessage = ({ message }) => {
         </AvataContainer>
         <div>
             <span><MessageTime value={SendTime} /><MessageSender color='blue'>{SenderName}</MessageSender></span>
-            {contentType === messageContentType.Text && <TextContent content={MessageContent} className='rbubble' />}
+            {contentType === messageContentType.Text && <TextContent content={MessageContent} />}
             {contentType === messageContentType.Picture && <ImgContent content={MessageContent} />}
-            {contentType === messageContentType.File && <FileContent content={MessageContent} className='rbubble' />}
+            {contentType === messageContentType.File && <FileContent content={MessageContent} />}
         </div>
     </Container>
 

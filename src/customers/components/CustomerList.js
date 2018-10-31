@@ -1,35 +1,32 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { customerActions } from '../actions';
-import { chatActions } from '../../chat/actions';
-import { appContext } from '../../util';
-import Rx from 'rx';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import { isEqual, groupBy } from 'lodash';
-import { ExpandPanel } from '../../controls';
-const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID';
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { customerActions } from '../actions'
+import { chatActions } from '../../chat/actions'
+import { appContext } from '../../util'
+import Rx from 'rx'
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu"
+import { isEqual, groupBy } from 'lodash'
+import { ExpandPanel } from '../../controls'
 
+const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID'
+ 
 
 const CustomerContextMenu = ({ dispatch }) => {
     const handleOpenChatClick = (e, data, target) => {
-        const customer = JSON.parse(target.getAttribute('customerdata'));
-        //alert(customer.CustomerName);
-        dispatch(chatActions.chatWithMyCustomer(customer));
+        const customer = JSON.parse(target.getAttribute('customerdata'))
+        dispatch(chatActions.chatWithMyCustomer(customer))
     }
-    return (
-        <ContextMenu id={CUSTOMER_CONTEXTMENU_ID}>
-            <MenuItem onClick={handleOpenChatClick}>发起聊天</MenuItem>
-        </ContextMenu>)
+    return <ContextMenu id={CUSTOMER_CONTEXTMENU_ID}>
+        <MenuItem onClick={handleOpenChatClick}>发起聊天</MenuItem>
+    </ContextMenu>
 }
 
 const CustomerUl = styled.ul`
    list-style: none;
-   width:100vh;
-  `;
+   width:100vh;`
 
 const AvatarSpan = styled.span`
-
     background-image:${props => {
         const url = props.AvataUrl;
         return `url(${url})`;
@@ -42,36 +39,21 @@ const AvatarSpan = styled.span`
     background-repeat:no-repeat;
     background-size:cover;
     margin-right:5px;
-    display:inline-block;
-`;
-
-/* todo：需要处理customer类型来设置padding
-   margin-left:${props => props ? '0px' : '-40px'} ;
-   
-   padding-left:${props => props.hasGroup ? '15px' : '10px'} ; */
+    display:inline-block;`
 
 const CustomerLi = styled.li`
     padding:5px 10px;
     outline:none;
     text-align:left;
     padding-left:15px;
-   
     &:hover{
         background-color: #DEDBDA;
     };
+    color: gray;`
 
-    color: gray;
-  `;
+const DepartmentDiv = styled.div`margin-left:-35px;`
 
-const DepartmentDiv = styled.div`
-    margin-left:-35px;
-`;
-
-const CategoryDiv = styled.div`
-    margin-left:-40px;
-`;
-
-
+const CategoryDiv = styled.div`margin-left:-40px;`
 
 const CustomerNameSpan = styled.span`
      max-width: 75px;
@@ -84,173 +66,145 @@ const CustomerNameSpan = styled.span`
      text-overflow:ellipsis;
      cursor:default;
      margin-left:10px;
-     margin-right:10px;
-    
-`;
+     margin-right:10px;`
 
 /**
  * 客户项
  * @param {*} param0 
  */
-const Customer = ({ data }) => {
-    const { CustomerAvataUrl, CustomerName } = data;
-    return (
-        <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ customerdata: JSON.stringify(data) }}>
-            <CustomerLi title={CustomerName}>
-                <AvatarSpan AvataUrl={CustomerAvataUrl} />
-                <CustomerNameSpan >{CustomerName}</CustomerNameSpan>
-            </CustomerLi>
-        </ContextMenuTrigger>)
+const Customer = ({ data,dispatch }) => {
+    const { CustomerAvataUrl, CustomerName } = data
+    const handleDoubleClick=()=>dispatch(chatActions.chatWithMyCustomer(data))
+    return <ContextMenuTrigger id={CUSTOMER_CONTEXTMENU_ID} attributes={{ customerdata: JSON.stringify(data) }}>
+        <CustomerLi title={CustomerName} onDoubleClick={handleDoubleClick}>
+            <AvatarSpan AvataUrl={CustomerAvataUrl} />
+            <CustomerNameSpan >{CustomerName}</CustomerNameSpan>
+        </CustomerLi>
+    </ContextMenuTrigger>
 }
 
 /**
  * 部门
  * @param {*} param0 
  */
-const Department = ({ customers }) => {
-    const department = customers[0].DepartmentName;
-    return (
-        <DepartmentDiv>
-            {department &&
-                <ExpandPanel title={customers[0].GroupName} count={customers.length}>
-                    {customers.map(item => <Customer key={item.StaffId} data={item} />)}
-                </ExpandPanel>}
-            {department == null &&
-                <CustomerUl>
-                    {customers.map(item => <Customer key={item.StaffId} data={item} />)}
-                </CustomerUl>}
-        </DepartmentDiv>
-    )
+const Department = ({ customers ,dispatch}) => {
+    const department = customers[0].DepartmentName
+    return <DepartmentDiv>
+        {department && <ExpandPanel title={customers[0].GroupName} count={customers.length}>
+            {customers.map(item => <Customer key={item.StaffId} data={item} />)}
+        </ExpandPanel>}
+        {department == null && <CustomerUl>
+            {customers.map(item => <Customer key={item.StaffId} data={item} dispatch={dispatch}/>)}
+        </CustomerUl>}
+    </DepartmentDiv>
 }
-
-
 
 /**
  * 我的客户
  * @param {*} param0 
  */
-const MyCustomers = ({ customers, expandHandle, checkExpandHandle }) => {
-    const productName = customers[0].ProductName;
-    const myCustomersKey = 'myCustomers_' + productName;
-    const isExpand = checkExpandHandle ? checkExpandHandle(myCustomersKey) : false;
-    return (
-
-        <ExpandPanel title={'我的客户'} count={customers.length} isChild={true} isExpand={isExpand} expandHandle={expandHandle} panelId={myCustomersKey}>
-            {customers.map(customer => <Customer key={customer.CustomerId} data={customer} />)}
-        </ExpandPanel>
-
-    )
+const MyCustomers = ({ customers, expandHandle, checkExpandHandle,dispatch }) => {
+    const productName = customers[0].ProductName
+    const myCustomersKey = 'myCustomers_' + productName
+    const isExpand = checkExpandHandle ? checkExpandHandle(myCustomersKey) : false
+    return <ExpandPanel title={'我的客户'} count={customers.length} isChild={true} isExpand={isExpand} expandHandle={expandHandle} panelId={myCustomersKey}>
+        {customers.map(customer => <Customer key={customer.CustomerId} data={customer} dispatch={dispatch}/>)}
+    </ExpandPanel>
 }
 
 /**
  * 产品大类
  * @param {*} param0 
  */
-const Category = ({ customers, expandHandle, checkExpandHandle }) => {
-    const productName = customers[0].ProductName;
-    const productKey = 'category_' + productName;
-    const isExpand = checkExpandHandle ? checkExpandHandle(productKey) : false;
-
-    const departments = Object.values(groupBy(customers, 'DepartmentName'));
-    return (
-        <CategoryDiv key={productName} >
-            <ExpandPanel title={productName} count={customers.length} isExpand={isExpand} expandHandle={expandHandle} panelId={productKey}>
-                <MyCustomers customers={customers} checkExpandHandle={checkExpandHandle} expandHandle={expandHandle} />
-                {departments && !departments.some(x => x.some(y => y.DepartmentName == null)) && departments.map(department => <Department key={department[0].DepartmentName} customers={department} />)}
-            </ExpandPanel>
-        </CategoryDiv>
-    )
+const Category = ({ customers, expandHandle, checkExpandHandle,dispatch }) => {
+    const productName = customers[0].ProductName
+    const productKey = 'category_' + productName
+    const isExpand = checkExpandHandle ? checkExpandHandle(productKey) : false
+    const departments = Object.values(groupBy(customers, 'DepartmentName'))
+    return <CategoryDiv key={productName} >
+        <ExpandPanel title={productName} count={customers.length} isExpand={isExpand} expandHandle={expandHandle} panelId={productKey}>
+            <MyCustomers customers={customers} checkExpandHandle={checkExpandHandle} expandHandle={expandHandle} dispatch={dispatch}/>
+            {departments && !departments.some(x => x.some(y => y.DepartmentName == null))
+                 && departments.map(department => <Department key={department[0].DepartmentName} customers={department} dispatch={dispatch} />)}
+        </ExpandPanel>
+    </CategoryDiv>
 }
-
 
 class CustomerList extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return !isEqual(this.props.relationMappingList, nextProps.relationMappingList);
+        return !isEqual(this.props.relationMappingList, nextProps.relationMappingList)
     }
-
 
     componentDidMount() {
         if (appContext.currentStaff != null) {
-            this.loadCustomers();
-            this.subscribeRelationMappingList();
+            this.loadCustomers()
+            this.subscribeRelationMappingList()
         }
     }
 
     loadCustomers = () => {
         if (appContext.currentStaff != null) {
-            const { dispatch } = this.props;
-            dispatch(customerActions.fetchCustomerRelationMappingList());
+            const { dispatch } = this.props
+            dispatch(customerActions.fetchCustomerRelationMappingList())
         }
     }
 
     componentWillUnmount() {
-        this.subscription.dispose();
+        this.subscription.dispose()
     }
 
     subscribeRelationMappingList = () => {
         const source = Rx.Observable
             .interval(5000 /* ms */)
-            .timeInterval();
+            .timeInterval()
         this.subscription = source.subscribe(
             () => {
                 this.loadCustomers();
                 if (appContext.currentStaff == null) {
-                    this.subscription.dispose();
+                    this.subscription.dispose()
                 }
             },
             (err) => {
-                console.log('Error: ' + err);
+                console.log('Error: ' + err)
             },
             () => {
-                console.log('Completed');
-            });
+                console.log('Completed')
+            })
     }
 
     getExpandState = panelId => {
-        const { expandStates } = this.props;
-        const state = expandStates.find(x => x.panelId === panelId);
-        if (state == null) {
-            return false;
-        };
-        return state.isExpand;
+        const { expandStates } = this.props
+        const state = expandStates.find(x => x.panelId === panelId)
+        return state == null ? false : state.isExpand
     }
 
     handleExpandState = (panelId, isExpand) => {
-
-        const { dispatch } = this.props;
-        dispatch(customerActions.changeExpandState(panelId, isExpand));
+        const { dispatch } = this.props
+        dispatch(customerActions.changeExpandState(panelId, isExpand))
     }
 
     render() {
         const { relationMappingList, dispatch } = this.props;
-        const categories = relationMappingList ? Object.values(groupBy(relationMappingList, 'ProductName')) : [];
-
-        return (
-            <div>
-                {categories &&
-                    <ul>
-                        {categories.map(category => <Category customers={category} key={category[0].ProductName} expandHandle={this.handleExpandState} checkExpandHandle={this.getExpandState} />)}
-                    </ul>}
-                <CustomerContextMenu dispatch={dispatch} contextMenuId={CUSTOMER_CONTEXTMENU_ID} />
-            </div>)
-    };
+        const categories = relationMappingList ? Object.values(groupBy(relationMappingList, 'ProductName')) : []
+        return <div>
+            {categories &&
+                <ul>
+                    {categories.map(category => <Category customers={category} key={category[0].ProductName} dispatch={dispatch}  expandHandle={this.handleExpandState} checkExpandHandle={this.getExpandState} />)}
+                </ul>}
+            <CustomerContextMenu dispatch={dispatch} contextMenuId={CUSTOMER_CONTEXTMENU_ID} />
+        </div>
+    }
 }
-
-
 
 const mapStateToProps = state => {
-    const { relationMappingList, expandStates } = state.customer;
-    return { relationMappingList, expandStates };
+    const { relationMappingList, expandStates } = state.customer
+    return { relationMappingList, expandStates }
 }
 
-const page = connect(mapStateToProps, null)(CustomerList);
+const page = connect(mapStateToProps, null)(CustomerList)
 
 /**
  * 客户列表
  */
-export { page as CustomerList };
+export { page as CustomerList }

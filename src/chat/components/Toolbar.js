@@ -9,7 +9,9 @@ const ToolbarDiv = styled.div`
     padding: 5px;
     padding-left:0px;`
 
-//display:none直接用在input上无效，只能用div包一层
+/**
+ * display:none直接用在input上无效，只能用div包一层
+ */
 const DisableDiv = styled.div`display:none;`
 
 const Label = styled.label`

@@ -70,10 +70,10 @@ class AssignCustomerList extends Component {
         if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortColumn !== nextProps.sortColumn) {
             return true;
         }
-        if(this.props.customerListHeight!=nextProps.customerListHeight){
+        if(this.props.customerListHeight!==nextProps.customerListHeight){
             return true;
         }
-        if(this.props.customerListWidth!=nextProps.customerListWidth){
+        if(this.props.customerListWidth!==nextProps.customerListWidth){
             return true;
         }
         const current = this.props.customers;
