@@ -7,7 +7,7 @@ import { appContext } from '../../util'
 import Rx from 'rx'
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu"
 import { isEqual, groupBy } from 'lodash'
-import { ExpandPanel } from '../../controls'
+import { ExpandPanel,withLoading } from '../../controls'
 
 const CUSTOMER_CONTEXTMENU_ID = 'CUSTOMER_CONTEXTMENU_ID'
  
@@ -130,6 +130,10 @@ const Category = ({ customers, expandHandle, checkExpandHandle,dispatch }) => {
     </CategoryDiv>
 }
 
+const LoadingDiv=styled.div`padding:5px 10px;color:gray;`
+
+const Loading=withLoading(LoadingDiv,'客户列表');
+
 class CustomerList extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -188,7 +192,8 @@ class CustomerList extends Component {
         const { relationMappingList, dispatch } = this.props;
         const categories = relationMappingList ? Object.values(groupBy(relationMappingList, 'ProductName')) : []
         return <div>
-            {categories &&
+            {categories.length===0 && <Loading/>}
+            {categories.length>0 &&
                 <ul>
                     {categories.map(category => <Category customers={category} key={category[0].ProductName} dispatch={dispatch}  expandHandle={this.handleExpandState} checkExpandHandle={this.getExpandState} />)}
                 </ul>}

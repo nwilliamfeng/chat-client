@@ -30,6 +30,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
+    "react-autocomplete": "^1.8.1",
     "react-contextmenu": "^2.9.4",
     "react-dom": "^16.6.0",
     "react-medium-image-zoom": "^3.0.15",
