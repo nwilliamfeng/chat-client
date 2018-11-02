@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import ReactAutocomplete from 'react-autocomplete'
-require('../../assets/styles/bootstrap-searchbox.css')
+require('../assets/styles/bootstrap-searchbox.css')
 
 const SearchIcon = styled.i`
     color: gray;
@@ -25,21 +24,33 @@ const menuStyle = {
 }
 
 
-const renderSearchInput = props => <div className="form-group  right-inner-addon">
+const DefaultSearchInput = props => <div className="form-group  right-inner-addon">
     <SearchIcon aria-hidden="true"  ><FontAwesomeIcon icon={faSearch} /></SearchIcon>
     <input type="search" className="form-control input-xs" placeholder="联系人" style={{ height: 28 }} {...props} />
 </div>
 
-const DIV=styled.div``
+const DefaultMenuItem=(item, highlighted) =><MenuItemDiv
+    key={item.id}
+    highlighted={highlighted}
+>
+    {item.label}
+</MenuItemDiv>
 
+const MenuItemDiv = styled.div`
+ background-color:${props=>props.highlighted?'#eee':'transparent'};
+ padding:5px;
+`
+const items = [
+    { id: 'foo', label: '2foo' },
+    { id: 'bar', label: '2bar' },
+    { id: 'baz', label: '2baz' },
+];
 
-/** 
- * 搜索框组件 
- */
-class SearchBox extends Component {
+export const withSearchBox = (Input, MenuItem) => class extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             value: '',
         }
@@ -47,25 +58,15 @@ class SearchBox extends Component {
 
 
     render() {
-
+        const { getMenuItems } = this.props
         return <div >
             <ReactAutocomplete
-                items={[
-                    { id: 'foo', label: '2foo' },
-                    { id: 'bar', label: '2bar' },
-                    { id: 'baz', label: '2baz' },
-                ]}
+                items={getMenuItems()}
                 shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
                 getItemValue={item => item.label}
-                renderItem={(item, highlighted) =>
-                    <DIV
-                        key={item.id}
-                        style={{ backgroundColor: highlighted ? '#eee' : 'white', padding: 5 }}
-                    >
-                        {item.label}
-                    </DIV>
+                renderItem={ MenuItem?MenuItem:DefaultMenuItem
                 }
-                renderInput={renderSearchInput}
+                renderInput={Input ? Input : DefaultSearchInput}
                 menuStyle={menuStyle}
                 value={this.state.value}
                 onChange={e => this.setState({ value: e.target.value })}
@@ -76,15 +77,3 @@ class SearchBox extends Component {
 
 }
 
-
-function mapStateToProps(state) {
-    return {};
-}
-
-
-const page = connect(mapStateToProps, null)(SearchBox);
-
-/**
- * SearchBox实例
- */
-export { page as SearchBox }; 
