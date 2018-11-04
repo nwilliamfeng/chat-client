@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
@@ -25,54 +26,94 @@ const menuStyle = {
 
 
 const DefaultSearchInput = props => <div className="form-group  right-inner-addon">
-    <SearchIcon aria-hidden="true"  ><FontAwesomeIcon icon={faSearch} /></SearchIcon>
+    <SearchIcon aria-hidden="true"><FontAwesomeIcon icon={faSearch} /></SearchIcon>
     <input type="search" className="form-control input-xs" placeholder="联系人" style={{ height: 28 }} {...props} />
 </div>
 
-const DefaultMenuItem=(item, highlighted) =><MenuItemDiv
-    key={item.id}
-    highlighted={highlighted}
->
+const DefaultMenuItem = (item, highlighted) => <MenuItemDiv key={item.id} highlighted={highlighted}>
     {item.label}
 </MenuItemDiv>
 
 const MenuItemDiv = styled.div`
- background-color:${props=>props.highlighted?'#eee':'transparent'};
- padding:5px;
-`
-const items = [
-    { id: 'foo', label: '2foo' },
-    { id: 'bar', label: '2bar' },
-    { id: 'baz', label: '2baz' },
-];
+ background-color:${props => props.highlighted ? '#eee' : 'transparent'};
+ padding:5px;`
 
 export const withSearchBox = (Input, MenuItem) => class extends Component {
+
+    static propTypes = {
+        getMenuItems: PropTypes.array.isRequired,
+        searchByReturn: PropTypes.bool,
+    }
 
     constructor(props) {
         super(props);
 
         this.state = {
             value: '',
+            isOpen: false,
+            isReturnPressed: false,
+        }
+    }
+
+
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        const { searchByReturn } = this.props
+        if (searchByReturn !== true)
+            return true
+        return this.state.value !== nextState.value || nextState.isReturnPressed === true
+    }
+
+
+
+    handleChange = e => {
+        console.log(e.target.value);
+        this.setState({ value: e.target.value, isOpen: true })
+
+    }
+
+    handleSelect = value => {
+        this.setState({ value, isOpen: false })
+
+    }
+
+    handleKeyDown = (e) => {
+        const { searchByReturn } = this.props
+        if (searchByReturn !== true || e.key === 'ArrowDown' || e.key === 'ArrowUp')
+            return
+        const old = this.state.isReturnPressed
+        this.setState({ isReturnPressed: old === true ? false : e.key === 'Enter' })
+
+    }
+
+    handleItems = () => {
+        const { searchByReturn, getMenuItems } = this.props
+        if (searchByReturn !== true) {
+            console.log('---')
+            return getMenuItems()
+        }
+        else {
+            const { isReturnPressed } = this.state
+            return isReturnPressed === true ? getMenuItems() : []
         }
     }
 
 
     render() {
-        const { getMenuItems } = this.props
-        return <div >
-            <ReactAutocomplete
-                items={getMenuItems()}
-                shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-                getItemValue={item => item.label}
-                renderItem={ MenuItem?MenuItem:DefaultMenuItem
-                }
-                renderInput={Input ? Input : DefaultSearchInput}
-                menuStyle={menuStyle}
-                value={this.state.value}
-                onChange={e => this.setState({ value: e.target.value })}
-                onSelect={value => this.setState({ value })}
-            />
-        </div>
+        console.log('render...')
+        return <ReactAutocomplete
+            open={this.state.isOpen}
+            items={this.handleItems()}
+            shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+            getItemValue={item => item.label}
+            renderItem={MenuItem ? MenuItem : DefaultMenuItem}
+            renderInput={Input ? Input : DefaultSearchInput}
+            menuStyle={menuStyle}
+            value={this.state.value}
+            inputProps={{ onKeyDown: this.handleKeyDown }}
+            onChange={this.handleChange}
+            onSelect={this.handleSelect}
+        />
     }
 
 }

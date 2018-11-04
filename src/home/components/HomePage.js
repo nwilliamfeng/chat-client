@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Navibar } from './Navibar'
 import { pageType } from '../constants'
-//import { SearchBox } from '../../search/components'
+import { CustomerSearch } from '../../search/components'
 import BackgroundImg from '../../assets/imgs/background.jpg'
 import { Chat, ChatList } from '../../chat/components'
 import { CompositList } from '../../customers/components'
 import styled from 'styled-components'
 import Alert from 'react-s-alert'
-import { withScroll,withSearchBox } from '../../controls'
+import { withScroll } from '../../controls'
 import sizeMe from 'react-sizeme'
 
  
@@ -105,26 +105,9 @@ const MainRegion = styled.div`
     z-index:1;
     background: white;`
 
-const getItems=()=>[
-    { id: 'foo', label: '2foo' },
-    { id: 'bar', label: '2bar' },
-    { id: 'baz', label: '2baz' },
-]
-
-const MenuItem=(item, highlighted) =><MenuItemDiv
-    key={item.id}
-    highlighted={highlighted}
->
-    {item.label}
-</MenuItemDiv>
 
 
-const SearchBox=withSearchBox(null,  MenuItem)
 
-const MenuItemDiv = styled.div`
- background-color:${props=>props.highlighted?'green':'red'};
- padding:15px;
-`
 
 class HomePage extends Component {
 
@@ -168,7 +151,7 @@ class HomePage extends Component {
                         <div className="row">
                             <ListRegion>
                                 <SearchBoxContainer>
-                                    <SearchBox getMenuItems={getItems}/>
+                                    <CustomerSearch/>
                                 </SearchBoxContainer>
                                 <ListContainerDivWithAutoSize isAbsolute={true}>
                                     <ListContainer>
