@@ -41,13 +41,13 @@ const MenuItemDiv = styled.div`
 export const withSearchBox = (Input, MenuItem) => class extends Component {
 
     static propTypes = {
-        getMenuItems: PropTypes.array.isRequired,
+        getMenuItems: PropTypes.func.isRequired,
+        onSelectItem: PropTypes.func,
         searchByReturn: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
-
         this.state = {
             value: '',
             isOpen: false,
@@ -56,24 +56,24 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
     }
 
 
-
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const { searchByReturn } = this.props
         if (searchByReturn !== true)
             return true
-        return this.state.value !== nextState.value || nextState.isReturnPressed === true
+        return this.state.value !== nextState.value || nextState.isReturnPressed === true || this.state.isOpen !== nextState.isOpen
     }
 
 
 
     handleChange = e => {
-        console.log(e.target.value);
         this.setState({ value: e.target.value, isOpen: true })
-
     }
 
-    handleSelect = value => {
+    handleSelect = (value, item) => {
         this.setState({ value, isOpen: false })
+        const { onSelectItem } = this.props
+        if (onSelectItem != null)
+            onSelectItem(item)
 
     }
 
@@ -89,7 +89,6 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
     handleItems = () => {
         const { searchByReturn, getMenuItems } = this.props
         if (searchByReturn !== true) {
-            console.log('---')
             return getMenuItems()
         }
         else {
@@ -98,22 +97,29 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
         }
     }
 
+    shouldItemRender = (item, value) => {
+        return item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+    }
+
+    onBlur = () => {
+        this.setState({ isOpen: false })
+    }
+
 
     render() {
-        console.log('render...')
+        const menuItems = this.handleItems();
         return <ReactAutocomplete
-            open={this.state.isOpen}
-            items={this.handleItems()}
-            shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+            open={menuItems.length > 0 && this.state.isOpen === true}
+            items={menuItems}
+            shouldItemRender={this.shouldItemRender}
             getItemValue={item => item.label}
             renderItem={MenuItem ? MenuItem : DefaultMenuItem}
             renderInput={Input ? Input : DefaultSearchInput}
             menuStyle={menuStyle}
             value={this.state.value}
-            inputProps={{ onKeyDown: this.handleKeyDown }}
+            inputProps={{ onKeyDown: this.handleKeyDown, onBlur: this.onBlur }}
             onChange={this.handleChange}
-            onSelect={this.handleSelect}
-        />
+            onSelect={this.handleSelect} />
     }
 
 }

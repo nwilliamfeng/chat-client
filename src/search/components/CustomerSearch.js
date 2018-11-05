@@ -1,22 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {withSearchBox} from '../../controls'
+import { withSearchBox } from '../../controls'
 require('../../assets/styles/bootstrap-searchbox.css')
 
- 
-const getItems=()=>{
+const getItems = () => {
     console.log('ddddd');
     return [
-    { id: 'foo', label: '2foo' },
-    { id: 'fwd', label: '2bar' },
-    { id: 'foo2', label: '2baz' },
-]
+        { id: 'foo', label: '2foo' },
+        { id: 'fwd', label: '2bar' },
+        { id: 'foo2', label: '2baz' },
+    ]
 }
 
 
-
-
-const SearchBox=withSearchBox()
+const SearchBox = withSearchBox()
 
 /** 
  * 搜索框组件 
@@ -30,17 +27,29 @@ class CustomerSearch extends Component {
         }
     }
 
+    getCustomers = () => {
+        console.log(this.props)
+        const { relationMappingList } = this.props
+        if (relationMappingList == null)
+            return []
+        return relationMappingList.map(x => { return { id: x.CustomerId, label: x.CustomerName } })
+    }
+
+    handleSelectItem = item => {
+        console.log(item);
+    }
+
 
     render() {
-
-        return  <SearchBox getMenuItems={getItems} searchByReturn={true}/>
+        return <SearchBox getMenuItems={this.getCustomers} onSelectItem={this.handleSelectItem} />
     }
 
 }
 
 
 function mapStateToProps(state) {
-    return {};
+    const { relationMappingList } = state.customer
+    return { relationMappingList }
 }
 
 
