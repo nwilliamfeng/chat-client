@@ -140,42 +140,7 @@ class CustomerList extends Component {
         return !isEqual(this.props.relationMappingList, nextProps.relationMappingList)
     }
 
-    componentDidMount() {
-        if (appContext.currentStaff != null) {
-            this.loadCustomers()
-            this.subscribeRelationMappingList()
-        }
-    }
-
-    loadCustomers = () => {
-        if (appContext.currentStaff != null) {
-            const { dispatch } = this.props
-            dispatch(customerActions.fetchCustomerRelationMappingList())
-        }
-    }
-
-    componentWillUnmount() {
-        this.subscription.dispose()
-    }
-
-    subscribeRelationMappingList = () => {
-        const source = Rx.Observable
-            .interval(5000 /* ms */)
-            .timeInterval()
-        this.subscription = source.subscribe(
-            () => {
-                this.loadCustomers();
-                if (appContext.currentStaff == null) {
-                    this.subscription.dispose()
-                }
-            },
-            (err) => {
-                console.log('Error: ' + err)
-            },
-            () => {
-                console.log('Completed')
-            })
-    }
+   
 
     getExpandState = panelId => {
         const { expandStates } = this.props

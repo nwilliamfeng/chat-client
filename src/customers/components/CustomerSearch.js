@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withSearchBox } from '../../controls'
+import { customerActions } from '../actions'
+import { chatActions } from '../../chat/actions'
+import { appContext } from '../../util'
+import Rx from 'rx'
 require('../../assets/styles/bootstrap-searchbox.css')
 
 const getItems = () => {
@@ -26,6 +30,44 @@ class CustomerSearch extends Component {
             value: '',
         }
     }
+
+    componentDidMount() {
+        if (appContext.currentStaff != null) {
+            this.loadCustomers()
+            this.subscribeRelationMappingList()
+        }
+    }
+
+    loadCustomers = () => {
+        if (appContext.currentStaff != null) {
+            const { dispatch } = this.props
+            dispatch(customerActions.fetchCustomerRelationMappingList())
+        }
+    }
+
+    componentWillUnmount() {
+        this.subscription.dispose()
+    }
+
+    subscribeRelationMappingList = () => {
+        const source = Rx.Observable
+            .interval(5000 /* ms */)
+            .timeInterval()
+        this.subscription = source.subscribe(
+            () => {
+                this.loadCustomers();
+                if (appContext.currentStaff == null) {
+                    this.subscription.dispose()
+                }
+            },
+            (err) => {
+                console.log('Error: ' + err)
+            },
+            () => {
+                console.log('Completed')
+            })
+    }
+    
 
     getCustomers = () => {
         console.log(this.props)

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
+import {withScroll}  from './withScroll'
 import ReactAutocomplete from 'react-autocomplete'
 require('../assets/styles/bootstrap-searchbox.css')
 
@@ -17,11 +18,12 @@ const menuStyle = {
     zIndex: 1000, //这里必须把zIndex置为大的值
     borderRadius: '3px',
     boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
-    background: 'rgba(255, 255, 255, 0.9)',
+    background: 'white',
     padding: '2px 0',
     position: 'fixed',
     overflow: 'auto',
     maxHeight: '50%',
+    
 }
 
 
@@ -33,6 +35,8 @@ const DefaultSearchInput = props => <div className="form-group  right-inner-addo
 const DefaultMenuItem = (item, highlighted) => <MenuItemDiv key={item.id} highlighted={highlighted}>
     {item.label}
 </MenuItemDiv>
+
+const ScrollDiv=withScroll(props=><div {...props}/>)
 
 const MenuItemDiv = styled.div`
  background-color:${props => props.highlighted ? '#eee' : 'transparent'};
@@ -77,6 +81,10 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
 
     }
 
+    renderMenu =(items, value, style) =>{
+        return <ScrollDiv isAbsolute={true} style={{ ...style, ...menuStyle }} children={items}/>
+      }
+
     handleKeyDown = (e) => {
         const { searchByReturn } = this.props
         if (searchByReturn !== true || e.key === 'ArrowDown' || e.key === 'ArrowUp')
@@ -115,7 +123,8 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
             getItemValue={item => item.label}
             renderItem={MenuItem ? MenuItem : DefaultMenuItem}
             renderInput={Input ? Input : DefaultSearchInput}
-            menuStyle={menuStyle}
+            
+            renderMenu={this.renderMenu}
             value={this.state.value}
             inputProps={{ onKeyDown: this.handleKeyDown, onBlur: this.onBlur }}
             onChange={this.handleChange}

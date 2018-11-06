@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Navibar } from './Navibar'
 import { pageType } from '../constants'
-import { CustomerSearch } from '../../search/components'
 import BackgroundImg from '../../assets/imgs/background.jpg'
 import { Chat, ChatList } from '../../chat/components'
-import { CompositList } from '../../customers/components'
+import { CompositList ,CustomerSearch} from '../../customers/components'
 import styled from 'styled-components'
 import Alert from 'react-s-alert'
 import { withScroll } from '../../controls'
@@ -34,7 +33,7 @@ const Background = styled.div`
  * 列表区域
  */
 const ListRegion = styled.div`
-    width:250px;
+    width:255px;
     background:#E6E6E7;
     position:fixed;
     height:100%;
