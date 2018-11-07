@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import {withScroll}  from './withScroll'
 import ReactAutocomplete from 'react-autocomplete'
 require('../assets/styles/bootstrap-searchbox.css')
 
@@ -23,9 +22,7 @@ const menuStyle = {
     position: 'fixed',
     overflow: 'auto',
     maxHeight: '50%',
-    
 }
-
 
 const DefaultSearchInput = props => <div className="form-group  right-inner-addon">
     <SearchIcon aria-hidden="true"><FontAwesomeIcon icon={faSearch} /></SearchIcon>
@@ -36,11 +33,12 @@ const DefaultMenuItem = (item, highlighted) => <MenuItemDiv key={item.id} highli
     {item.label}
 </MenuItemDiv>
 
-const ScrollDiv=withScroll(props=><div {...props}/>)
+ 
 
 const MenuItemDiv = styled.div`
  background-color:${props => props.highlighted ? '#eee' : 'transparent'};
  padding:5px;`
+ 
 
 export const withSearchBox = (Input, MenuItem) => class extends Component {
 
@@ -59,15 +57,12 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
         }
     }
 
-
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         const { searchByReturn } = this.props
         if (searchByReturn !== true)
             return true
         return this.state.value !== nextState.value || nextState.isReturnPressed === true || this.state.isOpen !== nextState.isOpen
     }
-
-
 
     handleChange = e => {
         this.setState({ value: e.target.value, isOpen: true })
@@ -78,11 +73,10 @@ export const withSearchBox = (Input, MenuItem) => class extends Component {
         const { onSelectItem } = this.props
         if (onSelectItem != null)
             onSelectItem(item)
-
     }
 
     renderMenu =(items, value, style) =>{
-        return <ScrollDiv isAbsolute={true} style={{ ...style, ...menuStyle }} children={items}/>
+        return <div className='scollContainer'  style={{ ...style, ...menuStyle }} children={items}/>
       }
 
     handleKeyDown = (e) => {

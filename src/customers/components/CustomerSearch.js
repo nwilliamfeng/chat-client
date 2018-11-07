@@ -7,14 +7,6 @@ import { appContext } from '../../util'
 import Rx from 'rx'
 require('../../assets/styles/bootstrap-searchbox.css')
 
-const getItems = () => {
-    console.log('ddddd');
-    return [
-        { id: 'foo', label: '2foo' },
-        { id: 'fwd', label: '2bar' },
-        { id: 'foo2', label: '2baz' },
-    ]
-}
 
 
 const SearchBox = withSearchBox()
@@ -67,10 +59,9 @@ class CustomerSearch extends Component {
                 console.log('Completed')
             })
     }
-    
+
 
     getCustomers = () => {
-        console.log(this.props)
         const { relationMappingList } = this.props
         if (relationMappingList == null)
             return []
@@ -79,6 +70,11 @@ class CustomerSearch extends Component {
 
     handleSelectItem = item => {
         console.log(item);
+        const { dispatch, relationMappingList } = this.props
+        if (relationMappingList == null)
+            return       
+        const customer=relationMappingList.find(x=>x.CustomerId===item.id) 
+        dispatch(chatActions.chatWithMyCustomer(customer))
     }
 
 
