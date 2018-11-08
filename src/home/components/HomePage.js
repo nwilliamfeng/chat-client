@@ -91,7 +91,7 @@ const ChatContainer = styled.div`
 const ExtendContainer = styled.div`
     float: left;
     width:35%;
-    background:pink;
+    background:#F5F5F5;
     margin-left:0px;
     margin-right:0px;
     padding-left:5px;
@@ -172,7 +172,7 @@ class HomePage extends Component {
 
                     </MainRegion>
                 </div>
-                <Alert stack={true} timeout={3000} />
+                {/* <Alert stack={true} timeout={3000} /> */}
             </div>
 
         );

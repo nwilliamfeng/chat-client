@@ -5,6 +5,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import ReactAutocomplete from 'react-autocomplete'
 require('../assets/styles/bootstrap-searchbox.css')
+require('../assets/styles/scrollbar.css')
 
 const SearchIcon = styled.i`
     color: gray;

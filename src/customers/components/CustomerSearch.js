@@ -1,15 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { withSearchBox } from '../../controls'
 import { customerActions } from '../actions'
 import { chatActions } from '../../chat/actions'
 import { appContext } from '../../util'
 import Rx from 'rx'
-require('../../assets/styles/bootstrap-searchbox.css')
+ 
+
+const MenuItemDiv = styled.div`
+ display:flex;
+ flex-direction:row;
+ background-color:${props => props.highlighted ? '#eee' : 'transparent'};
+ padding:5px;`
+
+ const Avata=styled.img`
+    max-width:24px;
+    max-height:24px;
+    margin-right:8px;`
+
+const MenuItem = (item, highlighted) => <MenuItemDiv key={item.id} highlighted={highlighted}>
+    <Avata src={item.avata}/>
+    {item.label}
+</MenuItemDiv>
 
 
+const SearchBox = withSearchBox(null,MenuItem)
 
-const SearchBox = withSearchBox()
 
 /** 
  * 搜索框组件 
@@ -65,7 +82,7 @@ class CustomerSearch extends Component {
         const { relationMappingList } = this.props
         if (relationMappingList == null)
             return []
-        return relationMappingList.map(x => { return { id: x.CustomerId, label: x.CustomerName } })
+        return relationMappingList.map(x => { return { id: x.CustomerId, label: x.CustomerName,avata:x.CustomerAvataUrl } })
     }
 
     handleSelectItem = item => {
@@ -84,12 +101,10 @@ class CustomerSearch extends Component {
 
 }
 
-
 function mapStateToProps(state) {
     const { relationMappingList } = state.customer
     return { relationMappingList }
 }
-
 
 const page = connect(mapStateToProps, null)(CustomerSearch);
 
