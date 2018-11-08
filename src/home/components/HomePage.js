@@ -4,13 +4,11 @@ import { Navibar } from './Navibar'
 import { pageType } from '../constants'
 import BackgroundImg from '../../assets/imgs/background.jpg'
 import { Chat, ChatList } from '../../chat/components'
-import { CompositList ,CustomerSearch} from '../../customers/components'
+import { CompositList, CustomerSearch } from '../../customers/components'
 import styled from 'styled-components'
 import Alert from 'react-s-alert'
 import { withScroll } from '../../controls'
 import sizeMe from 'react-sizeme'
-
- 
 
 /**
  * 背景板
@@ -20,6 +18,7 @@ const Background = styled.div`
         right: 0px;
         height: 100vh;
         opacity: 0.5;
+        z-index:-1;
         background-attachment:fixed;
         background-image:${props => `url(${props.img})`};
         background-repeat:no-repeat;
@@ -27,34 +26,26 @@ const Background = styled.div`
         display:block;
         filter: blur(5px);
         float: left;
-        position: absolute; `
+        position: fixed; `
 
 /**
  * 列表区域
  */
 const ListRegion = styled.div`
-    width:255px;
-    background:#E6E6E7;
-    position:fixed;
-    height:100%;
-    z-index:2;
-    padding:5px 0px 0px 5px;`
-
-
+    background:#eee;  
+    width:240px;
+    `
 
 /**
  * 列表容器
  */
 const ListContainerDiv = styled.div`
-    height: calc(100% - 56px);  
-    padding-left: 10px;`
+    height: calc(100% - 61px);  
+   `
 
 const ListContainer = withScroll(props => <div {...props} />)
 
 const ListContainerDivWithAutoSize = sizeMe({ monitorHeight: true })(props => <ListContainerDiv {...props} />)
-
-
-
 
 
 /**
@@ -62,16 +53,13 @@ const ListContainerDivWithAutoSize = sizeMe({ monitorHeight: true })(props => <L
  */
 const NavibarContainer = styled.div`
     width:60px;
-    background:#2A2D32;
-    position:fixed;
-    height:100%;
-    z-index:2;`
-
+    background:#2A2D32;`
+    
 /**
  * 搜索框容器
  */
 const SearchBoxContainer = styled.div`
-   margin:12px 5px 0px 20px;`
+   margin:12px 5px 5px 10px;`
 
 const DetailContainer = styled.div`
     padding-left:250px;
@@ -81,8 +69,8 @@ const DetailContainer = styled.div`
     height: 100vh;`
 
 const ChatContainer = styled.div`
-   float: left;
-    width:65%;
+   
+    width:100%;
     margin-left:0px;
     margin-right:0px;
     padding-left:0px;
@@ -90,7 +78,7 @@ const ChatContainer = styled.div`
 
 const ExtendContainer = styled.div`
     float: left;
-    width:35%;
+    width:auto;
     background:#F5F5F5;
     margin-left:0px;
     margin-right:0px;
@@ -99,14 +87,13 @@ const ExtendContainer = styled.div`
     border-left: lightgray solid 1px;
     height: 100%;`
 
-const MainRegion = styled.div`
-    margin-left:45px;
-    z-index:1;
-    background: white;`
-
-
-
-
+const MainContainer = styled.div`
+    display:flex;
+    z-index:200;
+    flex-direction:row;
+    background: white;
+    height:100vh;
+`
 
 class HomePage extends Component {
 
@@ -140,40 +127,53 @@ class HomePage extends Component {
             });
         }
         return (
-            <div>
+            <React.Fragment>
                 <Background img={BackgroundImg} />
-                <div className="row">
+                <MainContainer>
                     <NavibarContainer>
                         <Navibar />
                     </NavibarContainer>
-                    <MainRegion className="col-md-12">
-                        <div className="row">
-                            <ListRegion>
-                                <SearchBoxContainer>
-                                    <CustomerSearch/>
-                                </SearchBoxContainer>
-                                <ListContainerDivWithAutoSize isAbsolute={true}>
-                                    <ListContainer>
-                                        {page === pageType.CHAT && <ChatList />}
-                                        {page === pageType.CUSTOMER_LIST && <CompositList />}
-                                    </ListContainer>
-                                </ListContainerDivWithAutoSize>
-                            </ListRegion>
+                    <ListRegion  >
+                        <SearchBoxContainer>                           
+                            <CustomerSearch />
+                        </SearchBoxContainer>
+                        <ListContainerDivWithAutoSize isAbsolute={true}>
+                            <ListContainer>
+                                {page === pageType.CHAT && <ChatList />}
+                                {page === pageType.CUSTOMER_LIST && <CompositList />}
+                            </ListContainer>
+                        </ListContainerDivWithAutoSize>
+                    </ListRegion>
+                    <ChatContainer >
+                            <Chat />
+                        </ChatContainer>
 
-                            <DetailContainer>
-                                <ChatContainer >
-                                    <Chat />
-                                </ChatContainer>
-                                <ExtendContainer >
-                                </ExtendContainer>
+                    {/* <ListRegion>
+                        <SearchBoxContainer>
+                            <CustomerSearch />
+                        </SearchBoxContainer>
+                        <ListContainerDivWithAutoSize isAbsolute={true}>
+                            <ListContainer>
+                                {page === pageType.CHAT && <ChatList />}
+                                {page === pageType.CUSTOMER_LIST && <CompositList />}
+                            </ListContainer>
+                        </ListContainerDivWithAutoSize>
+                    </ListRegion>
 
-                            </DetailContainer>
-                        </div>
+                    <DetailContainer>
+                        <ChatContainer >
+                            <Chat />
+                        </ChatContainer>
+                        <ExtendContainer >
+                        </ExtendContainer>
 
-                    </MainRegion>
-                </div>
+                    </DetailContainer> */}
+
+
+
+                </MainContainer>
                 {/* <Alert stack={true} timeout={3000} /> */}
-            </div>
+            </React.Fragment>
 
         );
     }

@@ -9,15 +9,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import {dropdownButton} from '../../controls'
 
-const Container = styled.div`height: 100%; `
+const Container = styled.div`
+    display:flex;
+    height:100%;
+    flex-direction:column;
+    align-content:center;
+    justify-content: space-between;`
 
 const ContainerTop = styled.div` 
-    width: 100%;
-    height: calc(100% - 100px);`
+   
+    `
 
 const Button = styled.button`
      padding: 0px;
-     margin: 40px 20px 10px 20px;
+     margin: 0px 20px 10px 20px;
      font-size: 23px;
      display: block;
      background-color: transparent;
