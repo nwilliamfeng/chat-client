@@ -8,7 +8,6 @@ import { CompositList, CustomerSearch } from '../../customers/components'
 import styled from 'styled-components'
 import Alert from 'react-s-alert'
 import { withScroll } from '../../controls'
-import sizeMe from 'react-sizeme'
 
 /**
  * 背景板
@@ -26,27 +25,27 @@ const Background = styled.div`
         display:block;
         filter: blur(5px);
         float: left;
-        position: fixed; `
+        position: fixed;`
 
 /**
  * 列表区域
  */
 const ListRegion = styled.div`
     background:#eee;  
-    width:240px;
-    `
+    max-width:240px;
+    display:flex;
+    flex-direction:column;`
+    
 
 /**
  * 列表容器
  */
 const ListContainerDiv = styled.div`
-    height: calc(100% - 61px);  
-   `
+    overflow:hidden;
+    height:  100%  ;`
+
 
 const ListContainer = withScroll(props => <div {...props} />)
-
-const ListContainerDivWithAutoSize = sizeMe({ monitorHeight: true })(props => <ListContainerDiv {...props} />)
-
 
 /**
  * 导航栏容器
@@ -54,7 +53,7 @@ const ListContainerDivWithAutoSize = sizeMe({ monitorHeight: true })(props => <L
 const NavibarContainer = styled.div`
     width:60px;
     background:#2A2D32;`
-    
+
 /**
  * 搜索框容器
  */
@@ -69,12 +68,10 @@ const DetailContainer = styled.div`
     height: 100vh;`
 
 const ChatContainer = styled.div`
-   
-    width:100%;
-    margin-left:0px;
-    margin-right:0px;
-    padding-left:0px;
-    padding-right:0px;`
+    flex:0 1 100%;
+    background-color:red;
+`
+
 
 const ExtendContainer = styled.div`
     float: left;
@@ -89,9 +86,9 @@ const ExtendContainer = styled.div`
 
 const MainContainer = styled.div`
     display:flex;
-    z-index:200;
+    z-index:1;
     flex-direction:row;
-    background: white;
+    background: #F5F5F5;
     height:100vh;
 `
 
@@ -109,7 +106,6 @@ class HomePage extends Component {
     }
 
     afterOpenModal = () => {
-        // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#f00';
     }
 
@@ -134,19 +130,21 @@ class HomePage extends Component {
                         <Navibar />
                     </NavibarContainer>
                     <ListRegion  >
-                        <SearchBoxContainer>                           
+                        <SearchBoxContainer>
                             <CustomerSearch />
                         </SearchBoxContainer>
-                        <ListContainerDivWithAutoSize isAbsolute={true}>
+                        <ListContainerDiv>
                             <ListContainer>
                                 {page === pageType.CHAT && <ChatList />}
                                 {page === pageType.CUSTOMER_LIST && <CompositList />}
                             </ListContainer>
-                        </ListContainerDivWithAutoSize>
+                        </ListContainerDiv>
                     </ListRegion>
-                    <ChatContainer >
-                            <Chat />
-                        </ChatContainer>
+                    <ChatContainer>
+                        {/* <Chat /> */}
+                    </ChatContainer>
+
+
 
                     {/* <ListRegion>
                         <SearchBoxContainer>
