@@ -11,6 +11,8 @@ import {compose} from 'recompose'
 
 const MsgDiv = styled.div`padding:15px;`
 
+const Container=styled.div`height:100%;`
+
 /**
  * 带滚动条的消息列表，注意compose参数顺序从右往左
  */
@@ -86,9 +88,9 @@ class ChatMessageList extends Component {
         const { selectedChat } = this.props
         const { autoScrollBottom } = this.state
         return (
-            <div>                
+            <Container>                
                 {selectedChat && <MessageListWithScroll messages={this.getMessages()} onScrollTop={this.handleScrollTop} autoScrollBottom={autoScrollBottom} isAbsolute={true}/>}
-            </div>
+            </Container>
         );
     }
 }

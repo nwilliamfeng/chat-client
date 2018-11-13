@@ -43,6 +43,9 @@ const Li = styled.li`
     text-align: center;
     font-size: 24px;  
     cursor: pointer;
+    &:hover{
+        color:rgb(57, 206, 57);
+    }
 `;
 
 /**

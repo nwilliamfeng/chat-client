@@ -32,15 +32,20 @@ class CustomerMessageMockService {
 
     async receiveMessage(content, headers = { 'Content-Type': 'application/json' }) {
         const url = `/robot/openapi/api?key=f7702f1f5dd7289678faec28844505de&amp;userid=99122&amp;info=${content}`;
-
+        try{
         const response = await fetch(url, {
             method: 'GET',
             headers: headers,
 
         });
+        
         const result = await response.json();
  
         return result.text;
+        }
+        catch(error){
+           return 'abdf1234567890123456789'
+        }
     }
 
 

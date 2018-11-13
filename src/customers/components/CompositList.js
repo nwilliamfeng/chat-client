@@ -4,10 +4,10 @@ import { CustomerList } from './CustomerList';
 
 export const CompositList = () => {
     return (
-        <div>
+        <React.Fragment>
             <StaffList />
       
             <CustomerList />
-        </div>
+        </React.Fragment>
     )
 }

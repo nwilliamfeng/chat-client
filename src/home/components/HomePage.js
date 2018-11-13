@@ -7,8 +7,7 @@ import { Chat, ChatList } from '../../chat/components'
 import { CompositList, CustomerSearch } from '../../customers/components'
 import styled from 'styled-components'
 import Alert from 'react-s-alert'
-import { withScroll } from '../../controls'
-import Draggable from 'react-draggable';
+import { withScroll, withSplit, ExpandPanel } from '../../controls'
 
 /**
  * 背景板
@@ -33,8 +32,8 @@ const Background = styled.div`
  */
 const ListRegion = styled.div`
     background:#eee;  
-    max-width:240px;
     display:flex;
+    height:100vh;
     flex-direction:column;`
 
 /**
@@ -54,29 +53,14 @@ const NavibarContainer = styled.div`
     width:60px;
     background:#2A2D32;`
 
-const OutSpliterDiv = styled.div`
- width:8px;
- height:100%;
- background-color:transparent;
- flex-direction:row;
- align-content:center;
- justify-content:center;
- display:flex;
-`
-
-const InnerSpliterDiv = styled.div`
- width:1px;
- height:100%;
- background:lightgray;
-`
-
-const Spliter = (props) => <OutSpliterDiv {...props}><InnerSpliterDiv /> </OutSpliterDiv>
-
-
 /**
  * 搜索框容器
  */
 const SearchBoxContainer = styled.div`
+ 
+display:flex;
+flex-direction:column;
+ 
    margin:12px 5px 5px 10px;`
 
 // const ChatContainer = styled.div`
@@ -85,14 +69,13 @@ const SearchBoxContainer = styled.div`
 //     background-color:#F5F5F5;`
 
 const ChatContainer = styled.div`
- 
-    width:${props => `${props.offset}px`};
+    
+    width:100%;
     background-color:#F5F5F5;`
 
 
 const ExtendContainer = styled.div`
-     width:300px;
-    display:flex;
+     width:100%;
     background:#F5F5F5; 
     padding-left:5px;
     padding-right:5px;  
@@ -100,7 +83,6 @@ const ExtendContainer = styled.div`
     color:gray;
     font-size:20px;
     justify-content: center;
-    border-left: lightgray solid 1px;
     `
 
 const MainContainer = styled.div`
@@ -111,13 +93,15 @@ const MainContainer = styled.div`
     height:100vh;
 `
 
+const VerticalSplit = withSplit()
+
 class HomePage extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             modalIsOpen: false,
-            chatRegionWidth: 600,
+            size: '50%', isResizing: false
         }
     }
 
@@ -133,16 +117,15 @@ class HomePage extends Component {
         this.setState({ modalIsOpen: false });
     }
 
-    handleDrag = (e, data) => {
-         //  console.log('Data: ', data);
-        const { chatRegionWidth } = this.state
-         this.setState({ chatRegionWidth: chatRegionWidth + data.deltaX })
-    };
+
+
+    onResizeStart = () => this.setState({ isResizing: true })
+    onResizeEnd = () => this.setState({ isResizing: false })
+    onChange = size => this.setState({ size })
 
     render() {
         const { page, error } = this.props
-        const { chatRegionWidth } = this.state
-     //   console.log('render:' + chatRegionWidth);
+
         // if (error != null) {
         //     Alert.success('Test message stackslide effect!', {
         //         position: 'top-right',
@@ -155,31 +138,29 @@ class HomePage extends Component {
                 <NavibarContainer>
                     <Navibar />
                 </NavibarContainer>
-                <ListRegion  >
-                    <SearchBoxContainer>
-                        <CustomerSearch />
-                    </SearchBoxContainer>
-                    <ListContainerDiv>
-                        <ListContainer>
-                            {page === pageType.CHAT && <ChatList />}
-                            {page === pageType.CUSTOMER_LIST && <CompositList />}
-                        </ListContainer>
-                    </ListContainerDiv>
-                </ListRegion>
-                <ChatContainer offset={chatRegionWidth}>
-                    <Chat />
-                </ChatContainer>
-                <Draggable
-                    axis="x"
+                <VerticalSplit size={241} minSize={241} maxSize={290}>
+                    <ListRegion  >
 
-                    onStart={this.handleStart}
-                    onDrag={this.handleDrag}
-                    onStop={this.handleStop}>
-                    <Spliter>
+                        <SearchBoxContainer>
+                            <CustomerSearch />
+                        </SearchBoxContainer>
 
-                    </Spliter>
-                </Draggable>
-                <ExtendContainer>{'扩展面板'}</ExtendContainer>
+                        <ListContainerDiv>
+                            <ListContainer>
+                                {page === pageType.CHAT && <ChatList />}
+                                {page === pageType.CUSTOMER_LIST && <CompositList />}
+                            </ListContainer>
+                        </ListContainerDiv>
+                    </ListRegion>
+
+
+                    <VerticalSplit size={'50%'} minSize={150}>
+                        <Chat />
+                        <ExtendContainer>{'扩展面板'}</ExtendContainer>
+                    </VerticalSplit>
+                </VerticalSplit>
+
+
             </MainContainer>
 
             {/* <Alert stack={true} timeout={3000} /> */}

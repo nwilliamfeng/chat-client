@@ -7,7 +7,7 @@ import { pageType } from '../constants'
 import { PageHeader } from './PageHeader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-import {dropdownButton} from '../../controls'
+import { dropdownButton } from '../../controls'
 
 const Container = styled.div`
     display:flex;
@@ -15,10 +15,6 @@ const Container = styled.div`
     flex-direction:column;
     align-content:center;
     justify-content: space-between;`
-
-const ContainerTop = styled.div` 
-   
-    `
 
 const Button = styled.button`
      padding: 0px;
@@ -32,31 +28,31 @@ const Button = styled.button`
      &:hover{
         color: white;
      };
-`;
+`
 
-const SettingButton= dropdownButton(props=><Button {...props}><FontAwesomeIcon icon={faBars}/></Button>)
+const SettingButton = dropdownButton(props => <Button {...props}><FontAwesomeIcon icon={faBars} /></Button>)
 
 const NavUl = styled.ul`
     list-style: none;
     margin: 0;
     padding: 0;
     overflow: auto;
-`;
+`
 
 class Navibar extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     activatePage = page => {
-        const { dispatch } = this.props;
-        dispatch(homeActions.changePage(page));
+        const { dispatch } = this.props
+        dispatch(homeActions.changePage(page))
     }
 
     isSelectPage = p => {
         const { page } = this.props;
-        return p === page;
+        return p === page
     }
 
     componentDidMount() {
@@ -64,28 +60,27 @@ class Navibar extends Component {
     }
 
     handleHelpClick = () => {
-        alert('help');
+        alert('help')
     }
 
     handleSettingClick = () => {
-        alert('setting');
+        alert('setting')
     }
 
     getMenuItems = () => [{ title: '帮助', onClick: this.handleHelpClick }, { title: '设置', onClick: this.handleSettingClick }]
 
 
     render() {
-        return (
-            <Container>
-                <ContainerTop>
-                    <StaffProfile />
-                    <NavUl>
-                        <PageHeader isSelect={this.isSelectPage(pageType.CHAT)} page={pageType.CHAT} onClick={this.activatePage} />
-                        <PageHeader isSelect={this.isSelectPage(pageType.CUSTOMER_LIST)} page={pageType.CUSTOMER_LIST} onClick={this.activatePage} />
-                    </NavUl>
-                </ContainerTop>
-                <SettingButton popOnTop={true} vOffset={-10} menuItems={this.getMenuItems()} title='更多'/>             
-            </Container>);
+        return <Container>
+            <div>
+                <StaffProfile />
+                <NavUl>
+                    <PageHeader isSelect={this.isSelectPage(pageType.CHAT)} page={pageType.CHAT} onClick={this.activatePage} />
+                    <PageHeader isSelect={this.isSelectPage(pageType.CUSTOMER_LIST)} page={pageType.CUSTOMER_LIST} onClick={this.activatePage} />
+                </NavUl>
+            </div>
+            <SettingButton popOnTop={true} vOffset={-10} menuItems={this.getMenuItems()} title='更多' />
+        </Container>
     }
 }
 

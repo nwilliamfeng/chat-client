@@ -9,7 +9,6 @@ import { Toolbar } from './Toolbar'
 import styled from 'styled-components'
 import { withScroll } from '../../controls'
 
-
 /**
  * 返回指定的contentBlock是否属于非文本类型
  * @param {*} block 
@@ -45,11 +44,7 @@ const Media = props => {
   const entity = props.contentState.getEntity(props.block.getEntityAt(0));
   const { src } = entity.getData();
   return <Picture src={src} />;
-};
-
-const EditorDiv = styled.div`
-    cursor: text;
-    min-height: 50px;`
+}
 
 //获取表情样式
 const emojiStyle = imgSrc => {
@@ -62,7 +57,6 @@ const emojiStyle = imgSrc => {
     color: 'transparent',
   }
 }
-
 
 const SendButton = styled.button`
   padding-top: 2px;
@@ -81,7 +75,8 @@ const SendButton = styled.button`
     background-color: #2cc42c;
   };`
 
-const SendBtnDiv = styled.div`padding:10px 10px 10px 0px;`
+const SendBtnDiv = styled.div`
+  padding:10px 10px 10px 0px;`
 
 const findWithRegex = (regex, contentBlock, callback) => {
   const text = contentBlock.getText();
@@ -90,7 +85,7 @@ const findWithRegex = (regex, contentBlock, callback) => {
     start = matchArr.index;
     callback(start, start + matchArr[0].length);
   }
-};
+}
 
 const decorator = new CompositeDecorator([
   {  //处理表情
@@ -114,11 +109,20 @@ const decorator = new CompositeDecorator([
   // },
 ])
 
-const EditorContainerDiv=styled.div`
+const EditorContainerDiv = styled.div`
     padding-right: 10px;
-    height: calc(20vh - 80px);`
+    height:100%;
+    cursor: text;
+    min-height: 50px;
+    `
 
-const EditorContainer =withScroll(props => <EditorContainerDiv {...props}/>)
+const EditorContainer = withScroll(props => <EditorContainerDiv {...props} />)
+
+const Container = styled.div`
+height:100%;
+  display:flex;
+  flex-direction:column;
+`
 
 /**
  * 输入框
@@ -268,25 +272,21 @@ class InputBox extends Component {
   }
 
   render() {
-    return (
-      <div>
+    return <Container>
         <Toolbar onSelectEmoji={this.onSelectEmoji} onSelectImage={this.onSelectImage} />
-        <EditorContainer>
-          <EditorDiv onClick={this.focus}>
+        <EditorContainer  onClick={this.focus}>          
             <Editor
               blockRendererFn={mediaBlockRenderer}
               editorState={this.state.editorState}
               handleKeyCommand={this.handleKeyCommand}
               keyBindingFn={this.editorKeyBindingFn}
               onChange={this.onChange}
-              ref="editor" />
-          </EditorDiv>
+              ref="editor" />  
         </EditorContainer>
         <SendBtnDiv>
           <SendButton className='pull-right' onClick={this.onSend}>{'发送'}</SendButton>
         </SendBtnDiv>
-      </div>
-    );
+      </Container>
   }
 }
 

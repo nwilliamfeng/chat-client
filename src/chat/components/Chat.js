@@ -4,41 +4,39 @@ import styled from 'styled-components'
 import sizeMe from 'react-sizeme'
 import { ChatMessageList } from './ChatMessageList'
 import { ChatHeader } from './ChatHeader'
+import { withSplit } from '../../controls'
 
 const InputDiv = styled.div`
-    height: 22vh;
-    width: 100%;
+    height: 100%;
     padding: 3px 25px;
     background: white;
-    border-top-style:solid; 
-    border-width: 1px;
-    border-color: lightGrey;`
+   
+   `
 
-const OutputDiv = styled.div`
-    height:78vh;`
+const MsgDiv = styled(ChatMessageList)`  
+    
+    margin:0px 3px;`
 
-const OutputInnerDiv = styled.div`
-    height: calc(100% - 61px);`
+const Output = sizeMe({ monitorHeight: true })(props =><MsgDiv {...props}/>)
 
-const MsgDiv = styled.div`  
-    margin:0px -3px;`
+const HorizontalSplit = withSplit(true)
 
-const Output = sizeMe({ monitorHeight: true })(props =>
-    <OutputInnerDiv>
-        <ChatHeader {...props} />
-        <MsgDiv>
-            <ChatMessageList {...props} />
-        </MsgDiv>
-    </OutputInnerDiv>)
+const Container = styled.div`
+        display:flex;
+        flex-direction:column;
+        height:100%;
+        width:100%;`
 
 /**
  * 聊天组件
  */
-export const Chat = () => <div>
-    <OutputDiv>
+export const Chat = () => <Container>
+    <ChatHeader  />
+    <HorizontalSplit size={'75%'} minSize={300}>
         <Output />
-    </OutputDiv>
-    <InputDiv>
-        <InputBox />
-    </InputDiv>
-</div>
+        <InputDiv>
+            <InputBox />
+        </InputDiv>
+    </HorizontalSplit>
+</Container>
+
