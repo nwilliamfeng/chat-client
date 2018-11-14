@@ -14,7 +14,7 @@ const MenuItemDiv = styled.div`
  background-color:${props => props.highlighted ? '#eee' : 'transparent'};
  padding:5px;`
 
- const Avata=styled.img`
+const Avata=styled.img`
     max-width:24px;
     max-height:24px;
     margin-right:8px;`

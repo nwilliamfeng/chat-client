@@ -7,13 +7,15 @@ import { renderTextContent } from '../../message/components'
 import MessageHelper from '../../message/messageHelper'
 import { messageContentType } from '../../message/constants'
 import { appContext, util } from '../../util'
-
+import sizeMe from 'react-sizeme'
+ 
 
 const HeaderLi = styled.li`
     display:flex;
     flex-direction:row;
     flex-wrap:nowrap;
-    padding:0px;
+   
+    padding: 11px 8px 10px 8px;
     outline:none;
     text-align:left;
     width:100%;
@@ -22,6 +24,12 @@ const HeaderLi = styled.li`
     &:hover{
         background-color: #DEDBDA;
     };  `
+
+const LeftDiv=styled.div`
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+`
 
 const TableCellDiv = styled.div`
     display:table-cell;`
@@ -34,7 +42,7 @@ const TopTableCellDiv = styled(TableCellDiv)`
 const MsgDiv = styled.div`
     font-size:12px;
     color: gray;
-    width:120px;
+    width:100%;
     margin-top:5px;
     text-overflow:ellipsis;
     overflow:hidden;
@@ -101,7 +109,7 @@ const TextMessageContent = renderTextContent(props => <TxtContentDiv {...props} 
  * 显示最后一条消息
  * @param {*} param0 
  */
-const LastMessage = ({ message }) => {
+const LastMessage = ({ message,width=150 }) => {
     if (message == null) {
         return <div />
     }
@@ -109,7 +117,7 @@ const LastMessage = ({ message }) => {
     const contentType = MessageHelper.getMessageContentType(MessageContent)
     const sender = SenderName === appContext.currentStaff.StaffName ? '' : SenderName + '：'
     const content = sender + MessageContent
-    return <div>
+    return <div style={{maxWidth:width,width}}>
         {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
             <TextMessageContent content={content} emojiSize={12} />
         </MsgDiv>}
@@ -117,6 +125,9 @@ const LastMessage = ({ message }) => {
         {contentType === messageContentType.Picture && <MsgDiv title={`${SenderName}：图片`}> {`${sender}图片`} </MsgDiv>}
     </div>
 }
+
+
+const MSGDIV = sizeMe({ monitorWidth: true })(props =><div {...props}/>)
 
 
 /**
@@ -134,24 +145,22 @@ export const ChatListItem = ({ chat, onSelectChat, isSelected }) => {
     return (
         <HeaderLi onClick={onClick} isSelected={isSelected}>
             {/* <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={{ chatdata: JSON.stringify(chat) }}> */}
-                
-                    ?deadlock?
-                        <AvatarDiv>
-                            <AvatarImg alt='' src={CustomerAvataUrl} />
-                            {containUnread && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
-                        </AvatarDiv>
-                  
-                  <div>
-                  
-                        <TitleDiv> {CustomerName}</TitleDiv>
-                        <LastMessage message={lastMsg} />
-                    
-                   
-                    </div>
-                    <TopTableCellDiv>
-                        {lastMsg != null && <TimeDiv> {time}</TimeDiv>}
-                    </TopTableCellDiv>
-                
+          
+            <AvatarDiv>
+                <AvatarImg alt='' src={CustomerAvataUrl} />
+                {containUnread && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
+            </AvatarDiv>
+
+            <MSGDIV >
+                <TitleDiv> {CustomerName}</TitleDiv>
+                <LastMessage  message={lastMsg} />
+            </MSGDIV>
+         
+           
+         
+                {lastMsg != null && <TimeDiv> {time}</TimeDiv>}
+        
+
             {/* </ContextMenuTrigger> */}
         </HeaderLi>
     )

@@ -44,7 +44,7 @@ const Li = styled.li`
     font-size: 24px;  
     cursor: pointer;
     &:hover{
-        color:rgb(57, 206, 57);
+        color:${props=>props.isSelect? 'rgb(57, 206, 57)'  :  'lightgrey' };
     }
 `;
 
