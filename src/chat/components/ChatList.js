@@ -7,13 +7,16 @@ import { appContext } from '../../util/'
 import { ChatListItem } from './ChatListItem'
 import { isEqual } from 'lodash'
 import Rx from 'rx'
+import sizeMe from 'react-sizeme'
 
 export const CHAT_LIST_CONTEXTMENU_ID = 'CHAT_LIST_CONTEXTMENU_ID'
 
 const ListUl = styled.ul`
    list-style: none;
-   width:100vh;
+   width:100%;
    background-color:transparent;`
+
+const ChatItem =sizeMe({monitorWidth:true})(props=><ChatListItem {...props}/>)
 
 class ChatList extends Component {
     componentWillUnmount() {
@@ -48,6 +51,7 @@ class ChatList extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
 
+       
         if (!isEqual(this.props.chats, nextProps.chats)) {
             return true
         }
@@ -117,7 +121,7 @@ class ChatList extends Component {
         return <React.Fragment>      
             {chats && <ListUl>
                 {chats.map(chat => (
-                    <ChatListItem
+                    <ChatItem
                         key={chat.channelId}
                         chat={chat}
                         onSelectChat={this.handleSelectChat}

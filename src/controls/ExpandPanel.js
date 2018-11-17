@@ -6,7 +6,7 @@ import { faChevronRight as arrowRight, faChevronDown as arrowDown } from '@forta
 
 const Div = styled.div`
     padding:3px 5px 1px 5px;
-    width:100vh;
+    width:100%;
     height:28px;
     padding-left:${props=>props.isChild? '10px':'5px'};
     &:hover{

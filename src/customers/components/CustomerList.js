@@ -24,7 +24,7 @@ const CustomerContextMenu = ({ dispatch }) => {
 
 const CustomerUl = styled.ul`
    list-style: none;
-   width:100vh;`
+   width:100%;`
 
 const AvatarSpan = styled.span`
     background-image:${props => {

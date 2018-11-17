@@ -6,7 +6,7 @@ import { renderImageContent } from './renderImgContent'
 import MessageHelper from '../messageHelper'
 import styled from 'styled-components'
 import { MessageTime, MessageSender, Avata } from './Parts'
- 
+
 
 /**
  * 容器Div
@@ -26,13 +26,26 @@ const AvataContainer = styled.div`padding-left: 15px;`
 const TextContentDiv = styled.div`
     word-wrap: break-word;
     text-align: left;
-    border: 1px solid #eee;     
+    border: 1px solid lightgreen;     
     position: relative;
     padding: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     
     background: #9EEA6A;
+
+    &:before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: -7px;
+    border-style: solid;
+    border-width: 5px 0 5px 7px;
+    border-color: transparent lightgreen;
+
+    width:0px;
+    z-index: 1;
+    }
     &:after {
         content: "";
         position: absolute;
@@ -40,10 +53,16 @@ const TextContentDiv = styled.div`
         right: -7px;
         border-style: solid;
         border-width: 5px 0 5px 7px;
-        border-color: transparent lightgreen;
+        border-color: transparent #9EEA6A;
         width:0px;
         z-index: 1;
     }
+
+    &:hover::after{
+      
+        border-color: transparent #98E165;
+    } 
+   
     &:hover{
         background:#98E165;
     } `
@@ -60,7 +79,7 @@ const FileDiv = styled.div`
     background:white;
     cursor: pointer;`
 
-const ContentDiv=styled.div`
+const ContentDiv = styled.div`
     display:flex;
     flex-direction:column;
     align-items:flex-end;
@@ -79,7 +98,7 @@ export const StaffMessage = ({ message }) => {
         <AvataContainer>
             <Avata src={AvataUrl} />
         </AvataContainer>
-        <ContentDiv>
+        <ContentDiv >
             <span><MessageTime value={SendTime} /><MessageSender color='blue'>{SenderName}</MessageSender></span>
             {contentType === messageContentType.Text && <TextContent content={MessageContent} />}
             {contentType === messageContentType.Picture && <ImgContent content={MessageContent} />}

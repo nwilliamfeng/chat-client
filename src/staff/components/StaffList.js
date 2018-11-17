@@ -22,7 +22,7 @@ const OTHER_STAFF_CONTEXTMENU_ID = 'OTHER_STAFF_CONTEXTMENU_ID'
  */
 const GroupUl = styled.ul`
    list-style: none;
-   width:100vh; `
+   width:100%; `
 
 /**
  * staff自定义li

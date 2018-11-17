@@ -46,6 +46,10 @@ const LeftBubbleDiv = styled.div`
         width: 0;
         z-index: 1;
     };
+    &:hover::after{
+      border-color: transparent #F5F5F5;
+    } 
+    
     &:hover{
         background:transparent;
     };`

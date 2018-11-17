@@ -57,21 +57,9 @@ const NavibarContainer = styled.div`
  * 搜索框容器
  */
 const SearchBoxContainer = styled.div`
- 
-display:flex;
-flex-direction:column;
- 
-   margin:12px 5px 5px 10px;`
-
-// const ChatContainer = styled.div`
-//     flex:0 1 auto;
-//     width:${props=>`1200px - ${props.offset}px)`}
-//     background-color:#F5F5F5;`
-
-const ChatContainer = styled.div`
-    
-    width:100%;
-    background-color:#F5F5F5;`
+    display:flex;
+    flex-direction:column;
+    margin:14px 5px 6px 10px;`
 
 
 const ExtendContainer = styled.div`
