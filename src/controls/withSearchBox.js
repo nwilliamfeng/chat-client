@@ -15,7 +15,7 @@ const SearchIcon = styled.i`
  * 菜单样式
  */
 const menuStyle = {
-    zIndex: 1000, //这里必须把zIndex置为大的值
+    zIndex: 300, //这里必须把zIndex置为大的值
     borderRadius: '3px',
     boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
     background: 'white',

@@ -63,7 +63,7 @@ class ChatHeader extends Component {
                 </div>
                 <div className='col-md-2'>
                     <div className='pull-right'>
-                        <MoreDropdownButton title='更多' menuItems={this.getMenuItems()} />
+                        <MoreDropdownButton title='更多' menuItems={this.getMenuItems()} popOnLeft={true}/>
                     </div>
                 </div>
             </TitleDiv>}

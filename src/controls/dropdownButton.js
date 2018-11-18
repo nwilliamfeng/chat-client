@@ -57,16 +57,17 @@ export const dropdownButton = Button => class extends Component {
     static propTypes = {
         menuItems: PropTypes.array.isRequired, //要显示的菜单项集合
         popOnTop: PropTypes.bool, //是否在顶部弹出
+        popOnLeft:PropTypes.bool,
         hOffset: PropTypes.number, //菜单项弹出的水平偏移量
         vOffset: PropTypes.number, //菜单项弹出的垂直偏移量
     }
 
     afterItemClick = () => this.popup.closePopup()
     render() {
-        const { hOffset, vOffset, popOnTop, menuItems } = this.props
+        const { hOffset, vOffset, popOnTop, menuItems,popOnLeft } = this.props
         return <Popup
             trigger={() => (<Button {...this.props} />)}
-            position={popOnTop === true ? "right bottom" : "right top"}
+            position={popOnTop === true ? `${popOnLeft===true?'left':'right'} bottom` : `${popOnLeft===true?'left':'right'} top`}
             ref={el => this.popup = el}
             closeOnDocumentClick
             mouseLeaveDelay={300}

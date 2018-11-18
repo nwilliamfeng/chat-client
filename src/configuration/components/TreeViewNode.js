@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
+
 
 const iconStyle = {
     marginRight: 3,
@@ -45,7 +45,7 @@ export const LeafNode = ({ nodeKey, title, content, onClick, onDoubleClick, getS
                     {title}
                 </span>
             </span>
-            <ReactTooltip delayShow={500} />
+          
         </div>
     )
 }

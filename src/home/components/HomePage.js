@@ -59,7 +59,7 @@ const NavibarContainer = styled.div`
 const SearchBoxContainer = styled.div`
     display:flex;
     flex-direction:column;
-    margin:14px 5px 6px 10px;`
+    margin:14px 8px 6px 8px;`
 
 
 const ExtendContainer = styled.div`

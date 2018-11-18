@@ -11,8 +11,7 @@ import { appContext, util } from '../../util'
 
 const HeaderLi = styled.li`
     display:flex;
-    flex-direction:row;
-     
+    flex-direction:row;   
     flex-wrap:nowrap;
     padding: 1px 8px 8px 8px;
     outline:none;
@@ -22,21 +21,15 @@ const HeaderLi = styled.li`
     margin-left:-40px;
     background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};
     &:hover{
-        background-color:${props => props.isSelected ?'#C4C4C5' : '#DEDBDA'};
+        background-color:${props => props.isSelected ? '#C4C4C5' : '#DEDBDA'};
     };  `
 
-const LeftDiv = styled.div`
+const HeaderDiv = styled.div`
     display:flex;
     flex:1;
-    text-overflow:ellipsis;
-    overflow:hidden;
+    
     flex-direction:row;
-    flex-wrap:nowrap;
-    white-space:nowrap;
-`
-
-
-
+    flex-wrap:nowrap;`
 
 const MsgDiv = styled.div`
     font-size:12px;
@@ -47,8 +40,6 @@ const MsgDiv = styled.div`
     overflow:hidden;
     white-space:nowrap;`
 
-
-
 const TitleDiv = styled.div`
     width:100px;
     text-overflow:ellipsis;
@@ -57,9 +48,8 @@ const TitleDiv = styled.div`
 
 const TxtContentDiv = styled.div`
     text-overflow:ellipsis;
-    overflow:hidden;
-   
-    max-width:${props=>props.size?`${props.size.width-115}px`:'100%'};
+    overflow:hidden; 
+    max-width:${props => props.size ? `${props.size.width - 115}px` : '100%'};
     white-space:nowrap;`
 
 const TimeDiv = styled.div`
@@ -100,21 +90,18 @@ const AvatarImg = styled.img`
     margin-bottom:4px;
     border-radius:3px;`
 
-const HeaderDiv = styled.div`
-    padding: 11px 8px 10px 8px;
-    width:100%;
-    background-color:${props => props.isSelected ? '#C4C4C5' : 'transparent'};`
+const MixDiv = styled.div`padding-top:10px;`
 
 /**
  * 文本消息内容
  */
-const TextMessageContent =renderTextContent(props => <TxtContentDiv {...props} />)
+const TextMessageContent = renderTextContent(props => <TxtContentDiv {...props} />)
 
 /**
  * 显示最后一条消息
  * @param {*} param0 
  */
-const LastMessage = ({ message,size }) => {
+const LastMessage = ({ message, size }) => {
     if (message == null) {
         return <React.Fragment />
     }
@@ -124,20 +111,20 @@ const LastMessage = ({ message,size }) => {
     const content = sender + MessageContent
     return <React.Fragment >
         {contentType === messageContentType.Text && <MsgDiv title={`${SenderName}：${MessageContent}`}>
-            <TextMessageContent content={content} emojiSize={12} size={size}/>
+            <TextMessageContent content={content} emojiSize={12} size={size} />
         </MsgDiv>}
         {contentType === messageContentType.File && <MsgDiv title={`${SenderName}：文件`}> {`${sender}文件`}  </MsgDiv>}
         {contentType === messageContentType.Picture && <MsgDiv title={`${SenderName}：图片`}> {`${sender}图片`} </MsgDiv>}
     </React.Fragment>
 }
 
- 
+
 
 /**
  * 会话列表项
  * @param {*} param0 
  */
-export const ChatListItem = ({ chat, onSelectChat, isSelected ,size}) => {
+export const ChatListItem = ({ chat, onSelectChat, isSelected, size }) => {
     const { customer, messages, channelId } = chat
     const { CustomerName, CustomerAvataUrl } = customer
     const unreadMsgs = messages.filter(x => x.isUnread === true)
@@ -145,27 +132,23 @@ export const ChatListItem = ({ chat, onSelectChat, isSelected ,size}) => {
     const time = lastMsg ? util.dateFormat(lastMsg.SendTime, 'hh:mm:ss') : ''
     const containUnread = unreadMsgs.length > 0
     const onClick = () => onSelectChat(channelId)
-    return (
+
+    return <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={{ chatdata: JSON.stringify(chat) }}>
         <HeaderLi onClick={onClick} isSelected={isSelected}>
-            {/* <ContextMenuTrigger id={CHAT_LIST_CONTEXTMENU_ID} attributes={{ chatdata: JSON.stringify(chat) }}> */}         
-            <LeftDiv>
+            <HeaderDiv>
                 <AvatarDiv>
                     <AvatarImg alt='' src={CustomerAvataUrl} />
                     {containUnread && <MsgCountDiv>{unreadMsgs.length}</MsgCountDiv>}
                 </AvatarDiv>
 
-                <div style={{paddingTop:10}}>
+                <MixDiv>
                     <TitleDiv> {CustomerName}</TitleDiv>
-                    <LastMessage message={lastMsg} size={size}/>
-                </div>
-            </LeftDiv>
-
+                    <LastMessage message={lastMsg} size={size} />
+                </MixDiv>
+            </HeaderDiv>
             {lastMsg != null && <TimeDiv> {time}</TimeDiv>}
-
-
-            {/* </ContextMenuTrigger> */}
         </HeaderLi>
-    )
+    </ContextMenuTrigger>
 }
 
 ChatListItem.propTypes = {
