@@ -9,18 +9,6 @@ const sizeContext = {
 export const homeReducer = (state = {}, action) => {
   switch (action.type) {
 
-    // case constants.NAVIBAR_WIDTH_CHANGED:
-    //   return {
-    //     ...state,
-    //     chatListWidth: action.width,
-    //   };
-
-    // case constants.CHAT_WIDTH_QUERY:
-    // return {
-    //   ...state,
-    //   chatWidth: sizeContext.chatWidth,
-    // };
-
     case chatConstants.OPEN_CHAT:
        if(action.openMode===chatOpenMode.ByStaff){
         return {
@@ -41,13 +29,7 @@ export const homeReducer = (state = {}, action) => {
     //   customerListWidth: action.width,
     // };
 
-    case constants.CHAT_WIDTH_CHANGE:
-      sizeContext.chatWidth = action.width;
-      return {
-        ...state,
-        chatWidth: action.width,
 
-      };
 
     default:
       return state;

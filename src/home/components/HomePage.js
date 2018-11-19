@@ -70,16 +70,20 @@ const ExtendContainer = styled.div`
     align-items: center; 
     color:gray;
     font-size:20px;
-    justify-content: center;
+    
     `
 
 const MainContainer = styled.div`
     display:flex;
     z-index:1;
+    justify-content:center;
     flex-direction:row;
     background: #F5F5F5;
     height:100vh;
+    min-width:${props=>props.showDetail===true? '85%' :'70%'};
 `
+
+const ShellDiv=styled.div`display:flex;justify-content:center;`
 
 const VerticalSplit = withSplit()
 
@@ -89,7 +93,6 @@ class HomePage extends Component {
         super(props)
         this.state = {
             modalIsOpen: false,
-            size: '50%', isResizing: false
         }
     }
 
@@ -120,7 +123,7 @@ class HomePage extends Component {
         //         effect: 'stackslide'
         //     })
         // }
-        return <React.Fragment>
+        return <ShellDiv>
             <Background img={BackgroundImg} />
             <MainContainer>
                 <NavibarContainer>
@@ -142,17 +145,18 @@ class HomePage extends Component {
                     </ListRegion>
 
 
-                    <VerticalSplit size={'50%'} minSize={150}>
+                     <VerticalSplit size={'100%'} minSize={150} >
                         <Chat />
-                        <ExtendContainer>{'扩展面板'}</ExtendContainer>
-                    </VerticalSplit>
+                        <div/>
+                        {/* <ExtendContainer>{'扩展面板'}</ExtendContainer> */}
+                    </VerticalSplit> 
                 </VerticalSplit>
 
 
             </MainContainer>
 
             {/* <Alert stack={true} timeout={3000} /> */}
-        </React.Fragment>
+        </ShellDiv>
     }
 }
 

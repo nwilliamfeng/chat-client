@@ -26,20 +26,19 @@ export const withSplit = (isHorizontal=false) => class extends Component {
     onChange = size => this.setState({ size })
 
     render() {
-        const {children,minSize,maxSize} =this.props
+        const {children,minSize,maxSize,isDisable} =this.props
         
         return <SplitPane
             type={isHorizontal? "horizontal": "vertical"}
             size={this.state.size}
             minSize={minSize}
             maxSize={maxSize}
-            isResizing={this.state.isResizing}
+            isResizing={isDisable? isDisable===false : this.state.isResizing}
             onResizeStart={this.onResizeStart}
             onResizeEnd={this.onResizeEnd}
             onChange={this.onChange}
 
-            pane1Style={isHorizontal?{borderBottom:'1px solid silver'}: { borderRight: '1px solid silver' }} 
-            >
+            pane1Style={isHorizontal?{borderBottom:'1px solid silver'}: { borderRight: '1px solid silver' }} >
 
              {children}
 
