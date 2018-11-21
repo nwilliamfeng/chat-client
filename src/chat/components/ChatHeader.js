@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { dropdownButton } from '../../controls'
+import {messageActions} from '../../message/actions'
 
 /**
  * 标题div
@@ -48,7 +49,8 @@ class ChatHeader extends Component {
     }
 
     handleHistoryClick = () => {
-        alert('history')
+        const {dispatch} =this.props
+        dispatch(messageActions.showHistoryMessagePanel())
     }
 
     getMenuItems = () => [{ title: '置顶', onClick: this.handleStickClick }, { title: '历史消息', onClick: this.handleHistoryClick }]

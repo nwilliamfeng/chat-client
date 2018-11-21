@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { Navibar } from './Navibar'
 import { pageType } from '../constants'
 import BackgroundImg from '../../assets/imgs/background.jpg'
-import { Chat, ChatList } from '../../chat/components'
+import { Chat, ChatList,HistoryMessagePane } from '../../chat/components'
 import { CompositList, CustomerSearch } from '../../customers/components'
 import styled from 'styled-components'
 import Alert from 'react-s-alert'
-import { withScroll, withSplit, ExpandPanel } from '../../controls'
+import { withScroll, withSplit,withExtendPane } from '../../controls'
+import { detailPaneType } from '../constants'
 
 /**
  * 背景板
@@ -67,11 +68,13 @@ const ExtendContainer = styled.div`
     background:#F5F5F5; 
     padding-left:5px;
     padding-right:5px;  
-    align-items: center; 
+    display:flex;
+    flex-direction:column;
     color:gray;
-    font-size:20px;
-    
+    font-size:20px;   
     `
+
+const HistoryMsgPane =withExtendPane(props=><HistoryMessagePane {...props}/>)
 
 const MainContainer = styled.div`
     display:flex;
@@ -80,12 +83,15 @@ const MainContainer = styled.div`
     flex-direction:row;
     background: #F5F5F5;
     height:100vh;
-    min-width:${props=>props.showDetail===true? '85%' :'70%'};
+    min-width:${props => props.detailPane ? '100%' : '70%'};
 `
 
-const ShellDiv=styled.div`display:flex;justify-content:center;`
+const ShellDiv = styled.div`display:flex;justify-content:center;`
+
+const DetailDiv=styled.div`height:100%;`
 
 const VerticalSplit = withSplit()
+
 
 class HomePage extends Component {
 
@@ -110,13 +116,13 @@ class HomePage extends Component {
 
 
 
+
     onResizeStart = () => this.setState({ isResizing: true })
     onResizeEnd = () => this.setState({ isResizing: false })
     onChange = size => this.setState({ size })
 
     render() {
-        const { page, error } = this.props
-
+        const { page, error, detailPane } = this.props
         // if (error != null) {
         //     Alert.success('Test message stackslide effect!', {
         //         position: 'top-right',
@@ -125,34 +131,33 @@ class HomePage extends Component {
         // }
         return <ShellDiv>
             <Background img={BackgroundImg} />
-            <MainContainer>
+            <MainContainer detailPane={detailPane}>
                 <NavibarContainer>
                     <Navibar />
                 </NavibarContainer>
                 <VerticalSplit size={241} minSize={241} maxSize={290}>
                     <ListRegion  >
-
                         <SearchBoxContainer>
                             <CustomerSearch />
                         </SearchBoxContainer>
-
                         <ListContainerDiv>
                             <ListContainer>
                                 {page === pageType.CHAT && <ChatList />}
                                 {page === pageType.CUSTOMER_LIST && <CompositList />}
                             </ListContainer>
                         </ListContainerDiv>
-                    </ListRegion>
-
-
-                     <VerticalSplit size={'100%'} minSize={150} >
-                        <Chat />
-                        <div/>
-                        {/* <ExtendContainer>{'扩展面板'}</ExtendContainer> */}
-                    </VerticalSplit> 
+                    </ListRegion>                
+                    <DetailDiv>
+                        {detailPane == null && <VerticalSplit size={'100%'} minSize={150} >
+                            <Chat />
+                            <div />
+                        </VerticalSplit>}
+                        {detailPane === detailPaneType.HISTORY_MESSAGE && <VerticalSplit size={'50%'} minSize={150} >
+                            <Chat />
+                            <HistoryMsgPane/>
+                        </VerticalSplit>}
+                    </DetailDiv>
                 </VerticalSplit>
-
-
             </MainContainer>
 
             {/* <Alert stack={true} timeout={3000} /> */}
