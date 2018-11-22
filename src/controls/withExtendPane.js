@@ -14,7 +14,9 @@ const Container = styled.div`
 export const withExtendPane = WrapperComponent => class extends Component {
 
     handleClick = () => {
-        alert('dddd');
+       const {onCloseHandle}=this.props
+       if(onCloseHandle!=null)
+            onCloseHandle()
     }
 
     render() {

@@ -3,6 +3,7 @@ import { constants } from '../constants';
 
 export const homeActions = {
     changePage,
+    closeDetailPane,
 }
 
 
@@ -13,5 +14,11 @@ function changePage(page) {
        
     } ;
      
+}
+
+function closeDetailPane(){
+    return{
+        type:constants.CLOSE_DETAIL_PANE,
+    }
 }
 

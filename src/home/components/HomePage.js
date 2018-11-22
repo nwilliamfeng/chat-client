@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import Alert from 'react-s-alert'
 import { withScroll, withSplit,withExtendPane } from '../../controls'
 import { detailPaneType } from '../constants'
+import {homeActions} from '../actions/homeActions'
 
 /**
  * 背景板
@@ -114,12 +115,11 @@ class HomePage extends Component {
         this.setState({ modalIsOpen: false });
     }
 
+    handleClosePane=()=>{
+        const {dispatch} =this.props
+        dispatch(homeActions.closeDetailPane())
+    }
 
-
-
-    onResizeStart = () => this.setState({ isResizing: true })
-    onResizeEnd = () => this.setState({ isResizing: false })
-    onChange = size => this.setState({ size })
 
     render() {
         const { page, error, detailPane } = this.props
@@ -154,7 +154,7 @@ class HomePage extends Component {
                         </VerticalSplit>}
                         {detailPane === detailPaneType.HISTORY_MESSAGE && <VerticalSplit size={'50%'} minSize={150} >
                             <Chat />
-                            <HistoryMsgPane/>
+                            <HistoryMsgPane onCloseHandle={this.handleClosePane}/>
                         </VerticalSplit>}
                     </DetailDiv>
                 </VerticalSplit>
